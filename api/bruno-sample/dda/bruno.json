@@ -1,9 +1,6 @@
 {
   "version": "1",
-  "name": "openmarket",
+  "name": "dda",
   "type": "collection",
-  "ignore": [
-    "node_modules",
-    ".git"
-  ]
+  "ignore": ["node_modules", ".git"]
 }
