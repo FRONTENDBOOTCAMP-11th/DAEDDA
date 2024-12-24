@@ -1,8 +1,7 @@
-# React + Vite
+## DAEDDA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<img width="200px" src="https://github.com/user-attachments/assets/b03f9c8d-606d-42af-8e83-0ce07de60627" /> <br />
 
-Currently, two official plugins are available:
+<img width="200px" src="https://github.com/user-attachments/assets/10c2bba9-4508-4385-854a-f96aa986ee38" />
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+내가 대신할 수 있는 아르바이트, 나 대신 아르바이트를 해 줄 사람을 쉽게 찾을 수 있는 대타 구인 구직 플랫폼입니다.
