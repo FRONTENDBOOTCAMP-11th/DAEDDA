@@ -9,7 +9,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        pre: ["Pretendard"],
+        pre: ["Pretendard-Regular"],
       },
       colors: {
         white: "#FFFFFF",
