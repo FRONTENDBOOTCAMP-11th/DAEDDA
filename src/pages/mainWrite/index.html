@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="kor">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>글쓰기</title>
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body style="font-family: Pretendard Variable">
+    <div class="min-h-screen">
+      <div class="max-w-screen-sm w-full mx-auto">
+        <div
+          class="max-w-screen-sm h-[72px] flex items-center justify-between border-b border-gray-200 px-6"
+        >
+          <img
+            src="/public/icons/back.svg"
+            class="w-8 h-8 ml-4 hover:cursor-pointer"
+          />
+          <header class="flex-1 text-center text-[28px] font-bold">
+            글쓰기
+          </header>
+        </div>
+
+        <form class="max-w-screen-sm px-6 purple-100">
+          <div class="mt-5">
+            <label for="subject" class="text-[16px] font-bold mb-2">제목</label>
+            <input
+              type="text"
+              id="subject"
+              placeholder="제목"
+              class="mt-1 block w-full h-[60px] p-3 border border-black rounded-lg focus:outline-none focus:ring-primary focus:border-primary"
+            />
+          </div>
+
+          <section>
+            <div class="mt-5">
+              <label for="address" class="text-[16px] font-bold mb-2"
+                >위치</label
+              >
+              <div
+                class="max-w-screen-sm h-24 bg-slate-500 mb-7 rounded-lg flex items-center justify-center"
+              >
+                지도
+              </div>
+              <input
+                type="text"
+                id="address"
+                placeholder="상세 주소"
+                class="mt-1 block w-full h-[60px] p-3 border border-black rounded-lg focus:outline-none focus:ring-primary focus:border-primary"
+              />
+            </div>
+          </section>
+
+          <section>
+            <div class="mt-5">
+              <h2 class="text-[16px] font-bold mb-2">근무 조건</h2>
+
+              <input
+                type="text"
+                id="store"
+                placeholder="상호명"
+                class="mt-1 block w-full h-[60px] p-3 border border-black rounded-lg focus:outline-none focus:ring-primary focus:border-primary"
+              />
+
+              <div class="relative">
+                <select
+                  id="slected"
+                  class="mt-7 block w-full h-[60px] p-3 border border-black rounded-lg focus:outline-none focus:ring-primary focus:border-primary text-gray-400 appearance-none"
+                  aria-label="난이도 선택"
+                >
+                  <option value="" disabled selected hidden>난이도 선택</option>
+                  <option>낮음</option>
+                  <option>보통</option>
+                  <option>높음</option>
+                </select>
+
+                <div
+                  class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                >
+                  <img
+                    src="/public/icons/down.svg"
+                    alt="아래 화살표"
+                    class="w-4"
+                  />
+                </div>
+              </div>
+
+              <input
+                type="number"
+                id="salary"
+                placeholder="급여"
+                pattern="\d+"
+                class="mt-7 block w-full h-[60px] p-3 border border-black rounded-lg focus:outline-none focus:ring-primary focus:border-primary"
+              />
+
+              <input
+                type="text"
+                id="timeInput"
+                pattern="([0-9]{2}:[0-9]{2}) ~ ([0-9]{2}:[0-9]{2})"
+                placeholder="근무 시간은 00:00 ~ 00:00 형식으로 작성해주세요."
+                class="mt-7 block w-full h-[60px] p-3 border border-black rounded-lg focus:outline-none focus:ring-primary focus:border-primary"
+              />
+
+              <input
+                type="date"
+                id="dateInput"
+                class="mt-7 block w-full h-[60px] p-3 border border-black rounded-lg focus:outline-none focus:ring-primary focus:border-primary text-gray-400"
+              />
+            </div>
+          </section>
+
+          <section>
+            <div class="mt-5">
+              <h2 class="text-[16px] font-bold mb-2">근무 조건</h2>
+              <textarea
+                id="workCondition"
+                rows="10"
+                placeholder="업무에 대한 자세한 설명"
+                class="mt-1 block w-full h-[120px] p-3 border border-black rounded-lg focus:outline-none focus:ring-primary focus:border-primary"
+              >
+              </textarea>
+            </div>
+          </section>
+
+          <div>
+            <button
+              type="submit"
+              class="w-full mt-11 rounded-lg h-9 text-white font-bold bg-[#8C6FEE]"
+            >
+              등록
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
