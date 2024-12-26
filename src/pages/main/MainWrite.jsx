@@ -2,14 +2,6 @@ export default function MainWrite() {
   return (
     <div className="min-h-screen">
       <div className="w-full">
-        <header className="relative h-[60px] flex items-center justify-center border-b border-gray-200">
-          <img
-            src="/icons/back.svg"
-            className="absolute left-0 w-6 h-6 hover:cursor-pointer"
-          />
-          <div className="text-center text-[24px] font-bold">글쓰기</div>
-        </header>
-
         <form className="max-w-screen-sm purple-100">
           <div className="mt-5">
             <label htmlFor="subject" className="text-[16px] font-bold mb-2">
