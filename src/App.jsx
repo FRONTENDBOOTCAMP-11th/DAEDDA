@@ -1,9 +1,10 @@
+import Write from "@pages/mainWrite/Write";
 import "./index.css";
 
 function App() {
   return (
     <>
-      <div>시작</div>
+      <Write />
     </>
   );
 }
