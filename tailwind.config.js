@@ -16,8 +16,8 @@ export default {
           "-1px -1px 16px rgba(238, 238, 238, 1), 3px 3px 18px rgba(170, 170, 170, 0.5)",
       },
       boxShadow: {
-        "custom-bright": "-1px -1px 16px rgba(238, 238, 238, 1)",
-        "custom-soft": "3px 3px 18px rgba(170, 170, 170, 0.5)",
+        "custom-shadow":
+          "-1px -1px 16px rgba(238, 238, 238, 1), 3px 3px 18px rgba(170, 170, 170, 0.5)",
       },
       colors: {
         white: "#FFFFFF",
