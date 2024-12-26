@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function PRWrite() {
   return (
     <div className="min-h-screen">
