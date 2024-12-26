@@ -12,6 +12,10 @@ export default {
       fontFamily: {
         pre: ["Pretendard-Regular"],
       },
+      boxShadow: {
+        "custom-bright": "-1px -1px 16px rgba(238, 238, 238, 1)",
+        "custom-soft": "3px 3px 18px rgba(170, 170, 170, 0.5)",
+      },
       colors: {
         white: "#FFFFFF",
         black: "#222222",
@@ -23,6 +27,7 @@ export default {
         "beige-500": "#CDC3C3",
         "gray-200": "#D9D9D9",
         "gray-500": "#555555",
+        "yellow-100": "#FEE500",
       },
     },
   },
