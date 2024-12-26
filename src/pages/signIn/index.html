@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="kor">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>로그인</title>
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body style="font-family: Pretendard Variable">
+    <!-- 화면 전체 가운데 정렬, 640px -->
+    <div class="max-w-screen-sm bg-slate-400 h-screen m-auto">
+      <!-- 내부의 모든 요소들 세로로 -->
+      <div class="flex flex-col items-center justify-center">
+        <!-- 로고 -->
+        <img src="logo_txt.png" class="mt-6" />
+        <img src="logo.png" class="mt-5 mb-5 w-[200px] h-[200px]" />
+
+        <!-- input 요소 -->
+        <input
+          type="email"
+          placeholder="이메일"
+          class="w-full h-[60px] p-3 border border-black rounded-lg"
+        />
+        <p class="self-start mt-2 mb-2">이메일을 입력해주세요.</p>
+        <input
+          type="password"
+          placeholder="비밀번호"
+          class="w-full h-[60px] p-3 border border-black rounded-lg"
+        />
+        <p class="self-start mt-2 mb-2">비밀번호를 입력해주세요.</p>
+
+        <!-- 버튼 -->
+        <button
+          class="bg-primary text-white border-none rounded-lg h-[60px] w-full flex items-center justify-center mb-2"
+        >
+          로그인
+        </button>
+        <button
+          class="bg-primary text-white border-none rounded-lg h-[60px] w-full flex items-center justify-center relative"
+        >
+          <img src="kakao.svg" class="absolute left-4 w-6 h-6" />
+          <span>카카오 로그인</span>
+        </button>
+
+        <div class="flex items-center justify-center gap-2 mt-2">
+          <p class="font-bold">대타를 찾고 있다면?</p>
+          <a href="#" class="underline">회원가입</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
