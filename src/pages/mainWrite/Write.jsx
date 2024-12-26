@@ -38,11 +38,11 @@ export default function Write() {
 
           <fieldset className="mt-7">
             <legend className="text-[16px] font-bold mb-2">근무 조건</legend>
-
             <input
               type="text"
-              id="store"
-              placeholder="상호명"
+              id="brand"
+              placeholder="가게 이름"
+              aria-label="가게 이름"
               className="mt-1 block w-full h-[32px] pl-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
             />
 
@@ -50,12 +50,14 @@ export default function Write() {
               type="number"
               id="pay"
               placeholder="급여"
+              aria-label="급여"
               className="mt-7 block w-full h-[32px] pl-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
             />
 
             <input
               type="text"
               id="timeInput"
+              aria-label="근무 시간"
               placeholder="근무 시간은 00:00 - 00:00 형식으로 작성해주세요."
               className="mt-7 block w-full h-[32px] pl-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
             />
@@ -64,13 +66,15 @@ export default function Write() {
               <input
                 type="date"
                 id="dateInput"
+                aria-label="근무 날짜"
                 className="mt-7 block w-full h-[32px] pl-3 pr-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary text-gray-400 focus:border-2"
+                defaultValue={new Date().toISOString().slice(0, 10)}
               />
             </div>
           </fieldset>
 
           <fieldset className="mt-7">
-            <legend className="text-[16px] font-bold mb-2">근무 조건</legend>
+            <legend className="text-[16px] font-bold mb-2">근무 내용</legend>
             <textarea
               id="workCondition"
               rows="10"
