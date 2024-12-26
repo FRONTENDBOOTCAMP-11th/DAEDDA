@@ -1,11 +1,12 @@
-import Write from "@pages/mainWrite/Write";
+import { RouterProvider } from "react-router-dom";
 import "./index.css";
+import router from "../routes";
 
 function App() {
   return (
-    <>
-      <Write />
-    </>
+    <div className="px-6 max-w-screen-sm m-auto">
+      <RouterProvider router={router} future={{ v7_startTransition: true }} />
+    </div>
   );
 }
 
