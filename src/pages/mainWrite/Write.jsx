@@ -23,69 +23,61 @@ export default function Write() {
             />
           </div>
 
-          <section>
-            <div className="mt-5">
-              <label htmlFor="address" className="text-[16px] font-bold mb-2">
-                위치
-              </label>
-              <div className="max-w-screen-sm h-24 bg-slate-500 mb-7 rounded-lg flex items-center justify-center">
-                지도
-              </div>
+          <fieldset className="mt-7">
+            <legend className="text-[16px] font-bold mb-2">위치</legend>
+            <div className="max-w-screen-sm h-24 bg-slate-500 mb-7 rounded-lg flex items-center justify-center">
+              지도
+            </div>
+            <input
+              type="text"
+              id="address"
+              placeholder="상세 주소"
+              className="mt-1 block w-full h-[32px] pl-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
+            />
+          </fieldset>
+
+          <fieldset className="mt-7">
+            <legend className="text-[16px] font-bold mb-2">근무 조건</legend>
+
+            <input
+              type="text"
+              id="store"
+              placeholder="상호명"
+              className="mt-1 block w-full h-[32px] pl-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
+            />
+
+            <input
+              type="number"
+              id="pay"
+              placeholder="급여"
+              className="mt-7 block w-full h-[32px] pl-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
+            />
+
+            <input
+              type="text"
+              id="timeInput"
+              placeholder="근무 시간은 00:00 - 00:00 형식으로 작성해주세요."
+              className="mt-7 block w-full h-[32px] pl-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
+            />
+
+            <div>
               <input
-                type="text"
-                id="address"
-                placeholder="상세 주소"
-                className="mt-1 block w-full h-[32px] pl-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
+                type="date"
+                id="dateInput"
+                className="mt-7 block w-full h-[32px] pl-3 pr-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary text-gray-400 focus:border-2"
               />
             </div>
-          </section>
+          </fieldset>
 
-          <section>
-            <div className="mt-5">
-              <h2 className="text-[16px] font-bold mb-2">근무 조건</h2>
-
-              <input
-                type="text"
-                id="store"
-                placeholder="상호명"
-                className="mt-1 block w-full h-[32px] pl-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
-              />
-
-              <input
-                type="number"
-                id="salary"
-                placeholder="급여"
-                className="mt-7 block w-full h-[32px] pl-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
-              />
-
-              <input
-                type="text"
-                id="timeInput"
-                placeholder="근무 시간은 00:00 - 00:00 형식으로 작성해주세요."
-                className="mt-7 block w-full h-[32px] pl-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
-              />
-
-              <div>
-                <input
-                  type="date"
-                  id="dateInput"
-                  className="mt-7 block w-full h-[32px] pl-3 pr-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary text-gray-400 focus:border-2"
-                />
-              </div>
-            </div>
-          </section>
-
-          <section>
-            <div className="mt-5">
-              <h2 className="text-[16px] font-bold mb-2">근무 조건</h2>
-              <textarea
-                id="workCondition"
-                rows="10"
-                placeholder="업무에 대한 자세한 설명"
-                className="mt-1 block w-full h-[120px] p-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
-              ></textarea>
-            </div>
-          </section>
+          <fieldset className="mt-7">
+            <legend className="text-[16px] font-bold mb-2">근무 조건</legend>
+            <textarea
+              id="workCondition"
+              rows="10"
+              placeholder="업무에 대한 자세한 설명"
+              className="mt-1 block w-full h-[120px] p-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
+            ></textarea>
+          </fieldset>
 
           <div>
             <button
