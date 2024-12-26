@@ -31,7 +31,68 @@ export default function MainList() {
         </div>
       </div>
 
-      <div></div>
+      <div className="flex flex-col gap-5">
+        <div className="flex justify-between shadow-custom-shadow rounded-3xl px-4 py-[22px] items-center">
+          <div className="flex flex-col gap-1">
+            <h3 className="font-bold text-[20px]">
+              기장대게 할인마트 홀 서빙 대타 구함!
+            </h3>
+            <p className="font-semibold text-gray-500">
+              기장대게할인마트ㆍ민락동 ㆍ 1시간 전
+            </p>
+            <h3 className="text-[20px] font-bold text-purple-900">
+              90,000원ㆍ시급 15,000원
+            </h3>
+            <p className="font-semibold">12/19 목ㆍ10:00 ~ 16:00ㆍ6시간</p>
+          </div>
+          <div className="flex-shrink-0">
+            <img
+              className="size-[136px]"
+              src="/src/assets/images/main-sample.png"
+            />
+          </div>
+        </div>
+        <div className="flex justify-between shadow-custom-shadow rounded-3xl px-4 py-[22px] items-center">
+          <div className="flex flex-col gap-1">
+            <h3 className="font-bold text-[20px]">
+              기장대게 할인마트 홀 서빙 대타 구함!
+            </h3>
+            <p className="font-semibold text-gray-500">
+              기장대게할인마트ㆍ민락동 ㆍ 1시간 전
+            </p>
+            <h3 className="text-[20px] font-bold text-purple-900">
+              90,000원ㆍ시급 15,000원
+            </h3>
+            <p className="font-semibold">12/19 목ㆍ10:00 ~ 16:00ㆍ6시간</p>
+          </div>
+          <div className="flex-shrink-0">
+            <img
+              className="size-[136px]"
+              src="/src/assets/images/main-sample.png"
+            />
+          </div>
+        </div>
+        <div className="flex justify-between shadow-custom-shadow rounded-3xl px-4 py-[22px] items-center">
+          <div className="flex flex-col gap-1">
+            <h3 className="font-bold text-[20px]">
+              기장대게 할인마트 홀 서빙 대타 구함!
+            </h3>
+            <p className="font-semibold text-gray-500">
+              기장대게할인마트ㆍ민락동 ㆍ 1시간 전
+            </p>
+            <h3 className="text-[20px] font-bold text-purple-900">
+              90,000원ㆍ시급 15,000원
+            </h3>
+            <p className="font-semibold">12/19 목ㆍ10:00 ~ 16:00ㆍ6시간</p>
+          </div>
+          <div className="flex-shrink-0">
+            <img
+              className="size-[136px]"
+              src="/src/assets/images/main-sample.png"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
