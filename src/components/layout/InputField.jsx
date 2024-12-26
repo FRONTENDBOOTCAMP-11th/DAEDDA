@@ -2,40 +2,45 @@ import PropTypes from "prop-types";
 
 // 회원가입, 로그인 기준 input
 InputField.propTypes = {
+  labelName: PropTypes.string,
   type: PropTypes.string,
   placeholder: PropTypes.string,
-  className: PropTypes.string,
+  errorMsg: PropTypes.string,
+  isLast: PropTypes.bool,
 };
 
 export default function InputField({
+  labelName = "",
   type = "text",
   placeholder = "",
-  className = "",
+  errorMsg = "",
+  isLast = false,
 }) {
-  // date type input에 placeholder 색을 입히기 위함
-  if (type === "date")
-    return (
-      <>
-        <input
-          type="text"
-          placeholder="연도-월-일"
-          className={`w-full h-[48px] p-3 border-2 border-#999 rounded-lg focus:outline-none focus:border-primary ${className} placeholder-gray-400`}
-          onFocus={e => (e.target.type = "date")}
-          onBlur={e => {
+  // type에 따라 전달할 props 객체를 다르게 저장하는 변수
+  const dateTypeProps =
+    type === "date"
+      ? {
+          type: "text",
+          placeholder: "연도-월-일",
+          onFocus: e => (e.target.type = "date"),
+          onBlur: e => {
             if (!e.target.value) e.target.type = "text";
-          }}
-        />
-      </>
-    );
-  else {
-    return (
-      <>
-        <input
-          type={type}
-          placeholder={placeholder}
-          className={`w-full h-[48px] p-3 border-2 border-#999 rounded-lg focus:outline-none focus:border-primary ${className}`}
-        />
-      </>
-    );
-  }
+          },
+        }
+      : { type, placeholder };
+
+  return (
+    <div>
+      {labelName && <p className="text-base font-semibold mb-2">{labelName}</p>}
+      <input
+        {...dateTypeProps}
+        className={`w-full h-[48px] p-3 border-2 border-#999 rounded-lg focus:outline-none focus:border-primary ${errorMsg ? "mb-2" : isLast ? "" : "mb-[28px]"}`}
+      />
+      {errorMsg && (
+        <p
+          className={`text-red text-xs ${isLast ? "" : "mb-2"}`}
+        >{`*${errorMsg}`}</p>
+      )}
+    </div>
+  );
 }
