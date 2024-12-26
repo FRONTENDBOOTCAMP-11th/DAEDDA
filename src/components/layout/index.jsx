@@ -1,11 +1,12 @@
 import Footer from "@components/layout/Footer";
-import MainHeader from "@components/layout/MainHeader";
+// import MainHeader from "@components/layout/MainHeader";
+import TitleHeader from "@components/layout/TitleHeader";
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {
   return (
     <>
-      <MainHeader />
+      <TitleHeader />
       <Outlet />
       <Footer />
     </>
