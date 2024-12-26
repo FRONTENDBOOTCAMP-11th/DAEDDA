@@ -9,7 +9,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        pre: ["Pretendard-Regular"],
+        pre: ["Pretendard"],
       },
       boxShadow: {
         "custom-bright": "-1px -1px 16px rgba(238, 238, 238, 1)",
