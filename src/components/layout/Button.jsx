@@ -1,45 +1,31 @@
 import PropTypes from "prop-types";
 
 Button.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
   color: PropTypes.string,
   height: PropTypes.string,
-  type: PropTypes.string,
+  width: PropTypes.string,
   className: PropTypes.string,
 };
 
-export default function Button({
-  children = "버튼",
-  onClick,
-  color = "purple",
-  height = "sm",
-  type = "button",
-  className = "w-full",
-}) {
+export default function Button({ children, onClick, color, width, height }) {
   let combinedClassName = "";
 
   // 색
   switch (color) {
     case "purple": {
-      combinedClassName += " bg-primary text-white font-bold rounded";
+      combinedClassName +=
+        " bg-primary text-white font-bold w-full mb-4 rounded";
       break;
     }
     case "white": {
       combinedClassName +=
-        " bg-white text-primary font-bold  border border-primary rounded";
+        " bg-white text-primary font-bold w-full mb-4 border border-primary rounded";
       break;
     }
     case "red": {
-      combinedClassName += " bg-red text-white font-bold rounded";
-      break;
-    }
-    case "gray": {
-      combinedClassName += " bg-gray-200 text-white font-bold rounded";
-      break;
-    }
-    case "yellow": {
-      combinedClassName += " bg-yellow-100 text-white font-bold rounded";
+      combinedClassName += " bg-red text-white font-bold mb-4 rounded";
       break;
     }
     default:
@@ -48,21 +34,30 @@ export default function Button({
 
   // 높이
   switch (height) {
-    case "xs": {
-      combinedClassName += " h-6  text-[10px]";
-      break;
-    }
     case "sm": {
-      combinedClassName += " h-8 text-[14px]";
+      combinedClassName += " h-8";
       break;
     }
-
     case "md": {
-      combinedClassName += " h-9 text-[20px]";
+      combinedClassName += " h-9";
       break;
     }
     case "lg": {
-      combinedClassName += " h-12 text-[20px]";
+      combinedClassName += " h-12";
+      break;
+    }
+    default:
+      break;
+  }
+
+  // 넓이이
+  switch (width) {
+    case "xl": {
+      combinedClassName += " w-16 text-[14px]";
+      break;
+    }
+    case "2xl": {
+      combinedClassName += " w-[92px] text-[14px]";
       break;
     }
     default:
@@ -70,11 +65,7 @@ export default function Button({
   }
 
   return (
-    <button
-      className={`${combinedClassName} ${className}`}
-      onClick={onClick}
-      type={type}
-    >
+    <button className={`${combinedClassName}`} onClick={onClick}>
       {children}
     </button>
   );
