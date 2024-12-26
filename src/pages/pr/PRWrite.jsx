@@ -11,7 +11,7 @@ export default function PRWrite() {
               type="text"
               id="subject"
               placeholder="제목"
-              className="mt-1 block w-full h-[32px] pl-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
+              className="mt-1 block w-full h-[32px] pl-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
             />
           </div>
 
@@ -26,7 +26,7 @@ export default function PRWrite() {
               type="text"
               id="address"
               placeholder="상세 주소"
-              className="mt-1 block w-full h-[32px] pl-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
+              className="mt-1 block w-full h-[32px] pl-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
             />
           </fieldset>
 
@@ -39,7 +39,7 @@ export default function PRWrite() {
               type="text"
               id="phoneNum"
               placeholder="휴대폰 번호"
-              className="mt-1 block w-full h-[32px] pl-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
+              className="mt-1 block w-full h-[32px] pl-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
             />
           </fieldset>
 
@@ -52,7 +52,7 @@ export default function PRWrite() {
               id="career"
               rows="10"
               placeholder="알바 경력"
-              className="mt-1 block w-full h-[120px] p-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
+              className="mt-1 block w-full h-[120px] p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
             ></textarea>
           </fieldset>
 
@@ -64,14 +64,14 @@ export default function PRWrite() {
               id="appeal"
               rows="10"
               placeholder="업무에 대한 자세한 설명"
-              className="mt-1 block w-full h-[120px] p-3 border-2 border-[#999] rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
+              className="mt-1 block w-full h-[120px] p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
             ></textarea>
           </fieldset>
 
           <div>
             <button
               type="submit"
-              className="w-full mt-11 rounded-lg h-12 text-white font-bold bg-[#8C6FEE]"
+              className="w-full mt-11 rounded-lg h-12 text-white font-bold bg-primary"
             >
               등록
             </button>
