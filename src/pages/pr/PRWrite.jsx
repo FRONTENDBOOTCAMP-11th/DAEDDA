@@ -11,7 +11,7 @@ export default function PRWrite() {
               type="text"
               id="subject"
               placeholder="제목"
-              className="mt-1 block w-full h-[32px] pl-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
+              className="mt-1 block w-full h-12 p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
             />
           </div>
 
@@ -26,7 +26,7 @@ export default function PRWrite() {
               type="text"
               id="address"
               placeholder="상세 주소"
-              className="mt-1 block w-full h-[32px] pl-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
+              className="mt-1 block w-full h-12 p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
             />
           </fieldset>
 
@@ -39,7 +39,7 @@ export default function PRWrite() {
               type="text"
               id="phoneNum"
               placeholder="휴대폰 번호"
-              className="mt-1 block w-full h-[32px] pl-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
+              className="mt-1 block w-full h-12 p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:border-2"
             />
           </fieldset>
 
