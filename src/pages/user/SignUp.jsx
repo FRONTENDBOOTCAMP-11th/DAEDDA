@@ -1,87 +1,77 @@
 import Button from "@components/layout/Button";
+import InputField from "@components/layout/InputField";
 
 export default function SignUp() {
   return (
-    <div className="max-w-screen-sm h-screen m-auto">
-      <div className="flex flex-col items-center justify-center">
-        <img
-          src="/src/assets/images/smiling_daeddamon.png"
-          className="w-[150px] h-[150px]"
-        />
-        <Button color="purple" width="">
-          이미지 선택
+    <div className="flex flex-col items-center justify-center">
+      <img
+        src="/src/assets/images/smiling_daeddamon.png"
+        className="w-[150px] h-[150px] mb-3"
+      />
+      <div>
+        <Button color="purple" height="sm">
+          <span className="p-2">이미지 선택</span>
         </Button>
-        {/* <button className="py-2 px-[14px] mt-2 bg-primary rounded-lg text-white text-sm mb-3 font-bold test-sm">
-          이미지 선택
-        </button> */}
+      </div>
 
-        <input
+      <div className="w-full">
+        <InputField
           type="email"
           placeholder="이메일을 입력해주세요."
-          className="w-full h-[48px] p-3 border-2 border-#999 rounded-lg focus:outline-none focus:border-primary"
+          errorMsg="이메일을 입력해주세요."
           maxLength="30"
-        />
-        <p className="self-start mt-2 mb-2 text-xs text-red">
-          이메일을 입력해주세요.
-        </p>
-
-        <input
+        ></InputField>
+      </div>
+      <div className="w-full">
+        <InputField
           type="text"
           placeholder="닉네임을 입력해주세요."
-          className="w-full h-[48px] p-3 border-2 border-#999 rounded-lg focus:outline-none focus:border-primary"
-          maxLength="30"
-        />
-        <p className="self-start mt-2 mb-2 text-xs text-red">
-          닉네임을 입력해주세요.
-        </p>
-
-        <input
+          errorMsg="닉네임을 입력해주세요."
+          maxLength="10"
+        ></InputField>
+      </div>
+      <div className="relative w-full">
+        <InputField
           type="password"
           placeholder="비밀번호를 입력해주세요."
-          className="w-full h-[48px] p-3 border-2 border-#999 rounded-lg focus:outline-none focus:border-primary"
-          maxLength="30"
-        />
-        <p className="self-start mt-2 mb-2 text-xs text-red">
-          비밀번호를 입력해주세요.
-        </p>
-
-        <input
+          errorMsg="비밀번호를 입력해주세요."
+          maxLength="20"
+        ></InputField>
+        <img src="/icons/eyeHalf.svg" className="absolute right-3 top-3" />
+      </div>
+      <div className="relative w-full">
+        <InputField
           type="password"
           placeholder="비밀번호를 확인해주세요."
-          className="w-full h-[48px] p-3 border-2 border-#999 rounded-lg focus:outline-none focus:border-primary"
-          maxLength="30"
-        />
-        <p className="self-start mt-2 mb-2 text-xs text-red">
-          비밀번호를 확인해주세요.
-        </p>
+          errorMsg="비밀번호를 입력해주세요."
+          maxLength="20"
+        ></InputField>
+        <img src="/icons/eyeHalf.svg" className="absolute right-3 top-3" />
+      </div>
 
-        <input
+      <div className="w-full">
+        <InputField
           type="date"
-          className="w-full h-[48px] p-3 border-2 border-#999 rounded-lg focus:outline-none focus:border-primary text-gray-400"
-          maxLength="30"
-        />
-        <p className="self-start mt-2 mb-2 text-xs text-red">
-          생년월일을 입력해주세요.
-        </p>
+          errorMsg="생년월일을 입력해주세요."
+        ></InputField>
+      </div>
 
-        <input
+      <div className="w-full">
+        <InputField
           type="tel"
           placeholder="휴대폰 번호를 입력해주세요."
-          className="w-full h-[48px] p-3 border-2 border-#999 rounded-lg focus:outline-none focus:border-primary"
-          maxLength="30"
-        />
-        <p className="self-start mt-2 mb-2 text-xs text-red">
-          휴대폰 번호를 입력해주세요.
-        </p>
+          errorMsg="휴대폰 번호를 입력해주세요."
+          maxLength="10"
+        ></InputField>
+      </div>
 
-        <div className="flex gap-6 w-full">
-          <button className="border border-primary rounded-lg h-[48px] flex-1 items-center justify-center mb-2 text-sm text-primary font-bold text-lg">
-            취소
-          </button>
-          <button className="bg-primary border-none rounded-lg h-[48px] flex-1 flex items-center justify-center mb-2 text-sm text-white font-bold text-lg">
-            계속
-          </button>
-        </div>
+      <div className="flex gap-6 w-full">
+        <Button color="white" height="md">
+          취소
+        </Button>
+        <Button color="purple" height="md">
+          계속
+        </Button>
       </div>
     </div>
   );
