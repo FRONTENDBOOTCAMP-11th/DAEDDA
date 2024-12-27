@@ -30,33 +30,22 @@ export default function MyPage() {
         </div>
       </div>
 
-      <div className="shadow-custom-shadow px-7 rounded-3xl mb-8 ">
+      <div className="shadow-custom-shadow px-7 rounded-3xl mb-8 pb-4">
         <p className="mb-3 text-2xl font-bold pt-6">나의 활동</p>
         <div>
           <MyPageList label="관심 목록" icon="heart" />
           <MyPageList label="회원 정보" icon="userInfo" />
           <MyPageList label="인증 뱃지" icon="badge" />
-          <MyPageList label="내가 받은 리뷰" icon="review" mb={6} pb={6} />
+          <MyPageList label="내가 받은 리뷰" icon="review" />
         </div>
       </div>
 
-      <div className="shadow-custom-shadow px-7 rounded-3xl">
+      <div className="shadow-custom-shadow px-7 rounded-3xl mb-8 pb-4">
         <p className="mb-3 text-2xl font-bold pt-6">고객 지원</p>
         <div>
-          <MyPageList
-            label="고객 센터"
-            icon="customerSupport"
-            size={5}
-            mb={1}
-          />
-          <MyPageList label="의견 남기기" icon="opnion" size={5} mb={1} />
-          <MyPageList
-            label="약관 및 정책"
-            icon="terms"
-            mb={6}
-            pb={6}
-            size={5}
-          />
+          <MyPageList label="고객 센터" icon="customerSupport" />
+          <MyPageList label="의견 남기기" icon="opnion" />
+          <MyPageList label="약관 및 정책" icon="terms" />
         </div>
       </div>
     </>
