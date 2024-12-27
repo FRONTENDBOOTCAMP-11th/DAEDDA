@@ -1,13 +1,16 @@
+import Button from "@components/layout/Button";
+
 export default function MainDetail() {
   return (
     <>
-      <section className="w-full flex items-center justify-between h-[60px] mt-4">
+      <section className="flex items-center justify-between h-[60px] mt-4">
         <div className="font-bold text-[16px] py-4 sm:whitespace-normal md:whitespace-nowrap">
           [채용중]카카오에서 프론트엔드 개발자 구합니다
         </div>
         <img
           src="/icons/reviews/reviewBlankLike.svg"
           className="h-7 w-7 ml-2"
+          alt="찜 아이콘"
         />
       </section>
 
@@ -61,14 +64,11 @@ export default function MainDetail() {
           </div>
         </section>
 
-        <form>
-          <button
-            type="submit"
-            className="w-full mt-11 rounded-lg h-12 text-white font-bold bg-primary"
-          >
+        <div className="mt-11">
+          <Button color="purple" height="lg" type="submit">
             지원하기
-          </button>
-        </form>
+          </Button>
+        </div>
 
         <div className="flex items-center mt-11 justify-between">
           <section className="flex items-center">
@@ -112,14 +112,18 @@ export default function MainDetail() {
               </div>
             </div>
           </section>
-          <form className="flex gap-1">
-            <button className="w-[92px] h-8 bg-primary rounded-sm text-white">
-              채택
-            </button>
-            <button className="w-[92px] h-8 bg-red rounded-sm text-white">
-              취소
-            </button>
-          </form>
+          <div className="flex gap-2">
+            <div className="w-[92px]">
+              <Button color="purple" width="xl" height="sm">
+                취소
+              </Button>
+            </div>
+            <div className="w-[92px]">
+              <Button color="red" width="2xl" height="sm">
+                취소
+              </Button>
+            </div>
+          </div>
         </div>
         <section>
           <div className="font-bold mt-7">근무 조건</div>
