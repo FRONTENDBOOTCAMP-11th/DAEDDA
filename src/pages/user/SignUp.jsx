@@ -1,16 +1,19 @@
+import Button from "@components/layout/Button";
+
 export default function SignUp() {
   return (
-    // 화면 전체 가운데 정렬, 640px
     <div className="max-w-screen-sm h-screen m-auto">
-      {/* 내부의 모든 요소들 세로로 */}
       <div className="flex flex-col items-center justify-center">
         <img
           src="/src/assets/images/smiling_daeddamon.png"
           className="w-[150px] h-[150px]"
         />
-        <button className="py-2 px-[14px] mt-2 bg-primary rounded-lg text-white text-sm mb-3 font-bold test-sm">
+        <Button color="purple" width="">
           이미지 선택
-        </button>
+        </Button>
+        {/* <button className="py-2 px-[14px] mt-2 bg-primary rounded-lg text-white text-sm mb-3 font-bold test-sm">
+          이미지 선택
+        </button> */}
 
         <input
           type="email"
