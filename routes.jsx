@@ -14,6 +14,8 @@ import MainDetail from "@pages/main/MainDetail";
 import MainList from "@pages/main/MainList";
 import MainWrite from "@pages/main/MainWrite";
 import MainEdit from "@pages/main/MainEdit";
+import ReviewList from "@pages/reviews/ReviewList";
+import ReviewWrite from "@pages/reviews/ReviewWrite";
 
 const router = createBrowserRouter(
   [
@@ -27,8 +29,11 @@ const router = createBrowserRouter(
         { path: "main/:_id", element: <MainDetail /> },
         { path: "main/:_id/edit", element: <MainEdit /> },
 
+        { path: "review", element: <ReviewList /> },
+        { path: "review/write", element: <ReviewWrite /> },
+
         { path: "pr/write", element: <PRWrite /> },
-        { path: "pr/:_id/detail", element: <PRDetail /> },
+        { path: "pr/:_id", element: <PRDetail /> },
         { path: "pr/:_id/edit", element: <PREdit /> },
 
         { path: "myPage", element: <MyPage /> },
