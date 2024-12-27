@@ -12,7 +12,7 @@ export default function MyPage() {
         <p className="font-bold flex items-center text-2xl flex-grow">User</p>
         <img src="/icons/arrow.svg" alt="프로필 수정하기" />
       </div>
-      <div className="myPage-container pt-5 flex-col flex">
+      <div className="myPage-container pt-5 flex-col flex pb-6">
         <div className="flex gap-6">
           <img
             src="/icons/power.svg"
@@ -25,16 +25,16 @@ export default function MyPage() {
           </div>
         </div>
 
-        <div className="relative">
+        <div className="relative h-8 ">
           <img
             src="/icons/energyBar.svg"
             alt="에너지바"
-            className=" pb-6 w-full h-full"
+            className="w-full h-full absolute"
           />
           <img
             src="/icons/energyBar2.svg"
             alt="에너지률"
-            className=" w-16 absolute left-4 top-0 h-8  "
+            className=" w-[70%] absolute left-4 top-0 h-full object-contain aspect-auto rounded-3xl"
           />
         </div>
       </div>
