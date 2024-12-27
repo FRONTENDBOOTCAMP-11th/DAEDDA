@@ -9,7 +9,6 @@ export default function SignIn() {
         src="/src/assets/images/daeddamon.png"
         className="my-7 w-[180px] h-[180px]"
       />
-
       <div className="w-full">
         <InputField
           type="email"
@@ -18,7 +17,6 @@ export default function SignIn() {
           maxLength="30"
         ></InputField>
       </div>
-
       <div className="relative w-full">
         <InputField
           type="password"
@@ -31,19 +29,22 @@ export default function SignIn() {
           className="absolute right-3 top-3"
         />
       </div>
-
-      <Button color="purple" width="2xl"></Button>
-      {/* <button className="bg-primary border-none rounded-lg h-[60px] w-full flex items-center justify-center mb-2 text-sm text-white">
+      <Button color="purple" height="lg">
         로그인
-      </button>
-      <button className="bg-yellow-100 border-none rounded-lg h-[60px] w-full flex items-center justify-center relative">
+      </Button>
+
+      <div className="w-full relative">
         <img
           src="/public/icons/kakao.svg"
-          className="absolute left-4 w-6 h-6"
+          className="absolute top-3 left-2 w-6 h-6"
         />
+        <Button color="yellow" height="lg">
+          카카오 로그인
+        </Button>
+      </div>
+      {/* <button className="bg-yellow-100 border-none rounded-lg h-[60px] w-full flex items-center justify-center relative">
         <span className="text-black text-sm">카카오 로그인</span>
       </button> */}
-
       <div className="flex items-center justify-center gap-2 mt-2">
         <p className="font-bold text-sm">대타를 찾고 있다면?</p>
         <a href="#" className="underline text-sm">
