@@ -4,18 +4,22 @@ export default function PRDetail() {
   return (
     <>
       <section className="flex items-center justify-between">
-        <div>카카오 프론트엔드 개발자 지원합니다. 열심히 하겠습니다.</div>
+        <h2 className="font-bold">
+          카카오 프론트엔드 개발자 지원합니다. 열심히 하겠습니다.
+        </h2>
 
-        <div className="flex items-center">
-          <Button color="red" width="2xl" height="sm">
-            취소
-          </Button>
-        </div>
+        <div className="flex gap-2">
+          <div className="w-[92px]">
+            <Button color="purple" width="xl" height="sm">
+              수정
+            </Button>
+          </div>
 
-        <div className="w-[92px] flex items-center">
-          <Button color="purple" width="xl" height="sm">
-            취소
-          </Button>
+          <div className="w-[92px]">
+            <Button color="red" width="2xl" height="sm">
+              삭제
+            </Button>
+          </div>
         </div>
       </section>
 
