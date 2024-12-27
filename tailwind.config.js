@@ -8,8 +8,14 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        "custom-320": { max: "320px" },
+        "custom-340": { max: "340px" },
+        "custom-360": { max: "360px" },
+        "custom-400": { max: "400px" },
+      },
       fontFamily: {
-        pre: ["Pretendard-Regular"],
+        pre: ["Pretendard"],
       },
       boxShadow: {
         "custom-shadow":
@@ -25,6 +31,7 @@ export default {
         "purple-900": "#6123FF",
         "beige-500": "#CDC3C3",
         "gray-200": "#D9D9D9",
+        "gray-300": "#999999",
         "gray-500": "#555555",
         "yellow-100": "#FEE500",
       },
