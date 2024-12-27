@@ -9,10 +9,13 @@ export default {
   theme: {
     extend: {
       screens: {
-        "custom-320": { max: "320px" },
-        "custom-340": { max: "340px" },
-        "custom-360": { max: "360px" },
-        "custom-400": { max: "400px" },
+        "screen-320": { max: "320px" },
+        "screen-340": { max: "340px" },
+        "screen-360": { max: "360px" },
+        "screen-375": { max: "375px" },
+        "screen-400": { max: "400px" },
+        "screen-425": { max: "425px" },
+        "screen-530": { max: "530px" },
       },
       fontFamily: {
         pre: ["Pretendard"],
