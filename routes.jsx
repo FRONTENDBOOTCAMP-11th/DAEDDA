@@ -59,18 +59,6 @@ const router = createBrowserRouter(
       ],
     },
     {
-      path: "review",
-      element: <ReviewList />,
-      children: [
-        {
-          index: true,
-          element: <Navigate to="myPlace" replace />,
-        },
-        { path: "myPlace", element: <MyPlace /> },
-        { path: "myPerson", element: <MyPerson /> },
-      ],
-    },
-    {
       path: "user/signIn",
       element: <SignIn />,
     },
