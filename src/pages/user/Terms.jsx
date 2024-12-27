@@ -2,10 +2,15 @@ export default function Terms() {
   return (
     <div className="flex flex-col">
       <div className="flex justify-center w-full bg-slate-300">
-        <img src="/src/pages/user/logo.png" className="max-w-full h-[100px]" />
+        <img
+          src="/src/pages/user/logo.png"
+          className="max-w-full h-[100px] mb-24"
+        />
       </div>
-      <h1>환영합니다!</h1>
-      <p>약관에 동의 하셔야 회원 가입이 가능합니다.</p>
+      <h1 className="text-[32px] mb-6">환영합니다!</h1>
+      <p className="font-light text-xs mb-6">
+        약관에 동의 하셔야 회원 가입이 가능합니다.
+      </p>
       <p>약관 동의</p>
       <div className="">
         <input
