@@ -26,11 +26,15 @@ export default function MyPage() {
         </div>
 
         <div className="relative">
-          <img src="/icons/energyBar.svg" alt="에너지바" className="pb-6" />
+          <img
+            src="/icons/energyBar.svg"
+            alt="에너지바"
+            className=" pb-6 w-full h-full"
+          />
           <img
             src="/icons/energyBar2.svg"
             alt="에너지률"
-            className=" w-16 absolute left-4 top-0 h-6"
+            className=" w-16 absolute left-4 top-0 h-8  "
           />
         </div>
       </div>
