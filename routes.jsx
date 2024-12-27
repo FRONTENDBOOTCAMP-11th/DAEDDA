@@ -16,6 +16,8 @@ import MainWrite from "@pages/main/MainWrite";
 import MainEdit from "@pages/main/MainEdit";
 import ReviewList from "@pages/reviews/ReviewList";
 import ReviewWrite from "@pages/reviews/ReviewWrite";
+import MyPlace from "@pages/reviews/MyPlace";
+import MyPerson from "@pages/reviews/MyPerson";
 
 const router = createBrowserRouter(
   [
@@ -29,7 +31,18 @@ const router = createBrowserRouter(
         { path: "main/:_id", element: <MainDetail /> },
         { path: "main/:_id/edit", element: <MainEdit /> },
 
-        { path: "review", element: <ReviewList /> },
+        {
+          path: "review",
+          element: <ReviewList />,
+          children: [
+            {
+              index: true,
+              element: <Navigate to="myPlace" replace />,
+            },
+            { path: "myPlace", element: <MyPlace /> },
+            { path: "myPerson", element: <MyPerson /> },
+          ],
+        },
         { path: "review/write", element: <ReviewWrite /> },
 
         { path: "pr/write", element: <PRWrite /> },
@@ -45,18 +58,7 @@ const router = createBrowserRouter(
         { path: "user/terms", element: <Terms /> },
       ],
     },
-    // {
-    //   path: "review",
-    //   element: <ReviewList />,
-    //   children: [
-    //     {
-    //       index: true,
-    //       element: <Navigate to="myPlace" replace />,
-    //     },
-    //     { path: "myPlace", element: <MyPlace /> },
-    //     { path: "myPerson", element: <MyPerson /> },
-    //   ],
-    // },
+
     {
       path: "user/signIn",
       element: <SignIn />,
