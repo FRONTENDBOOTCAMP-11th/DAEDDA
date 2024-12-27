@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.myPage-container {
+  @apply shadow-custom-shadow px-7 rounded-3xl mb-8;
+}
+
 @font-face {
   font-family: "Pretendard";
   font-weight: 100; /* Thin */
