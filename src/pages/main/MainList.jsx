@@ -1,17 +1,15 @@
-import InputField from "@components/layout/InputField";
-
 export default function MainList() {
   return (
     <div>
       <div className="flex justify-between items-center text-[24px] font-semibold py-[23px]">
         <p>동래구 중앙대로 1473번길 14-2</p>
-        <div className="flex gap-4">
+        <div className="flex gap-4 screen-530:hidden">
           <img src="/icons/search.svg" />
           <img src="/icons/mapPin.svg" />
         </div>
       </div>
 
-      <div className="py-[14px] flex gap-4 mb-5">
+      <div className="py-[14px] flex gap-4 mb-5 flex-wrap">
         <div>
           <label htmlFor="time" className="mr-[16px] font-[700] ">
             시간
@@ -47,7 +45,7 @@ export default function MainList() {
             </h3>
             <p className="font-semibold">12/19 목ㆍ10:00 ~ 16:00ㆍ6시간</p>
           </div>
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 screen-530:hidden">
             <img
               className="size-[136px]"
               src="/src/assets/images/main-sample.png"
@@ -67,7 +65,7 @@ export default function MainList() {
             </h3>
             <p className="font-semibold">12/19 목ㆍ10:00 ~ 16:00ㆍ6시간</p>
           </div>
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 screen-530:hidden">
             <img
               className="size-[136px]"
               src="/src/assets/images/main-sample.png"
@@ -87,7 +85,7 @@ export default function MainList() {
             </h3>
             <p className="font-semibold">12/19 목ㆍ10:00 ~ 16:00ㆍ6시간</p>
           </div>
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 screen-530:hidden">
             <img
               className="size-[136px]"
               src="/src/assets/images/main-sample.png"
