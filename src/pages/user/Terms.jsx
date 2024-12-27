@@ -3,9 +3,9 @@ import Button from "@components/layout/Button";
 export default function Terms() {
   return (
     <div className="flex flex-col">
-      <div className="flex justify-center w-full bg-slate-300">
+      <div className="flex justify-center w-full">
         <img
-          src="/src/pages/user/logo.png"
+          src="/src/assets/logos/logo.png"
           className="max-w-full h-[100px] mb-6"
         />
       </div>
