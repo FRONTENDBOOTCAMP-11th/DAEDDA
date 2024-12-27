@@ -12,16 +12,19 @@ export default function MyPage() {
         <p className="font-bold flex items-center text-2xl flex-grow">User</p>
         <img src="/icons/arrow.svg" alt="프로필 수정하기" />
       </div>
-      <div className="flex shadow-custom-shadow px-7 rounded-3xl pt-5 flex-col mb-8">
-        <div className="flex">
-          <img
-            src="/icons/power.svg"
-            alt="알바력"
-            className="pr-8 w-fit size-9 mt-1"
-          />
+      <div className="myPage-container pt-5 flex-col flex">
+        <div className="flex gap-6">
+          <div className="relative">
+            <img
+              src="/icons/power.svg"
+              alt="알바력"
+              className="w-fit size-9 mt-1"
+            />
+          </div>
+
           <div className="flex flex-col  mb-[14px]">
             <p className="font-semibold text-xl">70%</p>
-            <p className="font-semibold te xt-sm text-gray-200">알바력</p>
+            <p className="font-semibold text-sm text-gray-200">알바력</p>
           </div>
         </div>
 
@@ -30,7 +33,7 @@ export default function MyPage() {
         </div>
       </div>
 
-      <div className="shadow-custom-shadow px-7 rounded-3xl mb-8 pb-4">
+      <div className="myPage-container pb-4">
         <p className="mb-3 text-2xl font-bold pt-6">나의 활동</p>
         <div>
           <MyPageList label="관심 목록" icon="heart" />
@@ -40,7 +43,7 @@ export default function MyPage() {
         </div>
       </div>
 
-      <div className="shadow-custom-shadow px-7 rounded-3xl mb-8 pb-4">
+      <div className="myPage-container pb-4">
         <p className="mb-3 text-2xl font-bold pt-6">고객 지원</p>
         <div>
           <MyPageList label="고객 센터" icon="customerSupport" />
