@@ -7,7 +7,7 @@ import PRWrite from "@pages/pr/PRWrite";
 import SignIn from "@pages/user/SignIn";
 import SignUp from "@pages/user/SignUp";
 import Terms from "@pages/user/Terms";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import MyReviews from "@pages/myPage/MyReviews";
 import Layout from "@components/layout";
 import MainDetail from "@pages/main/MainDetail";
@@ -43,6 +43,18 @@ const router = createBrowserRouter(
 
         { path: "user/signUp", element: <SignUp /> },
         { path: "user/terms", element: <Terms /> },
+      ],
+    },
+    {
+      path: "review",
+      element: <ReviewList />,
+      children: [
+        {
+          index: true,
+          element: <Navigate to="myPlace" replace />,
+        },
+        { path: "myPlace", element: <MyPlace /> },
+        { path: "myPerson", element: <MyPerson /> },
       ],
     },
     {
