@@ -29,7 +29,9 @@ export default function Button({ children, onClick, color, width, height }) {
       break;
     }
     case "yellow": {
-      combinedClassName += " bg-yellow-100 text-white font-bold mb-4 rounded";
+      combinedClassName +=
+        "bg-yellow-100 text-white font-bold w-full mb-4 rounded";
+
       break;
     }
     default:
