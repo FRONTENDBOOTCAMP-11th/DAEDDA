@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Footer() {
-  const [active, setActive] = useState();
+  const [active, setActive] = useState("home");
   const navigate = useNavigate();
 
   const tabs = [
@@ -37,7 +37,7 @@ export default function Footer() {
   ];
 
   return (
-    <div className="flex justify-between items-center h-[60px] px-12 screen-425:px-0  border-gray-100 border-t-2">
+    <div className="flex justify-between items-center h-[60px] px-12 screen-425:px-0 border-gray-100 border-t-2">
       {tabs.map(tab => (
         <div
           key={tab.name}
