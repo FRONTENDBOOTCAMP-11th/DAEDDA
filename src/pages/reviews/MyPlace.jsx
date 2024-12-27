@@ -35,7 +35,7 @@ export default function ReviewWrite() {
           <p>64,000원</p>
           <p>12/7 (화)ㆍ10:00 ~ 16:00</p>
         </div>
-        <Button color="purple" height="md">
+        <Button color="purple" height="md" className="mb-0">
           리뷰 작성하기
         </Button>
       </div>
@@ -47,12 +47,12 @@ export default function ReviewWrite() {
           </Button>
         </div>
         <div className="mb-6">
-          <h4 className="text-sm font-bold">채택 완료</h4>
-          <p>기장대게할인마트</p>
-          <p>90,000원</p>
-          <p>12/19 (목)ㆍ10:00 ~ 16:00</p>
+          <h4 className="text-sm font-bold">송금완료</h4>
+          <p>소문난손칼국수 밀면</p>
+          <p>64,000원</p>
+          <p>12/7 (화)ㆍ10:00 ~ 16:00</p>
         </div>
-        <Button color="gray" height="md">
+        <Button color="purple" height="md" className="mb-0">
           리뷰 작성하기
         </Button>
       </div>
