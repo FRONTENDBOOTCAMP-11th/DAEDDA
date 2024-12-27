@@ -15,22 +15,20 @@ export default function Button({ children, onClick, color, width, height }) {
   // 색
   switch (color) {
     case "purple": {
-      combinedClassName +=
-        " bg-primary text-white font-bold w-full mb-4 rounded";
+      combinedClassName += " bg-primary text-white font-bold w-full  rounded";
       break;
     }
     case "white": {
       combinedClassName +=
-        " bg-white text-primary font-bold w-full mb-4 border border-primary rounded";
+        " bg-white text-primary font-bold w-full  border border-primary rounded";
       break;
     }
     case "red": {
-      combinedClassName += " bg-red text-white font-bold mb-4 rounded";
+      combinedClassName += " bg-red text-white font-bold  rounded";
       break;
     }
     case "yellow": {
-      combinedClassName +=
-        "bg-yellow-100 text-white font-bold w-full mb-4 rounded";
+      combinedClassName += "bg-yellow-100 text-white font-bold w-full  rounded";
 
       break;
     }
