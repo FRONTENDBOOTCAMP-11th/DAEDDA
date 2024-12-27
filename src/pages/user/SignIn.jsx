@@ -24,27 +24,19 @@ export default function SignIn() {
           errorMsg="비밀번호를 입력해주세요."
           maxLength="20"
         ></InputField>
-        <img
-          src="/public/icons/eyeHalf.svg"
-          className="absolute right-3 top-3"
-        />
+        <img src="/icons/eyeHalf.svg" className="absolute right-3 top-3" />
       </div>
       <Button color="purple" height="lg">
         로그인
       </Button>
 
       <div className="w-full relative">
-        <img
-          src="/public/icons/kakao.svg"
-          className="absolute top-3 left-2 w-6 h-6"
-        />
+        <img src="/icons/kakao.svg" className="absolute top-3 left-2 w-6 h-6" />
         <Button color="yellow" height="lg">
           카카오 로그인
         </Button>
       </div>
-      {/* <button className="bg-yellow-100 border-none rounded-lg h-[60px] w-full flex items-center justify-center relative">
-        <span className="text-black text-sm">카카오 로그인</span>
-      </button> */}
+
       <div className="flex items-center justify-center gap-2 mt-2">
         <p className="font-bold text-sm">대타를 찾고 있다면?</p>
         <a href="#" className="underline text-sm">
