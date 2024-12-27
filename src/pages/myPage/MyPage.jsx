@@ -14,22 +14,24 @@ export default function MyPage() {
       </div>
       <div className="myPage-container pt-5 flex-col flex">
         <div className="flex gap-6">
-          <div className="relative">
-            <img
-              src="/icons/power.svg"
-              alt="알바력"
-              className="w-fit size-9 mt-1"
-            />
-          </div>
-
+          <img
+            src="/icons/power.svg"
+            alt="알바력"
+            className="w-fit size-9 mt-1"
+          />
           <div className="flex flex-col  mb-[14px]">
             <p className="font-semibold text-xl">70%</p>
             <p className="font-semibold text-sm text-gray-200">알바력</p>
           </div>
         </div>
 
-        <div>
+        <div className="relative">
           <img src="/icons/energyBar.svg" alt="에너지바" className="pb-6" />
+          <img
+            src="/icons/energyBar2.svg"
+            alt="에너지률"
+            className=" w-16 absolute left-4 top-0 h-6"
+          />
         </div>
       </div>
 
