@@ -5,24 +5,24 @@ Button.propTypes = {
   onClick: PropTypes.func,
   color: PropTypes.string,
   height: PropTypes.string,
-  width: PropTypes.number,
   type: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default function Button({
   children = "버튼",
   onClick,
   color = "purple",
-  width = 92,
   height = "sm",
   type = "button",
+  className = "w-full",
 }) {
   let combinedClassName = "";
 
   // 색
   switch (color) {
     case "purple": {
-      combinedClassName += " bg-primary text-white font-bold  rounded";
+      combinedClassName += " bg-primary text-white font-bold rounded";
       break;
     }
     case "white": {
@@ -67,9 +67,8 @@ export default function Button({
 
   return (
     <button
-      className={`${combinedClassName}`}
+      className={`${combinedClassName} ${className}`}
       onClick={onClick}
-      style={{ width: `${width}px` }}
       type={type}
     >
       {children}
