@@ -15,16 +15,16 @@ export default function Footer() {
     },
     {
       name: "likeList",
-      icon: "/icons/footer/likeList.svg",
-      activeIcon: "/icons/footer/purpleLikeList.svg",
+      icon: "/icons/footer/heart.svg",
+      activeIcon: "/icons/footer/purpleHeart.svg",
       label: "찜 목록",
       path: "/myPage/likeList",
     },
     {
       name: "review",
-      icon: "/icons/footer/footerStar.svg",
-      activeIcon: "/icons/footer/purpleStar.svg",
-      label: "리뷰",
+      icon: "/icons/footer/history.svg",
+      activeIcon: "/icons/footer/purpleHistory.svg",
+      label: "알바 내역",
       path: "/review",
     },
     {
@@ -37,23 +37,23 @@ export default function Footer() {
   ];
 
   return (
-    <div className="flex justify-between items-center h-[60px] px-12 screen-425:px-0 border-gray-100 border-t-2">
+    <div className="fixed left-1/2 bottom-0 flex w-full h-[60px] bg-white -translate-x-1/2 max-w-screen-sm cursor-pointer">
       {tabs.map(tab => (
         <div
           key={tab.name}
-          className="flex flex-col items-center cursor-pointer transition-all duration-100 flex-shrink-0"
+          className="flex-1 flex justify-end flex-col items-center"
           onClick={() => {
             setActive(tab.name);
             navigate(tab.path);
           }}
         >
           <img
+            className="size-6 mb-[2px]"
             src={active === tab.name ? tab.activeIcon : tab.icon}
             alt={tab.name}
-            className="w-[24px] h-[24px]"
           />
           <h3
-            className={`text-[10px] whitespace-nowrap ${
+            className={`mb-[9px] text-[10px] ${
               active === tab.name ? "text-primary" : "text-gray-500"
             } transition-all duration-100`}
           >
