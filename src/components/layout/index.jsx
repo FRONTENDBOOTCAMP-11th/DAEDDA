@@ -6,7 +6,9 @@ export default function Layout() {
   return (
     <>
       <MainHeader />
-      <Outlet />
+      <main className="my-[80px]">
+        <Outlet />
+      </main>
       <Footer />
     </>
   );
