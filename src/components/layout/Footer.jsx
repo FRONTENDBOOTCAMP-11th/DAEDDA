@@ -37,7 +37,7 @@ export default function Footer() {
   ];
 
   return (
-    <div className="fixed left-0 bottom-0 flex w-full h-[60px] bg-white">
+    <div className="fixed left-1/2 bottom-0 flex w-full h-[60px] bg-white -translate-x-1/2 max-w-screen-sm">
       {tabs.map(tab => (
         <div
           key={tab.name}
