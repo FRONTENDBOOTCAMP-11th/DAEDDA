@@ -51,10 +51,10 @@ export default function Header() {
 
   if (headerMatch) {
     return (
-      <header className="relative w-full h-[60px] flex items-center justify-center border-b border-gray-200 mb-5">
+      <header className="w-full h-[60px] flex items-center justify-center border-b border-gray-200 mb-5 fixed top-0 max-w-screen-sm left-1/2 -translate-x-1/2 bg-white px-6">
         <img
           src="/icons/back.svg"
-          className="absolute left-0 w-6 h-6 hover:cursor-pointer"
+          className="absolute left-[16px] w-6 h-6 hover:cursor-pointer"
         />
         <div className="w-full text-center text-[24px] font-bold">
           {getTitle()}
