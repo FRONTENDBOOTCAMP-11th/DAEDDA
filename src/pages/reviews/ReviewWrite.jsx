@@ -29,7 +29,7 @@ export default function ReviewWrite() {
           placeholder="내용을 입력해 주세요."
           isLast={true}
         />
-        <p className="text-[18px] font-semibold mt-8 mb-4">
+        <p className="text-[18px] font-semibold mt-8 mb-4fe">
           받을 금액: 64,000원
         </p>
         <Button type="submit" height="lg">
