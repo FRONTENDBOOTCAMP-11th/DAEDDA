@@ -38,6 +38,10 @@ export default function Button({
       combinedClassName += "bg-gray-200 text-white font-bold rounded";
       break;
     }
+    case "yellow": {
+      combinedClassName += "bg-yellow-100 text-white font-bold rounded";
+      break;
+    }
     default:
       break;
   }
