@@ -15,14 +15,12 @@ export default function Likes() {
         </div>
 
         <div className="flex items-center">
-          <div>
-            <div className="flex gap-2 ">
-              <p className="text-secondary font-semibold">시급</p>
+          <div className="font-semibold">
+            <div className="flex gap-2">
+              <p className="text-secondary">시급</p>
               <p>15,000원</p>
             </div>
-            <p className="text-beige-500 font-semibold text-xs pb-3">
-              1시간 전
-            </p>
+            <p className="text-beige-500 text-xs pb-3">1시간 전</p>
           </div>
           <button className="rounded-2xl border border-primary ml-auto">
             <div className="flex gap-1 px-2 items-center">
@@ -47,14 +45,12 @@ export default function Likes() {
         </div>
 
         <div className="flex items-center">
-          <div>
-            <div className="flex gap-2 ">
-              <p className="text-secondary font-semibold">시급</p>
+          <div className="font-semibold">
+            <div className="flex gap-2">
+              <p className="text-secondary">시급</p>
               <p>15,000원</p>
             </div>
-            <p className="text-beige-500 font-semibold text-xs pb-3">
-              1시간 전
-            </p>
+            <p className="text-beige-500 text-xs pb-3">1시간 전</p>
           </div>
           <button className="rounded-2xl border border-primary ml-auto">
             <div className="flex gap-1 px-2 items-center">
@@ -79,14 +75,12 @@ export default function Likes() {
         </div>
 
         <div className="flex items-center">
-          <div>
-            <div className="flex gap-2 ">
-              <p className="text-secondary font-semibold">시급</p>
+          <div className="font-semibold">
+            <div className="flex gap-2">
+              <p className="text-secondary">시급</p>
               <p>15,000원</p>
             </div>
-            <p className="text-beige-500 font-semibold text-xs pb-3">
-              1시간 전
-            </p>
+            <p className="text-beige-500 text-xs pb-3">1시간 전</p>
           </div>
           <button className="rounded-2xl border border-primary ml-auto">
             <div className="flex gap-1 px-2 items-center">
@@ -111,14 +105,12 @@ export default function Likes() {
         </div>
 
         <div className="flex items-center">
-          <div>
-            <div className="flex gap-2 ">
-              <p className="text-secondary font-semibold">시급</p>
+          <div className="font-semibold">
+            <div className="flex gap-2">
+              <p className="text-secondary">시급</p>
               <p>15,000원</p>
             </div>
-            <p className="text-beige-500 font-semibold text-xs pb-3">
-              1시간 전
-            </p>
+            <p className="text-beige-500 text-xs pb-3">1시간 전</p>
           </div>
           <button className="rounded-2xl border border-primary ml-auto">
             <div className="flex gap-1 px-2 items-center">
