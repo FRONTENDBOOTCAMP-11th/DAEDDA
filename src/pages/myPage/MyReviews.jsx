@@ -2,16 +2,16 @@ export default function MyReviews() {
   return (
     <div>
       <p>후기 2개</p>
-      <div className="shadow-custom-shadow rounded-3xl px-5 pt-4">
-        <div className="flex">
+      <div className="shadow-custom-shadow rounded-3xl px-5 pt-4 pb-8">
+        <div className="flex gap-1">
           <div>
-            <div className="flex">
+            <div className="flex gap-5">
               <img
                 src="/src/assets/images/smiling_daeddamon.png"
                 alt=""
                 className="size-10"
               />
-              <div>
+              <div className="max-w-[440px]">
                 <p>리뷰 쓴 사람</p>
                 <p>별</p>
                 <p>
