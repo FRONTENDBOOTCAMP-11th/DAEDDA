@@ -4,7 +4,7 @@ import InputField from "@components/layout/InputField";
 export default function ReviewWrite() {
   return (
     <div>
-      <div className="flex justify-between mb-4">
+      <div className="flex justify-between mb-4 flex-wrap">
         <h2 className="text-[20px] font-semibold">
           내가 일한 장소 : 소문난손칼국수 밀면
         </h2>
