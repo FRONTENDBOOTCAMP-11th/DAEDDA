@@ -1,3 +1,5 @@
+import Button from "@components/layout/Button";
+
 export default function MyReviews() {
   return (
     <div>
@@ -26,7 +28,9 @@ export default function MyReviews() {
               </div>
             </div>
           </div>
-          <button>신고하기</button>
+          <Button height="xs" color="white" className="w-[47px]">
+            신고하기
+          </Button>
         </div>
       </div>
     </div>
