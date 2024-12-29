@@ -25,7 +25,7 @@ export default function ReviewWrite() {
 
       <div className="p-4 rounded-3xl shadow-custom-shadow mb-5 relative">
         <div className="w-[83px] absolute top-4 right-4">
-          <Button color="white" width="xl" height="sm">
+          <Button color="white" height="sm">
             취소
           </Button>
         </div>
@@ -35,14 +35,14 @@ export default function ReviewWrite() {
           <p>64,000원</p>
           <p>12/7 (화)ㆍ10:00 ~ 16:00</p>
         </div>
-        <Button color="purple" height="md" className="mb-0">
+        <Button color="purple" height="md">
           리뷰 작성하기
         </Button>
       </div>
 
       <div className="p-4 rounded-3xl shadow-custom-shadow mb-5 relative">
         <div className="w-[83px] absolute top-4 right-4">
-          <Button color="white" width="xl" height="sm">
+          <Button color="white" height="sm">
             취소
           </Button>
         </div>
@@ -52,7 +52,7 @@ export default function ReviewWrite() {
           <p>90,000원</p>
           <p>12/19 (목)ㆍ10:00 ~ 16:00</p>
         </div>
-        <Button color="white" height="md" className="mb-0">
+        <Button color="gray" height="md">
           리뷰 작성하기
         </Button>
       </div>
