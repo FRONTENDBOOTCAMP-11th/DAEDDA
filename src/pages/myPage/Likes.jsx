@@ -2,8 +2,8 @@ export default function Likes() {
   return (
     <>
       <div className="shadow-custom-shadow rounded-3xl px-6 pt-4 mb-8">
-        <div className="flex ">
-          <p className="text-sm">기장대게 할인 마트</p>
+        <div className="flex items-center ">
+          <p className="text-sm mt-1">기장대게 할인 마트</p>
           <img src="/icons/likes.svg" alt="찜하기 버튼" className="ml-auto" />
         </div>
         <p className="text-lg font-bold">
@@ -34,8 +34,8 @@ export default function Likes() {
       </div>
 
       <div className="shadow-custom-shadow rounded-3xl px-6 pt-4 mb-8">
-        <div className="flex ">
-          <p className="text-sm">기장대게 할인 마트</p>
+        <div className="flex items-center ">
+          <p className="text-sm mt-1">기장대게 할인 마트</p>
           <img src="/icons/likes.svg" alt="찜하기 버튼" className="ml-auto" />
         </div>
         <p className="text-lg font-bold">
@@ -66,8 +66,8 @@ export default function Likes() {
       </div>
 
       <div className="shadow-custom-shadow rounded-3xl px-6 pt-4 mb-8">
-        <div className="flex ">
-          <p className="text-sm">기장대게 할인 마트</p>
+        <div className="flex items-center ">
+          <p className="text-sm mt-1">기장대게 할인 마트</p>
           <img src="/icons/likes.svg" alt="찜하기 버튼" className="ml-auto" />
         </div>
         <p className="text-lg font-bold">
@@ -98,8 +98,8 @@ export default function Likes() {
       </div>
 
       <div className="shadow-custom-shadow rounded-3xl px-6 pt-4 mb-8">
-        <div className="flex ">
-          <p className="text-sm">기장대게 할인 마트</p>
+        <div className="flex items-center ">
+          <p className="text-sm mt-1">기장대게 할인 마트</p>
           <img src="/icons/likes.svg" alt="찜하기 버튼" className="ml-auto" />
         </div>
         <p className="text-lg font-bold">
