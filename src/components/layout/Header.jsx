@@ -5,23 +5,46 @@ export default function Header() {
   const prIdEdit = useMatch("pr/:_id/edit");
   const prWrite = useMatch("pr/write");
   const userTerms = useMatch("user/terms");
+  const signUp = useMatch("user/signUp");
   const myPageEdit = useMatch("myPage/edit");
   const myPageMyReviews = useMatch("myPage/myReviews");
-  const myPlace = useMatch("myPlace");
-  const myPerson = useMatch("myPerson");
+  const reviewWrite = useMatch("review/write");
   const mainWrite = useMatch("main/write");
   const mainID = useMatch("main/:_id");
   const mainIDEdit = useMatch("main/:_id/edit");
+
+  // 현재 url과 useMatch("pr/write")(=>prWrite) 와 일치한다면 pathname~,,등등 반환 불일치시 null 반환
+  // titles 배열에 일치할 때 title을 미리 정의해두었다가 getTitle을 통해 title 반환
+
+  const titles = [
+    { match: prWrite, title: "공고 지원 글 작성" },
+    { match: prId, title: "공고 지원 상세" },
+    { match: prIdEdit, title: "공고 지원 수정" },
+    { match: userTerms, title: "약관 동의" },
+    { match: signUp, title: "회원 정보 입력" },
+    { match: myPageEdit, title: "회원 정보 수정" },
+    { match: myPageMyReviews, title: "내가 받은 리뷰" },
+    { match: mainWrite, title: "글쓰기" },
+    { match: mainID, title: "공고 상세 페이지" },
+    { match: mainIDEdit, title: "공고 상세 수정" },
+    { match: reviewWrite, title: "리뷰 작성" },
+  ];
+
+  const getTitle = () => {
+    // match가 null이 아닌 것의 title을 반환, null이면 undefined
+    const matchedTitle = titles.find(({ match }) => match)?.title;
+    return matchedTitle;
+  };
 
   const headerMatch =
     prId ||
     prIdEdit ||
     prWrite ||
     userTerms ||
+    signUp ||
     myPageEdit ||
     myPageMyReviews ||
-    myPlace ||
-    myPerson ||
+    reviewWrite ||
     mainWrite ||
     mainID ||
     mainIDEdit;
@@ -33,7 +56,9 @@ export default function Header() {
           src="/icons/back.svg"
           className="absolute left-0 w-6 h-6 hover:cursor-pointer"
         />
-        <div className="w-full text-center text-[24px] font-bold">제목</div>
+        <div className="w-full text-center text-[24px] font-bold">
+          {getTitle()}
+        </div>
       </header>
     );
   }
