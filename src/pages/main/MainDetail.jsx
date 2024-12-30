@@ -115,7 +115,7 @@ export default function MainDetail() {
           <div className="flex gap-2">
             <div className="w-[92px]">
               <Button color="purple" width="xl" height="sm">
-                취소
+                채택
               </Button>
             </div>
             <div className="w-[92px]">
