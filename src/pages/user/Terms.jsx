@@ -47,7 +47,7 @@ export default function Terms() {
           </label>
         </div>
         <p className="my-5 text-red">* 미동의 텍스트</p>
-        <Button color="purple" height="lg">
+        <Button color="purple" height="lg" className="mb-2 w-full">
           계속
         </Button>
         <Button color="white" height="lg">
