@@ -1,6 +1,27 @@
 import Button from "@components/layout/Button";
+import { useState } from "react";
 
 export default function Terms() {
+  // 초기 상태
+  const [allChecked, setAllChecked] = useState(false);
+  const [individualChecked, setIndividualChecked] = useState([false, false]);
+
+  // 전체 동의시 모두 체크
+  const handleAllCheck = e => {
+    const isChecked = e.target.checked;
+    setAllChecked(isChecked);
+    setIndividualChecked([isChecked, isChecked]);
+  };
+
+  const handleIndividual = index => e => {
+    const isChecked = e.target.checked;
+
+    // 불변성을 위해 새로운 배열로 복사 후 처리
+    const newIndividual = [...individualChecked];
+
+    if (newIndividual)
+  };
+
   return (
     <div className="flex flex-col mb-[40px]">
       <div className="flex justify-center w-full">
@@ -19,8 +40,10 @@ export default function Terms() {
         <div className="flex gap-6 items-center py-5 border-b-2">
           <input
             type="checkbox"
-            id="check-all"
             className="accent-primary border-primary w-5 h-5"
+            id="check-all"
+            checked={allChecked}
+            onChange={handleAllCheck}
           ></input>
           <label htmlFor="check-all" className="font-semibold text-base">
             전체 동의
@@ -29,20 +52,24 @@ export default function Terms() {
         <div className="flex items-center gap-6 py-5">
           <input
             type="checkbox"
-            id="check-all"
             className="accent-primary border-primary w-5 h-5"
+            checked={individualChecked[0]}
+            onChange={handleIndividual}
+            id="check-1"
           ></input>
-          <label htmlFor="check-all" className="text-base">
+          <label htmlFor="check-1" className="text-base">
             <strong>(필수)</strong> 서비스 이용 약관 동의
           </label>
         </div>
         <div className="flex items-center gap-6 py-5">
           <input
             type="checkbox"
-            id="check-all"
             className="accent-primary border-primary w-5 h-5"
+            checked={individualChecked[1]}
+            onChange={handleIndividual}
+            id="check-2"
           ></input>
-          <label htmlFor="check-all" className="text-base">
+          <label htmlFor="check-2" className="text-base">
             <strong>(필수)</strong> 서비스 이용 약관 동의
           </label>
         </div>
