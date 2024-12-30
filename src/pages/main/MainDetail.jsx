@@ -122,7 +122,7 @@ export default function MainDetail() {
                 </div>
               </div>
             </section>
-            <div className="flex justify-end gap-2 h-[32px]">
+            <div className="flex justify-end gap-2 h-[60px]">
               <div className="w-[120px]">
                 <Button color="purple" width="xl" height="sm">
                   채택
