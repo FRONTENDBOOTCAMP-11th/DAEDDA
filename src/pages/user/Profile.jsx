@@ -27,16 +27,17 @@ export default function Profile() {
           </div>
         </div>
 
-        <div className="relative h-8 ">
+        <div className="relative h-6 w-full">
           <img
             src="/icons/energyBar.svg"
             alt="에너지바"
-            className="w-full h-full absolute"
+            className="w-full h-full absolute object-cover rounded-3xl "
           />
+
           <img
             src="/icons/energyBar2.svg"
             alt="에너지률"
-            className=" w-[70%] absolute left-4 top-0 h-full object-contain aspect-auto rounded-3xl"
+            className=" w-[40%] absolute  top-0 h-full object-cover aspect-auto rounded-3xl"
           />
         </div>
       </div>
