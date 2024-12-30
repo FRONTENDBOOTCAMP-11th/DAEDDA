@@ -1,7 +1,6 @@
 import { useMatch, useNavigate } from "react-router-dom";
 
 export default function Footer() {
-  const [active, setActive] = useState("home");
   const navigate = useNavigate();
 
   const mainPage = useMatch("/");
@@ -54,31 +53,32 @@ export default function Footer() {
     },
   ];
 
-  return (
-    <div className="flex justify-between items-center h-[60px] px-12 screen-425:px-0 border-gray-100 border-t-2">
-      {tabs.map(tab => (
-        <div
-          key={tab.name}
-          className="flex flex-col items-center cursor-pointer transition-all duration-100 flex-shrink-0"
-          onClick={() => {
-            setActive(tab.name);
-            navigate(tab.path);
-          }}
-        >
-          <img
-            src={active === tab.name ? tab.activeIcon : tab.icon}
-            alt={tab.name}
-            className="w-[24px] h-[24px]"
-          />
-          <h3
-            className={`text-[10px] whitespace-nowrap ${
-              active === tab.name ? "text-primary" : "text-gray-500"
-            } transition-all duration-100`}
+  if (footerMatch) {
+    return (
+      <div className="fixed left-1/2 bottom-0 flex w-full h-[60px] bg-white -translate-x-1/2 max-w-screen-sm cursor-pointer">
+        {tabs.map(tab => (
+          <div
+            key={tab.name}
+            className="flex-1 flex justify-end flex-col items-center"
+            onClick={() => {
+              navigate(tab.path);
+            }}
           >
-            {tab.label}
-          </h3>
-        </div>
-      ))}
-    </div>
-  );
+            <img
+              className="size-6 mb-[2px]"
+              src={tab.match ? tab.activeIcon : tab.icon}
+              alt={tab.name}
+            />
+            <h3
+              className={`mb-[9px] text-[10px] ${
+                tab.match ? "text-primary" : "text-gray-500"
+              } transition-all duration-100`}
+            >
+              {tab.label}
+            </h3>
+          </div>
+        ))}
+      </div>
+    );
+  }
 }
