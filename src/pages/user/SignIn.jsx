@@ -30,7 +30,7 @@ export default function SignIn() {
         로그인
       </Button>
 
-      <div className="w-full relative">
+      <div className="w-full relative mt-2">
         <img src="/icons/kakao.svg" className="absolute top-3 left-2 w-6 h-6" />
         <Button color="yellow" height="lg">
           카카오 로그인
