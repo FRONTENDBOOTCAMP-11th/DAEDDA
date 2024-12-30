@@ -22,7 +22,9 @@ export default function MyPage() {
             />
             <div className="flex flex-col  mb-[14px]">
               <p className="font-semibold text-xl">70%</p>
-              <p className="font-semibold text-sm text-gray-200">알바력</p>
+              <p className="font-semibold text-sm text-beige-500 tracking-wide">
+                알바력
+              </p>
             </div>
           </div>
 
@@ -43,10 +45,18 @@ export default function MyPage() {
         <div className="myPage-container pb-4">
           <p className="mb-3 text-2xl font-bold pt-6">나의 활동</p>
           <div>
-            <MyPageList label="관심 목록" icon="heart" />
-            <MyPageList label="회원 정보" icon="userInfo" />
-            <MyPageList label="인증 뱃지" icon="badge" />
-            <MyPageList label="내가 받은 리뷰" icon="review" />
+            <MyPageList label="관심 목록" icon="heart" className="mt-[2px]" />
+            <MyPageList
+              label="회원 정보"
+              icon="userInfo"
+              className="mb-[2px]"
+            />
+            <MyPageList label="인증 뱃지" icon="badge" className="mt-[1px]" />
+            <MyPageList
+              label="내가 받은 리뷰"
+              icon="review"
+              className="mt-[2px]"
+            />
           </div>
         </div>
 
@@ -55,7 +65,7 @@ export default function MyPage() {
           <div>
             <MyPageList label="고객 센터" icon="customerSupport" />
             <MyPageList label="의견 남기기" icon="opnion" />
-            <MyPageList label="약관 및 정책" icon="terms" />
+            <MyPageList label="약관 및 정책" icon="terms" className="" />
           </div>
         </div>
       </div>
