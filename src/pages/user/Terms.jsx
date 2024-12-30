@@ -19,7 +19,17 @@ export default function Terms() {
     // 불변성을 위해 새로운 배열로 복사 후 처리
     const newIndividual = [...individualChecked];
 
-    if (newIndividual)
+    // 체크 확인
+    newIndividual[index] = isChecked;
+
+    // 상태 변경
+    setIndividualChecked(newIndividual);
+
+    if (newIndividual[0] && newIndividual[1]) {
+      setAllChecked(true);
+    } else {
+      setAllChecked(false);
+    }
   };
 
   return (
@@ -54,7 +64,7 @@ export default function Terms() {
             type="checkbox"
             className="accent-primary border-primary w-5 h-5"
             checked={individualChecked[0]}
-            onChange={handleIndividual}
+            onChange={handleIndividual(0)}
             id="check-1"
           ></input>
           <label htmlFor="check-1" className="text-base">
@@ -66,7 +76,7 @@ export default function Terms() {
             type="checkbox"
             className="accent-primary border-primary w-5 h-5"
             checked={individualChecked[1]}
-            onChange={handleIndividual}
+            onChange={handleIndividual(1)}
             id="check-2"
           ></input>
           <label htmlFor="check-2" className="text-base">
