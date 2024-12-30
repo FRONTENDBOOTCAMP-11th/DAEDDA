@@ -7,7 +7,7 @@ import PRWrite from "@pages/pr/PRWrite";
 import SignIn from "@pages/user/SignIn";
 import SignUp from "@pages/user/SignUp";
 import Terms from "@pages/user/Terms";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import MyReviews from "@pages/myPage/MyReviews";
 import Layout from "@components/layout";
 import MainDetail from "@pages/main/MainDetail";
@@ -16,6 +16,8 @@ import MainWrite from "@pages/main/MainWrite";
 import MainEdit from "@pages/main/MainEdit";
 import ReviewList from "@pages/reviews/ReviewList";
 import ReviewWrite from "@pages/reviews/ReviewWrite";
+import MyPlace from "@pages/reviews/MyPlace";
+import MyPerson from "@pages/reviews/MyPerson";
 
 const router = createBrowserRouter(
   [
@@ -29,7 +31,18 @@ const router = createBrowserRouter(
         { path: "main/:_id", element: <MainDetail /> },
         { path: "main/:_id/edit", element: <MainEdit /> },
 
-        { path: "review", element: <ReviewList /> },
+        {
+          path: "review",
+          element: <ReviewList />,
+          children: [
+            {
+              index: true,
+              element: <Navigate to="myPlace" replace />,
+            },
+            { path: "myPlace", element: <MyPlace /> },
+            { path: "myPerson", element: <MyPerson /> },
+          ],
+        },
         { path: "review/write", element: <ReviewWrite /> },
 
         { path: "pr/write", element: <PRWrite /> },
@@ -45,6 +58,7 @@ const router = createBrowserRouter(
         { path: "user/terms", element: <Terms /> },
       ],
     },
+
     {
       path: "user/signIn",
       element: <SignIn />,
