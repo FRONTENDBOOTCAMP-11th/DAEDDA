@@ -8,7 +8,7 @@ export default function PRDetail() {
           카카오 프론트엔드 개발자 지원합니다. 열심히 하겠습니다.
         </h2>
 
-        <div className="flex gap-2 screen-425:mt-2">
+        <div className="flex gap-2 screen-425:mt-3 screen-425:m-auto">
           <div className="w-[92px]">
             <Button color="purple" width="xl" height="sm">
               수정
