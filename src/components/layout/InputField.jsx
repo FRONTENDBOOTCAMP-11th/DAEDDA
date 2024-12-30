@@ -16,7 +16,6 @@ export default function InputField({
   placeholder = "",
   errorMsg = "",
   isLast = false,
-  isTextArea = false,
 }) {
   // type에 따라 전달할 props 객체를 다르게 저장하는 변수
   const dateTypeProps =
@@ -34,20 +33,10 @@ export default function InputField({
   return (
     <div>
       {labelName && <p className="text-base font-semibold mb-2">{labelName}</p>}
-
-      {isTextArea ? (
-        <textarea
-          {...dateTypeProps}
-          className={`w-full p-3 border-2 border-#999 rounded-lg focus:outline-none focus:border-primary ${errorMsg ? "mb-2" : isLast ? "" : "mb-[28px]"}`}
-          rows={10}
-        />
-      ) : (
-        <input
-          {...dateTypeProps}
-          className={`w-full h-[48px] p-3 border-2 border-#999 rounded-lg focus:outline-none focus:border-primary ${errorMsg ? "mb-2" : isLast ? "" : "mb-[28px]"}`}
-        />
-      )}
-
+      <input
+        {...dateTypeProps}
+        className={`w-full h-[48px] p-3 border-2 border-#999 rounded-lg focus:outline-none focus:border-primary ${errorMsg ? "mb-2" : isLast ? "" : "mb-[28px]"}`}
+      />
       {errorMsg && (
         <p
           className={`text-red text-xs ${isLast ? "" : "mb-2"}`}
