@@ -2,11 +2,11 @@ import Button from "@components/layout/Button";
 
 export default function Terms() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mb-[40px]">
       <div className="flex justify-center w-full">
         <img
           src="/src/assets/logos/logo.png"
-          className="max-w-full h-[100px] mb-6"
+          className="max-w-full h-[70px] mb-6"
         />
       </div>
       <h1 className="text-[32px] mb-6">환영합니다!</h1>
