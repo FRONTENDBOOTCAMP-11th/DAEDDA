@@ -15,6 +15,28 @@ export default function MainWrite() {
       </div>
 
       <fieldset>
+        <label htmlFor="photo" className="text-[16px] font-bold">
+          근무지 사진
+        </label>
+        <label
+          htmlFor="image-upload"
+          className="mt-2 w-[136px] h-[136px] flex items-center justify-center rounded-lg border border-dashed cursor-pointer"
+        >
+          <img src="/public/icons/plus.svg" className="w-5 h-5" />
+        </label>
+
+        <input
+          type="file"
+          id="image-upload"
+          accept="image/*"
+          className="hidden"
+        />
+        <div className="my-2">
+          <p className="text-red text-[12px]">*사진 1장은 필수 입니다.</p>
+        </div>
+      </fieldset>
+
+      <fieldset>
         <legend className="text-[16px] font-bold mb-2">위치</legend>
         <div className="max-w-screen-sm h-24 bg-slate-500 mb-7 rounded-lg flex items-center justify-center">
           지도

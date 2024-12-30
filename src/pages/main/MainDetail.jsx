@@ -25,7 +25,16 @@ export default function MainDetail() {
       </section>
 
       <section className="mt-7">
-        <h2 className="font-bold mb-4">근무지 정보</h2>
+        <h2 className="font-bold mb-4">근무지 사진</h2>
+        <div className="mt-2 mb-7 w-[136px] h-[136px] flex bg-slate-600 items-center justify-center rounded-lg cursor-pointer">
+          <img
+            src=""
+            alt="업로드된 이미지"
+            className="w-full h-full object-cover rounded-lg"
+          />
+        </div>
+
+        <h2 className="font-bold mb-4">위치</h2>
         <div className="w-full h-40 bg-slate-600 rounded-lg"></div>
         <div className="mt-4 sm:whitespace-normal md:whitespace-nowrap">
           제주특별자치도 제주시 첨단로 242 (우)63309
