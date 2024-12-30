@@ -80,55 +80,55 @@ export default function MainDetail() {
         </div>
 
         <div className="my-4 border-t border-gray-200">
-          <div className="flex items-center mt-7 justify-between flex-wrap ">
-            <section className="flex items-center ml-3">
+          <div className="flex items-center mt-7 justify-between flex-wrap screen-530:justify-center ">
+            <section className="flex ml-3">
               <img
                 src="/src/assets/images/smiling_daeddamon.png"
-                className="w-12 h-12"
+                className="w-24 h-24"
                 alt="스마일 대따몬"
               />
               <div className="ml-3 flex flex-col">
-                <div className="flex items-center">
-                  <h2 className="font-bold ml-5">닉네임</h2>
-                  <h2 className="flex font-light ml-5">2024/12/25</h2>
+                <div className="flex items-center screen-530:flex-wrap">
+                  <h2 className="font-bold ml-4">닉네임</h2>
+                  <h2 className="flex font-light ml-4">2024/12/25</h2>
                 </div>
-                <div className="flex items-center ml-5">
-                  <img
-                    src="/icons/reviews/star.svg"
-                    className="w-5 h-5 mt-1"
-                    alt="star"
-                  />
-                  <img
-                    src="/icons/reviews/star.svg"
-                    className="w-5 h-5 mt-1"
-                    alt="star"
-                  />
-                  <img
-                    src="/icons/reviews/star.svg"
-                    className="w-5 h-5 mt-1"
-                    alt="star"
-                  />
-                  <img
-                    src="/icons/reviews/star.svg"
-                    className="w-5 h-5 mt-1"
-                    alt="star"
-                  />
-                  <img
-                    src="/icons/reviews/star.svg"
-                    className="w-5 h-5 mt-1"
-                    alt="star"
-                  />
-                  <div className="font-bold text-xl ml-2 h-6">5</div>
+                <div className="pt-2 flex-col flex pb-6">
+                  <div className="flex gap-4 ml-4">
+                    <img
+                      src="/icons/power.svg"
+                      alt="알바력"
+                      className="w-fit size-8 mt-1"
+                    />
+                    <div className="flex flex-col  mb-[4px]">
+                      <p className="font-semibold text-[16px]">70%</p>
+                      <p className="font-semibold text-[14px] text-gray-200">
+                        알바력
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="relative h-3">
+                    <img
+                      src="/icons/energyBar.svg"
+                      alt="에너지바"
+                      className="w-full h-full absolute"
+                    />
+                    <img
+                      src="/icons/energyBar2.svg"
+                      alt="에너지률"
+                      className=" w-[70%] absolute left-4 top-0 h-full object-contain aspect-auto rounded-3xl"
+                    />
+                  </div>
                 </div>
               </div>
             </section>
-            <div className="flex justify-end gap-2 mt-5 h-[32px]">
-              <div className="w-[92px]">
+            <div className="flex justify-end gap-2 h-[32px]">
+              <div className="w-[120px]">
                 <Button color="purple" width="xl" height="sm">
                   채택
                 </Button>
               </div>
-              <div className="w-[92px]">
+              <div className="w-[120px]">
                 <Button color="red" width="2xl" height="sm">
                   취소
                 </Button>
