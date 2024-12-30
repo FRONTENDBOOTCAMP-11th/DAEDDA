@@ -50,7 +50,6 @@ export default function InputField({
           {...props}
         />
       )}
-
       {errorMsg && (
         <p
           className={`text-red text-xs ${isLast ? "" : "mb-2"}`}
