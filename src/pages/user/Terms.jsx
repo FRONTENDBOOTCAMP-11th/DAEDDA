@@ -94,8 +94,16 @@ export default function Terms() {
             <strong>(필수)</strong> 서비스 이용 약관 동의
           </label>
         </div>
-        <p className="my-5 text-red">* 약관에 모두 동의 해야 합니다.</p>
-        <Button color="purple" height="lg" className="mb-2 w-full">
+
+        <p className={`my-5 text-red ${showError ? "visible" : "invisible"}`}>
+          * 약관에 모두 동의 해야 합니다.
+        </p>
+        <Button
+          color="purple"
+          height="lg"
+          className="mb-2 w-full"
+          type="submit"
+        >
           계속
         </Button>
         <Button color="white" height="lg">
