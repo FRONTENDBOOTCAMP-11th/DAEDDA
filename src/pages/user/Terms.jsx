@@ -1,11 +1,14 @@
 import Button from "@components/layout/Button";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Terms() {
-  // 초기 상태
+  // 초기 상태 - 전체, 개별, errorMsg
   const [allChecked, setAllChecked] = useState(false);
   const [individualChecked, setIndividualChecked] = useState([false, false]);
   const [showError, setShowError] = useState(false);
+
+  const navigate = useNavigate();
 
   // 전체 동의시 모두 체크
   const handleAllCheck = e => {
@@ -20,10 +23,8 @@ export default function Terms() {
     // 불변성을 위해 새로운 배열로 복사 후 처리
     const newIndividual = [...individualChecked];
 
-    // 체크 확인
+    // 체크 확인 후 상태 변경
     newIndividual[index] = isChecked;
-
-    // 상태 변경
     setIndividualChecked(newIndividual);
 
     if (newIndividual[0] && newIndividual[1]) {
@@ -36,11 +37,16 @@ export default function Terms() {
   const handleSubmit = e => {
     e.preventDefault();
 
+    // 전체 체크가 되었으면 이동, 아니라면 errorMsg 출력
     if (allChecked) {
       console.log("ok");
     } else {
-      setShowError(true);
+      navigate("/user/signUp");
     }
+  };
+
+  const handleCancel = () => {
+    navigate("/user/signIn");
   };
 
   return (
@@ -95,9 +101,9 @@ export default function Terms() {
           </label>
         </div>
 
-        <p className={`my-5 text-red ${showError ? "visible" : "invisible"}`}>
-          * 약관에 모두 동의 해야 합니다.
-        </p>
+        <div className={`${showError ? "visible" : "invisible"}`}>
+          <p className={`my-5 text-red`}>* 약관에 모두 동의 해야 합니다.</p>
+        </div>
         <Button
           color="purple"
           height="lg"
@@ -106,7 +112,7 @@ export default function Terms() {
         >
           계속
         </Button>
-        <Button color="white" height="lg">
+        <Button color="white" height="lg" onClick={handleCancel}>
           취소
         </Button>
       </form>
