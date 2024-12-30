@@ -18,12 +18,9 @@ export default function Edit() {
               className="absolute right-2 bottom-2"
             />
           </div>
-          <Button height="md" color="purple" className="w-[144px]">
+          <Button height="md" color="purple" className="w-[144px] mb-3">
             save change
           </Button>
-          <button className="bg-primary text-white max-w-[144px] px-6 py-2 rounded-md mx-auto mb-3">
-            save change
-          </button>
         </div>
       </div>
       <InputField
