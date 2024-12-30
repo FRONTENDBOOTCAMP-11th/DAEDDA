@@ -3,7 +3,7 @@ import InputField from "@components/layout/InputField";
 
 export default function MainWrite() {
   return (
-    <form>
+    <form className="mb-[40px]">
       <div className="mt-5">
         <InputField
           labelName="제목"
@@ -14,7 +14,7 @@ export default function MainWrite() {
         />
       </div>
 
-      <fieldset className="mt-7">
+      <fieldset>
         <legend className="text-[16px] font-bold mb-2">위치</legend>
         <div className="max-w-screen-sm h-24 bg-slate-500 mb-7 rounded-lg flex items-center justify-center">
           지도
@@ -24,11 +24,10 @@ export default function MainWrite() {
           id="address"
           placeholder="상세 주소"
           errorMsg="주소 입력은 필수입니다."
-          isLast={true}
         />
       </fieldset>
 
-      <fieldset className="mt-7">
+      <fieldset>
         <InputField
           labelName="근무 조건"
           type="text"
@@ -47,20 +46,15 @@ export default function MainWrite() {
           errorMsg="근무 시간 입력은 필수입니다."
           placeholder="근무 시간은 00:00 - 00:00으로 입력해주세요."
         />
-        <InputField
-          type="date"
-          errorMsg="생년월일 입력은 필수입니다."
-          isLast={true}
-        />
+        <InputField type="date" errorMsg="생년월일 입력은 필수입니다." />
       </fieldset>
 
-      <fieldset className="mt-7">
+      <fieldset>
         <InputField
           type="text"
           labelName="근무 내용"
           id="workTxt"
           errorMsg="근무 내용 입력은 필수입니다."
-          isLast={true}
           isTextArea={true}
         />
       </fieldset>
