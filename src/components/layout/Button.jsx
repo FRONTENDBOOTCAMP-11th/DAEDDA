@@ -35,11 +35,11 @@ export default function Button({
       break;
     }
     case "gray": {
-      combinedClassName += "bg-gray-200 text-white font-bold rounded";
+      combinedClassName += " bg-gray-200 text-white font-bold rounded";
       break;
     }
     case "yellow": {
-      combinedClassName += "bg-yellow-100 text-white font-bold rounded";
+      combinedClassName += " bg-yellow-100 text-white font-bold rounded";
       break;
     }
     default:
@@ -49,7 +49,7 @@ export default function Button({
   // 높이
   switch (height) {
     case "xs": {
-      combinedClassName += "h-6  text-[10px]";
+      combinedClassName += " h-6  text-[10px]";
       break;
     }
     case "sm": {
