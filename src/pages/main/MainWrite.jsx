@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
 
@@ -72,8 +71,4 @@ export default function MainWrite() {
       </div>
     </form>
   );
-=======
-export default function MainWrite() {
-  return <div>mainWrite</div>;
->>>>>>> develop
 }
