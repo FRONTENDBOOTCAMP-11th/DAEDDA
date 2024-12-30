@@ -9,7 +9,7 @@ export default function SignUp() {
         className="w-[150px] h-[150px] mb-3"
       />
       <div>
-        <Button color="purple" height="sm">
+        <Button color="purple" height="sm" className="mb-2">
           <span className="p-2">이미지 선택</span>
         </Button>
       </div>
@@ -22,6 +22,7 @@ export default function SignUp() {
           maxLength="30"
         ></InputField>
       </div>
+
       <div className="w-full">
         <InputField
           type="text"
@@ -66,10 +67,10 @@ export default function SignUp() {
       </div>
 
       <div className="flex gap-6 w-full">
-        <Button color="white" height="md">
+        <Button color="white" height="lg">
           취소
         </Button>
-        <Button color="purple" height="md">
+        <Button color="purple" height="lg">
           계속
         </Button>
       </div>
