@@ -17,7 +17,7 @@ export default function SignIn() {
           maxLength="30"
         ></InputField>
       </div>
-      <div className="relative w-full">
+      <div className="relative w-full mb-5">
         <InputField
           type="password"
           placeholder="비밀번호"
