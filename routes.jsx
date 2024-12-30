@@ -18,6 +18,7 @@ import ReviewList from "@pages/reviews/ReviewList";
 import ReviewWrite from "@pages/reviews/ReviewWrite";
 import MyPlace from "@pages/reviews/MyPlace";
 import MyPerson from "@pages/reviews/MyPerson";
+import Profile from "@pages/user/Profile";
 
 const router = createBrowserRouter(
   [
@@ -56,32 +57,10 @@ const router = createBrowserRouter(
 
         { path: "user/signUp", element: <SignUp /> },
         { path: "user/terms", element: <Terms /> },
+        { path: "user/:_id", element: <Profile /> },
       ],
     },
-    {
-      path: "review",
-      element: <ReviewList />,
-      children: [
-        {
-          index: true,
-          element: <Navigate to="myPlace" replace />,
-        },
-        { path: "myPlace", element: <MyPlace /> },
-        { path: "myPerson", element: <MyPerson /> },
-      ],
-    },
-    {
-      path: "review",
-      element: <ReviewList />,
-      children: [
-        {
-          index: true,
-          element: <Navigate to="myPlace" replace />,
-        },
-        { path: "myPlace", element: <MyPlace /> },
-        { path: "myPerson", element: <MyPerson /> },
-      ],
-    },
+
     {
       path: "user/signIn",
       element: <SignIn />,

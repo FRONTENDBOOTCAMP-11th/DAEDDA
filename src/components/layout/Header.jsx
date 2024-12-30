@@ -12,6 +12,7 @@ export default function Header() {
   const mainWrite = useMatch("main/write");
   const mainID = useMatch("main/:_id");
   const mainIDEdit = useMatch("main/:_id/edit");
+  const userProfile = useMatch("user/:_id");
 
   // 현재 url과 useMatch("pr/write")(=>prWrite) 와 일치한다면 pathname~,,등등 반환 불일치시 null 반환
   // titles 배열에 일치할 때 title을 미리 정의해두었다가 getTitle을 통해 title 반환
@@ -28,6 +29,7 @@ export default function Header() {
     { match: mainID, title: "공고 상세 페이지" },
     { match: mainIDEdit, title: "공고 상세 수정" },
     { match: reviewWrite, title: "리뷰 작성" },
+    { match: userProfile, title: "프로필" },
   ];
 
   const getTitle = () => {
@@ -47,7 +49,8 @@ export default function Header() {
     reviewWrite ||
     mainWrite ||
     mainID ||
-    mainIDEdit;
+    mainIDEdit ||
+    userProfile;
 
   if (headerMatch) {
     return (
