@@ -25,7 +25,7 @@ export default function MainDetail() {
       </section>
 
       <section className="mt-7">
-        <h2 className="font-bold mb-4">근무지 사진</h2>
+        <h2 className="font-bold mb-2">근무지 사진</h2>
         <div className="mt-2 mb-7 w-[136px] h-[136px] flex bg-slate-600 items-center justify-center rounded-lg cursor-pointer">
           <img
             src=""
@@ -34,7 +34,7 @@ export default function MainDetail() {
           />
         </div>
 
-        <h2 className="font-bold mb-4">위치</h2>
+        <h2 className="font-bold mb-2">위치</h2>
         <div className="w-full h-40 bg-slate-600 rounded-lg"></div>
         <div className="mt-4 sm:whitespace-normal md:whitespace-nowrap">
           제주특별자치도 제주시 첨단로 242 (우)63309
@@ -43,7 +43,7 @@ export default function MainDetail() {
 
       <div className="mt-7">
         <section>
-          <h2 className="font-bold mb-4">근무 조건</h2>
+          <h2 className="font-bold mb-2">근무 조건</h2>
 
           <div className="grid custom-375:grid-cols-1 grid-cols-2  gap-6">
             <article className="flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center">
@@ -136,20 +136,20 @@ export default function MainDetail() {
         </div>
         <section>
           <div className="font-bold mt-7">근무 조건</div>
-          <div className="mt-3">
+          <div className="mt-2">
             카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
           </div>
 
           <div className="font-bold mt-7">휴대폰 번호</div>
-          <div className="mt-3">010-xxxx-xxxx</div>
+          <div className="mt-2">010-xxxx-xxxx</div>
 
           <div className="font-bold mt-7">상세 경력</div>
-          <div className="mt-3">
+          <div className="mt-2">
             카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
           </div>
 
           <div className="font-bold mt-7">자신을 표현해주세요!</div>
-          <div className="mt-3">프로젝트에서 말하는 감자를 담당했습니다.</div>
+          <div className="mt-2">프로젝트에서 말하는 감자를 담당했습니다.</div>
         </section>
       </div>
     </div>

@@ -34,7 +34,7 @@ export default function PRDetail() {
       </section>
 
       <section className="mt-7">
-        <h2 className="font-bold mb-4">근무지 정보</h2>
+        <h2 className="font-bold mb-2">근무지 정보</h2>
         <div className="w-full h-40 bg-slate-600 rounded-lg"></div>
         <div className="mt-4 sm:whitespace-normal md:whitespace-nowrap">
           제주특별자치도 제주시 첨단로 242 (우)63309
@@ -44,15 +44,15 @@ export default function PRDetail() {
       <section className="flex p-5 items-center shadow-custom-shadow rounded-3xl mt-6">
         <div>
           <h2 className="font-bold">핸드폰 번호</h2>
-          <h2 className="mt-3">010-xxxx-xxxx</h2>
+          <h2 className="mt-2">010-xxxx-xxxx</h2>
 
           <h2 className="font-bold mt-7">상세 경력</h2>
-          <h2 className="mt-3">
+          <h2 className="mt-2">
             네이버 프론트엔드 개발자로 일한 경력이 있습니다.
           </h2>
 
           <h2 className="font-bold mt-7">자신을 표현해주세요!</h2>
-          <h2 className="mt-3">프로젝트에서 말하는 감자를 담당했습니다.</h2>
+          <h2 className="mt-2">프로젝트에서 말하는 감자를 담당했습니다.</h2>
         </div>
       </section>
     </div>
