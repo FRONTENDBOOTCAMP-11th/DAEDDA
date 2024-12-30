@@ -1,19 +1,31 @@
+import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
 
 export default function Edit() {
   return (
     <>
       <div className=" border-gray-200 border-b mb-5">
-        <img
-          src="/src/assets/images/smiling_daeddamon.png"
-          alt="프로필 이미지"
-          className="size-32 m-auto "
-        />
-        <p className="bg-primary text-white max-w-[144px] px-6 py-2 rounded-md ml-auto  ">
-          save change
-        </p>
+        <div className="flex flex-col items-center justify-center h-full">
+          <div className="relative inline-block">
+            <img
+              src="/src/assets/images/smiling_daeddamon.png"
+              alt="프로필 이미지"
+              className="size-32 mx-auto mb-3 "
+            />
+            <img
+              src="/icons/imgEdit.svg"
+              alt="프로필 이미지 수정"
+              className="absolute right-2 bottom-2"
+            />
+          </div>
+          <Button height="md" color="purple" className="w-[144px]">
+            save change
+          </Button>
+          <button className="bg-primary text-white max-w-[144px] px-6 py-2 rounded-md mx-auto mb-3">
+            save change
+          </button>
+        </div>
       </div>
-
       <InputField
         errorMsg="미입력 알림 텍스트 부분"
         labelName="닉네임"
