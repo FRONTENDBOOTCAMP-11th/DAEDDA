@@ -19,7 +19,7 @@ export default function Edit() {
                 className="absolute right-2 bottom-2"
               />
             </div>
-            <Button height="md" color="purple" className="w-[144px] mb-3">
+            <Button height="sm" color="purple" className="w-32 mb-3">
               save change
             </Button>
           </div>
