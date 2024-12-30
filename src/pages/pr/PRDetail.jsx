@@ -2,13 +2,13 @@ import Button from "@components/layout/Button";
 
 export default function PRDetail() {
   return (
-    <>
-      <section className="flex items-center justify-between">
+    <div className="mb-[40px]">
+      <section className="flex items-center justify-between flex-wrap">
         <h2 className="font-bold">
           카카오 프론트엔드 개발자 지원합니다. 열심히 하겠습니다.
         </h2>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 screen-425:mt-2">
           <div className="w-[92px]">
             <Button color="purple" width="xl" height="sm">
               수정
@@ -43,7 +43,7 @@ export default function PRDetail() {
 
       <section className="flex p-5 items-center shadow-custom-shadow rounded-3xl mt-6">
         <div>
-          <h2 className="font-bold">근무 내용</h2>
+          <h2 className="font-bold">핸드폰 번호</h2>
           <h2 className="mt-3">010-xxxx-xxxx</h2>
 
           <h2 className="font-bold mt-7">상세 경력</h2>
@@ -55,6 +55,6 @@ export default function PRDetail() {
           <h2 className="mt-3">프로젝트에서 말하는 감자를 담당했습니다.</h2>
         </div>
       </section>
-    </>
+    </div>
   );
 }
