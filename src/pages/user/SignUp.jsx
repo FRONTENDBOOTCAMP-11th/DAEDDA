@@ -62,7 +62,7 @@ export default function SignUp() {
           type="tel"
           placeholder="휴대폰 번호를 입력해주세요."
           errorMsg="휴대폰 번호를 입력해주세요."
-          maxLength="10"
+          maxLength="11"
         ></InputField>
       </div>
 
