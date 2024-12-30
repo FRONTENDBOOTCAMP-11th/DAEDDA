@@ -56,7 +56,6 @@ export default function Button({
       combinedClassName += " h-8 text-[14px]";
       break;
     }
-
     case "md": {
       combinedClassName += " h-9 text-[20px]";
       break;

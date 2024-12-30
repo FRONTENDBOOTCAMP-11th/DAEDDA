@@ -18,6 +18,7 @@ import ReviewList from "@pages/reviews/ReviewList";
 import ReviewWrite from "@pages/reviews/ReviewWrite";
 import MyPlace from "@pages/reviews/MyPlace";
 import MyPerson from "@pages/reviews/MyPerson";
+import Profile from "@pages/user/Profile";
 
 const router = createBrowserRouter(
   [
@@ -56,6 +57,7 @@ const router = createBrowserRouter(
 
         { path: "user/signUp", element: <SignUp /> },
         { path: "user/terms", element: <Terms /> },
+        { path: "user/:_id", element: <Profile /> },
       ],
     },
 

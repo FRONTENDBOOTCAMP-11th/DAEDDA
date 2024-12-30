@@ -7,8 +7,16 @@ export default function Footer() {
   const myPage = useMatch("myPage");
   const myPageLikeList = useMatch("myPage/likeList");
   const review = useMatch("review");
+  const reviewMyPlace = useMatch("review/myPlace");
+  const reviewMyPerson = useMatch("review/myPerson");
 
-  const footerMatch = mainPage || myPage || myPageLikeList || review;
+  const footerMatch =
+    mainPage ||
+    myPage ||
+    myPageLikeList ||
+    review ||
+    reviewMyPlace ||
+    reviewMyPerson;
 
   const tabs = [
     {
@@ -33,7 +41,7 @@ export default function Footer() {
       activeIcon: "/icons/footer/purpleHistory.svg",
       label: "알바 내역",
       path: "/review",
-      match: review,
+      match: review || reviewMyPerson || reviewMyPlace,
     },
     {
       name: "profile",
