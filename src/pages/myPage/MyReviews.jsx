@@ -1,11 +1,8 @@
 import Button from "@components/layout/Button";
-import Footer from "@components/layout/Footer";
-import Header from "@components/layout/Header";
 
 export default function MyReviews() {
   return (
     <div>
-      <Header></Header>
       <p className="font-bold text-[18px] pb-8 px-5">후기 2개</p>
 
       <div className="shadow-custom-shadow rounded-3xl px-5 pt-4 pb-8 mb-7">
@@ -19,9 +16,13 @@ export default function MyReviews() {
               />
               <div className="max-w-[440px]">
                 <p className="font-bold">리뷰 쓴 사람</p>
-                <p className="text-red">
-                  별- 이건 추후 마이페이지 머지 후 수정 할 예정
-                </p>
+                <div className="flex gap-1 size-3 mb-2">
+                  <img src="/icons/reviews/star.svg" />
+                  <img src="/icons/reviews/star.svg" />
+                  <img src="/icons/reviews/star.svg" />
+                  <img src="/icons/reviews/star.svg" />
+                  <img src="/icons/reviews/blankStar.svg" />
+                </div>
                 <p className="break-keep whitespace-normal text-sm">
                   이번에 대타로 와주신 김지원 님에 대한 리뷰를 남깁니다.
                   지원님은 연락이 정말 빠르고 정확하게 이루어졌습니다. 처음 대타
@@ -51,9 +52,13 @@ export default function MyReviews() {
               />
               <div className="max-w-[440px]">
                 <p className="font-bold">리뷰 쓴 사람</p>
-                <p className="text-red">
-                  별- 이건 추후 마이페이지 머지 후 수정 할 예정
-                </p>
+                <div className="flex gap-1 size-3 mb-2">
+                  <img src="/icons/reviews/star.svg" />
+                  <img src="/icons/reviews/star.svg" />
+                  <img src="/icons/reviews/star.svg" />
+                  <img src="/icons/reviews/star.svg" />
+                  <img src="/icons/reviews/blankStar.svg" />
+                </div>
                 <p className="break-keep whitespace-normal text-sm">
                   이번에 대타로 와주신 김지원 님에 대한 리뷰를 남깁니다.
                   지원님은 연락이 정말 빠르고 정확하게 이루어졌습니다. 처음 대타
@@ -83,9 +88,13 @@ export default function MyReviews() {
               />
               <div className="max-w-[440px]">
                 <p className="font-bold">리뷰 쓴 사람</p>
-                <p className="text-red">
-                  별- 이건 추후 마이페이지 머지 후 수정 할 예정
-                </p>
+                <div className="flex gap-1 size-3 mb-2">
+                  <img src="/icons/reviews/star.svg" />
+                  <img src="/icons/reviews/star.svg" />
+                  <img src="/icons/reviews/star.svg" />
+                  <img src="/icons/reviews/star.svg" />
+                  <img src="/icons/reviews/blankStar.svg" />
+                </div>
                 <p className="break-keep whitespace-normal text-sm">
                   이번에 대타로 와주신 김지원 님에 대한 리뷰를 남깁니다.
                   지원님은 연락이 정말 빠르고 정확하게 이루어졌습니다. 처음 대타
@@ -103,7 +112,6 @@ export default function MyReviews() {
           </Button>
         </div>
       </div>
-      <Footer>sdf</Footer>
     </div>
   );
 }
