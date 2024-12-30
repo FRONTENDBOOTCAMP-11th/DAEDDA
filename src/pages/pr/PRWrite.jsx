@@ -62,7 +62,7 @@ export default function PRWrite() {
         />
       </fieldset>
 
-      <div className="mt-11">
+      <div className="mt-7">
         <Button color="purple" type="submit" height="lg">
           등록
         </Button>
