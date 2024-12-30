@@ -3,17 +3,13 @@ import InputField from "@components/layout/InputField";
 export default function MainList() {
   return (
     <div>
-      <InputField
-        labelName="이름"
-        placeholder="이름을 입력해 주세요."
-        errorMsg="이름 입력은 필수입니다."
-      />
+      MainList
       <InputField
         labelName="생년월일"
         type="date"
         errorMsg="생년월일 입력은 필수입니다."
       />
-      <InputField placeholder="기본 텍스트 인풋" maxLength="5" />
+      <InputField placeholder="기본 텍스트 인풋" />
       <InputField labelName="이메일" placeholder="이메일을 입력해 주세요." />
       <InputField
         labelName="내용"
