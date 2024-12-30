@@ -3,7 +3,7 @@ import InputField from "@components/layout/InputField";
 
 export default function SignIn() {
   return (
-    <div className="flex flex-col items-center justify-center p-4">
+    <div className="flex flex-col items-center justify-center">
       <img src="/src/assets/logos/header-logo.png" className="mt-8 h-[70px]" />
       <img
         src="/src/assets/images/daeddamon.png"
