@@ -2,7 +2,7 @@ import Button from "@components/layout/Button";
 
 export default function MainDetail() {
   return (
-    <>
+    <div className="mb-[40px]">
       <section className="flex items-center justify-between h-[60px] mt-4">
         <div className="font-bold text-[16px] py-4 sm:whitespace-normal md:whitespace-nowrap">
           [채용중]카카오에서 프론트엔드 개발자 구합니다
@@ -70,7 +70,7 @@ export default function MainDetail() {
           </Button>
         </div>
 
-        <div className="flex items-center mt-11 justify-between">
+        <div className="flex items-center mt-11 justify-between flex-wrap ">
           <section className="flex items-center">
             <img
               src="/src/assets/images/smiling_daeddamon.png"
@@ -112,7 +112,7 @@ export default function MainDetail() {
               </div>
             </div>
           </section>
-          <div className="flex gap-2">
+          <div className="flex gap-2 mt-4 screen-425: m-auto">
             <div className="w-[92px]">
               <Button color="purple" width="xl" height="sm">
                 채택
@@ -143,6 +143,6 @@ export default function MainDetail() {
           <div className="mt-3">프로젝트에서 말하는 감자를 담당했습니다.</div>
         </section>
       </div>
-    </>
+    </div>
   );
 }
