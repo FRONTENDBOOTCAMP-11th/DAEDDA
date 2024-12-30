@@ -20,8 +20,8 @@ export default function MainDetail() {
           className="w-11 h-11 ml-3"
           alt="스마일 대따몬"
         />
-        <h2 className="font-bold ml-3">닉네임</h2>
-        <h2 className="font-light ml-4">2024/12/25</h2>
+        <h2 className="font-bold ml-5">닉네임</h2>
+        <h2 className="font-light ml-5">2024/12/25</h2>
       </section>
 
       <section className="mt-7">
@@ -73,84 +73,86 @@ export default function MainDetail() {
           </div>
         </section>
 
-        <div className="mt-11">
+        <div className="mt-7">
           <Button color="purple" height="lg" type="submit">
             지원하기
           </Button>
         </div>
 
-        <div className="flex items-center mt-11 justify-between flex-wrap ">
-          <section className="flex items-center">
-            <img
-              src="/src/assets/images/smiling_daeddamon.png"
-              className="w-12 h-11"
-              alt="스마일 대따몬"
-            />
-            <div className="ml-3 flex flex-col">
-              <div className="flex items-center">
-                <h2 className="font-bold">닉네임</h2>
-                <h2 className="flex font-light ml-4">2024/12/25</h2>
+        <div className="my-4 border-t border-gray-200">
+          <div className="flex items-center mt-7 justify-between flex-wrap ">
+            <section className="flex items-center ml-3">
+              <img
+                src="/src/assets/images/smiling_daeddamon.png"
+                className="w-12 h-12"
+                alt="스마일 대따몬"
+              />
+              <div className="ml-3 flex flex-col">
+                <div className="flex items-center">
+                  <h2 className="font-bold ml-5">닉네임</h2>
+                  <h2 className="flex font-light ml-5">2024/12/25</h2>
+                </div>
+                <div className="flex items-center ml-5">
+                  <img
+                    src="/icons/reviews/star.svg"
+                    className="w-5 h-5 mt-1"
+                    alt="star"
+                  />
+                  <img
+                    src="/icons/reviews/star.svg"
+                    className="w-5 h-5 mt-1"
+                    alt="star"
+                  />
+                  <img
+                    src="/icons/reviews/star.svg"
+                    className="w-5 h-5 mt-1"
+                    alt="star"
+                  />
+                  <img
+                    src="/icons/reviews/star.svg"
+                    className="w-5 h-5 mt-1"
+                    alt="star"
+                  />
+                  <img
+                    src="/icons/reviews/star.svg"
+                    className="w-5 h-5 mt-1"
+                    alt="star"
+                  />
+                  <div className="font-bold text-xl ml-2 h-6">5</div>
+                </div>
               </div>
-              <div className="flex items-center">
-                <img
-                  src="/icons/reviews/star.svg"
-                  className="w-5 h-5 mt-1"
-                  alt="star"
-                />
-                <img
-                  src="/icons/reviews/star.svg"
-                  className="w-5 h-5 mt-1"
-                  alt="star"
-                />
-                <img
-                  src="/icons/reviews/star.svg"
-                  className="w-5 h-5 mt-1"
-                  alt="star"
-                />
-                <img
-                  src="/icons/reviews/star.svg"
-                  className="w-5 h-5 mt-1"
-                  alt="star"
-                />
-                <img
-                  src="/icons/reviews/star.svg"
-                  className="w-5 h-5 mt-1"
-                  alt="star"
-                />
-                <div className="font-bold text-xl ml-2 h-6">5</div>
+            </section>
+            <div className="flex justify-end gap-2 mt-5 h-[32px]">
+              <div className="w-[92px]">
+                <Button color="purple" width="xl" height="sm">
+                  채택
+                </Button>
+              </div>
+              <div className="w-[92px]">
+                <Button color="red" width="2xl" height="sm">
+                  취소
+                </Button>
               </div>
             </div>
+          </div>
+          <section>
+            <div className="font-bold mt-7">근무 조건</div>
+            <div className="mt-2">
+              카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
+            </div>
+
+            <div className="font-bold mt-7">휴대폰 번호</div>
+            <div className="mt-2">010-xxxx-xxxx</div>
+
+            <div className="font-bold mt-7">상세 경력</div>
+            <div className="mt-2">
+              카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
+            </div>
+
+            <div className="font-bold mt-7">자신을 표현해주세요!</div>
+            <div className="mt-2">프로젝트에서 말하는 감자를 담당했습니다.</div>
           </section>
-          <div className="flex gap-2 mt-4 screen-425: m-auto">
-            <div className="w-[92px]">
-              <Button color="purple" width="xl" height="sm">
-                채택
-              </Button>
-            </div>
-            <div className="w-[92px]">
-              <Button color="red" width="2xl" height="sm">
-                취소
-              </Button>
-            </div>
-          </div>
         </div>
-        <section>
-          <div className="font-bold mt-7">근무 조건</div>
-          <div className="mt-2">
-            카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
-          </div>
-
-          <div className="font-bold mt-7">휴대폰 번호</div>
-          <div className="mt-2">010-xxxx-xxxx</div>
-
-          <div className="font-bold mt-7">상세 경력</div>
-          <div className="mt-2">
-            카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
-          </div>
-
-          <div className="font-bold mt-7">자신을 표현해주세요!</div>
-          <div className="mt-2">프로젝트에서 말하는 감자를 담당했습니다.</div>
-        </section>
       </div>
     </div>
   );

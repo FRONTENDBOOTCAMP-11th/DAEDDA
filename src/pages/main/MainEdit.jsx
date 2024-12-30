@@ -80,7 +80,7 @@ export default function MainEdit() {
           isTextArea={true}
         />
       </fieldset>
-      <div className="mt-11">
+      <div className="mt-7">
         <Button color="purple" height="lg" type="submit">
           수정
         </Button>

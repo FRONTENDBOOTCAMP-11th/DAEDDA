@@ -8,14 +8,14 @@ export default function PRDetail() {
           카카오 프론트엔드 개발자 지원합니다. 열심히 하겠습니다.
         </h2>
 
-        <div className="flex gap-2 screen-425:mt-3 screen-425:m-auto">
-          <div className="w-[92px]">
+        <div className="flex gap-2 screen-425:mt-4">
+          <div className="w-[92px] h-[32px]">
             <Button color="purple" width="xl" height="sm">
               수정
             </Button>
           </div>
 
-          <div className="w-[92px]">
+          <div className="w-[92px] h-[32px]">
             <Button color="red" width="2xl" height="sm">
               삭제
             </Button>
@@ -29,8 +29,8 @@ export default function PRDetail() {
           className="w-11 h-11 ml-3"
           alt="스마일 대따몬"
         />
-        <h2 className="font-bold ml-3">네이버</h2>
-        <h2 className="font-light ml-4">2024/12/25</h2>
+        <h2 className="font-bold ml-5">네이버</h2>
+        <h2 className="font-light ml-5">2024/12/25</h2>
       </section>
 
       <section className="mt-7">
