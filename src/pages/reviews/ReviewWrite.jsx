@@ -3,7 +3,7 @@ import InputField from "@components/layout/InputField";
 
 export default function ReviewWrite() {
   return (
-    <div>
+    <div className="mb-[40px]">
       <div className="flex justify-between mb-4 flex-wrap">
         <h2 className="text-[20px] font-semibold">
           내가 일한 장소 : 소문난손칼국수 밀면
@@ -29,7 +29,7 @@ export default function ReviewWrite() {
           placeholder="내용을 입력해 주세요."
           isLast={true}
         />
-        <p className="text-[18px] font-semibold mt-8 mb-4fe">
+        <p className="text-[18px] font-semibold mt-8 mb-4">
           받을 금액: 64,000원
         </p>
         <Button type="submit" height="lg">
