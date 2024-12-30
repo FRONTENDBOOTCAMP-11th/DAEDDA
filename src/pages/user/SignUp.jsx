@@ -3,13 +3,13 @@ import InputField from "@components/layout/InputField";
 
 export default function SignUp() {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center mb-[40px]">
       <img
         src="/src/assets/images/smiling_daeddamon.png"
         className="w-[150px] h-[150px] mb-3"
       />
       <div>
-        <Button color="purple" height="sm" className="mb-2">
+        <Button color="purple" height="sm" className="mb-4">
           <span className="p-2">이미지 선택</span>
         </Button>
       </div>
