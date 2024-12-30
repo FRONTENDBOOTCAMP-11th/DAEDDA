@@ -7,7 +7,7 @@ export default function Edit() {
       <div className="mb-[40px]">
         <div className=" border-gray-200 border-b mb-5">
           <div className="flex flex-col items-center justify-center h-full">
-            <div className="relative inline-block">
+            <div className="relative inline-block -z-10">
               <img
                 src="/src/assets/images/smiling_daeddamon.png"
                 alt="프로필 이미지"
