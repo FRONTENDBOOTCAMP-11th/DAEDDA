@@ -5,6 +5,7 @@ export default function Terms() {
   // 초기 상태
   const [allChecked, setAllChecked] = useState(false);
   const [individualChecked, setIndividualChecked] = useState([false, false]);
+  const [showError, setShowError] = useState(false);
 
   // 전체 동의시 모두 체크
   const handleAllCheck = e => {
@@ -32,6 +33,16 @@ export default function Terms() {
     }
   };
 
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    if (allChecked) {
+      console.log("ok");
+    } else {
+      setShowError(true);
+    }
+  };
+
   return (
     <div className="flex flex-col mb-[40px]">
       <div className="flex justify-center w-full">
@@ -45,7 +56,7 @@ export default function Terms() {
         약관에 동의 하셔야 회원 가입이 가능합니다.
       </p>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <p className="text-[16px] font-bold">약관 동의</p>
         <div className="flex gap-6 items-center py-5 border-b-2">
           <input
@@ -83,7 +94,7 @@ export default function Terms() {
             <strong>(필수)</strong> 서비스 이용 약관 동의
           </label>
         </div>
-        <p className="my-5 text-red">* 미동의 텍스트</p>
+        <p className="my-5 text-red">* 약관에 모두 동의 해야 합니다.</p>
         <Button color="purple" height="lg" className="mb-2 w-full">
           계속
         </Button>
