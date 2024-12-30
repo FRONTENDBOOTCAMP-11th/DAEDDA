@@ -3,7 +3,7 @@ import InputField from "@components/layout/InputField";
 
 export default function PRWrite() {
   return (
-    <form>
+    <form className="mb-[40px]">
       <div className="mt-5">
         <InputField
           labelName="제목"
@@ -13,7 +13,7 @@ export default function PRWrite() {
         />
       </div>
 
-      <fieldset className="mt-7">
+      <fieldset>
         <label htmlFor="address" className="text-[16px] font-bold mb-2">
           위치
         </label>
@@ -29,30 +29,28 @@ export default function PRWrite() {
         />
       </fieldset>
 
-      <fieldset className="mt-7">
+      <fieldset className="mt-2">
         <InputField
           labelName="핸드폰 번호"
           id="phoneNum"
           type="text"
           placeholder="핸드폰 번호"
-          isLast={true}
           errorMsg="핸드폰 번호 입력은 필수입니다."
         />
       </fieldset>
 
-      <fieldset className="mt-7">
+      <fieldset>
         <InputField
           labelName="상세 경력"
           id="career"
           type="text"
           placeholder="상세 경력"
-          isLast={true}
           isTextArea={true}
           errorMsg="상세 경력 입력은 필수입니다."
         />
       </fieldset>
 
-      <fieldset className="mt-7">
+      <fieldset>
         <InputField
           labelName="자신을 어필하세요!"
           id="career"
