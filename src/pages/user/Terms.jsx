@@ -39,9 +39,10 @@ export default function Terms() {
 
     // 전체 체크가 되었으면 이동, 아니라면 errorMsg 출력
     if (allChecked) {
-      console.log("ok");
-    } else {
+      // console.log("ok");
       navigate("/user/signUp");
+    } else {
+      setShowError(true);
     }
   };
 
