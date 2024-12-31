@@ -103,7 +103,7 @@ export default function Terms() {
         </div>
 
         <div className={`${showError ? "visible" : "invisible"}`}>
-          <p className={`my-5 text-red`}>* 약관에 모두 동의 해야 합니다.</p>
+          <p className={`my-5 text-red`}>* 약관에 모두 동의해야 합니다.</p>
         </div>
         <Button
           color="purple"
