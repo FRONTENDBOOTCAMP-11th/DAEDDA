@@ -17,11 +17,11 @@ export default function MyReviews() {
     return <div>로딩중</div>;
   }
   // 댓글 수 계산
-  const totalReplies = data.item.reduce(
-    (sum, item) => sum + item.replies.length,
-    0,
-  );
+  let totalReplies = 0;
+  data.item.forEach(item => (totalReplies += item.replies.length));
+  // console.log(totalReplies);
   console.log(data.item);
+
   const list = data.item.map(item => (
     <MyReviewList key={item._id} item={item} />
   ));

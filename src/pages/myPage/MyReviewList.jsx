@@ -4,10 +4,8 @@ export default function MyReviewList({ item }) {
   if (!item) {
     return <div>데이터가 없습니다.</div>;
   }
-  // console.log(item.replies);
-  // const replieList = item.replies.map(re => console.log("re", re));
-  // console.log("rep", replieList);
-  console.log(item);
+
+  // console.log(item);
   return (
     <>
       {item.replies.map(reply => (
