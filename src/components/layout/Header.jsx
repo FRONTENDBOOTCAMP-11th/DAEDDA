@@ -1,6 +1,7 @@
-import { Link, useMatch } from "react-router-dom";
+import { Link, useMatch, useNavigate } from "react-router-dom";
 
 export default function Header() {
+  const navigate = useNavigate();
   const prId = useMatch("pr/:_id");
   const prIdEdit = useMatch("pr/:_id/edit");
   const prWrite = useMatch("pr/write");
@@ -58,6 +59,7 @@ export default function Header() {
         <img
           src="/icons/back.svg"
           className="absolute left-[16px] w-6 h-6 hover:cursor-pointer"
+          onClick={() => navigate(-1)}
         />
         <div className="w-full text-center text-[24px] font-bold">
           {getTitle()}
