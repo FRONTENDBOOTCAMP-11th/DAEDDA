@@ -3,7 +3,7 @@ import InputField from "@components/layout/InputField";
 
 export default function SignIn() {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="min-h-screen flex flex-col items-center justify-center overflow-auto">
       <img src="/src/assets/logos/header-logo.png" className="mt-8 h-[70px]" />
       <img
         src="/src/assets/images/daeddamon.png"
@@ -17,7 +17,7 @@ export default function SignIn() {
           maxLength="30"
         ></InputField>
       </div>
-      <div className="relative w-full">
+      <div className="relative w-full mb-5">
         <InputField
           type="password"
           placeholder="비밀번호"

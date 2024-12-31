@@ -66,7 +66,7 @@ export default function SignUp() {
         ></InputField>
       </div>
 
-      <div className="flex gap-6 w-full">
+      <div className="flex gap-6 w-full mt-5">
         <Button color="white" height="lg">
           취소
         </Button>
