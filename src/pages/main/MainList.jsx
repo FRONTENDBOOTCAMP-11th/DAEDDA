@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
+
 export default function MainList() {
   return (
-    <div className="mb-[80px]">
+    <div className="mb-[80px] flex flex-col">
       <div className="flex justify-between items-center text-[24px] font-semibold pb-[23px]">
         <p>동래구 중앙대로 1473번길 14-2</p>
         <div className="flex gap-4 screen-530:hidden">
@@ -93,6 +95,13 @@ export default function MainList() {
           </div>
         </div>
       </div>
+
+      <Link
+        to="main/write"
+        className="bottom-[80px] fixed self-end size-20 bg-primary text-white rounded-full flex justify-center items-center shadow-md"
+      >
+        <img src="/icons/whitePlus.svg" />
+      </Link>
     </div>
   );
 }
