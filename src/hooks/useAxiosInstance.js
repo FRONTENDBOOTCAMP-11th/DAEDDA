@@ -2,7 +2,7 @@ import axios from "axios";
 
 function useAxiosInstance() {
   const instance = axios.create({
-    baseURL: "https://todo-api.fesp.shop/api",
+    baseURL: "https://11.fesp.shop",
     timeout: 1000 * 15,
     headers: {
       "Content-Type": "application/json", // request의 데이터 타입
