@@ -5,7 +5,7 @@ export default function MyReviews() {
     <div className="mb-[40px]">
       <p className="font-bold text-[18px] pb-8 px-5">후기 2개</p>
 
-      <div className="reviews-container">
+      <div className="shadow-custom-shadow rounded-3xl px-5 pt-4 pb-8 mb-7">
         <div className="flex gap-1 ">
           <div className="flex gap-5">
             <img
@@ -39,7 +39,7 @@ export default function MyReviews() {
         </div>
       </div>
 
-      <div className="reviews-container">
+      <div className="shadow-custom-shadow rounded-3xl px-5 pt-4 pb-8 mb-7">
         <div className="flex gap-1 ">
           <div className="flex gap-5">
             <img
@@ -73,7 +73,7 @@ export default function MyReviews() {
         </div>
       </div>
 
-      <div className="reviews-container">
+      <div className="shadow-custom-shadow rounded-3xl px-5 pt-4 pb-8 mb-7">
         <div className="flex gap-1 ">
           <div className="flex gap-5">
             <img
