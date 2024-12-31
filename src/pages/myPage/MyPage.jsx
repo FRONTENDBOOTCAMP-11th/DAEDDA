@@ -28,7 +28,7 @@ export default function MyPage() {
             </div>
           </div>
 
-          <div className="relative h-6 w-full">
+          <div className="relative h-6 w-full -z-10">
             <img
               src="/icons/energyBar.svg"
               alt="에너지바"
@@ -38,7 +38,7 @@ export default function MyPage() {
             <img
               src="/icons/energyBar2.svg"
               alt="에너지률"
-              className=" w-[50%] absolute  top-0 h-full object-cover aspect-auto rounded-3xl"
+              className=" w-[50%] absolute  top-0 h-full object-cover aspect-auto rounded-3xl "
             />
           </div>
         </div>
