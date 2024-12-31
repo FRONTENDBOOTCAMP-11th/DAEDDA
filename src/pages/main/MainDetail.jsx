@@ -61,54 +61,50 @@ export default function MainDetail() {
             </article>
           </div>
         </section>
-
         <section className="flex p-5 items-center shadow-custom-shadow rounded-3xl mt-6">
           <div>
             <h2 className="font-bold ml-3">근무 내용</h2>
-            <ul className="list-disc ml-8 mt-2">
-              <li>카카오 프렌즈 홈페이지 UI 작업</li>
-              <li>카카오뱅크 신사업 분야의 프론트엔드 개발과 운영</li>
-              <li>서비스 운영도구 개발 및 관리 효율화 업무</li>
-              <li>채용시 연락</li>
+            <ul className="list-disc ml-8 mt-2 break-keep whitespace-normal">
+              카카오 프렌즈 홈페이지 UI 작업 카카오뱅크 신사업 분야의 프론트엔드
+              개발과 운영 서비스 운영도구 개발 및 관리 효율화 업무 채용시 연락
             </ul>
           </div>
         </section>
-
-        <div className="mt-7">
+        <div className="mt-7 ">
           <Button color="purple" height="lg" type="submit">
             지원하기
           </Button>
         </div>
+        {/* <div className="-mx-12 relative before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:border before:border-t-[7px] before:border-gray-200 before:rounded-md before:-z-10 mt-5"></div> */}
+        <div className="flex items-center mt-7 justify-between flex-wrap screen-530:justify-center border-t-8">
+          <section className="flex items-center w-full mt-5">
+            <div className="flex">
+              <img
+                src="/src/assets/images/smiling_daeddamon.png"
+                className="w-16 h-16"
+                alt="스마일 대따몬"
+              />
 
-        <div className="my-8 border-t border-gray-200"></div>
-        <div className="flex items-center mt-7 justify-between flex-wrap screen-530:justify-center">
-          <section className="flex ml-3 items-center w-full">
-            <img
-              src="/src/assets/images/smiling_daeddamon.png"
-              className="w-16 h-16"
-              alt="스마일 대따몬"
-            />
-
-            <div className="ml-3 flex flex-col justify-center flex-grow">
-              <div className="flex items-center screen-360:block">
-                <h2 className="flex font-bold ml-2">닉네임</h2>
-                <div className="w-fit screen-360:ml-2 ml-2">
+              <div className="ml-2 flex flex-col justify-center flex-grow">
+                <div className="flex screen-360:block">
+                  <h2 className="flex font-bold ml-2 mr-1">닉네임</h2>
                   <Badge number={70} />
                 </div>
+                <h2 className="flex font-light ml-2">2024/12/25</h2>
               </div>
-              <h2 className="flex font-light ml-2">2024/12/25</h2>
             </div>
 
-            <div className="flex w-[92px] ml-auto">
+            <div className="flex w-[78px] ml-auto">
               <Button color="white" height="sm">
                 상세 내역
               </Button>
             </div>
           </section>
         </div>
+
         <section>
           <div className="font-bold mt-7">근무 조건</div>
-          <div className="mt-2">
+          <div className="mt-2 break-keep whitespace-normal">
             카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
           </div>
 
@@ -135,7 +131,6 @@ export default function MainDetail() {
               </Button>
             </div>
           </div>
-          <div className="my-8 border-b border-gray-200"></div>
         </section>
       </div>
     </div>
