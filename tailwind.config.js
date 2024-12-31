@@ -30,6 +30,7 @@ export default {
         red: "#FF0000",
         primary: "#8C6FEE",
         secondary: "#BCA6F4",
+        "purple-50": "#F6EAFE",
         "purple-100": "#EBD5FE",
         "purple-900": "#6123FF",
         "beige-500": "#CDC3C3",
