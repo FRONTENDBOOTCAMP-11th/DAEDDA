@@ -1,4 +1,5 @@
 import Button from "@components/layout/Button";
+import Badge from "@pages/main/Badge";
 
 export default function PRDetail() {
   return (
@@ -8,8 +9,8 @@ export default function PRDetail() {
           카카오 프론트엔드 개발자 지원합니다. 열심히 하겠습니다.
         </h2>
 
-        <div className="flex justify-end gap-2 mt-4 screen-530:justify-end screen-530:w-full">
-          <div className="w-[92px] h-[32px] ]">
+        <div className="flex justify-end gap-2 mt-4 screen-530:justify-end screen-530:w-full ">
+          <div className="w-[92px] h-[32px]">
             <Button color="purple" width="xl" height="sm">
               수정
             </Button>
@@ -23,14 +24,17 @@ export default function PRDetail() {
         </div>
       </section>
 
-      <section className="flex items-center h-20 shadow-custom-shadow rounded-3xl mt-6 p-3">
+      <section className="flex items-center shadow-custom-shadow rounded-3xl mt-6 p-3 flex-wrap screen-320:justify-center">
         <img
           src="/src/assets/images/smiling_daeddamon.png"
-          className="w-11 h-11 ml-3"
+          className="w-11 h-11 ml-3 screen-320:ml-0"
           alt="스마일 대따몬"
         />
-        <h2 className="font-bold ml-5">네이버</h2>
-        <h2 className="font-light ml-5">2024/12/25</h2>
+        <h2 className="font-bold ml-5 screen-320:ml-2">네이버</h2>
+        <div className="w-fit screen-360:ml-2 ml-3">
+          <Badge number={70} />
+        </div>
+        <h2 className="font-light ml-3 screen-320:ml-2">2024/12/25</h2>
       </section>
 
       <section className="mt-7">

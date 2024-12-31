@@ -1,4 +1,5 @@
 import Button from "@components/layout/Button";
+import Badge from "@pages/main/Badge";
 
 export default function MainDetail() {
   return (
@@ -8,7 +9,7 @@ export default function MainDetail() {
           [채용중]카카오에서 프론트엔드 개발자 구합니다
         </div>
         <img
-          src="/icons/reviews/reviewBlankLike.svg"
+          src="/icons/blackHeart.svg"
           className="h-7 w-7 ml-2"
           alt="찜 아이콘"
         />
@@ -79,80 +80,63 @@ export default function MainDetail() {
           </Button>
         </div>
 
-        <div className="my-4 border-t border-gray-200">
-          <div className="flex items-center mt-7 justify-between flex-wrap screen-530:justify-center ">
-            <section className="flex ml-3">
-              <img
-                src="/src/assets/images/smiling_daeddamon.png"
-                className="w-24 h-24"
-                alt="스마일 대따몬"
-              />
-              <div className="ml-3 flex flex-col">
-                <div className="flex items-center screen-530:flex-wrap">
-                  <h2 className="font-bold ml-4">닉네임</h2>
-                  <h2 className="flex font-light ml-4">2024/12/25</h2>
-                </div>
-                <div className="pt-2 flex-col flex pb-6">
-                  <div className="flex gap-4 ml-4">
-                    <img
-                      src="/icons/power.svg"
-                      alt="알바력"
-                      className="w-fit size-8 mt-1"
-                    />
-                    <div className="flex flex-col  mb-[4px]">
-                      <p className="font-semibold text-[16px]">70%</p>
-                      <p className="font-semibold text-[14px] text-gray-200">
-                        알바력
-                      </p>
-                    </div>
-                  </div>
+        <div className="my-8 border-t border-gray-200"></div>
+        <div className="flex items-center mt-7 justify-between flex-wrap screen-530:justify-center">
+          <section className="flex ml-3 items-center w-full">
+            <img
+              src="/src/assets/images/smiling_daeddamon.png"
+              className="w-16 h-16"
+              alt="스마일 대따몬"
+            />
 
-                  <div className="relative h-3">
-                    <img
-                      src="/icons/energyBar.svg"
-                      alt="에너지바"
-                      className="w-full h-full absolute"
-                    />
-                    <img
-                      src="/icons/energyBar2.svg"
-                      alt="에너지률"
-                      className=" w-[70%] absolute left-4 top-0 h-full object-contain aspect-auto rounded-3xl"
-                    />
-                  </div>
+            <div className="ml-3 flex flex-col justify-center flex-grow">
+              <div className="flex items-center screen-360:block">
+                <h2 className="flex font-bold ml-2">닉네임</h2>
+                <div className="w-fit screen-360:ml-2 ml-2">
+                  <Badge number={70} />
                 </div>
               </div>
-            </section>
-            <div className="flex justify-end gap-2 h-[60px]">
-              <div className="w-[120px]">
-                <Button color="purple" width="xl" height="sm">
-                  채택
-                </Button>
-              </div>
-              <div className="w-[120px]">
-                <Button color="red" width="2xl" height="sm">
-                  취소
-                </Button>
-              </div>
-            </div>
-          </div>
-          <section>
-            <div className="font-bold mt-7">근무 조건</div>
-            <div className="mt-2">
-              카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
+              <h2 className="flex font-light ml-2">2024/12/25</h2>
             </div>
 
-            <div className="font-bold mt-7">휴대폰 번호</div>
-            <div className="mt-2">010-xxxx-xxxx</div>
-
-            <div className="font-bold mt-7">상세 경력</div>
-            <div className="mt-2">
-              카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
+            <div className="flex w-[92px] ml-auto">
+              <Button color="white" height="sm">
+                상세 내역
+              </Button>
             </div>
-
-            <div className="font-bold mt-7">자신을 표현해주세요!</div>
-            <div className="mt-2">프로젝트에서 말하는 감자를 담당했습니다.</div>
           </section>
         </div>
+        <section>
+          <div className="font-bold mt-7">근무 조건</div>
+          <div className="mt-2">
+            카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
+          </div>
+
+          <div className="font-bold mt-7">휴대폰 번호</div>
+          <div className="mt-2">010-xxxx-xxxx</div>
+
+          <div className="font-bold mt-7">상세 경력</div>
+          <div className="mt-2">
+            카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
+          </div>
+
+          <div className="font-bold mt-7">자신을 표현해주세요!</div>
+          <div className="mt-2">프로젝트에서 말하는 감자를 담당했습니다.</div>
+
+          <div className="flex gap-2 h-[32px] justify-center my-10">
+            <div className="w-72">
+              <Button color="purple" width="xl" height="sm">
+                채택
+              </Button>
+            </div>
+            <div className="w-72">
+              <Button color="red" width="2xl" height="sm">
+                취소
+              </Button>
+            </div>
+          </div>
+          <div className="my-8 border-b border-gray-200"></div>
+        </section>
       </div>
     </div>
   );
