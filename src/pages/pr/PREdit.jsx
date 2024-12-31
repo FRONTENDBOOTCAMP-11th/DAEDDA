@@ -24,41 +24,37 @@ export default function PREdit() {
           type="text"
           id="address"
           placeholder="상세 주소"
-          isLast={true}
           errorMsg="주소 입력은 필수입니다."
         />
       </fieldset>
 
-      <fieldset className="mt-7">
+      <fieldset>
         <InputField
           labelName="핸드폰 번호"
           id="phoneNum"
           type="text"
           placeholder="핸드폰 번호"
-          isLast={true}
           errorMsg="핸드폰 번호 입력은 필수입니다."
         />
       </fieldset>
 
-      <fieldset className="mt-7">
+      <fieldset>
         <InputField
           labelName="상세 경력"
           id="career"
           type="text"
           placeholder="상세 경력"
-          isLast={true}
           isTextArea={true}
           errorMsg="상세 경력 입력은 필수입니다."
         />
       </fieldset>
 
-      <fieldset className="mt-7">
+      <fieldset>
         <InputField
           labelName="자신을 어필하세요!"
           id="career"
           type="text"
           placeholder="자신을 어필하세요!"
-          isLast={true}
           isTextArea={true}
           errorMsg="어필을 하면 뽑힐 가능성이 높아집니다 !"
         />
