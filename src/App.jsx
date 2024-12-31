@@ -19,14 +19,13 @@ function App() {
       // splash 보여주기
       setShowSplash(true);
 
-      // 실행 되었으니 true로 값 변경
-      sessionStorage.setItem("isShown", "true");
-      console.log("세션 isShown의 값 ", sessionStorage.getItem("isShown"));
-
       const timer = setTimeout(() => {
         // 2초 뒤에 화면 꺼짐
         setShowSplash(false);
         console.log("화면 꺼짐");
+        // 실행 되었으니 true로 값 변경
+        sessionStorage.setItem("isShown", "true");
+        console.log("세션 isShown의 값 ", sessionStorage.getItem("isShown"));
       }, 2000);
       return () => clearTimeout(timer);
     } else {
