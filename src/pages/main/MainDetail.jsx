@@ -75,63 +75,61 @@ export default function MainDetail() {
             지원하기
           </Button>
         </div>
-        {/* <div className="-mx-12 relative before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:border before:border-t-[7px] before:border-gray-200 before:rounded-md before:-z-10 mt-5"></div> */}
-        <div className="flex items-center mt-7 justify-between flex-wrap screen-530:justify-center border-t-8">
-          <section className="flex items-center w-full mt-5">
-            <div className="flex">
+
+        <div>
+          <section className="mt-7 pt-7 flex justify-between border-t-8">
+            <div className="flex items-center gap-3">
               <img
                 src="/src/assets/images/smiling_daeddamon.png"
                 className="w-16 h-16"
                 alt="스마일 대따몬"
               />
-
-              <div className="ml-2 flex flex-col justify-center flex-grow">
-                <div className="flex screen-360:block">
-                  <h2 className="flex font-bold ml-2 mr-1">닉네임</h2>
+              <div className="flex flex-col">
+                <div className="flex">
+                  <h2 className="font-bold mr-1">닉네임</h2>
                   <Badge number={70} />
                 </div>
-                <h2 className="flex font-light ml-2">2024/12/25</h2>
+                <h2 className="font-light">2024/12/25</h2>
               </div>
             </div>
-
             <div className="flex w-[78px] ml-auto">
               <Button color="white" height="sm">
                 상세 내역
               </Button>
             </div>
           </section>
+
+          <section>
+            <div className="font-bold mt-7">근무 조건</div>
+            <div className="mt-2 break-keep whitespace-normal">
+              카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
+            </div>
+
+            <div className="font-bold mt-7">휴대폰 번호</div>
+            <div className="mt-2">010-xxxx-xxxx</div>
+
+            <div className="font-bold mt-7">상세 경력</div>
+            <div className="mt-2">
+              카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
+            </div>
+
+            <div className="font-bold mt-7">자신을 표현해주세요!</div>
+            <div className="mt-2">프로젝트에서 말하는 감자를 담당했습니다.</div>
+
+            <div className="flex gap-2 h-[32px] justify-center my-10">
+              <div className="w-72">
+                <Button color="purple" width="xl" height="sm">
+                  채택
+                </Button>
+              </div>
+              <div className="w-72">
+                <Button color="red" width="2xl" height="sm">
+                  취소
+                </Button>
+              </div>
+            </div>
+          </section>
         </div>
-
-        <section>
-          <div className="font-bold mt-7">근무 조건</div>
-          <div className="mt-2 break-keep whitespace-normal">
-            카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
-          </div>
-
-          <div className="font-bold mt-7">휴대폰 번호</div>
-          <div className="mt-2">010-xxxx-xxxx</div>
-
-          <div className="font-bold mt-7">상세 경력</div>
-          <div className="mt-2">
-            카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
-          </div>
-
-          <div className="font-bold mt-7">자신을 표현해주세요!</div>
-          <div className="mt-2">프로젝트에서 말하는 감자를 담당했습니다.</div>
-
-          <div className="flex gap-2 h-[32px] justify-center my-10">
-            <div className="w-72">
-              <Button color="purple" width="xl" height="sm">
-                채택
-              </Button>
-            </div>
-            <div className="w-72">
-              <Button color="red" width="2xl" height="sm">
-                취소
-              </Button>
-            </div>
-          </div>
-        </section>
       </div>
     </div>
   );
