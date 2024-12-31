@@ -5,8 +5,8 @@ export default function MainDetail() {
   return (
     <div className="mb-[40px]">
       <section className="flex items-center justify-between h-[60px] mt-4">
-        <div className="font-bold text-[16px] py-4 sm:whitespace-normal md:whitespace-nowrap">
-          [채용중]카카오에서 프론트엔드 개발자 구합니다
+        <div className="font-bold text-[20px] py-4 break-keep whitespace-normal">
+          카카오 프론트엔드 개발자 구합니다
         </div>
         <img
           src="/icons/blackHeart.svg"
@@ -64,7 +64,7 @@ export default function MainDetail() {
         <section className="flex p-5 items-center shadow-custom-shadow rounded-3xl mt-6">
           <div>
             <h2 className="font-bold ml-3">근무 내용</h2>
-            <ul className="list-disc ml-8 mt-2 break-keep whitespace-normal">
+            <ul className="ml-8 mt-2 break-keep whitespace-normal">
               카카오 프렌즈 홈페이지 UI 작업 카카오뱅크 신사업 분야의 프론트엔드
               개발과 운영 서비스 운영도구 개발 및 관리 효율화 업무 채용시 연락
             </ul>
@@ -99,9 +99,9 @@ export default function MainDetail() {
             </div>
           </section>
 
-          <section>
+          <section className="break-keep whitespace-normal">
             <div className="font-bold mt-7">근무 조건</div>
-            <div className="mt-2 break-keep whitespace-normal">
+            <div className="mt-2">
               카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
             </div>
 
@@ -113,7 +113,7 @@ export default function MainDetail() {
               카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
             </div>
 
-            <div className="font-bold mt-7">자신을 표현해주세요!</div>
+            <div className="font-bold mt-7 ">자신을 표현해주세요!</div>
             <div className="mt-2">프로젝트에서 말하는 감자를 담당했습니다.</div>
 
             <div className="flex gap-2 h-[32px] justify-center my-10">
