@@ -1,11 +1,50 @@
 import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function MainWrite() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
+  const [preview, setPreview] = useState(null);
+
+  const postWrite = useMutation({
+    mutationFn: async postInfo => {
+      if (postInfo.attach.length > 0) {
+        const imageFormData = new FormData();
+        imageFormData.append("attach", postInfo.attach[0]);
+
+        const photoRes = await axios("/files", {
+          method: "post",
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          data: imageFormData,
+        });
+        postInfo.image = photoRes.data.item[0];
+        delete postInfo.attach;
+      }
+      postInfo.type = "post";
+      console.log(postInfo);
+      return axios(`/posts`, postInfo);
+    },
+    onSuccess: () => {
+      console.log("성공함");
+    },
+  });
+
+  const handleImageChange = e => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setPreview(imageUrl);
+      setValue("attach", file);
+    }
+  };
 
   const onSubmit = formData => {
+    postWrite.mutate(formData);
     console.log(formData);
   };
 
@@ -26,18 +65,50 @@ export default function MainWrite() {
         <label htmlFor="photo" className="text-[16px] font-bold">
           근무지 사진
         </label>
-        <label
-          htmlFor="image-upload"
-          className="mt-2 w-[136px] h-[136px] flex items-center justify-center rounded-lg border border-dashed cursor-pointer"
-        >
-          <img src="/public/icons/plus.svg" className="w-5 h-5" />
-        </label>
+        <div className="mt-2 flex items-center">
+          {preview ? (
+            <>
+              <img
+                src={preview}
+                alt="미리보기"
+                className="mr-2 w-[136px] h-[136px] object-cover rounded-lg border border-dashed"
+              />
+              <label
+                htmlFor="image-upload"
+                className="w-[136px] h-[136px] flex items-center justify-center rounded-lg border border-dashed cursor-pointer"
+              >
+                <img src="/icons/plus.svg" className="w-5 h-5" />
+              </label>
+            </>
+          ) : (
+            <>
+              <label className="mr-2 w-[136px] h-[136px] flex items-center justify-center rounded-lg border border-dashed ">
+                미리보기
+              </label>
+              <label
+                htmlFor="image-upload"
+                className="w-[136px] h-[136px] flex items-center justify-center rounded-lg border border-dashed cursor-pointer"
+              >
+                <img src="/icons/plus.svg" className="w-5 h-5" />
+              </label>
+            </>
+          )}
+          <input
+            type="file"
+            id="image-upload"
+            accept="image/*"
+            className="hidden"
+            {...register("attach")}
+            onChange={handleImageChange}
+          />
+        </div>
 
         <input
           type="file"
           id="image-upload"
           accept="image/*"
           className="hidden"
+          onChange={handleImageChange}
         />
         <div className="my-2">
           <p className="text-red text-[12px]">*사진 1장은 필수 입니다.</p>
