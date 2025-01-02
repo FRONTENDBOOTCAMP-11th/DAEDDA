@@ -47,9 +47,9 @@ const formatDate = dateString => {
 
   let month = date.getMonth() + 1;
   let day = date.getDate();
+  console.log(month, day);
 
   const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
-  console.log(date.getDay());
   let weekday = weekdays[date.getDay()];
 
   return `${month}/${day} ${weekday}`;
@@ -77,8 +77,8 @@ export default function ListItem({ data }) {
         </h3>
         <p className="font-semibold">
           {formatDate(data.extra.condition.date)}ㆍ
-          {data.extra.condition.workTime[0]} ~{data.extra.condition.workTime[1]}{" "}
-          ㆍ
+          {data.extra.condition.workTime[0]} ~{" "}
+          {data.extra.condition.workTime[1]}ㆍ
           {getWorkTime(
             data.extra.condition.workTime[0],
             data.extra.condition.workTime[1],
@@ -89,7 +89,7 @@ export default function ListItem({ data }) {
       <div className="flex-shrink-0 screen-530:hidden">
         <img
           className="size-[136px]"
-          src="/src/assets/images/main-sample.png"
+          src={`https://11.fesp.shop/files/final01/${data.mainImages[0].name}`}
         />
       </div>
     </Link>
