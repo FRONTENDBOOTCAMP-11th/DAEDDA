@@ -1,16 +1,37 @@
 import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignIn() {
+  // propTypes
+  InputField.propTypes = {
+    type: PropTypes.string,
+    placeholder: PropTypes.string,
+    maxLength: PropTypes.number,
+    errorMsg: PropTypes.string,
+    register: PropTypes.object.isRequired,
+  };
+
+  Button.propTypes = {
+    color: PropTypes.string.isRequired,
+    height: PropTypes.string.isRequired,
+    type: PropTypes.string,
+  };
+
+  const navigate = useNavigate();
+
+  // 비밀번호 보여줌
   const [showPwd, setShowPwd] = useState(false); // 초기는 보이지 않는 상태
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
 
   const axiosInstance = useAxiosInstance();
@@ -24,12 +45,31 @@ export default function SignIn() {
 
       if (response.data.ok === 1) {
         console.log("로그인 성공", response.data.item);
+        navigate("/");
       } else {
         console.log("로그인 실패");
       }
     } catch (error) {
-      console.log("에러");
-      console.log(error);
+      if (error.response) {
+        const errorCode = error.response.status;
+
+        switch (errorCode) {
+          case 403:
+            console.log("오류 코드 403: 아이디 비밀번호 불일치");
+            setError("password", {
+              message: "이메일과 비밀번호를 확인하세요.",
+            });
+            break;
+          case 500:
+            console.log("오류 코드 500: 서버오류");
+            setError("password", { message: "잠시후에 다시 시도해주세요." });
+            break;
+          default:
+            break;
+        }
+      } else {
+        console.error("알 수 없는 오류 입니다.", error.message);
+      }
     }
   };
 
@@ -40,14 +80,18 @@ export default function SignIn() {
         src="/src/assets/images/daeddamon.png"
         className="my-7 w-[180px] h-[180px]"
       />
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full" noValidate>
         <InputField
           type="email"
           placeholder="이메일"
           maxLength="30"
           errorMsg={errors.email?.message}
           register={register("email", {
-            required: " 이메일을 입력해주세요.",
+            required: "이메일을 입력해주세요.",
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+              message: "이메일 형식으로 작성해주세요.",
+            },
           })}
         ></InputField>
         <div className="relative mb-5">
@@ -85,9 +129,9 @@ export default function SignIn() {
 
       <div className="flex items-center justify-center gap-2 mt-2">
         <p className="font-bold text-sm">대타를 찾고 있다면?</p>
-        <a href="#" className="underline text-sm">
+        <Link to="/user/terms" className="underline text-sm">
           회원가입
-        </a>
+        </Link>
       </div>
     </div>
   );
