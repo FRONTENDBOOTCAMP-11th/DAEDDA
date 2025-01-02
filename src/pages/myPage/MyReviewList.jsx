@@ -27,7 +27,7 @@ export default function MyReviewList({ item }) {
                       ? `https://11.fesp.shop/${reply.image}`
                       : `/src/asset/images/smiling_daeddamon.png`
                   }
-                  alt="사용자 임미지"
+                  alt="사용자 이미지"
                   className="size-10"
                 />
               </Link>
