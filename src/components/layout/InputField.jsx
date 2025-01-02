@@ -8,8 +8,7 @@ InputField.propTypes = {
   errorMsg: PropTypes.string,
   isLast: PropTypes.bool,
   isTextArea: PropTypes.bool,
-  register: PropTypes.func,
-  name: PropTypes.string.isRequired,
+  register: PropTypes.func.isRequired,
 };
 
 export default function InputField({
@@ -20,7 +19,6 @@ export default function InputField({
   isLast = false,
   isTextArea = false,
   register,
-  name,
   ...props
 }) {
   // type에 따라 전달할 props 객체를 다르게 저장하는 변수
@@ -45,20 +43,20 @@ export default function InputField({
           {...dateTypeProps}
           className={`w-full p-3 border-2 border-#999 rounded-lg focus:outline-none focus:border-primary ${errorMsg ? "mb-2" : isLast ? "" : "mb-[28px]"}`}
           rows={10}
-          {...(register && register(name))}
+          {...register}
           {...props}
         />
       ) : (
         <input
           {...dateTypeProps}
           className={`w-full h-[48px] p-3 border-2 border-#999 rounded-lg focus:outline-none focus:border-primary ${errorMsg ? "mb-2" : isLast ? "" : "mb-[28px]"}`}
-          {...(register && register(name))}
+          {...register}
           {...props}
         />
       )}
       {errorMsg && (
         <p
-          className={`text-red text-xs ${isLast ? "" : "mb-2"}`}
+          className={`text-red text-xs leading-3 ${isLast ? "" : "mb-2"}`}
         >{`*${errorMsg}`}</p>
       )}
     </div>
