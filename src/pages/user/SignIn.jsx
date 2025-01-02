@@ -1,5 +1,6 @@
 import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
+import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -12,8 +13,24 @@ export default function SignIn() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = formData => {
-    console.log(formData);
+  const axiosInstance = useAxiosInstance();
+
+  const onSubmit = async formData => {
+    try {
+      const response = await axiosInstance.post("/users/login", {
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (response.data.ok === 1) {
+        console.log("로그인 성공", response.data.item);
+      } else {
+        console.log("로그인 실패");
+      }
+    } catch (error) {
+      console.log("에러");
+      console.log(error);
+    }
   };
 
   return (
