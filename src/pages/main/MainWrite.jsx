@@ -21,6 +21,14 @@ export default function MainWrite() {
       let body = {
         ...formData,
         quantity: 1,
+        extra: {
+          location: [35.155625, 129.131793],
+          address: formData.address,
+          condition: {
+            company: formData.company,
+            workTime: formData.workTime.split(" - "),
+          },
+        },
       };
 
       if (formData.attach?.length > 0) {
