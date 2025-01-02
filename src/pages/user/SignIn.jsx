@@ -54,6 +54,7 @@ export default function SignIn() {
           _id: response.data.item._id,
           name: response.data.item.name,
           phone: response.data.item.phone,
+          image: response.data.item.image,
           extra: {
             birthday: response.data.item.extra?.birthday,
           },
