@@ -1,12 +1,18 @@
 import Button from "@components/layout/Button";
+import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 
+MyReviewList.propTypes = {
+  item: PropTypes.node,
+};
 export default function MyReviewList({ item }) {
   const { _id } = useParams();
+  function alertfun() {
+    alert("신고되었습니다");
+  }
   if (!item) {
     return <div>데이터가 없습니다.</div>;
   }
-
   console.log(item);
   return (
     <>
@@ -14,13 +20,17 @@ export default function MyReviewList({ item }) {
         <div key={reply._id} className="reviews-container">
           <div className="flex gap-1 ">
             <div className="flex gap-5">
-              {/* <Link to={`/user/:${_id}`}> */}
-              <img
-                src="/src/assets/images/smiling_daeddamon.png"
-                alt=""
-                className="size-10"
-              />
-              {/* </Link> */}
+              <Link to={`/user/${_id}`}>
+                <img
+                  src={
+                    reply.image
+                      ? `https://11.fesp.shop/${reply.image}`
+                      : `/src/asset/images/smiling_daeddamon.png`
+                  }
+                  alt="사용자 임미지"
+                  className="size-10"
+                />
+              </Link>
               <Link to={`/main/${_id}`}>
                 <div className="max-w-[440px]">
                   <p className="font-bold text-sm">{reply.user_name}</p>
@@ -42,6 +52,7 @@ export default function MyReviewList({ item }) {
               height="xs"
               color="white"
               className="w-[47px] shrink-0 ml-auto"
+              onClick={alertfun}
             >
               신고하기
             </Button>
