@@ -26,7 +26,6 @@ export default function MainList() {
     fetchData();
   }, []);
 
-  console.log(data);
   return (
     <div className="mb-[80px] flex flex-col">
       <div className="flex justify-between items-center text-[24px] font-semibold pb-[23px]">

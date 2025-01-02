@@ -1,7 +1,11 @@
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+
+ListItem.propTypes = {
+  data: PropTypes.object.isRequired,
+};
+
 // 시작 시간, 마치는 시간을 string을 받아
-
-import { create } from "zustand";
-
 // 일한 시간 number을 반환하는 함수
 const getWorkTime = (start, end) => {
   const startTime = +start.replace(":", "");
@@ -53,7 +57,10 @@ const formatDate = dateString => {
 
 export default function ListItem({ data }) {
   return (
-    <div className="flex justify-between shadow-custom-shadow rounded-3xl px-4 py-[22px] items-center">
+    <Link
+      to={`main/${data._id}`}
+      className="flex justify-between shadow-custom-shadow rounded-3xl px-4 py-[22px] items-center"
+    >
       <div className="flex flex-col gap-1">
         <h3 className="font-bold text-[20px]">{data.name}</h3>
         <p className="font-semibold text-gray-500">
@@ -85,6 +92,6 @@ export default function ListItem({ data }) {
           src="/src/assets/images/main-sample.png"
         />
       </div>
-    </div>
+    </Link>
   );
 }
