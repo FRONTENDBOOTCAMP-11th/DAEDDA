@@ -1,30 +1,17 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import ListItem from "@pages/main/ListItem";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 
 export default function MainList() {
-  const [data, setData] = useState();
-  const [isLoading, setIsLoading] = useState(false);
-
   const axios = useAxiosInstance();
 
-  const fetchData = async () => {
-    setIsLoading(true);
-
-    try {
-      const res = await axios.get("/products");
-      setData(res.data.item);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const { data, isLoading } = useQuery({
+    queryKey: ["posts"],
+    queryFn: () => axios.get("/products"),
+    select: res => res.data.item,
+    staleTime: 1000 * 10,
+  });
 
   return (
     <div className="mb-[80px] flex flex-col">
