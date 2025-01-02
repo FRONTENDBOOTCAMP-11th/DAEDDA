@@ -87,23 +87,25 @@ export default function Edit() {
               },
             })}
           />
-          <div className="mb-9">
-            <InputField
-              errorMsg={errors.bitrh?.message}
-              labelName="생년월일"
-              type="date"
-              placeholder="연도-월-일"
-              register={register("bitrh", {
-                required: "생년월일은 필수 입력입니다",
-              })}
-            />
+
+          <InputField
+            errorMsg={errors.bitrh?.message}
+            labelName="생년월일"
+            type="date"
+            placeholder="연도-월-일"
+            register={register("bitrh", {
+              required: "생년월일은 필수 입력입니다",
+            })}
+          />
+
+          <div className="flex gap-6 w-full pt-5">
+            <Button color="white" height="lg">
+              취소
+            </Button>
+            <Button color="purple" height="lg" type="submit">
+              계속
+            </Button>
           </div>
-          <Button height="lg" className="w-full mb-4">
-            로그아웃
-          </Button>
-          <Button height="lg" type="submit">
-            수정하기
-          </Button>
         </div>
       </form>
     </>
