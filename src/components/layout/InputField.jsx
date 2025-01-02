@@ -8,7 +8,7 @@ InputField.propTypes = {
   errorMsg: PropTypes.string,
   isLast: PropTypes.bool,
   isTextArea: PropTypes.bool,
-  register: PropTypes.func.isRequired,
+  register: PropTypes.object.isRequired,
 };
 
 export default function InputField({
