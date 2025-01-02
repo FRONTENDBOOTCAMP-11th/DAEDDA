@@ -1,6 +1,7 @@
 import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
+import { useMutation } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import PropTypes from "prop-types";
 import { useState } from "react";
@@ -36,57 +37,75 @@ export default function SignIn() {
     setError,
   } = useForm();
 
-  const axiosInstance = useAxiosInstance();
+  const axios = useAxiosInstance();
 
-  const onSubmit = async formData => {
-    try {
-      const response = await axiosInstance.post("/users/login", {
-        email: formData.email,
-        password: formData.password,
+  // const onSubmit = async formData => {
+  //   try {
+  //     const response = await axiosInstance.post("/users/login", {
+  //       email: formData.email,
+  //       password: formData.password,
+  //     });
+
+  //     if (response.data.ok === 1) {
+  //       console.log("로그인 성공", response.data.item);
+
+  //       // sessionStorage.setItem("userId", response.data.item._id);
+  //       // zustand에서 관리
+  //       setUser({
+  //         _id: response.data.item._id,
+  //         name: response.data.item.name,
+  //         phone: response.data.item.phone,
+  //         image: response.data.item.image,
+  //         extra: {
+  //           birthday: response.data.item.extra?.birthday,
+  //         },
+  //       });
+  //       navigate("/");
+  //     } else {
+  //       console.log("로그인 실패");
+  //     }
+  //   } catch (error) {
+  //     if (error.response) {
+  //       const errorCode = error.response.status;
+
+  //       switch (errorCode) {
+  //         case 403:
+  //           console.log("오류 코드 403: 아이디 비밀번호 불일치");
+  //           setError("password", {
+  //             message: "이메일과 비밀번호를 확인하세요.",
+  //           });
+  //           break;
+  //         case 500:
+  //           console.log("오류 코드 500: 서버오류");
+  //           setError("password", { message: "잠시후에 다시 시도해주세요." });
+  //           break;
+  //         default:
+  //           break;
+  //       }
+  //     } else {
+  //       console.error("알 수 없는 오류 입니다.", error.message);
+  //     }
+  //   }
+  // };
+
+  const signIn = useMutation({
+    mutationFn: formData => axios.post(`/users/signIn`, formData),
+    onSuccess: res => {
+      console.log(res);
+
+      const user = res.data.item;
+      setUser({
+        _id: user._id,
+        name: user.name,
+        phone: user.phone,
+        image: user.image,
+        extra: {
+          birthday: user.extra?.birthday,
+        },
       });
-
-      if (response.data.ok === 1) {
-        console.log("로그인 성공", response.data.item);
-
-        // sessionStorage.setItem("userId", response.data.item._id);
-        // zustand에서 관리
-        setUser({
-          _id: response.data.item._id,
-          name: response.data.item.name,
-          phone: response.data.item.phone,
-          image: response.data.item.image,
-          extra: {
-            birthday: response.data.item.extra?.birthday,
-          },
-        });
-        navigate("/");
-      } else {
-        console.log("로그인 실패");
-      }
-    } catch (error) {
-      if (error.response) {
-        const errorCode = error.response.status;
-
-        switch (errorCode) {
-          case 403:
-            console.log("오류 코드 403: 아이디 비밀번호 불일치");
-            setError("password", {
-              message: "이메일과 비밀번호를 확인하세요.",
-            });
-            break;
-          case 500:
-            console.log("오류 코드 500: 서버오류");
-            setError("password", { message: "잠시후에 다시 시도해주세요." });
-            break;
-          default:
-            break;
-        }
-      } else {
-        console.error("알 수 없는 오류 입니다.", error.message);
-      }
-    }
-  };
-
+      navigate("/");
+    },
+  });
   return (
     <div className="min-h-screen flex flex-col items-center justify-center overflow-auto">
       <img src="/src/assets/logos/header-logo.png" className="mt-8 h-[70px]" />
