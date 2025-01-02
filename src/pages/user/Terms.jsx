@@ -98,7 +98,7 @@ export default function Terms() {
             id="check-2"
           ></input>
           <label htmlFor="check-2" className="text-base">
-            <strong>(필수)</strong> 서비스 이용 약관 동의
+            <strong>(필수)</strong> 개인 정보 수집 및 이용 동의
           </label>
         </div>
 
