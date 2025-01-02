@@ -172,6 +172,10 @@ export default function MainWrite() {
           placeholder="급여"
           register={register("price", {
             required: "급여 입력은 필수입니다.",
+            pattern: {
+              value: /^[0-9]+$/,
+              message: "숫자만 입력해주세요.",
+            },
           })}
           errorMsg={errors.price?.message}
         />
@@ -204,7 +208,11 @@ export default function MainWrite() {
           id="workTxt"
           isTextArea={true}
           register={register("content", {
-            required: "근무 내용 입력은 필수입니다.",
+            required: "근무 내용은 최소 10자 이상 입력해주세요.",
+            minLength: {
+              value: 10,
+              message: "근무 내용은 최소 10자 이상 입력해주세요.",
+            },
           })}
           errorMsg={errors.content?.message}
         />
