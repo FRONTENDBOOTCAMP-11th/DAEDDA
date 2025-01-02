@@ -1,16 +1,24 @@
 import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
+import { useForm } from "react-hook-form";
 
 export default function MainWrite() {
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = formData => {
+    console.log(formData);
+  };
+
   return (
-    <form className="mb-[40px]">
+    <form className="mb-[40px]" onSubmit={handleSubmit(onSubmit)}>
       <div className="mt-5">
         <InputField
           labelName="제목"
-          id="title"
           type="text"
           placeholder="제목"
           errorMsg="제목 입력은 필수입니다."
+          register={register}
+          name="name"
         />
       </div>
 
@@ -43,9 +51,10 @@ export default function MainWrite() {
         </div>
         <InputField
           type="text"
-          id="address"
           placeholder="상세 주소"
           errorMsg="주소 입력은 필수입니다."
+          register={register}
+          name="address"
         />
       </fieldset>
 
@@ -55,20 +64,31 @@ export default function MainWrite() {
           type="text"
           placeholder="가게 이름"
           errorMsg="가게 이름 입력은 필수입니다."
+          register={register}
+          name="company"
         />
 
         <InputField
           type="text"
           placeholder="급여"
           errorMsg="급여 입력은 필수입니다."
+          register={register}
+          name="price"
         />
 
         <InputField
           type="text"
           errorMsg="근무 시간 입력은 필수입니다."
           placeholder="근무 시간은 00:00 - 00:00으로 입력해주세요."
+          register={register}
+          name="workTime"
         />
-        <InputField type="date" errorMsg="생년월일 입력은 필수입니다." />
+        <InputField
+          type="date"
+          errorMsg="날짜짜 입력은 필수입니다."
+          register={register}
+          name="date"
+        />
       </fieldset>
 
       <fieldset>
@@ -78,6 +98,8 @@ export default function MainWrite() {
           id="workTxt"
           errorMsg="근무 내용 입력은 필수입니다."
           isTextArea={true}
+          register={register}
+          name="content"
         />
       </fieldset>
       <div className="mt-11">
