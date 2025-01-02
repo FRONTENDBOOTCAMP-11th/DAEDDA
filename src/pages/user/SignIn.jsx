@@ -1,6 +1,7 @@
 import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
+import useUserStore from "@zustand/userStore";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -23,6 +24,7 @@ export default function SignIn() {
   };
 
   const navigate = useNavigate();
+  const setUser = useUserStore(store => store.setUser);
 
   // 비밀번호 보여줌
   const [showPwd, setShowPwd] = useState(false); // 초기는 보이지 않는 상태
@@ -45,7 +47,17 @@ export default function SignIn() {
 
       if (response.data.ok === 1) {
         console.log("로그인 성공", response.data.item);
-        sessionStorage.setItem("userId", response.data.item._id);
+
+        // sessionStorage.setItem("userId", response.data.item._id);
+        // zustand에서 관리
+        setUser({
+          _id: response.data.item._id,
+          name: response.data.item.name,
+          phone: response.data.item.phone,
+          extra: {
+            birthday: response.data.item.extra?.birthday,
+          },
+        });
         navigate("/");
       } else {
         console.log("로그인 실패");
