@@ -24,9 +24,9 @@ export default function MainWrite() {
         name: formData.name,
         price: formData.price,
         quantity: 1,
-        date: formData.date,
         content: formData.content,
         extra: {
+          date: formData.date,
           location: [35.155625, 129.131793],
           address: formData.address,
           condition: {
