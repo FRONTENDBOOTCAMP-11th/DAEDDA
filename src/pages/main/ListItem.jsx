@@ -88,7 +88,7 @@ export default function ListItem({ data }) {
       </div>
       <div className="flex-shrink-0 screen-530:hidden">
         <img
-          className="size-[136px]"
+          className="size-[136px] object-cover"
           src={`https://11.fesp.shop/files/final01/${data.mainImages[0].name}`}
         />
       </div>
