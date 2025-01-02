@@ -26,7 +26,7 @@ function App() {
         // 실행 되었으니 true로 값 변경
         sessionStorage.setItem("isShown", "true");
         console.log("세션 isShown의 값 ", sessionStorage.getItem("isShown"));
-      }, 2000);
+      }, 5000);
       return () => clearTimeout(timer);
     } else {
       console.log("해당사항 없음");
@@ -45,7 +45,11 @@ function App() {
 }
 
 function SplashScreen() {
-  return <div>스플래쉬 화면</div>;
+  return (
+    <div className="px-6 max-w-screen-sm m-auto h-screen overflow-y-auto relative flex items-center justify-center bg-[#F3E5FF]">
+      <img src="/src/assets/logos/logo_title.png"></img>
+    </div>
+  );
 }
 
 export default App;
