@@ -16,6 +16,7 @@ export default function MainWrite() {
     formState: { errors },
   } = useForm();
   const [preview, setPreview] = useState(null);
+  const [imageError, setImageError] = useState(true);
   const axios = useAxiosInstance();
 
   const addPost = useMutation({
@@ -72,6 +73,9 @@ export default function MainWrite() {
       const imageUrl = URL.createObjectURL(file);
       setPreview(imageUrl);
       setValue("attach", [file]);
+      setImageError(false);
+    } else {
+      setImageError(true);
     }
   };
 
@@ -130,8 +134,10 @@ export default function MainWrite() {
           />
         </div>
 
-        <div className="my-2">
-          <p className="text-red text-[12px]">*사진 1장은 필수 입니다.</p>
+        <div className="my-2 h-4">
+          {imageError && (
+            <p className="text-red text-[12px]">*사진 1장은 필수 입니다.</p>
+          )}
         </div>
       </fieldset>
 
