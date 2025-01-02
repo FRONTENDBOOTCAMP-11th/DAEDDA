@@ -26,10 +26,10 @@ export default function MainWrite() {
         quantity: 1,
         content: formData.content,
         extra: {
-          date: formData.date,
           location: [35.155625, 129.131793],
           address: formData.address,
           condition: {
+            date: formData.date,
             company: formData.company,
             workTime: formData.workTime.split(" - "),
           },
