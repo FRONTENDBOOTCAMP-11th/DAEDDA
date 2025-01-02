@@ -5,8 +5,10 @@ import MainMap from "@pages/main/MainMap";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 export default function MainWrite() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -19,8 +21,11 @@ export default function MainWrite() {
   const addPost = useMutation({
     mutationFn: async formData => {
       let body = {
-        ...formData,
+        name: formData.name,
+        price: formData.price,
         quantity: 1,
+        date: formData.date,
+        content: formData.content,
         extra: {
           location: [35.155625, 129.131793],
           address: formData.address,
@@ -53,7 +58,8 @@ export default function MainWrite() {
       return axios.post("/seller/products", body);
     },
     onSuccess: response => {
-      console.log("등록 성공:", response.data);
+      const mainPostId = response.data.item._id;
+      navigate(`/main/${mainPostId}`);
     },
     onError: error => {
       console.error("등록 실패:", error);
@@ -169,6 +175,10 @@ export default function MainWrite() {
           placeholder="근무 시간은 00:00 - 00:00으로 입력해주세요."
           register={register("workTime", {
             required: "근무 시간은 00:00 - 00:00으로 입력해주세요.",
+            pattern: {
+              value: /^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
+              message: "근무 시간은 00:00 - 00:00 형식으로 입력해주세요.",
+            },
           })}
           errorMsg={errors.workTime?.message}
         />
