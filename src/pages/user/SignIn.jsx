@@ -45,6 +45,7 @@ export default function SignIn() {
 
       if (response.data.ok === 1) {
         console.log("로그인 성공", response.data.item);
+        sessionStorage.setItem("userId", response.data.item._id);
         navigate("/");
       } else {
         console.log("로그인 실패");
