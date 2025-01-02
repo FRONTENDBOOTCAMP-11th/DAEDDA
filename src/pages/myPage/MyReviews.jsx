@@ -1,4 +1,3 @@
-import Button from "@components/layout/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import MyReviewList from "@pages/myPage/MyReviewList";
 import { useQuery } from "@tanstack/react-query";
@@ -29,8 +28,8 @@ export default function MyReviews() {
     <div className="mb-[40px]">
       <p className="font-bold text-[18px] pb-8 px-5">리뷰 {totalReplies}개</p>
       {list}
-
-      {/* <div className="reviews-container">
+      {/* 
+      <div className="reviews-container">
         <div className="flex gap-1 ">
           <div className="flex gap-5">
             <img
