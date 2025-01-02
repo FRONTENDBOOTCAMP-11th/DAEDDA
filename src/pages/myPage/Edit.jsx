@@ -35,7 +35,8 @@ export default function Edit() {
       reset({
         nickname: data.item.name,
         email: data.item.email,
-        phoneNumber: data.item.phoneNumber,
+        pw: "1234",
+        phoneNumber: data.item.phone,
         birth: data.item.birth,
       });
     }
@@ -52,7 +53,11 @@ export default function Edit() {
             <div className="flex flex-col items-center justify-center h-full mb-4">
               <div className="relative inline-block -z-10">
                 <img
-                  src="/src/assets/images/smiling_daeddamon.png"
+                  src={
+                    data.item.image
+                      ? `https://11.fesp.shop/${data.item.image}`
+                      : `/src/asset/images/smiling_daeddamon.png`
+                  }
                   alt="프로필 이미지"
                   className="size-32 mx-auto mb-3 "
                 />
@@ -97,7 +102,6 @@ export default function Edit() {
             errorMsg={errors.phoneNumber?.message}
             labelName="휴대폰 번호"
             placeholder="번호를 입력해 주세요"
-            type="number"
             register={register("phoneNumber", {
               required: "번호 입력은 필수입니다",
             })}
