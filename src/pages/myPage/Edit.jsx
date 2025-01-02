@@ -1,25 +1,52 @@
 import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
+import useAxiosInstance from "@hooks/useAxiosInstance";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 export default function Edit() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      nickname: "",
+  const axios = useAxiosInstance();
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["user", "userId"],
+    queryFn: () => axios.get(`/users/2`),
+    select: res => res.data,
+    staleTime: 1000 * 10,
+  });
+  console.log(data);
+
+  const editUser = useMutation({
+    mutationFn: formData => axios.patch("/users/2", formData),
+    onSuccess: () => {
+      alert("정보가 수정되었습니다");
     },
   });
 
-  function onSubmit() {
-    alert("수정되었습니다");
-  }
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
+  useEffect(() => {
+    if (data) {
+      reset({
+        nickname: data.item.name,
+        email: data.item.email,
+        phoneNumber: data.item.phoneNumber,
+        birth: data.item.birth,
+      });
+    }
+  }, [data, reset]);
+
+  const handleFormSubmit = formData => {
+    editUser.mutate(formData);
+  };
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
         <div className="mb-[40px]">
           <div className=" border-gray-200 border-b mb-5">
             <div className="flex flex-col items-center justify-center h-full mb-4">
@@ -67,11 +94,12 @@ export default function Edit() {
             })}
           />
           <InputField
-            errorMsg={errors.id?.message}
-            labelName="Id"
-            placeholder="아이디를 입력해 주세요"
-            register={register("id", {
-              required: "아이디 입력은 필수입니다",
+            errorMsg={errors.phoneNumber?.message}
+            labelName="휴대폰 번호"
+            placeholder="번호를 입력해 주세요"
+            type="number"
+            register={register("phoneNumber", {
+              required: "번호 입력은 필수입니다",
             })}
           />
           <InputField
@@ -89,16 +117,16 @@ export default function Edit() {
           />
 
           <InputField
-            errorMsg={errors.bitrh?.message}
+            errorMsg={errors.birth?.message}
             labelName="생년월일"
             type="date"
             placeholder="연도-월-일"
-            register={register("bitrh", {
+            register={register("birth", {
               required: "생년월일은 필수 입력입니다",
             })}
           />
 
-          <div className="flex gap-6 w-full pt-5">
+          <div className="flex gap-6 w-full pt-4">
             <Button color="white" height="lg">
               취소
             </Button>
