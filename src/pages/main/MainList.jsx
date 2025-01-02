@@ -1,6 +1,32 @@
+import useAxiosInstance from "@hooks/useAxiosInstance";
+import ListItem from "@pages/main/ListItem";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function MainList() {
+  const [data, setData] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const axios = useAxiosInstance();
+
+  const fetchData = async () => {
+    setIsLoading(true);
+
+    try {
+      const res = await axios.get("/products");
+      setData(res.data.item);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  console.log(data);
   return (
     <div className="mb-[80px] flex flex-col">
       <div className="flex justify-between items-center text-[24px] font-semibold pb-[23px]">
@@ -34,66 +60,13 @@ export default function MainList() {
       </div>
 
       <div className="flex flex-col gap-5">
-        <div className="flex justify-between shadow-custom-shadow rounded-3xl px-4 py-[22px] items-center">
-          <div className="flex flex-col gap-1">
-            <h3 className="font-bold text-[20px]">
-              기장대게 할인마트 홀 서빙 대타 구함!
-            </h3>
-            <p className="font-semibold text-gray-500">
-              기장대게할인마트ㆍ민락동 ㆍ 1시간 전
-            </p>
-            <h3 className="text-[20px] font-bold text-purple-900">
-              90,000원ㆍ시급 15,000원
-            </h3>
-            <p className="font-semibold">12/19 목ㆍ10:00 ~ 16:00ㆍ6시간</p>
-          </div>
-          <div className="flex-shrink-0 screen-530:hidden">
-            <img
-              className="size-[136px]"
-              src="/src/assets/images/main-sample.png"
-            />
-          </div>
-        </div>
-        <div className="flex justify-between shadow-custom-shadow rounded-3xl px-4 py-[22px] items-center">
-          <div className="flex flex-col gap-1">
-            <h3 className="font-bold text-[20px]">
-              기장대게 할인마트 홀 서빙 대타 구함!
-            </h3>
-            <p className="font-semibold text-gray-500">
-              기장대게할인마트ㆍ민락동 ㆍ 1시간 전
-            </p>
-            <h3 className="text-[20px] font-bold text-purple-900">
-              90,000원ㆍ시급 15,000원
-            </h3>
-            <p className="font-semibold">12/19 목ㆍ10:00 ~ 16:00ㆍ6시간</p>
-          </div>
-          <div className="flex-shrink-0 screen-530:hidden">
-            <img
-              className="size-[136px]"
-              src="/src/assets/images/main-sample.png"
-            />
-          </div>
-        </div>
-        <div className="flex justify-between shadow-custom-shadow rounded-3xl px-4 py-[22px] items-center">
-          <div className="flex flex-col gap-1">
-            <h3 className="font-bold text-[20px]">
-              기장대게 할인마트 홀 서빙 대타 구함!
-            </h3>
-            <p className="font-semibold text-gray-500">
-              기장대게할인마트ㆍ민락동 ㆍ 1시간 전
-            </p>
-            <h3 className="text-[20px] font-bold text-purple-900">
-              90,000원ㆍ시급 15,000원
-            </h3>
-            <p className="font-semibold">12/19 목ㆍ10:00 ~ 16:00ㆍ6시간</p>
-          </div>
-          <div className="flex-shrink-0 screen-530:hidden">
-            <img
-              className="size-[136px]"
-              src="/src/assets/images/main-sample.png"
-            />
-          </div>
-        </div>
+        {isLoading && <p>로딩중...</p>}
+        {data && (
+          <>
+            <ListItem data={data[0]} />
+            <ListItem data={data[1]} />
+          </>
+        )}
       </div>
 
       <Link
