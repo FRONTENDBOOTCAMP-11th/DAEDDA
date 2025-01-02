@@ -7,7 +7,7 @@ export default function MyReviewList({ item }) {
     return <div>데이터가 없습니다.</div>;
   }
 
-  // console.log(item);
+  console.log(item);
   return (
     <>
       {item.replies.map(reply => (

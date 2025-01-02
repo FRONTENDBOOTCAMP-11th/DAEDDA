@@ -8,7 +8,7 @@ export default function MyReviews() {
   const { _id } = useParams();
   const { data } = useQuery({
     queryKey: ["reviews"],
-    queryFn: () => axios.get(`/replies/seller/${_id}`),
+    queryFn: () => axios.get(`/replies/seller/${유저아이디임}`),
     select: res => res.data,
     staleTime: 1000 * 10,
   });
