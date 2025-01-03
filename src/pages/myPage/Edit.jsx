@@ -4,9 +4,11 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 export default function Edit() {
   const axios = useAxiosInstance();
+  const navigate = useNavigate();
 
   const { data, isLoading } = useQuery({
     queryKey: ["user", "userId"],
@@ -21,6 +23,10 @@ export default function Edit() {
     mutationFn: formData => axios.patch("/users/2", formData),
     onSuccess: () => {
       alert("정보가 수정되었습니다");
+      navigate(`/myPage`);
+    },
+    onError: err => {
+      console.error(err);
     },
   });
 
