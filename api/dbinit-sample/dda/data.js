@@ -667,6 +667,7 @@ export const initData = async (clientId, nextSeq) => {
         updatedAt: getTime(-40, -60 * 15),
         extra: {
           status: "구인 중",
+          applied_id: [4],
           location: [35.155625, 129.131793],
           addres: "부산광역시 수영구 광안해변로358번길 8 1층",
           condition: {
@@ -702,6 +703,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           status: "구인 완료",
           worker_id: 4,
+          applied_id: [4],
           location: [35.154435, 129.065956],
           addres: "부산광역시 부산진구 서전로58번길 78",
           condition: {
@@ -737,6 +739,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           status: "대타 완료",
           worker_id: 4,
+          applied_id: [4],
           location: [37.563983, 126.985161],
           addres: "서울특별시 중구 명동1가 9-9",
           condition: {
@@ -775,6 +778,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           status: "송금 완료",
           worker_id: 4,
+          applied_id: [4],
           location: [33.500893, 126.530108],
           addres: "동광로,제주특별자치도 제주시",
           condition: {
