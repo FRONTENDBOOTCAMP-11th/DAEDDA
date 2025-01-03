@@ -112,7 +112,7 @@ export default function SignIn() {
             },
           })}
         ></InputField>
-        <div className="relative mb-5">
+        <div className="relative">
           <InputField
             type={showPwd ? "text" : "password"}
             placeholder="비밀번호"
