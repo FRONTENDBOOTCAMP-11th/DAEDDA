@@ -87,6 +87,14 @@ export default function SignIn() {
     onSuccess: res => handleOnSuccess(res, setUser, navigate),
     onError: err => handleOnError(err, setError),
   });
+
+  const handleKakako = () => {
+    const REST_API_KEY = "f6bf3978b90a2226634f98f18116f913";
+    const REDIRECT_URI = "http://localhost:5173/";
+    const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
+
+    window.location.href = KAKAO_AUTH_URI;
+  };
   return (
     <div className="min-h-screen flex flex-col items-center justify-center overflow-auto">
       <img src="/src/assets/logos/header-logo.png" className="mt-8 h-[70px]" />
@@ -143,7 +151,7 @@ export default function SignIn() {
             src="/icons/kakao.svg"
             className="absolute top-3 left-2 w-6 h-6"
           />
-          <Button color="yellow" height="lg">
+          <Button color="yellow" height="lg" onClick={handleKakako}>
             카카오 로그인
           </Button>
         </div>
