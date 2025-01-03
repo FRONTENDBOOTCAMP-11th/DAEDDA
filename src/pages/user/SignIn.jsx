@@ -8,6 +8,52 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
+const signInFn = (axios, formData) => {
+  return axios.post(`/users/login`, formData);
+};
+
+const handleOnSuccess = (res, setUser, navigate) => {
+  console.log(res);
+  const user = res.data.item;
+  setUser({
+    _id: user._id,
+    name: user.name,
+    phone: user.phone,
+    image: user.image,
+    accessToken: user.token.accessToken,
+    refreshToken: user.token.refreshToken,
+    extra: {
+      birthday: user.extra?.birthday,
+    },
+  });
+  console.log("성공");
+  navigate("/");
+};
+
+const handleOnError = (err, setError) => {
+  if (err.response) {
+    const errorCode = err.response.status;
+
+    switch (errorCode) {
+      case 403:
+        console.log("오류 코드 403: 아이디 비밀번호 불일치");
+        setError("password", {
+          message: "이메일과 비밀번호를 확인하세요.",
+        });
+        break;
+      case 500:
+        console.log("오류 코드 500: 서버오류");
+        setError("password", { message: "잠시 후에 다시 시도해주세요." });
+        break;
+      default:
+        console.error("기타 오류:", err.response.data.message);
+        break;
+    }
+  } else {
+    console.error("알 수 없는 오류입니다:", err.message);
+  }
+};
+
 export default function SignIn() {
   // propTypes
   InputField.propTypes = {
@@ -37,48 +83,9 @@ export default function SignIn() {
   } = useForm();
 
   const signIn = useMutation({
-    mutationFn: formData => axios.post(`/users/login`, formData),
-    onSuccess: res => {
-      console.log(res);
-
-      const user = res.data.item;
-      setUser({
-        _id: user._id,
-        name: user.name,
-        phone: user.phone,
-        image: user.image,
-        accessToken: user.token.accessToken,
-        refreshToken: user.token.refreshToken,
-        extra: {
-          birthday: user.extra?.birthday,
-        },
-      });
-      console.log("성공");
-      navigate("/");
-    },
-    onError: err => {
-      if (err.response) {
-        const errorCode = err.response.status;
-
-        switch (errorCode) {
-          case 403:
-            console.log("오류 코드 403: 아이디 비밀번호 불일치");
-            setError("password", {
-              message: "이메일과 비밀번호를 확인하세요.",
-            });
-            break;
-          case 500:
-            console.log("오류 코드 500: 서버오류");
-            setError("password", { message: "잠시 후에 다시 시도해주세요." });
-            break;
-          default:
-            console.error("기타 오류:", err.response.data.message);
-            break;
-        }
-      } else {
-        console.error("알 수 없는 오류입니다:", err.message);
-      }
-    },
+    mutationFn: formData => signInFn(axios, formData),
+    onSuccess: res => handleOnSuccess(res, setUser, navigate),
+    onError: err => handleOnError(err, setError),
   });
   return (
     <div className="min-h-screen flex flex-col items-center justify-center overflow-auto">
