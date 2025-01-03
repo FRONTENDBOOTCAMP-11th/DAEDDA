@@ -20,8 +20,8 @@ export default function MyReviewList({ item }) {
       {item.replies.map(reply => (
         <div key={reply._id} className="reviews-container">
           <div className="flex gap-1 ">
-            <div className="flex gap-5">
-              <Link to={`/user/${_id}`}>
+            <div className="flex gap-5 flex-grow">
+              <Link to={`/user/${_id}`} className="flex-shrink-0">
                 <img
                   src={
                     reply.image
@@ -32,7 +32,7 @@ export default function MyReviewList({ item }) {
                   className="size-10"
                 />
               </Link>
-              <Link to={`/main/${_id}`}>
+              <Link to={`/main/${_id}`} className="w-full">
                 <div className="max-w-[440px]">
                   <p className="font-bold text-sm">{reply.user_name}</p>
                   <div className="flex gap-1 size-3 mb-2">
@@ -52,7 +52,7 @@ export default function MyReviewList({ item }) {
             <Button
               height="xs"
               color="white"
-              className="w-[47px] shrink-0 ml-auto"
+              className="w-[47px] shrink-0"
               onClick={alertfun}
             >
               신고하기
