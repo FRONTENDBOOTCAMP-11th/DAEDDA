@@ -699,13 +699,84 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-41, -60 * 60 * 2),
         updatedAt: getTime(-40, -60 * 15),
         extra: {
-          status: "구인 중",
+          status: "구인 완료",
           location: [35.154435, 129.065956],
           addres: "부산광역시 부산진구 서전로58번길 78",
           condition: {
             company: "소문난손칼국수",
             workTime: ["11:00", "16:00"],
-            date: "2025-01-04",
+            date: "2025-01-05",
+          },
+        },
+      },
+      {
+        _id: await nextSeq("product"),
+        seller_id: 2,
+        price: 100000,
+        shippingFees: 0,
+        show: true,
+        active: true,
+        name: "올리브영 일일 MATE 구합니다",
+        quantity: 1,
+        buyQuantity: 0,
+        mainImages: [
+          {
+            path: `/files/${clientId}/olive.jpg`,
+            name: "olive.jpg",
+            originalname: "올리브영.jpg",
+          },
+        ],
+        content: `
+          <div class="product-detail">
+            <p>올리브영 일일 MATE 구합니다. 화장품 관심 많으신 분 우대해요.</p>
+          </div>`,
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          status: "대타 완료",
+          location: [37.563983, 126.985161],
+          addres: "서울특별시 중구 명동1가 9-9",
+          condition: {
+            company: "올리브영명동타운운",
+            workTime: ["10:00", "18:00"],
+            date: "2025-01-01",
+          },
+        },
+      },
+      {
+        _id: await nextSeq("product"),
+        seller_id: 2,
+        price: 80000,
+        shippingFees: 0,
+        show: true,
+        active: true,
+        name: "카카오 본사에서 프론트엔드 개발자 구합니다.",
+        quantity: 1,
+        buyQuantity: 0,
+        mainImages: [
+          {
+            path: `/files/${clientId}/kakao.jpeg`,
+            name: "kakao.jpeg",
+            originalname: "카카오.jpeg",
+          },
+        ],
+        content: `
+          <div class="product-detail">
+            <p>카카오 프렌즈 홈페이지 UI 작업</p>
+            <p>카카오뱅크 신사업 분야의 프론트엔드 개발과 운영</p>
+            <p>서비스 운영도구 개발 및 관리 효율화 업무</p>
+            <p>채용시 연락</p>
+          </div>`,
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          status: "송금 완료",
+          location: [33.500893, 126.530108],
+          addres: "동광로,제주특별자치도 제주시",
+          condition: {
+            company: "카카오",
+            workTime: ["09:00", "17:00"],
+            date: "2024-12-31",
           },
         },
       },
