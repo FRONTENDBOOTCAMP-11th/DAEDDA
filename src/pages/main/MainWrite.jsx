@@ -1,24 +1,93 @@
 import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
+import useAxiosInstance from "@hooks/useAxiosInstance";
+import MainMap from "@pages/main/MainMap";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 export default function MainWrite() {
-  const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  const [preview, setPreview] = useState(null);
+  const [imageError, setImageError] = useState(true);
+  const axios = useAxiosInstance();
 
-  const onSubmit = formData => {
-    console.log(formData);
+  const addPost = useMutation({
+    mutationFn: async formData => {
+      let body = {
+        name: formData.name,
+        price: formData.price,
+        quantity: 1,
+        content: formData.content,
+        extra: {
+          location: [35.155625, 129.131793],
+          address: formData.address,
+          condition: {
+            date: formData.date,
+            company: formData.company,
+            workTime: formData.workTime.split(" - "),
+          },
+        },
+      };
+
+      if (formData.attach?.length > 0) {
+        const imageFormData = new FormData();
+        imageFormData.append("attach", formData.attach[0]);
+
+        const imageRes = await axios.post("/files", imageFormData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        body.mainImages = [
+          {
+            path: imageRes.data.item[0].path,
+            name: imageRes.data.item[0].name,
+            originalname: imageRes.data.item[0].originalname,
+          },
+        ];
+      }
+
+      return axios.post("/seller/products", body);
+    },
+    onSuccess: response => {
+      const mainPostId = response.data.item._id;
+      navigate(`/main/${mainPostId}`);
+    },
+    onError: error => {
+      console.error("등록 실패:", error);
+    },
+  });
+
+  const handleImageChange = e => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setPreview(imageUrl);
+      setValue("attach", [file]);
+      setImageError(false);
+    } else {
+      setImageError(true);
+    }
   };
 
   return (
-    <form className="mb-[40px]" onSubmit={handleSubmit(onSubmit)}>
+    <form className="mb-[40px]" onSubmit={handleSubmit(addPost.mutate)}>
       <div className="mt-5">
         <InputField
           labelName="제목"
           type="text"
           placeholder="제목"
-          errorMsg="제목 입력은 필수입니다."
-          register={register}
-          name="name"
+          register={register("name", { required: "제목 입력은 필수입니다." })}
+          errorMsg={errors.name?.message}
         />
       </div>
 
@@ -26,35 +95,64 @@ export default function MainWrite() {
         <label htmlFor="photo" className="text-[16px] font-bold">
           근무지 사진
         </label>
-        <label
-          htmlFor="image-upload"
-          className="mt-2 w-[136px] h-[136px] flex items-center justify-center rounded-lg border border-dashed cursor-pointer"
-        >
-          <img src="/public/icons/plus.svg" className="w-5 h-5" />
-        </label>
+        <div className="mt-2 flex items-center">
+          {preview ? (
+            <>
+              <img
+                src={preview}
+                alt="미리보기"
+                className="mr-2 w-[136px] h-[136px] object-cover rounded-lg border border-dashed"
+              />
+              <label
+                htmlFor="image-upload"
+                className="w-[136px] h-[136px] flex items-center justify-center rounded-lg border border-dashed cursor-pointer"
+              >
+                <img src="/icons/plus.svg" className="w-5 h-5" />
+              </label>
+            </>
+          ) : (
+            <>
+              <label className="mr-2 w-[136px] h-[136px] flex items-center justify-center rounded-lg border border-dashed ">
+                미리보기
+              </label>
+              <label
+                htmlFor="image-upload"
+                className="w-[136px] h-[136px] flex items-center justify-center rounded-lg border border-dashed cursor-pointer"
+              >
+                <img src="/icons/plus.svg" className="w-5 h-5" />
+              </label>
+            </>
+          )}
 
-        <input
-          type="file"
-          id="image-upload"
-          accept="image/*"
-          className="hidden"
-        />
-        <div className="my-2">
-          <p className="text-red text-[12px]">*사진 1장은 필수 입니다.</p>
+          <input
+            type="file"
+            id="image-upload"
+            accept="image/*"
+            className="hidden"
+            {...register("attach")}
+            onChange={handleImageChange}
+          />
+        </div>
+
+        <div className="my-2 h-4">
+          {imageError && (
+            <p className="text-red text-[12px]">*사진 1장은 필수 입니다.</p>
+          )}
         </div>
       </fieldset>
 
       <fieldset>
         <legend className="text-[16px] font-bold mb-2">위치</legend>
-        <div className="max-w-screen-sm h-24 bg-slate-500 mb-7 rounded-lg flex items-center justify-center">
-          지도
+        <div className="mb-4">
+          <MainMap />
         </div>
         <InputField
           type="text"
           placeholder="상세 주소"
-          errorMsg="주소 입력은 필수입니다."
-          register={register}
-          name="address"
+          register={register("address", {
+            required: "주소 입력은 필수입니다.",
+          })}
+          errorMsg={errors.address?.message}
         />
       </fieldset>
 
@@ -63,31 +161,43 @@ export default function MainWrite() {
           labelName="근무 조건"
           type="text"
           placeholder="가게 이름"
-          errorMsg="가게 이름 입력은 필수입니다."
-          register={register}
-          name="company"
+          register={register("company", {
+            required: "가게 이름 입력은 필수입니다.",
+          })}
+          errorMsg={errors.company?.message}
         />
 
         <InputField
           type="text"
           placeholder="급여"
-          errorMsg="급여 입력은 필수입니다."
-          register={register}
-          name="price"
+          register={register("price", {
+            required: "급여 입력은 필수입니다.",
+            pattern: {
+              value: /^[0-9]+$/,
+              message: "숫자만 입력해주세요.",
+            },
+          })}
+          errorMsg={errors.price?.message}
         />
 
         <InputField
           type="text"
-          errorMsg="근무 시간 입력은 필수입니다."
           placeholder="근무 시간은 00:00 - 00:00으로 입력해주세요."
-          register={register}
-          name="workTime"
+          register={register("workTime", {
+            required: "근무 시간은 00:00 - 00:00으로 입력해주세요.",
+            pattern: {
+              value: /^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
+              message: "근무 시간은 00:00 - 00:00 형식으로 입력해주세요.",
+            },
+          })}
+          errorMsg={errors.workTime?.message}
         />
         <InputField
           type="date"
-          errorMsg="날짜짜 입력은 필수입니다."
-          register={register}
-          name="date"
+          register={register("date", {
+            required: "날짜 입력은 필수입니다.",
+          })}
+          errorMsg={errors.date?.message}
         />
       </fieldset>
 
@@ -96,10 +206,15 @@ export default function MainWrite() {
           type="text"
           labelName="근무 내용"
           id="workTxt"
-          errorMsg="근무 내용 입력은 필수입니다."
           isTextArea={true}
-          register={register}
-          name="content"
+          register={register("content", {
+            required: "근무 내용은 최소 10자 이상 입력해주세요.",
+            minLength: {
+              value: 10,
+              message: "근무 내용은 최소 10자 이상 입력해주세요.",
+            },
+          })}
+          errorMsg={errors.content?.message}
         />
       </fieldset>
       <div className="mt-11">
