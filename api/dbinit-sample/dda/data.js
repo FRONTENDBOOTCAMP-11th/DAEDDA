@@ -737,7 +737,7 @@ export const initData = async (clientId, nextSeq) => {
           location: [37.563983, 126.985161],
           addres: "서울특별시 중구 명동1가 9-9",
           condition: {
-            company: "올리브영명동타운운",
+            company: "올리브영명동타운",
             workTime: ["10:00", "18:00"],
             date: "2025-01-01",
           },
