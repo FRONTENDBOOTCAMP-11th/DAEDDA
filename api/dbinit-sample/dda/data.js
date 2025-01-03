@@ -116,6 +116,7 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-20, -60 * 30),
         updatedAt: getTime(-10, -60 * 60 * 12),
         extra: {
+          myPlace: [17, 18, 19, 20],
           birthday: "11-30",
           membershipClass: "MC02",
           address: [
