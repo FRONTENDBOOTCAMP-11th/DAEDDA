@@ -28,8 +28,6 @@ export default function Edit() {
     register,
     handleSubmit,
     reset,
-    setValue,
-    getValues,
     formState: { errors },
   } = useForm();
   //비동기로 가져온 데이터를 폼에 반영
@@ -51,13 +49,16 @@ export default function Edit() {
   if (isLoading) {
     return <p>로딩 중...</p>;
   }
+  const imgChange = () => {
+    console.log("hi");
+  };
   return (
     <>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <div className="mb-[40px]">
           <div className=" border-gray-200 border-b mb-5">
             <div className="flex flex-col items-center justify-center h-full mb-4">
-              <div className="relative inline-block -z-10">
+              <div className="relative inline-block -z-10" onClick={imgChange}>
                 <img
                   src={
                     data?.item?.image
@@ -67,6 +68,7 @@ export default function Edit() {
                   alt="프로필 이미지"
                   className="size-32 mx-auto mb-3 "
                 />
+
                 <img
                   src="/icons/imgEdit.svg"
                   alt="프로필 이미지 수정"
