@@ -119,6 +119,10 @@ export default function SignIn() {
             errorMsg={errors.password?.message}
             register={register("password", {
               required: "비밀번호를 입력해주세요.",
+              minLength: {
+                value: 8,
+                message: "비밀번호는 최소 8자리 이상 입력해야 합니다.",
+              },
             })}
             maxLength="20"
           ></InputField>
