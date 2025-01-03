@@ -13,7 +13,7 @@ export default function Edit() {
   // const fileUpload = useRef(null);
   const [preview, setPreview] = useState(null);
 
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ["user", "userId"],
     queryFn: () => axios.get(`/users/2`),
     select: res => res.data,
@@ -26,6 +26,7 @@ export default function Edit() {
     reset,
     setError,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm();
 
@@ -45,16 +46,16 @@ export default function Edit() {
     }
   }, [data, reset]);
 
-  // console.log(fileUpload.current);
   // console.log(data?.item);
 
   const editUser = useMutation({
     mutationFn: async formData => {
       // 파일 업로드 처리
-      console.log("formData", formData);
+      console.log("최종 formData", formData);
 
       if (formData.attach?.length >= 0) {
         const imageFormData = new FormData();
+
         imageFormData.append("attach", formData.attach[0]);
 
         const fileRes = await axios.post("/files", imageFormData, {
@@ -94,19 +95,16 @@ export default function Edit() {
       }
     },
   });
-  const imageChange = e => {
-    const file = e.target.files[0]; //사용자가 선택한 파일
-    console.log(file);
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setPreview(imageUrl); // 미리보기 업뎃뎃
-      setValue("attach", [file]); //attach파일에 저장
-    }
-
-    if (isLoading) {
-      return <p>로딩 중...</p>;
-    }
-  };
+  // const imageChange = e => {
+  //   const file = e.target.files[0]; //사용자가 선택한 파일
+  //   console.log("File이다", file);
+  //   if (file) {
+  //     const imageUrl = URL.createObjectURL(file);
+  //     setPreview(imageUrl); // 미리보기 업뎃뎃
+  //     setValue("attach", [file]); //attach파일에 저장 => react-hook-form과 연결
+  //     console.log("attach", getValues("attach"));
+  //   }
+  // };
   return (
     <form onSubmit={handleSubmit(editUser.mutate)}>
       <div className="mb-[40px]">
@@ -128,9 +126,10 @@ export default function Edit() {
             <input
               type="file"
               accept="image/*"
+              id="image-upload"
               // className="hidden"
               {...register("attach")}
-              onChange={imageChange}
+              // onChange={imageChange}
             />
           </div>
         </div>
