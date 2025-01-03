@@ -10,7 +10,7 @@ function useAxiosInstance() {
       // 판매 유저로 임시 로그인
       "client-id": "final01",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsInR5cGUiOiJzZWxsZXIiLCJuYW1lIjoi64Sk7JikIiwiZW1haWwiOiJzMUBtYXJrZXQuY29tIiwiaW1hZ2UiOiIvZmlsZXMvZmluYWwwMS91c2VyLW5lby53ZWJwIiwibG9naW5UeXBlIjoiZW1haWwiLCJpYXQiOjE3MzU2MDg2NjksImV4cCI6MTczNTY5NTA2OSwiaXNzIjoiRkVTUCJ9.M3fLsonLAEv8NBY67Ul5Fn4U4BLJl-8lAiYsVJJUXEc",
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjIsInR5cGUiOiJzZWxsZXIiLCJuYW1lIjoi64Sk7JikIiwiZW1haWwiOiJzMUBtYXJrZXQuY29tIiwiaW1hZ2UiOiIvZmlsZXMvZmluYWwwMS91c2VyLW5lby53ZWJwIiwibG9naW5UeXBlIjoiZW1haWwiLCJpYXQiOjE3MzU4Njk5NzQsImV4cCI6MTczODQ2MTk3NCwiaXNzIjoiRkVTUCJ9.DG3Ap4YpO6gELIrOWs4xnUDPIf6cT6Ia6uI0nGNsE5M",
     },
   });
 
