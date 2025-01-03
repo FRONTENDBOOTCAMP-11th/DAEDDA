@@ -700,6 +700,7 @@ export const initData = async (clientId, nextSeq) => {
         updatedAt: getTime(-40, -60 * 15),
         extra: {
           status: "구인 완료",
+          worker_id: 4,
           location: [35.154435, 129.065956],
           addres: "부산광역시 부산진구 서전로58번길 78",
           condition: {
@@ -734,6 +735,7 @@ export const initData = async (clientId, nextSeq) => {
         updatedAt: getTime(-40, -60 * 15),
         extra: {
           status: "대타 완료",
+          worker_id: 4,
           location: [37.563983, 126.985161],
           addres: "서울특별시 중구 명동1가 9-9",
           condition: {
@@ -771,6 +773,7 @@ export const initData = async (clientId, nextSeq) => {
         updatedAt: getTime(-40, -60 * 15),
         extra: {
           status: "송금 완료",
+          worker_id: 4,
           location: [33.500893, 126.530108],
           addres: "동광로,제주특별자치도 제주시",
           condition: {
@@ -1249,6 +1252,90 @@ export const initData = async (clientId, nextSeq) => {
           "택배사 배송비 인상으로 인해 기존 3,000원에서 3,500원으로 인상됩니다.",
         createdAt: getTime(-6, -60 * 60 * 20),
         updatedAt: getTime(-4, -60 * 60 * 13),
+      },
+      {
+        _id: await nextSeq("post"),
+        type: "pr",
+        product_id: 20,
+        seller_id: 2,
+        views: 0,
+        user: {
+          _id: 4,
+          name: "제이지",
+          image: "user-jayg.webp",
+        },
+        title: "카카오 프론트엔드 개발자 지원합니다. 열심히 하겠습니다!",
+        content: "프론트엔드에서 말하는 감자를 담당했습니다.",
+        extra: {
+          location: [35.197557, 128.80471],
+          phone: "010-1234-1234",
+          detail: "네이버 프론트엔드 개발자로 일한 경력이 있습니다.",
+        },
+        createdAt: getTime(-2, -60 * 60 * 1),
+        updatedAt: getTime(-1, -60 * 60 * 20),
+      },
+      {
+        _id: await nextSeq("post"),
+        type: "pr",
+        product_id: 19,
+        seller_id: 2,
+        views: 0,
+        user: {
+          _id: 4,
+          name: "제이지",
+          image: "user-jayg.webp",
+        },
+        title: "올리브영 일일 MATE 지원합니다. 열심히 하겠습니다!",
+        content: "이전 직장에서 말하는 감자를 담당했습니다.",
+        extra: {
+          location: [35.197557, 128.80471],
+          phone: "010-1234-1234",
+          detail: "올리브영 프론트엔드 개발자로 일한 경력이 있습니다.",
+        },
+        createdAt: getTime(-2, -60 * 60 * 1),
+        updatedAt: getTime(-1, -60 * 60 * 20),
+      },
+      {
+        _id: await nextSeq("post"),
+        type: "pr",
+        product_id: 18,
+        seller_id: 2,
+        views: 0,
+        user: {
+          _id: 4,
+          name: "제이지",
+          image: "user-jayg.webp",
+        },
+        title: "손칼국수 일일 설거지 지원합니다. 열심히 하겠습니다!",
+        content: "이전 직장에서 말하는 감자를 담당했습니다.",
+        extra: {
+          location: [35.197557, 128.80471],
+          phone: "010-1234-1234",
+          detail: "손칼국수 프론트엔드 개발자로 일한 경력이 있습니다.",
+        },
+        createdAt: getTime(-2, -60 * 60 * 1),
+        updatedAt: getTime(-1, -60 * 60 * 20),
+      },
+      {
+        _id: await nextSeq("post"),
+        type: "pr",
+        product_id: 17,
+        seller_id: 2,
+        views: 0,
+        user: {
+          _id: 4,
+          name: "제이지",
+          image: "user-jayg.webp",
+        },
+        title: "기장대게 홀 서빙 일일 대타 지원합니다. 열심히 하겠습니다!",
+        content: "이전 직장에서 말하는 감자를 담당했습니다.",
+        extra: {
+          location: [35.197557, 128.80471],
+          phone: "010-1234-1234",
+          detail: "기장대게판매점 개발자로 일한 경력이 있습니다.",
+        },
+        createdAt: getTime(-2, -60 * 60 * 1),
+        updatedAt: getTime(-1, -60 * 60 * 20),
       },
     ],
     // 코드
