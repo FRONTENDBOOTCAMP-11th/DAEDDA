@@ -99,12 +99,16 @@ export default function SignIn() {
         name: user.name,
         phone: user.phone,
         image: user.image,
+        accessToken: user.token.accessToken,
+        refreshToken: user.token.refreshToken,
         extra: {
           birthday: user.extra?.birthday,
         },
       });
-      navigate("/");
+      console.log("성공");
+      // navigate("/");
     },
+    onError: err => {},
   });
   return (
     <div className="min-h-screen flex flex-col items-center justify-center overflow-auto">
@@ -113,7 +117,11 @@ export default function SignIn() {
         src="/src/assets/images/daeddamon.png"
         className="my-7 w-[180px] h-[180px]"
       />
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full" noValidate>
+      <form
+        onSubmit={handleSubmit(signIn.mutate)}
+        className="w-full"
+        noValidate
+      >
         <InputField
           type="email"
           placeholder="이메일"
