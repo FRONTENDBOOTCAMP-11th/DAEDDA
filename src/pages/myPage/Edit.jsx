@@ -28,15 +28,17 @@ export default function Edit() {
     register,
     handleSubmit,
     reset,
+    setValue,
+    getValues,
     formState: { errors },
   } = useForm();
   //비동기로 가져온 데이터를 폼에 반영
   useEffect(() => {
     if (data?.item) {
       reset({
-        nickname: data.item.name,
+        name: data.item.name,
         email: data.item.email,
-        phoneNumber: data.item.phone,
+        phone: data.item.phone,
         birth: data.item.extra.birthday,
       });
     }
@@ -74,14 +76,14 @@ export default function Edit() {
             </div>
           </div>
           <InputField
-            errorMsg={errors.nickname?.message}
+            errorMsg={errors.name?.message}
             labelName="닉네임"
-            placeholder="닉네임을 입력해 주세요"
-            register={register("nickname", {
+            placeholder="닉네임을 입력해 주세요."
+            register={register("name", {
               required: "닉네임은 필수 입력 입니다.",
               minLength: {
                 value: 2,
-                message: "닉네임은 두글자 이상 입력해주세요",
+                message: "닉네임은 두글자 이상 입력해주세요.",
               },
               maxLength: {
                 value: 10,
@@ -91,26 +93,18 @@ export default function Edit() {
           />
 
           <InputField
-            errorMsg={errors.phoneNumber?.message}
+            errorMsg={errors.phone?.message}
             labelName="휴대폰 번호"
-            placeholder="번호를 입력해 주세요"
-            register={register("phoneNumber", {
-              required: "번호 입력은 필수입니다",
-            })}
-          />
-          {/* <InputField
-            errorMsg={errors.password?.message}
-            labelName="Pw"
-            placeholder="비밀번호를 입력해 주세요"
-            type="password"
-            register={register("password", {
-              required: "비밀번호 입력은 필수입니다",
+            type="text"
+            placeholder="휴대폰 번호는 '-'를 제외하고 입력해주세요."
+            register={register("phone", {
+              required: "번호 입력은 필수입니다.",
               pattern: {
-                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/,
-                message: "비밀번호는 8~20자, 영문자와 소문자를 포함해야합니다.",
+                value: /^01[0-9]{1}[0-9]{3,4}[0-9]{4}$/,
+                message: "휴대폰 번호는'-'없는 유효한 번호를 입력해주세요",
               },
             })}
-          /> */}
+          />
 
           <InputField
             errorMsg={errors.birth?.message}
@@ -118,7 +112,7 @@ export default function Edit() {
             type="date"
             placeholder="연도-월-일"
             register={register("birth", {
-              required: "생년월일은 필수 입력입니다",
+              required: "생년월일은 필수 입력입니다.",
             })}
           />
 
