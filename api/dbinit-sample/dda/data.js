@@ -665,6 +665,7 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-41, -60 * 60 * 2),
         updatedAt: getTime(-40, -60 * 15),
         extra: {
+          status: "구인 중",
           location: [35.155625, 129.131793],
           addres: "부산광역시 수영구 광안해변로358번길 8 1층",
           condition: {
@@ -698,6 +699,7 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-41, -60 * 60 * 2),
         updatedAt: getTime(-40, -60 * 15),
         extra: {
+          status: "구인 중",
           location: [35.154435, 129.065956],
           addres: "부산광역시 부산진구 서전로58번길 78",
           condition: {
