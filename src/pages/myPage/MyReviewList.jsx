@@ -5,11 +5,12 @@ import { Link, useParams } from "react-router-dom";
 MyReviewList.propTypes = {
   item: PropTypes.node,
 };
+const alertfun = () => {
+  alert("신고되었습니다");
+};
 export default function MyReviewList({ item }) {
   const { _id } = useParams();
-  function alertfun() {
-    alert("신고되었습니다");
-  }
+
   if (!item) {
     return <div>데이터가 없습니다.</div>;
   }
