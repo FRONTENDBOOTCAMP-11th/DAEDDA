@@ -10,7 +10,7 @@ export default function ReviewList() {
             isActive ? "border-b-[3px] border-primary" : "text-gray-500"
           }
         >
-          내가 일한 장소
+          내가 일하는 장소
         </NavLink>
         <NavLink
           to="myPerson"
