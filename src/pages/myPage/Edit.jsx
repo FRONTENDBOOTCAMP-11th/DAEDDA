@@ -15,6 +15,7 @@ export default function Edit() {
     staleTime: 1000 * 10,
   });
   console.log(data);
+  console.log(data?.item);
 
   const editUser = useMutation({
     mutationFn: formData => axios.patch("/users/2", formData),
@@ -29,15 +30,14 @@ export default function Edit() {
     reset,
     formState: { errors },
   } = useForm();
-
+  //비동기로 가져온 데이터를 폼에 반영
   useEffect(() => {
-    if (data) {
+    if (data?.item) {
       reset({
         nickname: data.item.name,
         email: data.item.email,
-        pw: "1234",
         phoneNumber: data.item.phone,
-        birth: data.item.birth,
+        birth: data.item.extra.birthday,
       });
     }
   }, [data, reset]);
@@ -45,6 +45,10 @@ export default function Edit() {
   const handleFormSubmit = formData => {
     editUser.mutate(formData);
   };
+
+  if (isLoading) {
+    return <p>로딩 중...</p>;
+  }
   return (
     <>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -54,9 +58,9 @@ export default function Edit() {
               <div className="relative inline-block -z-10">
                 <img
                   src={
-                    data.item.image
+                    data?.item?.image
                       ? `https://11.fesp.shop/${data.item.image}`
-                      : `/src/asset/images/smiling_daeddamon.png`
+                      : "/images/smiling_daeddamon.png"
                   }
                   alt="프로필 이미지"
                   className="size-32 mx-auto mb-3 "
@@ -85,19 +89,7 @@ export default function Edit() {
               },
             })}
           />
-          <InputField
-            errorMsg={errors.email?.message}
-            labelName="이메일"
-            placeholder="이메일을 입력해 주세요"
-            type="email"
-            register={register("email", {
-              required: "이메일은 필수입력입니다",
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+.[^\s@]+$/,
-                message: "올바른 이메일 형식을 입력하세요",
-              },
-            })}
-          />
+
           <InputField
             errorMsg={errors.phoneNumber?.message}
             labelName="휴대폰 번호"
@@ -106,7 +98,7 @@ export default function Edit() {
               required: "번호 입력은 필수입니다",
             })}
           />
-          <InputField
+          {/* <InputField
             errorMsg={errors.password?.message}
             labelName="Pw"
             placeholder="비밀번호를 입력해 주세요"
@@ -118,7 +110,7 @@ export default function Edit() {
                 message: "비밀번호는 8~20자, 영문자와 소문자를 포함해야합니다.",
               },
             })}
-          />
+          /> */}
 
           <InputField
             errorMsg={errors.birth?.message}
