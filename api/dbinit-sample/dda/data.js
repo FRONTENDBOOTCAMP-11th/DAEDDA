@@ -1273,7 +1273,7 @@ export const initData = async (clientId, nextSeq) => {
         content: "프론트엔드에서 말하는 감자를 담당했습니다.",
         extra: {
           location: [35.197557, 128.80471],
-          phone: "010-1234-1234",
+          phone: "01012341234",
           detail: "네이버 프론트엔드 개발자로 일한 경력이 있습니다.",
         },
         createdAt: getTime(-2, -60 * 60 * 1),
@@ -1294,7 +1294,7 @@ export const initData = async (clientId, nextSeq) => {
         content: "이전 직장에서 말하는 감자를 담당했습니다.",
         extra: {
           location: [35.197557, 128.80471],
-          phone: "010-1234-1234",
+          phone: "01012341234",
           detail: "올리브영 프론트엔드 개발자로 일한 경력이 있습니다.",
         },
         createdAt: getTime(-2, -60 * 60 * 1),
@@ -1315,7 +1315,7 @@ export const initData = async (clientId, nextSeq) => {
         content: "이전 직장에서 말하는 감자를 담당했습니다.",
         extra: {
           location: [35.197557, 128.80471],
-          phone: "010-1234-1234",
+          phone: "01012341234",
           detail: "손칼국수 프론트엔드 개발자로 일한 경력이 있습니다.",
         },
         createdAt: getTime(-2, -60 * 60 * 1),
@@ -1336,7 +1336,7 @@ export const initData = async (clientId, nextSeq) => {
         content: "이전 직장에서 말하는 감자를 담당했습니다.",
         extra: {
           location: [35.197557, 128.80471],
-          phone: "010-1234-1234",
+          phone: "01012341234",
           detail: "기장대게판매점 개발자로 일한 경력이 있습니다.",
         },
         createdAt: getTime(-2, -60 * 60 * 1),
