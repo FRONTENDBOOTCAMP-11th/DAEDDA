@@ -4,10 +4,11 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
+// 이메일 로그인 관련 함수들
 const signInFn = (axios, formData) => {
   return axios.post(`/users/login`, formData);
 };
@@ -70,11 +71,14 @@ export default function SignIn() {
     type: PropTypes.string,
   };
 
+  // 선언
   const axios = useAxiosInstance();
   const navigate = useNavigate();
+  const location = useLocation();
   const setUser = useUserStore(store => store.setUser);
   const [showPwd, setShowPwd] = useState(false); // 비밀번호: 초기는 보이지 않는 상태
 
+  // form
   const {
     register,
     handleSubmit,
@@ -82,19 +86,50 @@ export default function SignIn() {
     setError,
   } = useForm();
 
+  // 이메일 로그인 처리
   const signIn = useMutation({
     mutationFn: formData => signInFn(axios, formData),
     onSuccess: res => handleOnSuccess(res, setUser, navigate),
     onError: err => handleOnError(err, setError),
   });
 
+  // 카카오 로그인 처리
   const handleKakako = () => {
     const REST_API_KEY = "f6bf3978b90a2226634f98f18116f913";
-    const REDIRECT_URI = "http://localhost:5173/";
+    const REDIRECT_URI = "http://localhost:5173/user/signIn";
     const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
     window.location.href = KAKAO_AUTH_URI;
   };
+
+  const sendRequest = async code => {
+    try {
+      const response = await axios.post(`/users/login/kakao`, {
+        code,
+        redirect_uri: "http://localhost:5173/user/signIn",
+        user: {},
+      });
+      console.log(response.data);
+    } catch (error) {
+      // console.log(code);
+      console.error("상태 코드:", error.response?.status);
+      console.error("상태 텍스트:", error.response?.statusText);
+      console.error("서버 반환 데이터:", error.response?.data);
+      console.error("요청 설정:", error.response?.config);
+    }
+  };
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const code = params.get("code");
+    console.log(code); //코드 가져옴
+
+    if (code) {
+      // 서버에 코드 전송하기
+      sendRequest(code);
+    }
+  }, [location]);
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center overflow-auto">
       <img src="/src/assets/logos/header-logo.png" className="mt-8 h-[70px]" />
@@ -110,7 +145,7 @@ export default function SignIn() {
         <InputField
           type="email"
           placeholder="이메일"
-          maxLength="30"
+          maxLength={30}
           errorMsg={errors.email?.message}
           register={register("email", {
             required: "이메일을 입력해주세요.",
