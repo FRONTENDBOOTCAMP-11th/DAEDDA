@@ -669,7 +669,7 @@ export const initData = async (clientId, nextSeq) => {
           status: "구인 중",
           applied_id: [4],
           location: [35.155625, 129.131793],
-          addres: "부산광역시 수영구 광안해변로358번길 8 1층",
+          address: "부산광역시 수영구 광안해변로358번길 8 1층",
           condition: {
             company: "기장대게할인마트",
             workTime: ["10:00", "18:00"],
@@ -705,7 +705,7 @@ export const initData = async (clientId, nextSeq) => {
           worker_id: 4,
           applied_id: [4],
           location: [35.154435, 129.065956],
-          addres: "부산광역시 부산진구 서전로58번길 78",
+          address: "부산광역시 부산진구 서전로58번길 78",
           condition: {
             company: "소문난손칼국수",
             workTime: ["11:00", "16:00"],
@@ -741,7 +741,7 @@ export const initData = async (clientId, nextSeq) => {
           worker_id: 4,
           applied_id: [4],
           location: [37.563983, 126.985161],
-          addres: "서울특별시 중구 명동1가 9-9",
+          address: "서울특별시 중구 명동1가 9-9",
           condition: {
             company: "올리브영명동타운",
             workTime: ["10:00", "18:00"],
@@ -780,7 +780,7 @@ export const initData = async (clientId, nextSeq) => {
           worker_id: 4,
           applied_id: [4],
           location: [33.500893, 126.530108],
-          addres: "동광로,제주특별자치도 제주시",
+          address: "동광로,제주특별자치도 제주시",
           condition: {
             company: "카카오",
             workTime: ["09:00", "17:00"],
