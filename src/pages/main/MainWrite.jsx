@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import DOMPurify from "dompurify";
 
 export default function MainWrite() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function MainWrite() {
         name: formData.name,
         price: formData.price,
         quantity: 1,
-        content: formData.content,
+        content: DOMPurify.sanitize(formData.content, { ALLOWED_TAGS: [] }),
         extra: {
           location: [35.155625, 129.131793],
           address: formData.address,
