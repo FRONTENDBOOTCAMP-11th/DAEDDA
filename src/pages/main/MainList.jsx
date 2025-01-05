@@ -1,4 +1,4 @@
-import useAxiosInstance from "@hooks/useAxiosInstance";
+import useAxiosInstance from "@hooks/axiosInstance";
 import ListItem from "@pages/main/ListItem";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
