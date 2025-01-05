@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 
 export default function MainList() {
-  const axios = useAxiosInstance();
+  const axios = useAxiosInstance;
 
   const { data, isLoading } = useQuery({
     queryKey: ["posts"],
