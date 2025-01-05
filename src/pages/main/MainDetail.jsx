@@ -1,11 +1,11 @@
 import Button from "@components/layout/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import Badge from "@pages/main/Badge";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import { useNavigate, useParams } from "react-router-dom";
 import { getWorkTime, formatDate } from "@/utills/func";
 import DOMPurify from "dompurify";
+import MainItem from "@pages/main/MainItem";
 
 export default function MainDetail() {
   const queryClient = useQueryClient();
@@ -140,15 +140,21 @@ export default function MainDetail() {
             <article className="flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center">
               <h2 className="">{data?.item.extra.condition.date}</h2>
             </article>
-            <article className=" flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center">
+            <article className=" flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center flex-wrap">
               <h2 className="">
                 {data?.item?.extra?.condition?.workTime
-                  ? `${data.item.extra.condition.workTime[0]} ~ ${data.item.extra.condition.workTime[1]}ㆍ${getWorkTime(
-                      data.item.extra.condition.workTime[0],
-                      data.item.extra.condition.workTime[1],
-                    )}` + "시간"
+                  ? `${data.item.extra.condition.workTime[0]} ~ ${data.item.extra.condition.workTime[1]}`
                   : "근무 시간이 제공되지 않았습니다."}
               </h2>
+              <span className="screen-400:hidden">ㆍ</span>
+              {data?.item?.extra?.condition?.workTime && (
+                <h2 className="">
+                  {`${getWorkTime(
+                    data.item.extra.condition.workTime[0],
+                    data.item.extra.condition.workTime[1],
+                  )}시간`}
+                </h2>
+              )}
             </article>
           </div>
         </section>
@@ -174,61 +180,7 @@ export default function MainDetail() {
             지원하기
           </Button>
         </div>
-
-        <div>
-          <section className="mt-7 pt-7 flex justify-between border-t-8">
-            <div className="flex items-center gap-3">
-              <img
-                src="/src/assets/images/smiling_daeddamon.png"
-                className="w-16 h-16"
-                alt="스마일 대따몬"
-              />
-              <div className="flex flex-col">
-                <div className="flex">
-                  <h2 className="font-bold mr-1">닉네임</h2>
-                  <Badge number={70} />
-                </div>
-                <h2 className="font-light">2024/12/25</h2>
-              </div>
-            </div>
-            <div className="flex w-[78px] ml-auto">
-              <Button color="white" height="sm">
-                상세 내역
-              </Button>
-            </div>
-          </section>
-
-          <section className="break-keep whitespace-normal">
-            <div className="font-bold mt-7">근무 조건</div>
-            <div className="mt-2">
-              카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
-            </div>
-
-            <div className="font-bold mt-7">휴대폰 번호</div>
-            <div className="mt-2">010-xxxx-xxxx</div>
-
-            <div className="font-bold mt-7">상세 경력</div>
-            <div className="mt-2">
-              카카오 프론트엔드 개발자 지원합니다! 열심히 하겠습니다.
-            </div>
-
-            <div className="font-bold mt-7 ">자신을 표현해주세요!</div>
-            <div className="mt-2">프로젝트에서 말하는 감자를 담당했습니다.</div>
-
-            <div className="flex gap-2 h-[32px] justify-center my-10">
-              <div className="w-72">
-                <Button color="purple" width="xl" height="sm">
-                  채택
-                </Button>
-              </div>
-              <div className="w-72">
-                <Button color="red" width="2xl" height="sm">
-                  취소
-                </Button>
-              </div>
-            </div>
-          </section>
-        </div>
+        <MainItem />
       </div>
     </div>
   );
