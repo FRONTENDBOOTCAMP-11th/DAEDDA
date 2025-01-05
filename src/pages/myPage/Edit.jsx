@@ -10,7 +10,6 @@ export default function Edit() {
   const axios = useAxiosInstance();
   const navigate = useNavigate();
 
-  // const fileUpload = useRef(null);
   const [preview, setPreview] = useState(null);
   const fileInput = useRef(null);
 
@@ -63,11 +62,9 @@ export default function Edit() {
           },
         });
         console.log("fileRes", fileRes);
-        // 업로드된 파일 경로 추출 및 확인
-        const uploadedImagePath = fileRes.data.item[0]?.path; // 파일 경로
+        const uploadedImagePath = fileRes.data.item[0]?.path;
         console.log("업로드된 이미지 경로:", uploadedImagePath);
-        // formData.image = fileRes.data.item[0]?.path;
-        // 업로드된 파일 경로를 formData의 image 필드에 추가
+
         if (uploadedImagePath) {
           formData.image = uploadedImagePath;
         } else {
@@ -95,7 +92,7 @@ export default function Edit() {
     },
   });
   const imageChange = e => {
-    const file = e.target.files[0]; //사용자가 선택한 파일
+    const file = e.target.files[0];
     // console.log("File이다", file);
     if (file) {
       const imageUrl = URL.createObjectURL(file);
