@@ -2,22 +2,18 @@ import Button from "@components/layout/Button";
 import { formatDate } from "@/utills/func.js";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { useGetPost } from "@hooks/useGetPost";
 
-MyPlaceItem.propTypes = {
-  postId: PropTypes.number.isRequired,
-  userState: PropTypes.string.isRequired,
+MyPersonItem.propTypes = {
+  data: PropTypes.object.isRequired,
 };
 
-export default function MyPlaceItem({ postId, userState }) {
-  const { data } = useGetPost(postId);
-
+export default function MyPersonItem({ data }) {
   return (
     <>
       {data && (
         <div className="p-4 rounded-3xl shadow-custom-shadow mb-5 relative">
           <Link
-            to={`/main/${postId}`}
+            to={`/main/${data._id}`}
             className="w-[83px] absolute top-4 right-4"
           >
             <Button color="white" width="xl" height="sm">
@@ -25,7 +21,7 @@ export default function MyPlaceItem({ postId, userState }) {
             </Button>
           </Link>
           <div className="mb-6">
-            <h4 className="text-sm font-bold">{userState}</h4>
+            <h4 className="text-sm font-bold">{data.extra.status}</h4>
             <p>{data.extra.condition.company}</p>
             <p>{data.price.toLocaleString()}원</p>
             <p>
@@ -36,13 +32,13 @@ export default function MyPlaceItem({ postId, userState }) {
           </div>
           <Link
             className={
-              data.extra.status === "송금 완료" ? "" : "pointer-events-none"
+              data.extra.status === "대타 완료" ? "" : "pointer-events-none"
             }
             to={`/review/${data._id}/write`}
-            state={"place"}
+            state={"person"}
           >
             <Button
-              color={data.extra.status === "송금 완료" ? "purple" : "gray"}
+              color={data.extra.status === "대타 완료" ? "purple" : "gray"}
               height="md"
             >
               리뷰 작성하기

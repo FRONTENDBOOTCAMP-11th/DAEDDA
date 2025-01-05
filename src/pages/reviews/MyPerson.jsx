@@ -1,7 +1,11 @@
-import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
+import { useGetPosts } from "@hooks/useGetPosts";
+import MyPersonItem from "@pages/reviews/MyPersonItem";
 
 export default function ReviewWrite() {
+  const { data } = useGetPosts(2);
+
+  console.log(data);
   return (
     <div>
       <InputField
@@ -22,40 +26,14 @@ export default function ReviewWrite() {
           송금 완료
         </div>
       </div>
-
-      <div className="p-4 rounded-3xl shadow-custom-shadow mb-5 relative">
-        <div className="w-[83px] absolute top-4 right-4">
-          <Button color="white" height="sm">
-            취소
-          </Button>
-        </div>
-        <div className="mb-6">
-          <h4 className="text-sm font-bold">송금완료</h4>
-          <p>소문난손칼국수 밀면</p>
-          <p>64,000원</p>
-          <p>12/7 (화)ㆍ10:00 ~ 16:00</p>
-        </div>
-        <Button color="purple" height="md">
-          리뷰 작성하기
-        </Button>
-      </div>
-
-      <div className="p-4 rounded-3xl shadow-custom-shadow mb-5 relative">
-        <div className="w-[83px] absolute top-4 right-4">
-          <Button color="white" height="sm">
-            취소
-          </Button>
-        </div>
-        <div className="mb-6">
-          <h4 className="text-sm font-bold">구인 완료</h4>
-          <p>기장대게할인마트</p>
-          <p>90,000원</p>
-          <p>12/19 (목)ㆍ10:00 ~ 16:00</p>
-        </div>
-        <Button color="gray" height="md">
-          리뷰 작성하기
-        </Button>
-      </div>
+      {data && (
+        <>
+          <MyPersonItem data={data[0]} />
+          <MyPersonItem data={data[1]} />
+          <MyPersonItem data={data[2]} />
+          <MyPersonItem data={data[3]} />
+        </>
+      )}
     </div>
   );
 }
