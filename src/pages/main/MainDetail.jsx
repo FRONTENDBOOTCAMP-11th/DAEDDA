@@ -122,7 +122,7 @@ export default function MainDetail() {
         <h2 className="font-bold mb-2">위치</h2>
         <div className="w-full h-40 bg-slate-600 rounded-lg"></div>
         <div className="mt-4 sm:whitespace-normal md:whitespace-nowrap">
-          {data?.item.extra.addres}
+          {data?.item.extra.address}
         </div>
       </section>
 
@@ -132,26 +132,26 @@ export default function MainDetail() {
 
           <div className="grid custom-375:grid-cols-1 grid-cols-2  gap-6">
             <article className="flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center">
-              <h2 className="">{data?.item.extra.condition.company}</h2>
+              <h2 className="">{data?.item.extra.condition?.company}</h2>
             </article>
             <article className="flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center">
               <h2 className="">{data?.item.price} 원</h2>
             </article>
             <article className="flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center">
-              <h2 className="">{data?.item.extra.condition.date}</h2>
+              <h2 className="">{data?.item.extra.condition?.date}</h2>
             </article>
             <article className=" flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center flex-wrap">
               <h2 className="">
                 {data?.item?.extra?.condition?.workTime
-                  ? `${data.item.extra.condition.workTime[0]} ~ ${data.item.extra.condition.workTime[1]}`
+                  ? `${data.item.extra.condition.workTime[0]} ~ ${data.item.extra.condition?.workTime[1]}`
                   : "근무 시간이 제공되지 않았습니다."}
               </h2>
               <span className="screen-400:hidden">ㆍ</span>
               {data?.item?.extra?.condition?.workTime && (
                 <h2 className="">
                   {`${getWorkTime(
-                    data.item.extra.condition.workTime[0],
-                    data.item.extra.condition.workTime[1],
+                    data.item.extra.condition?.workTime[0],
+                    data.item.extra.condition?.workTime[1],
                   )}시간`}
                 </h2>
               )}

@@ -42,7 +42,7 @@ export default function MainItem() {
                   </div>
                 </div>
                 <div className="flex w-[78px] ml-auto">
-                  <Button color="white" height="sm">
+                  <Button color="white" height="sm" onClick={handleDetail}>
                     상세 내역
                   </Button>
                 </div>
