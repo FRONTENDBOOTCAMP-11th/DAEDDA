@@ -81,7 +81,7 @@ export default function Edit() {
     },
     onSuccess: () => {
       alert("정보가 수정되었습니다");
-      // navigate(`/myPage`);
+      navigate(`/myPage`);
     },
     onError: err => {
       console.error(err);
