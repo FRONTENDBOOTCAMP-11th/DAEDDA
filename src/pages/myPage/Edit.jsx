@@ -52,10 +52,10 @@ export default function Edit() {
       // 파일 업로드 처리
       console.log("최종 formData", formData);
 
-      if (formData.attach?.length >= 0) {
+      if (fileInput.current) {
         const imageFormData = new FormData();
 
-        imageFormData.append("attach", formData.attach[0]);
+        imageFormData.append("attach", fileInput.current);
 
         const fileRes = await axios.post("/files", imageFormData, {
           headers: {
@@ -96,7 +96,7 @@ export default function Edit() {
   });
   const imageChange = e => {
     const file = e.target.files[0]; //사용자가 선택한 파일
-    console.log("File이다", file);
+    // console.log("File이다", file);
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setPreview(imageUrl); // 미리보기 업뎃뎃
@@ -108,25 +108,26 @@ export default function Edit() {
       <div className="mb-[40px]">
         <div className="border-gray-200 border-b mb-5">
           <div className="flex flex-col items-center justify-center h-full mb-4">
-            <div className="relative inline-block cursor-pointer">
-              <img
-                src={preview || "/images/smiling_daeddamon.png"}
-                alt="프로필 이미지"
-                className="size-32 mx-auto mb-3"
-              />
-              <img
-                src="/icons/imgEdit.svg"
-                alt="프로필 이미지 수정"
-                className="absolute right-2 bottom-2"
-              />
+            <div className="relative inline-block">
+              <label htmlFor="image-upload" className="cursor-pointer">
+                <img
+                  src={preview || "/images/smiling_daeddamon.png"}
+                  alt="프로필 이미지"
+                  className="size-32 mx-auto mb-3"
+                />
+                <img
+                  src="/icons/imgEdit.svg"
+                  alt="프로필 이미지 수정"
+                  className="absolute right-2 bottom-2"
+                />
+              </label>
             </div>
-
             <input
               ref={fileInput}
               type="file"
               accept="image/*"
               id="image-upload"
-              // className="hidden"
+              className="hidden"
               {...register("attach")}
               onChange={imageChange}
             />
