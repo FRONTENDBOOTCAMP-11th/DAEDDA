@@ -12,6 +12,7 @@ export default function Edit() {
 
   // const fileUpload = useRef(null);
   const [preview, setPreview] = useState(null);
+  const fileInput = useRef(null);
 
   const { data } = useQuery({
     queryKey: ["user", "userId"],
@@ -25,8 +26,6 @@ export default function Edit() {
     handleSubmit,
     reset,
     setError,
-    setValue,
-    getValues,
     formState: { errors },
   } = useForm();
 
@@ -95,16 +94,15 @@ export default function Edit() {
       }
     },
   });
-  // const imageChange = e => {
-  //   const file = e.target.files[0]; //사용자가 선택한 파일
-  //   console.log("File이다", file);
-  //   if (file) {
-  //     const imageUrl = URL.createObjectURL(file);
-  //     setPreview(imageUrl); // 미리보기 업뎃뎃
-  //     setValue("attach", [file]); //attach파일에 저장 => react-hook-form과 연결
-  //     console.log("attach", getValues("attach"));
-  //   }
-  // };
+  const imageChange = e => {
+    const file = e.target.files[0]; //사용자가 선택한 파일
+    console.log("File이다", file);
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setPreview(imageUrl); // 미리보기 업뎃뎃
+      fileInput.current = file;
+    }
+  };
   return (
     <form onSubmit={handleSubmit(editUser.mutate)}>
       <div className="mb-[40px]">
@@ -124,12 +122,13 @@ export default function Edit() {
             </div>
 
             <input
+              ref={fileInput}
               type="file"
               accept="image/*"
               id="image-upload"
               // className="hidden"
               {...register("attach")}
-              // onChange={imageChange}
+              onChange={imageChange}
             />
           </div>
         </div>
