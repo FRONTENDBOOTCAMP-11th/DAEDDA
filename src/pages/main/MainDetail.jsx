@@ -22,8 +22,6 @@ export default function MainDetail() {
 
   const sanitizedContent = DOMPurify.sanitize(`${data?.item.content}`);
 
-  console.log(data?.item);
-
   const removePost = useMutation({
     mutationFn: _id => axios.delete(`/seller/products/${_id}`),
 
@@ -60,10 +58,7 @@ export default function MainDetail() {
   });
 
   const handleEdit = () => {
-    const editPost = window.confirm("수정 하시겠습니까?");
-    if (editPost) {
-      editDetailPost.mutate(_id);
-    }
+    editDetailPost.mutate(_id);
   };
 
   const handleApply = () => {
