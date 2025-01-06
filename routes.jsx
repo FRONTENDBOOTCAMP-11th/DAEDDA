@@ -19,6 +19,7 @@ import ReviewWrite from "@pages/reviews/ReviewWrite";
 import MyPlace from "@pages/reviews/MyPlace";
 import MyPerson from "@pages/reviews/MyPerson";
 import Profile from "@pages/user/Profile";
+import Error from "@pages/Error";
 
 const router = createBrowserRouter(
   [
@@ -58,6 +59,7 @@ const router = createBrowserRouter(
         { path: "user/signUp", element: <SignUp /> },
         { path: "user/terms", element: <Terms /> },
         { path: "user/:_id", element: <Profile /> },
+        { path: "error", element: <Error /> },
       ],
     },
 
