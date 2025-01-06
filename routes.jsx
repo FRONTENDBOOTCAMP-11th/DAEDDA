@@ -44,7 +44,7 @@ const router = createBrowserRouter(
             { path: "myPerson", element: <MyPerson /> },
           ],
         },
-        { path: "review/write", element: <ReviewWrite /> },
+        { path: "review/:_id/write", element: <ReviewWrite /> },
 
         { path: "pr/write", element: <PRWrite /> },
         { path: "pr/:_id", element: <PRDetail /> },
