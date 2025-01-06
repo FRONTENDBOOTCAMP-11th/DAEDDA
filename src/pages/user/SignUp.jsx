@@ -1,11 +1,21 @@
 import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
+import useAxiosInstance from "@hooks/useAxiosInstance";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+const emailCheckFn = (axios, email) => {
+  return axios.get(`/users/email`, {
+    params: { email },
+  });
+};
+
 export default function SignUp() {
   const [showPwd, setShowPwd] = useState(false); // 비밀번호: 초기는 보이지 않는 상태
-  const [showPwdCheck, setShowPwdCheck] = useState(false); // 비밀번호: 초기는 보이지 않는 상태
+  const [showPwdCheck, setShowPwdCheck] = useState(false); // 비밀번호 체크: 초기는 보이지 않는 상태
+
+  const axios = useAxiosInstance();
 
   const {
     register,
@@ -14,18 +24,37 @@ export default function SignUp() {
     setError,
   } = useForm();
 
+  const emailCheck = useMutation({
+    mutationFn: email => emailCheckFn(axios, email),
+    onSuccess: () => {
+      console.log("이메일 중복 검증 통과");
+    },
+    onError: error => {
+      if (error.response?.status === 409) {
+        setError("email", { message: "이미 사용 중인 이메일입니다." });
+      } else {
+        setError("email", { message: "잠시 후에 다시 시도해주세요." });
+      }
+    },
+  });
+
+  const onSubmit = data => {
+    emailCheck.mutate(data.email);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center mb-[40px]">
-<<<<<<< HEAD
-      <form className="w-full" onSubmit={handleSubmit()}>
-        <img
-          src="/src/assets/images/smiling_daeddamon.png"
-          className="w-[150px] h-[150px] mb-3"
-        />
-        <div>
-          <Button color="purple" height="sm" className="mb-4">
-            <span className="p-2">이미지 선택</span>
-          </Button>
+      <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex flex-col items-center justify-center">
+          <img
+            src="/images/smiling_daeddamon.png"
+            className="w-[150px] h-[150px] mb-3"
+          />
+          <div>
+            <Button color="purple" height="sm" className="mb-4">
+              <span className="p-2">이미지 선택</span>
+            </Button>
+          </div>
         </div>
         <div className="w-full">
           <InputField
@@ -103,17 +132,6 @@ export default function SignUp() {
             onClick={() => setShowPwdCheck(pre => !pre)}
           />
         </div>
-=======
-      <img
-        src="/images/smiling_daeddamon.png"
-        className="w-[150px] h-[150px] mb-3"
-      />
-      <div>
-        <Button color="purple" height="sm" className="mb-4">
-          <span className="p-2">이미지 선택</span>
-        </Button>
-      </div>
->>>>>>> 8fb5ac5fc978051f43eb16e7294ca2cb8cf32eb6
 
         <div className="w-full">
           <InputField
