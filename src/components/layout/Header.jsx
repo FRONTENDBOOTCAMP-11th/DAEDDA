@@ -2,6 +2,7 @@ import { Link, useMatch, useNavigate } from "react-router-dom";
 
 export default function Header() {
   const navigate = useNavigate();
+  const error = useMatch("/error");
   const prId = useMatch("pr/:_id");
   const prIdEdit = useMatch("pr/:_id/edit");
   const prWrite = useMatch("pr/write");
@@ -53,6 +54,9 @@ export default function Header() {
     mainIDEdit ||
     userProfile;
 
+  if (error) {
+    return null;
+  }
   if (headerMatch) {
     return (
       <header className="w-full h-[60px] flex items-center justify-center border-b border-gray-200 mb-5 fixed top-0 max-w-screen-sm left-1/2 -translate-x-1/2 bg-white px-6 z-10">
