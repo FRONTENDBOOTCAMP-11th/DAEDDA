@@ -2,8 +2,10 @@ import InputField from "@components/layout/InputField";
 import { useGetUser } from "@hooks/useGetUser";
 import MyPlaceItem from "@pages/reviews/MyPlaceItem";
 
+const LOGGEDIN_USER = 4;
+
 export default function ReviewWrite() {
-  const { data, isLoading } = useGetUser(4);
+  const { data, isLoading } = useGetUser(LOGGEDIN_USER);
 
   return (
     <div>

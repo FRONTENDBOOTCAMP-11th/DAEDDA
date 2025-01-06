@@ -2,8 +2,10 @@ import InputField from "@components/layout/InputField";
 import { useGetPosts } from "@hooks/useGetPosts";
 import MyPersonItem from "@pages/reviews/MyPersonItem";
 
+const LOGGEDIN_USER = 2;
+
 export default function ReviewWrite() {
-  const { data } = useGetPosts(2);
+  const { data } = useGetPosts(LOGGEDIN_USER);
 
   return (
     <div>

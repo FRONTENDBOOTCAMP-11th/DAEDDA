@@ -1,9 +1,12 @@
 import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
+import useAxiosInstance from "@hooks/useAxiosInstance";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 export default function ReviewWrite() {
+  const { _id: post_id } = useParams();
   const location = useLocation();
   const writeTo = location.state;
 
@@ -13,9 +16,29 @@ export default function ReviewWrite() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = formData => {
-    console.log(formData);
-  };
+  const axios = useAxiosInstance();
+
+  const addReview = useMutation({
+    mutationFn: async formData => {
+      let body = {
+        order_id: 1,
+        product_id: post_id,
+        content: formData.content,
+        extra: {
+          title: formData.title,
+          writeTo,
+        },
+      };
+
+      return axios.post("/replies", body);
+    },
+    onSuccess: response => {
+      console.log(response);
+    },
+    onError: error => {
+      console.error("등록 실패:", error);
+    },
+  });
 
   return (
     <div className="mb-[40px]">
@@ -34,7 +57,7 @@ export default function ReviewWrite() {
         <img src="/icons/reviews/star.svg" />
         <img src="/icons/reviews/blankStar.svg" />
       </div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(addReview.mutate)}>
         <InputField
           labelName="제목"
           placeholder="제목을 입력해 주세요."
