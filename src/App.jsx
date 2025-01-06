@@ -47,7 +47,7 @@ function App() {
 function SplashScreen() {
   return (
     <div className="-mx-6 max-w-screen-sm m-auto h-screen overflow-y-auto relative flex items-center justify-center bg-[#F3E5FF] animate-fade-out">
-      <img src="/src/assets/logos/logo_title.png" className="px-6"></img>
+      <img src="/logos/logo_title.png" className="px-6"></img>
     </div>
   );
 }

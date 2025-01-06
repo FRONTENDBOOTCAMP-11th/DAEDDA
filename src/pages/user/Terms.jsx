@@ -53,10 +53,7 @@ export default function Terms() {
   return (
     <div className="flex flex-col mb-[40px]">
       <div className="flex justify-center w-full">
-        <img
-          src="/src/assets/logos/logo.png"
-          className="max-w-full h-[70px] mb-6"
-        />
+        <img src="/logos/logo.png" className="max-w-full h-[70px] mb-6" />
       </div>
       <h1 className="text-[32px] mb-6">환영합니다!</h1>
       <p className="font-light text-xs mb-6">
