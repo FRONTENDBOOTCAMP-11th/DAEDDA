@@ -15,12 +15,6 @@ export default function MainItem() {
     select: res => res.data.item,
   });
 
-  console.log(comments);
-
-  const handleDetail = () => {
-    navigate(`pr/${_id}/edit`);
-  };
-
   return (
     <div>
       {comments && comments.length > 0
