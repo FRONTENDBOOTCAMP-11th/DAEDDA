@@ -1,20 +1,34 @@
+import useAxiosInstance from "@hooks/useAxiosInstance";
 import MyPageList from "@pages/myPage/MyPageList";
+import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
 
 export default function MyPage() {
   const { _id } = useParams();
+  const axios = useAxiosInstance();
+  const { data } = useQuery({
+    queryKey: ["user", "userId"],
+    queryFn: () => axios.get(`/users/2`),
+    select: res => res.data,
+    staleTime: 1000 * 10,
+  });
+  console.log(data);
   return (
     <>
       <div className="mb-[80px]">
         <Link to={`/user/${_id}`}>
           <div className="flex pb-5 border-b border-gray-200 mb-8">
             <img
-              src="/images/smiling_daeddamon.png"
+              src={
+                data?.item?.image
+                  ? `https://11.fesp.shop/${data.item.image}`
+                  : `/images/smiling_daeddamon.png`
+              }
               alt="대따몬 프로필"
               className="size-16 w-fit pr-5"
             />
             <p className="font-bold flex items-center text-2xl flex-grow">
-              User
+              {data?.item?.name}
             </p>
             <img src="/icons/arrow.svg" alt="프로필 수정하기" />
           </div>
