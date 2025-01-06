@@ -16,9 +16,9 @@ export default function Error() {
       <p className="font-bold text-3xl mb-12">
         죄송합니다. 아직 준비중인 기능입니다
       </p>
-      <p className="text-xl max-w-[505px] text-center mb-8">
-        더 나은 경험을 제공하기 위해 노력하고 있습니다. 지금은 이용할 수 없지만,
-        다른 멋진 페이지를 둘러보세요! 😊
+      <p className="text-xl max-w-[480px] text-center mb-8">
+        더 나은 경험을 제공하기 위해 노력하고 있습니다. <br></br>지금은 이용할
+        수 없지만, 다른 멋진 페이지를 둘러보세요! 😊
       </p>
       <div className="flex gap-11">
         <Button
