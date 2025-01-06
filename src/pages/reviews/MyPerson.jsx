@@ -5,7 +5,6 @@ import MyPersonItem from "@pages/reviews/MyPersonItem";
 export default function ReviewWrite() {
   const { data } = useGetPosts(2);
 
-  console.log(data);
   return (
     <div>
       <InputField

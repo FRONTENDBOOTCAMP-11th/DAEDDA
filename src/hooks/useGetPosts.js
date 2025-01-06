@@ -1,11 +1,13 @@
-import axiosInstance from "@hooks/axiosInstance";
+import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetPosts = userId => {
+  const axios = useAxiosInstance();
+
   return useQuery({
     queryKey: ["posts", userId],
     queryFn: () => {
-      return axiosInstance.get("/products", { params: { seller_id: userId } });
+      return axios.get("/products", { params: { seller_id: userId } });
     },
     select: res => res.data.item,
     staleTime: 1000 * 10,

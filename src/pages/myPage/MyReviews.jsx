@@ -1,4 +1,4 @@
-import useAxiosInstance from "@hooks/axiosInstance";
+import useAxiosInstance from "@hooks/useAxiosInstance";
 import MyReviewList from "@pages/myPage/MyReviewList";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";

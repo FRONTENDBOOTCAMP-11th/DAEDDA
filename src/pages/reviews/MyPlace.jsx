@@ -4,6 +4,7 @@ import MyPlaceItem from "@pages/reviews/MyPlaceItem";
 
 export default function ReviewWrite() {
   const { data, isLoading } = useGetUser(4);
+
   return (
     <div>
       <InputField
