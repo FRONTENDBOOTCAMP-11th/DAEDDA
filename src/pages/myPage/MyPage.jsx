@@ -9,7 +9,7 @@ export default function MyPage() {
         <Link to={`/user/${_id}`}>
           <div className="flex pb-5 border-b border-gray-200 mb-8">
             <img
-              src="/src/assets/images/smiling_daeddamon.png"
+              src="/images/smiling_daeddamon.png"
               alt="대따몬 프로필"
               className="size-16 w-fit pr-5"
             />
@@ -62,7 +62,7 @@ export default function MyPage() {
                 className="mb-[2px]"
               />
             </Link>
-            <Link>
+            <Link to="/error">
               <MyPageList label="인증 뱃지" icon="badge" className="mt-[1px]" />
             </Link>
             <Link to={`/myPage/myReviews/${_id}`}>
@@ -78,9 +78,15 @@ export default function MyPage() {
         <div className="myPage-container pb-4">
           <p className="mb-3 text-2xl font-bold pt-6">고객 지원</p>
           <div>
-            <MyPageList label="고객 센터" icon="customerSupport" />
-            <MyPageList label="의견 남기기" icon="opnion" />
-            <MyPageList label="약관 및 정책" icon="terms" className="" />
+            <Link to="/error">
+              <MyPageList label="고객 센터" icon="customerSupport" />
+            </Link>
+            <Link to="/error">
+              <MyPageList label="의견 남기기" icon="opnion" />
+            </Link>
+            <Link to="/error">
+              <MyPageList label="약관 및 정책" icon="terms" className="" />
+            </Link>
           </div>
         </div>
 
@@ -88,9 +94,9 @@ export default function MyPage() {
           <p className="mb-3 text-2xl font-bold pt-6">계정관리</p>
           <div>
             <MyPageList label="로그 아웃" icon="logout" />
-            <MyPageList label="회원 탈퇴" icon="withdraw" />
-            {/* <MyPageList label="의견 남기기" icon="opnion" />
-            <MyPageList label="약관 및 정책" icon="terms" className="" /> */}
+            <Link to="/error">
+              <MyPageList label="회원 탈퇴" icon="withdraw" />
+            </Link>
           </div>
         </div>
       </div>
