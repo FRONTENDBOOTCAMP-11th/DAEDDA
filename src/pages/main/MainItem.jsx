@@ -41,11 +41,6 @@ export default function MainItem() {
                     <h2 className="font-light">{comment?.updatedAt}</h2>
                   </div>
                 </div>
-                <div className="flex w-[78px] ml-auto">
-                  <Button color="white" height="sm" onClick={handleDetail}>
-                    상세 내역
-                  </Button>
-                </div>
               </section>
 
               <section className="break-keep whitespace-normal">
@@ -54,11 +49,6 @@ export default function MainItem() {
 
                 <div className="font-bold mt-7">휴대폰 번호</div>
                 <div className="mt-2">{comment?.extra.phone}</div>
-
-                <div className="font-bold mt-7" onClick={handleDetail}>
-                  상세 경력
-                </div>
-                <div className="mt-2">{comment?.extra.detail}</div>
 
                 <div className="font-bold mt-7 ">자신을 표현해주세요!</div>
                 <div className="mt-2">{comment?.content}</div>
