@@ -69,6 +69,16 @@ export default function MyPage() {
             <MyPageList label="약관 및 정책" icon="terms" className="" />
           </div>
         </div>
+
+        <div className="myPage-container pb-4">
+          <p className="mb-3 text-2xl font-bold pt-6">계정관리</p>
+          <div>
+            <MyPageList label="로그 아웃" icon="logout" />
+            <MyPageList label="회원 탈퇴" icon="withdraw" />
+            {/* <MyPageList label="의견 남기기" icon="opnion" />
+            <MyPageList label="약관 및 정책" icon="terms" className="" /> */}
+          </div>
+        </div>
       </div>
     </>
   );
