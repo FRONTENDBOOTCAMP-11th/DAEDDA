@@ -5,7 +5,7 @@ export default function Profile() {
     <div className="mb-[40px]">
       <div className="flex flex-col items-center border-b mb-8">
         <img
-          src="/src/assets/images/smiling_daeddamon.png"
+          src="/images/smiling_daeddamon.png"
           alt="프로필 이미지"
           className="size-48 mb-4 mt-6"
         />

@@ -6,7 +6,7 @@ export default function MyPage() {
       <div className="mb-[80px]">
         <div className="flex pb-5 border-b border-gray-200 mb-8">
           <img
-            src="/src/assets/images/smiling_daeddamon.png"
+            src="/images/smiling_daeddamon.png"
             alt="대따몬 프로필"
             className="size-16 w-fit pr-5"
           />
