@@ -176,7 +176,7 @@ export default function MainWrite() {
 
         <InputField
           type="text"
-          placeholder="급여"
+          placeholder="급여는 숫자만 입력주세요."
           register={register("price", {
             required: "급여 입력은 필수입니다.",
             pattern: {
@@ -218,6 +218,7 @@ export default function MainWrite() {
         <InputField
           type="text"
           labelName="근무 내용"
+          placeholder="상세한 근무 내용을 적어주세요."
           id="workTxt"
           isTextArea={true}
           register={register("content", {

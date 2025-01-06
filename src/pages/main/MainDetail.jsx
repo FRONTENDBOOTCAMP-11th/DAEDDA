@@ -135,13 +135,13 @@ export default function MainDetail() {
             <article className="flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center">
               <h2 className="">{data?.item.extra.condition?.date}</h2>
             </article>
-            <article className=" flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center flex-wrap">
+            <article className=" flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center screen-425:flex-col">
               <h2 className="">
                 {data?.item?.extra?.condition?.workTime
                   ? `${data.item.extra.condition.workTime[0]} ~ ${data.item.extra.condition?.workTime[1]}`
                   : "근무 시간이 제공되지 않았습니다."}
               </h2>
-              <span className="screen-400:hidden">ㆍ</span>
+              <span className="screen-425:hidden">ㆍ</span>
               {data?.item?.extra?.condition?.workTime && (
                 <h2 className="">
                   {`${getWorkTime(
