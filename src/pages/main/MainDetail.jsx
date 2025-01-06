@@ -37,7 +37,8 @@ export default function MainDetail() {
     },
   });
 
-  const handleDelete = () => {
+  const handleDelete = event => {
+    event.preventDefault();
     const deletePost = window.confirm("삭제 하시겠습니까?");
     if (deletePost) {
       removePost.mutate(_id);
@@ -74,11 +75,11 @@ export default function MainDetail() {
         <div className="font-bold text-[20px] py-4 break-keep whitespace-normal">
           {data?.item.name}
         </div>
-        {/* <img
+        <img
           src="/icons/blackHeart.svg"
           className="h-7 w-7 ml-2"
           alt="찜 아이콘"
-        /> */}
+        />
         <div className="flex justify-end gap-2 screen-530:justify-end screen-530:w-full">
           <div className="w-[92px] h-[32px]">
             <Button color="purple" width="xl" height="sm" onClick={handleEdit}>
