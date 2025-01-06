@@ -95,8 +95,8 @@ export default function SignIn() {
 
   // 카카오 로그인 처리
   const handleKakako = () => {
-    const REST_API_KEY = "f6bf3978b90a2226634f98f18116f913";
-    const REDIRECT_URI = "http://localhost:5173/user/signIn";
+    const REST_API_KEY = "a30d718509473f620fe5233b40a67565";
+    const REDIRECT_URI = "http://localhost:5173/myPage/edit";
     const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
     window.location.href = KAKAO_AUTH_URI;
@@ -106,7 +106,7 @@ export default function SignIn() {
     try {
       const response = await axios.post(`/users/login/kakao`, {
         code,
-        redirect_uri: "http://localhost:5173/user/signIn",
+        redirect_uri: "http://localhost:5173/myPage/edit",
         user: {},
       });
       console.log(response.data);
