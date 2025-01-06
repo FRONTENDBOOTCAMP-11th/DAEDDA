@@ -64,16 +64,16 @@ export default function MainItem() {
                 <div className="mt-2">{comment?.content}</div>
 
                 <div className="flex gap-2 h-[32px] justify-center my-10">
-                  <div className="w-72">
-                    <Button color="purple" width="xl" height="sm">
+                  <div className="w-full">
+                    <Button color="purple" width="xl" height="lg">
                       채택
                     </Button>
                   </div>
-                  <div className="w-72">
-                    <Button color="red" width="2xl" height="sm">
+                  {/* <div className="w-full">
+                    <Button color="red" width="xl" height="lg">
                       거절
                     </Button>
-                  </div>
+                  </div> */}
                 </div>
               </section>
             </div>
