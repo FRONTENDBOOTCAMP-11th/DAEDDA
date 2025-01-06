@@ -65,7 +65,7 @@ export default function MainDetail() {
   const handleApply = () => {
     const applyPost = window.confirm("지원 하시겠습니까?");
     if (applyPost) {
-      navigate("/pr/write");
+      navigate("/pr/write", { state: { product_id: data?.item._id } });
     }
   };
 
