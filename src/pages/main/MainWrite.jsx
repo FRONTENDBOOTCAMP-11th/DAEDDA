@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import DOMPurify from "dompurify";
 
 export default function MainWrite() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function MainWrite() {
         name: formData.name,
         price: formData.price,
         quantity: 1,
-        content: formData.content,
+        content: DOMPurify.sanitize(formData.content, { ALLOWED_TAGS: [] }),
         extra: {
           location: [35.155625, 129.131793],
           address: formData.address,
@@ -79,6 +80,12 @@ export default function MainWrite() {
     }
   };
 
+  const handleConfirm = () => {
+    window.confirm(
+      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Est atque commodi tempore quis eos nesciunt molestiae dicta cum harum quia ipsam, pariatur earum. In, soluta voluptatem ab ut deserunt doloribus.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Est atque commodi tempore quis eos nesciunt molestiae dicta cum harum quia ipsam, pariatur earum. In, soluta voluptatem ab ut deserunt doloribus.",
+    );
+  };
+
   return (
     <form className="mb-[40px]" onSubmit={handleSubmit(addPost.mutate)}>
       <div className="mt-5">
@@ -86,7 +93,13 @@ export default function MainWrite() {
           labelName="제목"
           type="text"
           placeholder="제목"
-          register={register("name", { required: "제목 입력은 필수입니다." })}
+          register={register("name", {
+            required: "제목 입력은 필수입니다.",
+            minLength: {
+              value: 2,
+              message: "제목은 최소 2자 이상 입력해주세요.",
+            },
+          })}
           errorMsg={errors.name?.message}
         />
       </div>
@@ -169,7 +182,7 @@ export default function MainWrite() {
 
         <InputField
           type="text"
-          placeholder="급여"
+          placeholder="급여는 숫자만 입력주세요."
           register={register("price", {
             required: "급여 입력은 필수입니다.",
             pattern: {
@@ -177,6 +190,9 @@ export default function MainWrite() {
               message: "숫자만 입력해주세요.",
             },
           })}
+          onInput={e => {
+            e.target.value = e.target.value.replace(/\s+/g, "");
+          }}
           errorMsg={errors.price?.message}
         />
 
@@ -197,6 +213,9 @@ export default function MainWrite() {
           register={register("date", {
             required: "날짜 입력은 필수입니다.",
           })}
+          onInput={e => {
+            e.target.value = e.target.value.replace(/\s+/g, "");
+          }}
           errorMsg={errors.date?.message}
         />
       </fieldset>
@@ -205,6 +224,7 @@ export default function MainWrite() {
         <InputField
           type="text"
           labelName="근무 내용"
+          placeholder="상세한 근무 내용을 적어주세요."
           id="workTxt"
           isTextArea={true}
           register={register("content", {
@@ -218,7 +238,12 @@ export default function MainWrite() {
         />
       </fieldset>
       <div className="mt-11">
-        <Button color="purple" height="lg" type="submit">
+        <Button
+          color="purple"
+          height="lg"
+          type="submit"
+          onClick={handleConfirm}
+        >
           등록
         </Button>
       </div>
