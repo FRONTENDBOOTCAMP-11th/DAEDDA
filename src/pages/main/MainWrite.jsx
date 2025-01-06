@@ -87,7 +87,13 @@ export default function MainWrite() {
           labelName="제목"
           type="text"
           placeholder="제목"
-          register={register("name", { required: "제목 입력은 필수입니다." })}
+          register={register("name", {
+            required: "제목 입력은 필수입니다.",
+            minLength: {
+              value: 2,
+              message: "제목은 최소 2자 이상 입력해주세요.",
+            },
+          })}
           errorMsg={errors.name?.message}
         />
       </div>
@@ -178,6 +184,9 @@ export default function MainWrite() {
               message: "숫자만 입력해주세요.",
             },
           })}
+          onInput={e => {
+            e.target.value = e.target.value.replace(/\s+/g, "");
+          }}
           errorMsg={errors.price?.message}
         />
 
@@ -198,6 +207,9 @@ export default function MainWrite() {
           register={register("date", {
             required: "날짜 입력은 필수입니다.",
           })}
+          onInput={e => {
+            e.target.value = e.target.value.replace(/\s+/g, "");
+          }}
           errorMsg={errors.date?.message}
         />
       </fieldset>
