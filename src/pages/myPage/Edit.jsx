@@ -2,6 +2,7 @@ import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import useUserStore from "@zustand/userStore";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -9,16 +10,18 @@ import { useNavigate } from "react-router-dom";
 export default function Edit() {
   const axios = useAxiosInstance();
   const navigate = useNavigate();
+  const { user, setUser } = useUserStore();
+  console.log(user);
 
   const [preview, setPreview] = useState(null);
   const fileInput = useRef(null);
 
-  const { data } = useQuery({
-    queryKey: ["user", "userId"],
-    queryFn: () => axios.get(`/users/2`),
-    select: res => res.data,
-    staleTime: 1000 * 10,
-  });
+  // const { data } = useQuery({
+  //   queryKey: ["user", "userId"],
+  //   queryFn: () => axios.get(`/users/2`),
+  //   select: res => res.data,
+  //   staleTime: 1000 * 10,
+  // });
 
   const {
     register,
@@ -29,20 +32,20 @@ export default function Edit() {
   } = useForm();
 
   useEffect(() => {
-    if (data?.item) {
+    if (user) {
       reset({
-        name: data.item.name,
-        email: data.item.email,
-        phone: data.item.phone,
-        birth: data.item.extra.birthday,
+        name: user.name || "",
+        phone: user.phone || "",
+        birthday: user.extra?.birthday || "",
       });
+
       setPreview(
-        data.item.image
-          ? `https://11.fesp.shop/${data.item.image}`
+        user.image
+          ? `https://11.fesp.shop/${user.image}`
           : "/images/smiling_daeddamon.png",
       );
     }
-  }, [data, reset]);
+  }, [user, reset]);
 
   // console.log(data?.item);
 
@@ -61,9 +64,8 @@ export default function Edit() {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log("fileRes", fileRes);
         const uploadedImagePath = fileRes.data.item[0]?.path;
-        console.log("업로드된 이미지 경로:", uploadedImagePath);
+        // console.log("업로드된 이미지 경로:", uploadedImagePath);
 
         if (uploadedImagePath) {
           formData.image = uploadedImagePath;
@@ -74,11 +76,31 @@ export default function Edit() {
         console.log(fileRes.data.item[0]);
       }
       console.log(formData);
-      return axios.patch("/users/2", formData);
+      console.log(user);
+      return axios.patch(`/users/${user._id}`, formData);
     },
-    onSuccess: () => {
+    onSuccess: res => {
+      console.log("res", res);
+      const updatedUser = res.data.item;
+      setUser(prev => ({
+        ...prev,
+        ...updatedUser,
+        extra: { ...prev.extra, birthday: updatedUser.birthday },
+      }));
+
+      reset({
+        name: updatedUser.name,
+        phone: updatedUser.phone,
+        birthday: updatedUser.birthday,
+      });
+      setPreview(
+        user.image
+          ? `https://11.fesp.shop/${user.image}`
+          : "/images/smiling_daeddamon.png",
+      );
+      console.log("수정된정보", user);
       alert("정보가 수정되었습니다");
-      navigate(`/myPage`);
+      // navigate(`/myPage`);
     },
     onError: err => {
       console.error(err);
@@ -163,11 +185,11 @@ export default function Edit() {
         />
 
         <InputField
-          errorMsg={errors.birth?.message}
+          errorMsg={errors.birthday?.message}
           labelName="생년월일"
           type="date"
           placeholder="연도-월-일"
-          register={register("birth", {
+          register={register("birthday", {
             required: "생년월일은 필수 입력입니다.",
           })}
         />
