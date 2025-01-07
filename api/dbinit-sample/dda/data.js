@@ -116,12 +116,6 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-20, -60 * 30),
         updatedAt: getTime(-10, -60 * 60 * 12),
         extra: {
-          appliedPlace: [
-            { _id: 17, state: "신청 완료" },
-            { _id: 18, state: "채택 완료" },
-            { _id: 19, state: "대타 완료" },
-            { _id: 20, state: "수금 완료" },
-          ],
           birthday: "11-30",
           membershipClass: "MC02",
           address: [
@@ -1463,23 +1457,49 @@ export const initData = async (clientId, nextSeq) => {
         codes: [
           {
             sort: 1,
-            code: "OS010",
+            code: "WO010",
             value: "지원 완료",
           },
           {
             sort: 2,
-            code: "OS020",
-            value: "채택 완료",
+            code: "WO015",
+            value: "채택 실패",
           },
           {
             sort: 3,
-            code: "OS030",
+            code: "WO020",
+            value: "채택 완료",
+          },
+
+          {
+            sort: 4,
+            code: "WO030",
             value: "대타 완료",
           },
           {
-            sort: 4,
-            code: "OS040",
+            sort: 5,
+            code: "WO040",
             value: "입금 완료",
+          },
+          {
+            sort: 6,
+            code: "EM010",
+            value: "구인 중",
+          },
+          {
+            sort: 7,
+            code: "EM020",
+            value: "구인 완료",
+          },
+          {
+            sort: 8,
+            code: "EM030",
+            value: "대타 완료",
+          },
+          {
+            sort: 9,
+            code: "EM040",
+            value: "송금 완료",
           },
         ],
       },
