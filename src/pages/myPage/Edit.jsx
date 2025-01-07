@@ -16,13 +16,6 @@ export default function Edit() {
   const [preview, setPreview] = useState(null);
   const fileInput = useRef(null);
 
-  // const { data } = useQuery({
-  //   queryKey: ["user", "userId"],
-  //   queryFn: () => axios.get(`/users/2`),
-  //   select: res => res.data,
-  //   staleTime: 1000 * 10,
-  // });
-
   const {
     register,
     handleSubmit,
@@ -36,7 +29,7 @@ export default function Edit() {
       reset({
         name: user.name || "",
         phone: user.phone || "",
-        birthday: user.extra?.birthday || "",
+        birthday: user.birthday || "",
       });
 
       setPreview(
@@ -75,30 +68,36 @@ export default function Edit() {
         delete formData.attach;
         console.log(fileRes.data.item[0]);
       }
-      console.log(formData);
+      // console.log(formData);
       console.log(user);
       return axios.patch(`/users/${user._id}`, formData);
     },
     onSuccess: res => {
       console.log("res", res);
       const updatedUser = res.data.item;
-      setUser(prev => ({
-        ...prev,
+      console.log(updatedUser);
+      const newUser = {
+        ...user,
         ...updatedUser,
-        extra: { ...prev.extra, birthday: updatedUser.birthday },
-      }));
+        extra: {
+          ...user.extra, // 기존 extra 유지
+          birthday: updatedUser?.birthday, // 서버 응답의 birthday 반영
+        },
+      };
+
+      setUser(newUser);
+      console.log(newUser);
 
       reset({
-        name: updatedUser.name,
-        phone: updatedUser.phone,
-        birthday: updatedUser.birthday,
+        name: newUser.name,
+        phone: newUser.phone,
+        birthday: newUser.extra.birthday || user?.extra?.birthday,
       });
       setPreview(
         user.image
           ? `https://11.fesp.shop/${user.image}`
           : "/images/smiling_daeddamon.png",
       );
-      console.log("수정된정보", user);
       alert("정보가 수정되었습니다");
       // navigate(`/myPage`);
     },
