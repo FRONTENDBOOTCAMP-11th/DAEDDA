@@ -1,64 +1,81 @@
 import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
+import useAxiosInstance from "@hooks/useAxiosInstance";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import DOMPurify from "dompurify";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function PRWrite() {
+  const navigate = useNavigate();
+  const axios = useAxiosInstance();
+  const queryClient = useQueryClient();
+  const location = useLocation();
+  const productId = location.state?.product_id;
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
+
+  const prPost = useMutation({
+    mutationFn: async formData => {
+      let body = {
+        type: "pr",
+        product_id: productId,
+        title: formData.title,
+        content: DOMPurify.sanitize(formData.content, { ALLOWED_TAGS: [] }),
+      };
+      return axios.post("/posts/", body);
+    },
+
+    onSuccess: response => {
+      console.log("Response Data:", response.data);
+      const prId = response.data.item.product_id;
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      navigate(`/main/${prId}`);
+    },
+    onError: error => {
+      console.error("등록 실패:", error);
+    },
+  });
+
   return (
-    <form className="mb-[40px]">
+    <form
+      className="mb-[40px]"
+      onSubmit={handleSubmit(data => prPost.mutate(data))}
+    >
       <div className="mt-5">
         <InputField
           labelName="제목"
           type="text"
           placeholder="제목"
-          errorMsg="제목 입력은 필수입니다."
+          register={register("title", {
+            required: "제목 입력은 필수입니다",
+            minLength: {
+              value: 2,
+              message: "제목은 최소 2자 이상 입력해주세요.",
+            },
+          })}
+          errorMsg={errors.title?.message}
         />
       </div>
 
       <fieldset>
-        <label htmlFor="address" className="text-[16px] font-bold mb-2">
-          위치
-        </label>
-        <div className="h-24 bg-slate-500 mb-7 rounded-lg flex items-center justify-center">
-          지도
-        </div>
         <InputField
           type="text"
-          id="address"
-          placeholder="상세 주소"
-          isLast={true}
-          errorMsg="주소 입력은 필수입니다."
-        />
-      </fieldset>
-
-      <fieldset className="mt-2">
-        <InputField
-          labelName="핸드폰 번호"
-          id="phoneNum"
-          type="text"
-          placeholder="핸드폰 번호"
-          errorMsg="핸드폰 번호 입력은 필수입니다."
-        />
-      </fieldset>
-
-      <fieldset>
-        <InputField
-          labelName="상세 경력"
-          id="career"
-          type="text"
-          placeholder="상세 경력"
+          labelName="지원 내용"
+          placeholder="자신을 어필해주세요!"
           isTextArea={true}
-          errorMsg="상세 경력 입력은 필수입니다."
-        />
-      </fieldset>
-
-      <fieldset>
-        <InputField
-          labelName="자신을 어필하세요!"
-          id="career"
-          type="text"
-          placeholder="자신을 어필하세요!"
-          isLast={true}
-          isTextArea={true}
-          errorMsg="어필을 하면 뽑힐 가능성이 높아집니다 !"
+          register={register("content", {
+            required: "지원 내용은 최소 10자 이상 입력해주세요.",
+            minLength: {
+              value: 10,
+              message: "지원 내용은 최소 10자 이상 입력해주세요.",
+            },
+          })}
+          errorMsg={errors.content?.message}
         />
       </fieldset>
 

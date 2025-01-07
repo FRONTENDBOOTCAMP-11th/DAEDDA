@@ -2,7 +2,7 @@ import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import MainMap from "@pages/main/MainMap";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,7 @@ export default function MainWrite() {
   const [preview, setPreview] = useState(null);
   const [imageError, setImageError] = useState(true);
   const axios = useAxiosInstance();
+  const queryClient = useQueryClient();
 
   const addPost = useMutation({
     mutationFn: async formData => {
@@ -61,6 +62,7 @@ export default function MainWrite() {
     },
     onSuccess: response => {
       const mainPostId = response.data.item._id;
+      queryClient.invalidateQueries({ queryKey: ["posts", mainPostId] });
       navigate(`/main/${mainPostId}`);
     },
     onError: error => {
