@@ -1,4 +1,4 @@
-fimport useAxiosInstance from "@hooks/useAxiosInstance";
+import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetOrders = () => {
