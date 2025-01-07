@@ -1,10 +1,9 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import MyPageList from "@pages/myPage/MyPageList";
 import { useQuery } from "@tanstack/react-query";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
-  const { _id } = useParams();
   const axios = useAxiosInstance();
   const { data } = useQuery({
     queryKey: ["user", "userId"],
@@ -13,6 +12,7 @@ export default function Profile() {
     staleTime: 1000 * 10,
   });
   console.log(data);
+
   return (
     <div className="mb-[40px]">
       <div className="flex flex-col items-center border-b mb-8">
@@ -61,11 +61,15 @@ export default function Profile() {
       <div className="myPage-container pb-4">
         <p className="mb-3 text-2xl font-bold pt-6">활동</p>
         <div>
-          <Link to="/review/myPlace">
+          <Link to="/review/worked">
             <MyPageList label="쓴 게시글" icon="write" />
           </Link>
-          <MyPageList label="인증 뱃지" icon="badge" className="mt-[1px]" />
-          <MyPageList label="받은 리뷰" icon="review" />
+          <Link to="/error">
+            <MyPageList label="인증 뱃지" icon="badge" className="mt-[1px]" />
+          </Link>
+          <Link to="/myPage/myReviews/2">
+            <MyPageList label="받은 리뷰" icon="review" />
+          </Link>
         </div>
       </div>
     </div>
