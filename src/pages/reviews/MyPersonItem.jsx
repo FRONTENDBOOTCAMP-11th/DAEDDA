@@ -35,7 +35,7 @@ export default function MyPersonItem({ data }) {
               data.extra.status === "대타 완료" ? "" : "pointer-events-none"
             }
             to={`/review/${data._id}/write`}
-            state={"person"}
+            state={"hired"}
           >
             <Button
               color={data.extra.status === "대타 완료" ? "purple" : "gray"}

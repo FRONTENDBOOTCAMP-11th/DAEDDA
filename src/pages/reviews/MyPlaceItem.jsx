@@ -39,7 +39,7 @@ export default function MyPlaceItem({ postId, userState }) {
               data.extra.status === "송금 완료" ? "" : "pointer-events-none"
             }
             to={`/review/${data._id}/write`}
-            state={"place"}
+            state={"worked"}
           >
             <Button
               color={data.extra.status === "송금 완료" ? "purple" : "gray"}

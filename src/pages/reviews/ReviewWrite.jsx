@@ -5,7 +5,7 @@ import { useGetPost } from "@hooks/useGetPost";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 import { formatDate } from "@/utills/func.js";
 import { useGetOrder } from "@hooks/useGetOrder";
@@ -13,8 +13,9 @@ import { useGetOrder } from "@hooks/useGetOrder";
 export default function ReviewWrite() {
   const { _id: product_id } = useParams();
   const location = useLocation();
-  const writeTo = location.state;
+  const from = location.state;
   const [rating, setRating] = useState(0);
+  const navigate = useNavigate();
 
   const { data } = useGetPost(product_id);
   const { data: order } = useGetOrder(product_id);
@@ -30,7 +31,8 @@ export default function ReviewWrite() {
 
   const axios = useAxiosInstance();
 
-  console.log(order, data);
+  if (order && data)
+    console.log("order: " + order[0]._id, "product id" + data._id);
 
   const addReview = useMutation({
     mutationFn: async formData => {
@@ -41,14 +43,23 @@ export default function ReviewWrite() {
         content: formData.content,
         extra: {
           title: formData.title,
-          writeTo,
+          from,
         },
       };
 
       return axios.post("/replies", body);
     },
     onSuccess: response => {
-      console.log(response);
+      if (from === "hired")
+        alert(
+          `리뷰가 등록되었습니다. 일당 ${data.price.toLocaleString()}원이 정상적으로 전달되었습니다..`,
+        );
+      else {
+        alert(
+          `리뷰가 등록되었습니다. 일당 ${data.price.toLocaleString()}원 입금을 확인해 주세요.`,
+        );
+      }
+      navigate(-1);
     },
     onError: error => {
       console.error("등록 실패:", error);
@@ -61,7 +72,7 @@ export default function ReviewWrite() {
         <div className="mb-[40px]">
           <div className="flex justify-between mb-4 flex-wrap">
             <h2 className="text-[20px] font-semibold">
-              {writeTo === "person"
+              {from === "hired"
                 ? `내가 맡긴 장소 : ${data.extra.condition.company}`
                 : `내가 일한 장소 : ${data.extra.condition.company}`}
             </h2>
@@ -97,7 +108,7 @@ export default function ReviewWrite() {
               errorMsg={errors.content?.message}
             />
             <p className="text-[18px] font-semibold mb-4">
-              {writeTo === "person"
+              {from === "hired"
                 ? `보낼 금액: ${data.price.toLocaleString()}원`
                 : `받을 금액: ${data.price.toLocaleString()}원`}
             </p>
