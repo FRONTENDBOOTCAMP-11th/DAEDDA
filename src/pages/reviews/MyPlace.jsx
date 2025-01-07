@@ -1,11 +1,12 @@
 import InputField from "@components/layout/InputField";
-import { useGetUser } from "@hooks/useGetUser";
+import { useGetOrders } from "@hooks/useGetOrders";
+import { useGetOrderState } from "@hooks/useGetOrderState";
 import MyPlaceItem from "@pages/reviews/MyPlaceItem";
 
-const LOGGEDIN_USER = 4;
+// 구매 회원 id = 4로 샘플 데이터 채움
 
 export default function ReviewWrite() {
-  const { data, isLoading } = useGetUser(LOGGEDIN_USER);
+  const { data, isLoading } = useGetOrders();
 
   return (
     <div>
@@ -25,16 +26,11 @@ export default function ReviewWrite() {
           대타 완료
         </div>
         <div className="ring-1 ring-primary px-4 py-2 rounded-xl">
-          수금 완료
+          입금 완료
         </div>
       </div>
       {isLoading && "로딩중..."}
-      {data &&
-        data[0].extra.appliedPlace.map(el => {
-          return (
-            <MyPlaceItem key={el._id} postId={el._id} userState={el.state} />
-          );
-        })}
+      {data && data.map(order => <MyPlaceItem key={order._id} data={order} />)}
     </div>
   );
 }
