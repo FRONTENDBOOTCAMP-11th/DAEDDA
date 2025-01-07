@@ -16,8 +16,6 @@ export default function MainItem() {
     select: res => res.data.item,
   });
 
-  console.log(comments);
-
   return (
     <div>
       {comments && comments.length > 0
