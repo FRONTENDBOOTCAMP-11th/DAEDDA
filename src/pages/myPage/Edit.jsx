@@ -8,6 +8,10 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 export default function Edit() {
+  const goBack = () => {
+    navigate(-1);
+  };
+
   const axios = useAxiosInstance();
   const navigate = useNavigate();
   const { user, setUser } = useUserStore();
@@ -199,7 +203,7 @@ export default function Edit() {
         />
 
         <div className="flex gap-6 w-full pt-4">
-          <Button color="white" height="lg">
+          <Button color="white" height="lg" onClick={goBack}>
             취소
           </Button>
           <Button color="purple" height="lg" type="submit">
