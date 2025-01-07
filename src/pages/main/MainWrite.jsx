@@ -80,12 +80,6 @@ export default function MainWrite() {
     }
   };
 
-  const handleConfirm = () => {
-    window.confirm(
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Est atque commodi tempore quis eos nesciunt molestiae dicta cum harum quia ipsam, pariatur earum. In, soluta voluptatem ab ut deserunt doloribus.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Est atque commodi tempore quis eos nesciunt molestiae dicta cum harum quia ipsam, pariatur earum. In, soluta voluptatem ab ut deserunt doloribus.",
-    );
-  };
-
   return (
     <form className="mb-[40px]" onSubmit={handleSubmit(addPost.mutate)}>
       <div className="mt-5">
@@ -238,12 +232,7 @@ export default function MainWrite() {
         />
       </fieldset>
       <div className="mt-11">
-        <Button
-          color="purple"
-          height="lg"
-          type="submit"
-          onClick={handleConfirm}
-        >
+        <Button color="purple" height="lg" type="submit">
           등록
         </Button>
       </div>

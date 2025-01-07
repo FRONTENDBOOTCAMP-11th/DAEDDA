@@ -16,10 +16,10 @@ import MainWrite from "@pages/main/MainWrite";
 import MainEdit from "@pages/main/MainEdit";
 import ReviewList from "@pages/reviews/ReviewList";
 import ReviewWrite from "@pages/reviews/ReviewWrite";
-import MyPlace from "@pages/reviews/MyPlace";
-import MyPerson from "@pages/reviews/MyPerson";
 import Profile from "@pages/user/Profile";
 import Error from "@pages/Error";
+import Worked from "@pages/reviews/Worked";
+import Hired from "@pages/reviews/Hired";
 
 const router = createBrowserRouter(
   [
@@ -39,10 +39,10 @@ const router = createBrowserRouter(
           children: [
             {
               index: true,
-              element: <Navigate to="myPlace" replace />,
+              element: <Navigate to="worked" replace />,
             },
-            { path: "myPlace", element: <MyPlace /> },
-            { path: "myPerson", element: <MyPerson /> },
+            { path: "worked", element: <Worked /> },
+            { path: "hired", element: <Hired /> },
           ],
         },
         { path: "review/:_id/write", element: <ReviewWrite /> },
