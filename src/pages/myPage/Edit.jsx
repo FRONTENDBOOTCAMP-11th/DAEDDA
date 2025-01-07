@@ -29,7 +29,7 @@ export default function Edit() {
       reset({
         name: user.name || "",
         phone: user.phone || "",
-        birthday: user.birthday || "",
+        birthday: user.extra.birthday || "",
       });
 
       setPreview(
@@ -40,11 +40,8 @@ export default function Edit() {
     }
   }, [user, reset]);
 
-  // console.log(data?.item);
-
   const editUser = useMutation({
     mutationFn: async formData => {
-      // 파일 업로드 처리
       console.log("최종 formData", formData);
 
       if (fileInput.current) {
@@ -58,7 +55,6 @@ export default function Edit() {
           },
         });
         const uploadedImagePath = fileRes.data.item[0]?.path;
-        // console.log("업로드된 이미지 경로:", uploadedImagePath);
 
         if (uploadedImagePath) {
           formData.image = uploadedImagePath;
@@ -68,9 +64,19 @@ export default function Edit() {
         delete formData.attach;
         console.log(fileRes.data.item[0]);
       }
+
+      const updatedFormData = {
+        ...formData,
+        extra: {
+          // ...(user.extra || {}),
+          birthday: formData.birthday, // birthday를 extra로 이동
+        },
+      };
+      delete updatedFormData.birthday;
       // console.log(formData);
-      console.log(user);
-      return axios.patch(`/users/${user._id}`, formData);
+      // console.log(user);
+      console.log("서버로 보낼 데이터:", updatedFormData);
+      return axios.patch(`/users/${user._id}`, updatedFormData);
     },
     onSuccess: res => {
       console.log("res", res);
@@ -80,8 +86,8 @@ export default function Edit() {
         ...user,
         ...updatedUser,
         extra: {
-          ...user.extra, // 기존 extra 유지
-          birthday: updatedUser?.birthday, // 서버 응답의 birthday 반영
+          ...user.extra, // 기존 extra 유지, 추후 extra 추가 될 경우를 위해
+          birthday: updatedUser?.extra?.birthday,
         },
       };
 
@@ -91,7 +97,7 @@ export default function Edit() {
       reset({
         name: newUser.name,
         phone: newUser.phone,
-        birthday: newUser.extra.birthday || user?.extra?.birthday,
+        birthday: newUser.extra.birthday,
       });
       setPreview(
         user.image
@@ -99,7 +105,7 @@ export default function Edit() {
           : "/images/smiling_daeddamon.png",
       );
       alert("정보가 수정되었습니다");
-      // navigate(`/myPage`);
+      navigate(`/myPage`);
     },
     onError: err => {
       console.error(err);
@@ -114,7 +120,6 @@ export default function Edit() {
   });
   const imageChange = e => {
     const file = e.target.files[0];
-    // console.log("File이다", file);
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setPreview(imageUrl); // 미리보기 업뎃뎃
