@@ -52,11 +52,12 @@ export default function ReviewWrite() {
     onSuccess: response => {
       if (from === "hired")
         alert(
-          `리뷰가 등록되었습니다. 일당 ${data.price.toLocaleString()}원이 정상적으로 전달되었습니다..`,
+          `리뷰가 등록되었습니다. 일당 ${data.price.toLocaleString()}원이 정상적으로 전달되었습니다.`,
+          // worker의 state를 수금 완료로 변경
         );
       else {
         alert(
-          `리뷰가 등록되었습니다. 일당 ${data.price.toLocaleString()}원 입금을 확인해 주세요.`,
+          `리뷰가 등록되었습니다. 일당 ${data.price.toLocaleString()}원 입금을 다시한 번 확인해 주세요.`,
         );
       }
       navigate(-1);
