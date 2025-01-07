@@ -20,6 +20,7 @@ export default function MyReviews() {
   if (!data) {
     return <div>로딩중</div>;
   }
+  console.log(data);
   // 댓글 수 계산
   let totalReplies = 0;
   data.item.forEach(item => (totalReplies += item.replies.length));
