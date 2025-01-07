@@ -7,16 +7,17 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useParams } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
-import { formatDate, getTimePassed, getWorkTime } from "@/utills/func.js";
+import { formatDate } from "@/utills/func.js";
+import { useGetOrder } from "@hooks/useGetOrder";
 
 export default function ReviewWrite() {
-  const { _id: post_id } = useParams();
+  const { _id: product_id } = useParams();
   const location = useLocation();
   const writeTo = location.state;
   const [rating, setRating] = useState(0);
 
-  const { data } = useGetPost(post_id);
-
+  const { data } = useGetPost(product_id);
+  const { data: order } = useGetOrder(product_id);
   const {
     register,
     handleSubmit,
@@ -29,11 +30,13 @@ export default function ReviewWrite() {
 
   const axios = useAxiosInstance();
 
+  console.log(order, data);
+
   const addReview = useMutation({
     mutationFn: async formData => {
       let body = {
-        order_id: 7,
-        product_id: +post_id,
+        order_id: order[0]._id,
+        product_id: +product_id,
         rating,
         content: formData.content,
         extra: {
@@ -51,8 +54,6 @@ export default function ReviewWrite() {
       console.error("등록 실패:", error);
     },
   });
-
-  console.log(data);
 
   return (
     <>
@@ -77,14 +78,6 @@ export default function ReviewWrite() {
             fillColor="#FEE500"
             className="mb-5"
           />
-
-          {/* <div className="flex gap-1 mb-5">
-        <img src="/icons/reviews/star.svg" />
-        <img src="/icons/reviews/star.svg" />
-        <img src="/icons/reviews/star.svg" />
-        <img src="/icons/reviews/star.svg" />
-        <img src="/icons/reviews/blankStar.svg" />
-      </div> */}
           <form onSubmit={handleSubmit(addReview.mutate)}>
             <InputField
               labelName="제목"
