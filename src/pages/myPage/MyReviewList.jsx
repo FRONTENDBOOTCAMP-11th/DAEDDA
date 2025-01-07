@@ -15,6 +15,8 @@ export default function MyReviewList({ item }) {
     return <div>데이터가 없습니다.</div>;
   }
   console.log(item);
+  // let product = item.product._id;
+  // console.log(product_id);
   return (
     <>
       {item.replies.map(reply => (
@@ -32,7 +34,7 @@ export default function MyReviewList({ item }) {
                   className="size-10"
                 />
               </Link>
-              <Link to={`/main/${_id}`} className="w-full">
+              <Link to={`/main/${item._id}`} className="w-full">
                 <div className="max-w-[440px]">
                   <p className="font-bold text-sm">{reply.user_name}</p>
                   <div className="flex gap-1 size-3 mb-2">
