@@ -7,15 +7,6 @@ import { Link, useParams } from "react-router-dom";
 export default function MyPage() {
   const { user } = useUserStore();
   console.log(user);
-  // const { _id } = useParams();
-  // const axios = useAxiosInstance();
-  // const { data } = useQuery({
-  //   queryKey: ["user", "userId"],
-  //   queryFn: () => axios.get(`/users/${user._id}`),
-  //   select: res => res.data,
-  //   staleTime: 1000 * 10,
-  // });
-  // console.log(data);
   return (
     <>
       <div className="mb-[80px]">
