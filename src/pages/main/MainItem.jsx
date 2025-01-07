@@ -16,6 +16,8 @@ export default function MainItem() {
     select: res => res.data.item,
   });
 
+  console.log(comments);
+
   return (
     <div>
       {comments && comments.length > 0
@@ -43,7 +45,7 @@ export default function MainItem() {
                 <div className="mt-2">{comment?.title}</div>
 
                 <div className="font-bold mt-7">휴대폰 번호</div>
-                {/* <div className="mt-2">{comment?.extra.phone}</div> */}
+                <div className="mt-2">{comment?.extra?.phone}</div>
 
                 <div className="font-bold mt-7 ">자신을 표현해주세요!</div>
                 <div className="mt-2">{comment?.content}</div>
