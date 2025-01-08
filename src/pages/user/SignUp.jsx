@@ -22,6 +22,7 @@ export default function SignUp() {
     handleSubmit,
     formState: { errors },
     setError,
+    watch,
   } = useForm();
 
   const emailCheck = useMutation({
@@ -39,7 +40,7 @@ export default function SignUp() {
   });
 
   const onSubmit = data => {
-    emailCheck.mutate(data.email);
+    // emailCheck.mutate(data.email);
   };
 
   return (
@@ -55,8 +56,14 @@ export default function SignUp() {
               <span className="p-2">이미지 선택</span>
             </Button>
           </div>
+          <InputField
+            type="file"
+            errorMsg="이미지를 등록해주세요."
+            className="hidden"
+            accept="image/*"
+          ></InputField>
         </div>
-        <div className="w-full">
+        {/* <div className="w-full">
           <InputField
             type="email"
             placeholder="이메일을 입력해주세요."
@@ -85,8 +92,8 @@ export default function SignUp() {
               },
             })}
           ></InputField>
-        </div>
-        <div className="relative w-full">
+        </div> */}
+        {/* <div className="relative w-full">
           <InputField
             type={showPwd ? "text" : "password"}
             placeholder="비밀번호를 입력해주세요."
@@ -97,6 +104,10 @@ export default function SignUp() {
               minLength: {
                 value: 8,
                 message: "비밀번호는 최소 8자리 이상 입력해야 합나디.",
+              },
+              pattern: {
+                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                message: "비밀번호는 영문과 숫자를 포함해야 합니다.",
               },
             })}
           ></InputField>
@@ -116,9 +127,10 @@ export default function SignUp() {
             errorMsg={errors.pwdCheck?.message}
             register={register("pwdCheck", {
               required: "비밀번호를 확인해주세요.",
-              minLength: {
-                value: 8,
-                message: "비밀번호는 최소 8자리 이상 입력해야 합나디.",
+              validate: value => {
+                return (
+                  value === watch("password") || "비밀번호가 일치하지 않습니다."
+                );
               },
             })}
           ></InputField>
@@ -131,9 +143,9 @@ export default function SignUp() {
             className="absolute right-3 top-3"
             onClick={() => setShowPwdCheck(pre => !pre)}
           />
-        </div>
+        </div> */}
 
-        <div className="w-full">
+        {/* <div className="w-full">
           <InputField
             type="date"
             errorMsg={errors.date?.message}
@@ -141,7 +153,7 @@ export default function SignUp() {
               required: "생년 월일을 입력해주세요.",
             })}
           ></InputField>
-        </div>
+        </div> */}
         <div className="w-full">
           <InputField
             type="text"
@@ -150,6 +162,10 @@ export default function SignUp() {
             errorMsg={errors.phone?.message}
             register={register("phone", {
               required: "휴대폰 번호을 입력해주세요.",
+              pattern: {
+                value: /^[0-9]+$/,
+                message: "숫자만 입력 가능합니다.",
+              },
             })}
           ></InputField>
         </div>
