@@ -2,14 +2,15 @@ import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function SignUp() {
   const [showPwd, setShowPwd] = useState(false); // 비밀번호: 초기는 보이지 않는 상태
   const [showPwdCheck, setShowPwdCheck] = useState(false); // 비밀번호 체크: 초기는 보이지 않는 상태
   const [preview, setPreview] = useState("/images/smiling_daeddamon.png"); // 이미지: 디폴트는 대따몬 이미지
-  const [uploadImg, setUploadImg] = useState(null);
+  // const [uploadImg, setUploadImg] = useState(null);
+  const fileInput = useRef(null);
 
   const axios = useAxiosInstance();
 
@@ -25,7 +26,7 @@ export default function SignUp() {
   const handleImageChange = e => {
     const file = e.target.files[0];
     if (file) {
-      setUploadImg(file);
+      // setUploadImg(file);
       const reader = new FileReader();
       reader.onload = () => {
         setPreview(reader.result);
@@ -54,22 +55,49 @@ export default function SignUp() {
 
   // 회원 정보를 서버에 보냄
   const signUp = useMutation({
-    mutationFn: formData =>
-      axios.post(`/users/`, {
-        email: formData.email,
-        password: formData.password,
-        name: formData.name,
-        image: formData.image,
+    mutationFn: async formData => {
+      let uploadedImgPath = "";
+
+      // 이미지를 첨부했을 경우
+      if (fileInput.current?.files?.[0]) {
+        const imgFormData = new FormData();
+        imgFormData.append("attach", fileInput.current.files[0]);
+
+        const fileRes = await axios.post(`/files/`, imgFormData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        // 업로드된 이미지 경로 확인
+        uploadedImgPath = fileRes.data.item[0]?.path;
+      }
+
+      const updatedFormData = {
+        ...formData,
+        image: uploadedImgPath || "images/smiling_daeddamon.png",
         type: "user",
+        address: formData.address || "",
         extra: {
           birthday: formData.birthday,
         },
-      }),
+      };
+
+      delete updatedFormData.birthday;
+      delete updatedFormData.pwdCheck;
+      // 데이터 전송
+      console.log(updatedFormData);
+      return axios.post(`/users/`, updatedFormData);
+    },
+
     onSuccess: () => {
       console.log("회원가입 성공");
     },
     onError: error => {
-      console.error("회원가입 실패", error);
+      console.error("회원가입 실패", error.response?.data);
+      if (error.response?.data?.errors) {
+        console.log("서버 오류 상세:", error.response.data.errors);
+      }
     },
   });
 
@@ -110,6 +138,7 @@ export default function SignUp() {
             className="hidden"
             accept="image/*"
             onChange={handleImageChange}
+            ref={fileInput}
           ></input>
         </div>
         <div className="w-full">
