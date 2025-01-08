@@ -26,7 +26,7 @@ export default function MainWrite() {
       let body = {
         name: formData.name,
         price: formData.price,
-        quantity: 1,
+        quantity: 1000,
         content: DOMPurify.sanitize(formData.content, { ALLOWED_TAGS: [] }),
         extra: {
           location: [35.155625, 129.131793],
@@ -60,14 +60,6 @@ export default function MainWrite() {
 
       return axios.post("/seller/products", body);
     },
-    onSuccess: response => {
-      const mainPostId = response.data.item._id;
-      queryClient.invalidateQueries({ queryKey: ["posts", mainPostId] });
-      navigate(`/main/${mainPostId}`);
-    },
-    onError: error => {
-      console.error("등록 실패:", error);
-    },
   });
 
   const handleImageChange = e => {
@@ -82,8 +74,37 @@ export default function MainWrite() {
     }
   };
 
+  const buyPost = useMutation({
+    mutationFn: async productId => {
+      let body = {
+        product_id: productId,
+        products: [
+          {
+            _id: productId,
+            quantity: 1,
+          },
+        ],
+      };
+      return axios.post("/orders/", body);
+    },
+  });
+
+  const onSubmit = async formData => {
+    try {
+      const addPostResponse = await addPost.mutateAsync(formData);
+      const productId = addPostResponse.data.item._id;
+
+      await buyPost.mutateAsync(productId);
+
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      navigate(`/main/${productId}`);
+    } catch (error) {
+      console.error("등록 또는 구매 실패:", error);
+    }
+  };
+
   return (
-    <form className="mb-[40px]" onSubmit={handleSubmit(addPost.mutate)}>
+    <form className="mb-[40px]" onSubmit={handleSubmit(onSubmit)}>
       <div className="mt-5">
         <InputField
           labelName="제목"
@@ -234,7 +255,12 @@ export default function MainWrite() {
         />
       </fieldset>
       <div className="mt-11">
-        <Button color="purple" height="lg" type="submit">
+        <Button
+          color="purple"
+          height="lg"
+          type="submit"
+          onSubmit={handleSubmit(buyPost.mutate)}
+        >
           등록
         </Button>
       </div>

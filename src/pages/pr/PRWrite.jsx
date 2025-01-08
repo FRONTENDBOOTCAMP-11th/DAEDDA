@@ -22,19 +22,27 @@ export default function PRWrite() {
   const prPost = useMutation({
     mutationFn: async formData => {
       let body = {
-        type: "pr",
         product_id: productId,
-        title: formData.title,
-        content: DOMPurify.sanitize(formData.content, { ALLOWED_TAGS: [] }),
+        products: [
+          {
+            _id: productId,
+            quantity: 1,
+          },
+        ],
+        extra: {
+          title: formData.title,
+          content: DOMPurify.sanitize(formData.content, {
+            ALLOWED_TAGS: [],
+          }),
+        },
       };
-      return axios.post("/posts/", body);
+      return axios.post("/orders/", body);
     },
 
     onSuccess: response => {
-      console.log("Response Data:", response.data);
-      const prId = response.data.item.product_id;
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
-      navigate(`/main/${prId}`);
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      console.log("Response Data:", response.body);
+      navigate(`/main/${productId}`);
     },
     onError: error => {
       console.error("등록 실패:", error);

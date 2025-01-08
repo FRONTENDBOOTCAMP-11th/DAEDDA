@@ -2,63 +2,97 @@ import Button from "@components/layout/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import Badge from "@pages/main/Badge";
 import { useQuery } from "@tanstack/react-query";
-
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function MainItem() {
+  const [accept, setAccept] = useState(null);
   const axios = useAxiosInstance();
   const navigate = useNavigate();
 
   const { _id } = useParams();
-  const { data: comments } = useQuery({
-    queryKey: ["comments", _id],
-    queryFn: () => axios.get(`/posts?type=pr&custom={"product_id":${_id}}`),
+  const { data: product } = useQuery({
+    queryKey: ["product", _id],
+    queryFn: () => axios.get(`/seller/products/${_id}`),
     select: res => res.data.item,
   });
 
+  const handleUserPage = userId => {
+    navigate(`/user/${userId}`);
+  };
+
+  const handleAccept = userId => {
+    if (accept === userId) {
+      setAccept(null);
+    } else {
+      setAccept(userId);
+    }
+  };
+
+  const handleCancel = () => {
+    setAccept(null);
+  };
+
   return (
     <div>
-      {comments && comments.length > 0
-        ? comments.map(comment => (
-            <div key={comment?._id}>
+      {product && product.orders && product.orders.length > 0
+        ? product.orders.map(order => (
+            <div key={order?._id}>
               <section className="mt-7 pt-7 flex justify-between border-t-8">
-                <div className="flex items-center gap-3">
+                <div
+                  className="flex items-center gap-3 cursor-pointer"
+                  onClick={() => handleUserPage(order?.user?._id)}
+                >
                   <img
-                    src={`https://11.fesp.shop/files/final01/${comment?.user.image}`}
+                    src={`https://11.fesp.shop/${order?.user.image}`}
                     className="w-16 h-16"
-                    alt={`${comment?.user.name} 프로필 이미지`}
+                    alt={`${order?.user.name} 프로필 이미지`}
                   />
                   <div className="flex flex-col">
                     <div className="flex">
-                      <h2 className="font-bold mr-1">{comment?.user.name}</h2>
+                      <h2 className="font-bold mr-1">{order?.user.name}</h2>
                       <Badge number={70} />
                     </div>
-                    <h2 className="font-light">{comment?.updatedAt}</h2>
+                    <h2 className="font-light">{order?.updatedAt}</h2>
                   </div>
                 </div>
               </section>
 
               <section className="break-keep whitespace-normal">
                 <div className="font-bold mt-7">제목</div>
-                <div className="mt-2">{comment?.title}</div>
+                <div className="mt-2">{order?.extra?.title}</div>
 
                 <div className="font-bold mt-7">휴대폰 번호</div>
-                <div className="mt-2">{comment?.extra?.phone}</div>
+                <div className="mt-2">{order?.user.phone}</div>
 
                 <div className="font-bold mt-7 ">자신을 표현해주세요!</div>
-                <div className="mt-2">{comment?.content}</div>
+                <div className="mt-2">{order?.extra?.content}</div>
 
-                <div className="flex gap-2 h-[32px] justify-center my-10">
-                  <div className="w-full">
-                    <Button color="purple" width="xl" height="lg">
-                      채택
-                    </Button>
-                  </div>
-                  {/* <div className="w-full">
-                    <Button color="red" width="xl" height="lg">
-                      거절
-                    </Button>
-                  </div> */}
+                <div className="flex flex-col justify-center my-10">
+                  {accept === order?.user?._id ? (
+                    <div className="w-full">
+                      <Button
+                        color="red"
+                        width="xl"
+                        height="lg"
+                        onClick={handleCancel}
+                      >
+                        취소
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="w-full">
+                      <Button
+                        color="purple"
+                        width="xl"
+                        height="lg"
+                        onClick={() => handleAccept(order?.user?._id)}
+                        disabled={accept !== null && accept}
+                      >
+                        채택
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </section>
             </div>
