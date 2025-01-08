@@ -171,6 +171,10 @@ export default function SignUp() {
     });
   };
 
+  const handleCancel = () => {
+    navigate("/user/signIn");
+  };
+
   return (
     <div className="flex flex-col items-center justify-center mb-[40px]">
       <form className="w-full" onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -302,7 +306,7 @@ export default function SignUp() {
           ></InputField>
         </div>
         <div className="flex gap-6 w-full mt-5">
-          <Button color="white" height="lg">
+          <Button color="white" height="lg" onClick={handleCancel}>
             취소
           </Button>
           <Button color="purple" height="lg" type="submit">
