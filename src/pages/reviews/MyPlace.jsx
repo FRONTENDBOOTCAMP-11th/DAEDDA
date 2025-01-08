@@ -1,12 +1,11 @@
 import InputField from "@components/layout/InputField";
 import { useGetOrders } from "@hooks/useGetOrders";
-import { useGetOrderState } from "@hooks/useGetOrderState";
 import MyPlaceItem from "@pages/reviews/MyPlaceItem";
 
 // 구매 회원 id = 4로 샘플 데이터 채움
 
 export default function ReviewWrite() {
-  const { data, isLoading } = useGetOrders();
+  const { data, isLoading } = useGetOrders("worker");
 
   return (
     <div>
