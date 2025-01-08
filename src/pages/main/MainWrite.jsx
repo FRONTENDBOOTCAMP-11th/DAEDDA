@@ -29,6 +29,7 @@ export default function MainWrite() {
         quantity: 1000,
         content: DOMPurify.sanitize(formData.content, { ALLOWED_TAGS: [] }),
         extra: {
+          position: "employer",
           location: [35.155625, 129.131793],
           address: formData.address,
           condition: {
@@ -37,6 +38,7 @@ export default function MainWrite() {
             workTime: formData.workTime.split(" - "),
           },
         },
+        state: "EM010",
       };
 
       if (formData.attach?.length > 0) {
@@ -84,10 +86,6 @@ export default function MainWrite() {
             quantity: 1,
           },
         ],
-        extra: {
-          position: "employer",
-          state: "EM010",
-        },
       };
       return axios.post("/orders/", body);
     },
