@@ -5,15 +5,11 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-const emailCheckFn = (axios, email) => {
-  return axios.get(`/users/email`, {
-    params: { email },
-  });
-};
-
 export default function SignUp() {
   const [showPwd, setShowPwd] = useState(false); // 비밀번호: 초기는 보이지 않는 상태
   const [showPwdCheck, setShowPwdCheck] = useState(false); // 비밀번호 체크: 초기는 보이지 않는 상태
+  const [preview, setPreview] = useState("/images/smiling_daeddamon.png"); // 이미지: 디폴트는 대따몬 이미지
+  const [uploadImg, setUploadImg] = useState(null);
 
   const axios = useAxiosInstance();
 
@@ -25,8 +21,25 @@ export default function SignUp() {
     watch,
   } = useForm();
 
+  // 이미지 프리뷰 변경
+  const handleImageChange = e => {
+    const file = e.target.files[0];
+    if (file) {
+      setUploadImg(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // 이메일 중복 체크
   const emailCheck = useMutation({
-    mutationFn: email => emailCheckFn(axios, email),
+    mutationFn: email =>
+      axios.get(`/users/email`, {
+        params: { email },
+      }),
     onSuccess: () => {
       console.log("이메일 중복 검증 통과");
     },
@@ -39,31 +52,67 @@ export default function SignUp() {
     },
   });
 
+  // 회원 정보를 서버에 보냄
+  const signUp = useMutation({
+    mutationFn: formData =>
+      axios.post(`/users/`, {
+        email: formData.email,
+        password: formData.password,
+        name: formData.name,
+        image: formData.image,
+        type: "user",
+        extra: {
+          birthday: formData.birthday,
+        },
+      }),
+    onSuccess: () => {
+      console.log("회원가입 성공");
+    },
+    onError: error => {
+      console.error("회원가입 실패", error);
+    },
+  });
+
+  //제출 했을 때
   const onSubmit = data => {
-    // emailCheck.mutate(data.email);
+    // 이메일 중복 체크
+    emailCheck.mutate(data.email, {
+      onSuccess: () => {
+        console.log("이메일 중복 테스트 통과");
+
+        // 중복 테스트 통과 후 회원가입 진행
+        signUp.mutate(data);
+      },
+      onError: () => {
+        // 이메일 중복 에러 메시지 처리 (이미 emailCheck의 onError에서 처리됨)
+        console.error("이메일 중복 에러");
+      },
+    });
   };
 
   return (
     <div className="flex flex-col items-center justify-center mb-[40px]">
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col items-center justify-center">
-          <img
-            src="/images/smiling_daeddamon.png"
-            className="w-[150px] h-[150px] mb-3"
-          />
-          <div>
-            <Button color="purple" height="sm" className="mb-4">
-              <span className="p-2">이미지 선택</span>
-            </Button>
+          <div className="relative inline-block">
+            <label htmlFor="image-upload" className="cursor-pointer">
+              <img src={preview} className="w-[150px] h-[150px] mb-3" />
+              <img
+                src="/icons/imgEdit.svg"
+                className="absolute right-2 bottom-2"
+              />
+            </label>
           </div>
-          <InputField
+
+          <input
             type="file"
-            errorMsg="이미지를 등록해주세요."
+            id="image-upload"
             className="hidden"
             accept="image/*"
-          ></InputField>
+            onChange={handleImageChange}
+          ></input>
         </div>
-        {/* <div className="w-full">
+        <div className="w-full">
           <InputField
             type="email"
             placeholder="이메일을 입력해주세요."
@@ -92,8 +141,8 @@ export default function SignUp() {
               },
             })}
           ></InputField>
-        </div> */}
-        {/* <div className="relative w-full">
+        </div>
+        <div className="relative w-full">
           <InputField
             type={showPwd ? "text" : "password"}
             placeholder="비밀번호를 입력해주세요."
@@ -143,17 +192,17 @@ export default function SignUp() {
             className="absolute right-3 top-3"
             onClick={() => setShowPwdCheck(pre => !pre)}
           />
-        </div> */}
+        </div>
 
-        {/* <div className="w-full">
+        <div className="w-full">
           <InputField
             type="date"
-            errorMsg={errors.date?.message}
-            register={register("date", {
+            errorMsg={errors.birthday?.message}
+            register={register("birthday", {
               required: "생년 월일을 입력해주세요.",
             })}
           ></InputField>
-        </div> */}
+        </div>
         <div className="w-full">
           <InputField
             type="text"
