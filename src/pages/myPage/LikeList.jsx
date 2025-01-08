@@ -59,7 +59,7 @@ export default function LikeList({ item }) {
                 </p>
               </div>
               <p className="text-beige-500 text-xs pb-3">
-                마감 : {item.product.extra?.condition?.date || "하루 전"}
+                마감 : {item.product.extra?.condition?.date || "2025-02-01"}
               </p>
             </div>
             <button className="rounded-2xl border border-primary ml-auto">
