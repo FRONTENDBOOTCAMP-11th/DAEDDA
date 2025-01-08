@@ -35,6 +35,7 @@ export default function PRWrite() {
             ALLOWED_TAGS: [],
           }),
         },
+        state: "WO010",
       };
       return axios.post("/orders/", body);
     },

@@ -84,6 +84,10 @@ export default function MainWrite() {
             quantity: 1,
           },
         ],
+        extra: {
+          position: "employer",
+          state: "EM010",
+        },
       };
       return axios.post("/orders/", body);
     },

@@ -2,6 +2,7 @@ import Button from "@components/layout/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import Badge from "@pages/main/Badge";
 import { useQuery } from "@tanstack/react-query";
+import useUserStore from "@zustand/userStore";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -9,6 +10,9 @@ export default function MainItem() {
   const [accept, setAccept] = useState(null);
   const axios = useAxiosInstance();
   const navigate = useNavigate();
+
+  const { user } = useUserStore();
+  console.log(user);
 
   const { _id } = useParams();
   const { data: product } = useQuery({
