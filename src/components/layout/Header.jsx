@@ -9,7 +9,7 @@ export default function Header() {
   const userTerms = useMatch("user/terms");
   const signUp = useMatch("user/signUp");
   const myPageEdit = useMatch("myPage/edit");
-  const myPageMyReviews = useMatch("myPage/myReviews");
+  const myPageMyReviews = useMatch("myPage/myReviews/:_id");
   const reviewWrite = useMatch("review/write");
   const mainWrite = useMatch("main/write");
   const mainID = useMatch("main/:_id");
