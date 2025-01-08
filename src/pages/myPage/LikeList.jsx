@@ -45,19 +45,16 @@ export default function LikeList({ item }) {
           </div>
           <div className="flex items-center">
             <div className="font-semibold">
-              <div className="flex gap-2">
-                <p className="text-secondary">시급</p>
-                <p>
-                  {Math.round(
+              <p className="text-secondary py-[2px]">
+                {` 일당 ${item.product.price.toLocaleString()}원ㆍ시급
+                  ${Math.round(
                     item.product.price /
                       getWorkTime(
                         item.product.extra?.condition?.workTime[0] || "09:00",
                         item.product.extra?.condition?.workTime[1] || "17:00",
                       ),
-                  ).toLocaleString()}
-                  원
-                </p>
-              </div>
+                  ).toLocaleString()}원`}
+              </p>
               <p className="text-beige-500 text-xs pb-3">
                 마감 : {item.product.extra?.condition?.date || "2025-02-01"}
               </p>
