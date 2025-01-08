@@ -28,12 +28,14 @@ export default function ReviewWrite() {
   const axios = useAxiosInstance();
 
   const editOrderState = useMutation({
-    mutationFn: async state => {
-      return axios.patch(`/orders/${order._id}`, { state });
+    mutationFn: async ({ orderId, state }) => {
+      console.log("orderId" + orderId, "state" + state);
+
+      return axios.patch(`/orders/${orderId}`, { state });
     },
 
     onSuccess: response => {
-      console.log("입금 완료 상태 변경");
+      console.log("입금 완료로 상태 변경");
       console.log(response);
     },
     onError: error => {
@@ -62,15 +64,17 @@ export default function ReviewWrite() {
         alert(
           `리뷰가 등록되었습니다. 일당 ${order.products[0].price.toLocaleString()}원이 정상적으로 전달되었습니다.`,
         );
-        // worker의 state를 수금 완료로 변경
-        editOrderState.mutate("EM040");
+        // employer order의 state를 송금 완료로 변경
+        editOrderState.mutate({ orderId: order._id, state: "EM040" });
+        // worker order의 state를 입금 완료로 변경
       }
       // worker가 리뷰 작성
       else {
         alert(
           `리뷰가 등록되었습니다. 일당 ${order.products[0].price.toLocaleString()}원 입금을 확인해 주세요.`,
         );
-        editOrderState.mutate("WO040");
+        // worker order의 state를 입금 확인으로 변경
+        editOrderState.mutate({ orderId: order._id, state: "WO040" });
       }
 
       console.log(response);

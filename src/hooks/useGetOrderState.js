@@ -17,6 +17,7 @@ export const useGetOrderState = state => {
 
   if (data) {
     const code = data.orderState.codes.filter(item => item.code === state);
-    return code[0].value;
+    if (code[0]) return code[0].value;
   }
+  return "";
 };
