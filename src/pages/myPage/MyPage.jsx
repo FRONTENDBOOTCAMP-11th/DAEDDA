@@ -1,34 +1,26 @@
-import useAxiosInstance from "@hooks/useAxiosInstance";
 import MyPageList from "@pages/myPage/MyPageList";
-import { useQuery } from "@tanstack/react-query";
-import { Link, useParams } from "react-router-dom";
+import useUserStore from "@zustand/userStore";
+import { Link } from "react-router-dom";
 
 export default function MyPage() {
-  const { _id } = useParams();
-  const axios = useAxiosInstance();
-  const { data } = useQuery({
-    queryKey: ["user", "userId"],
-    queryFn: () => axios.get(`/users/2`),
-    select: res => res.data,
-    staleTime: 1000 * 10,
-  });
-  console.log(data);
+  const { user } = useUserStore();
+  console.log(user);
   return (
     <>
       <div className="mb-[80px]">
-        <Link to={`/user/${_id}`}>
+        <Link to={`/user/${user._id}`}>
           <div className="flex pb-5 border-b border-gray-200 mb-8">
             <img
               src={
-                data?.item?.image
-                  ? `https://11.fesp.shop/${data.item.image}`
+                user?.image
+                  ? `https://11.fesp.shop/${user.image}`
                   : `/images/smiling_daeddamon.png`
               }
               alt="대따몬 프로필"
               className="size-16 w-fit pr-5"
             />
             <p className="font-bold flex items-center text-2xl flex-grow">
-              {data?.item?.name}
+              {user.name}
             </p>
             <img src="/icons/arrow.svg" alt="프로필 수정하기" />
           </div>
@@ -79,7 +71,7 @@ export default function MyPage() {
             <Link to="/error">
               <MyPageList label="인증 뱃지" icon="badge" className="mt-[1px]" />
             </Link>
-            <Link to={`/myPage/myReviews/${_id}`}>
+            <Link to={`/myPage/myReviews/${user._id}`}>
               <MyPageList
                 label="내가 받은 리뷰"
                 icon="review"
