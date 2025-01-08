@@ -14,4 +14,7 @@ export default defineConfig({
       { find: "@assets", replacement: "/src/assets" },
     ],
   },
+  optimizeDeps: {
+    include: ["dompurify"],
+  },
 });
