@@ -2,17 +2,20 @@ import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation } from "@tanstack/react-query";
+import useUserStore from "@zustand/userStore";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const [showPwd, setShowPwd] = useState(false); // 비밀번호: 초기는 보이지 않는 상태
   const [showPwdCheck, setShowPwdCheck] = useState(false); // 비밀번호 체크: 초기는 보이지 않는 상태
   const [preview, setPreview] = useState("/images/smiling_daeddamon.png"); // 이미지: 디폴트는 대따몬 이미지
-  // const [uploadImg, setUploadImg] = useState(null);
   const fileInput = useRef(null);
 
+  const setUser = useUserStore(store => store.setUser);
   const axios = useAxiosInstance();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -56,6 +59,11 @@ export default function SignUp() {
   // 회원 정보를 서버에 보냄
   const signUp = useMutation({
     mutationFn: async formData => {
+      // 자동 로그인을 위한 값 넘기기
+      const email = formData.email;
+      const password = formData.password;
+
+      // 프로필 이미지
       let uploadedImgPath = "";
 
       // 이미지를 첨부했을 경우
@@ -75,9 +83,9 @@ export default function SignUp() {
 
       const updatedFormData = {
         ...formData,
+        password: formData.password,
         image: uploadedImgPath || "images/smiling_daeddamon.png",
-        type: "user",
-        address: formData.address || "",
+        type: "seller",
         extra: {
           birthday: formData.birthday,
         },
@@ -85,28 +93,60 @@ export default function SignUp() {
 
       delete updatedFormData.birthday;
       delete updatedFormData.pwdCheck;
-      // 데이터 전송
+
+      // 데이터 확인 및 회원가입 요청 전송
       console.log(updatedFormData);
-      return axios.post(`/users/`, updatedFormData);
+      const res = await axios.post(`/users/`, updatedFormData);
+      console.log("회원가입 성공:", res.data);
+
+      return { email, password, res };
     },
 
-    onSuccess: () => {
-      console.log("회원가입 성공");
-    },
-    onError: error => {
-      console.error("회원가입 실패", error.response?.data);
-      if (error.response?.data?.errors) {
-        console.log("서버 오류 상세:", error.response.data.errors);
+    onSuccess: async ({ email, password, res }) => {
+      // const user = res.data.item;
+
+      // 회원가입 성공 후 로그인
+      try {
+        const autoSignIn = await axios.post(`/users/login`, {
+          email: email,
+          password: password,
+        });
+
+        const user = autoSignIn.data.item;
+        console.log("자동 로그인 성공", user);
+        setUser({
+          _id: user._id,
+          name: user.name,
+          phone: user.phone,
+          image: user.image,
+          accessToken: user.token.accessToken,
+          refreshToken: user.token.refreshToken,
+          extra: {
+            birthday: user.extra?.birthday,
+          },
+        });
+        console.log("zustand 저장 성공");
+        // navigate("/");
+      } catch (error) {
+        if (error.response) {
+          console.error("로그인 실패:", error.response.data);
+        } else {
+          console.error("로그인 실패:", error.message);
+        }
       }
+    },
+
+    onError: error => {
+      console.error("회원가입 실패", error);
     },
   });
 
-  //제출 했을 때
+  // 폼 제출 - "계속" 버튼 클릭시
   const onSubmit = data => {
     // 이메일 중복 체크
     emailCheck.mutate(data.email, {
       onSuccess: () => {
-        console.log("이메일 중복 테스트 통과");
+        console.log("submit - 이메일 중복 테스트 통과");
 
         // 중복 테스트 통과 후 회원가입 진행
         signUp.mutate(data);
@@ -241,8 +281,9 @@ export default function SignUp() {
             register={register("phone", {
               required: "휴대폰 번호을 입력해주세요.",
               pattern: {
-                value: /^[0-9]+$/,
-                message: "숫자만 입력 가능합니다.",
+                value: /^01\d{8,9}$/,
+                message:
+                  "휴대폰 번호는 '01' 로 시작하며 숫자만 입력 가능합니다.",
               },
             })}
           ></InputField>
