@@ -1,11 +1,12 @@
 import InputField from "@components/layout/InputField";
-import { useGetPosts } from "@hooks/useGetPosts";
+import { useGetOrders } from "@hooks/useGetOrders";
 import MyPersonItem from "@pages/reviews/MyPersonItem";
+import MyPlaceItem from "@pages/reviews/MyPlaceItem";
 
-const LOGGEDIN_USER = 2;
+// 구매 회원 id = 2로 샘플 데이터 채움
 
 export default function ReviewWrite() {
-  const { data } = useGetPosts(LOGGEDIN_USER);
+  const { data, isLoading } = useGetOrders();
 
   return (
     <div>
@@ -27,14 +28,8 @@ export default function ReviewWrite() {
           송금 완료
         </div>
       </div>
-      {data && (
-        <>
-          <MyPersonItem data={data[0]} />
-          <MyPersonItem data={data[1]} />
-          <MyPersonItem data={data[2]} />
-          <MyPersonItem data={data[3]} />
-        </>
-      )}
+      {isLoading && "로딩중..."}
+      {data && data.map(order => <MyPlaceItem key={order._id} data={order} />)}
     </div>
   );
 }

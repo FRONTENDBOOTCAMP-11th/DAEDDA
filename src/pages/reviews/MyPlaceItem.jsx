@@ -33,20 +33,12 @@ export default function MyPlaceItem({ data }) {
             </p>
           </div>
           <Link
-            className={
-              data.products[0].extra.status === "송금 완료"
-                ? ""
-                : "pointer-events-none"
-            }
+            className={state === "입금 완료" ? "" : "pointer-events-none"}
             to={`/review/${data._id}/write`}
             state={"worked"}
           >
             <Button
-              color={
-                data.products[0].extra.status === "송금 완료"
-                  ? "purple"
-                  : "gray"
-              }
+              color={state === "입금 완료" ? "purple" : "gray"}
               height="md"
             >
               리뷰 작성하기
