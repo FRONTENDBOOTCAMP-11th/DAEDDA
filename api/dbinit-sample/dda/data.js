@@ -1466,12 +1466,12 @@ export const initData = async (clientId, nextSeq) => {
           {
             sort: 4,
             code: "WO030",
-            value: "대타 완료",
+            value: "입금 완료",
           },
           {
             sort: 5,
             code: "WO040",
-            value: "입금 완료",
+            value: "임금 확인",
           },
           {
             sort: 6,
