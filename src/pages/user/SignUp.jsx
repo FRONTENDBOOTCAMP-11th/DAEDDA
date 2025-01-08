@@ -3,9 +3,24 @@ import InputField from "@components/layout/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
+import PropTypes from "prop-types";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+
+InputField.propTypes = {
+  type: PropTypes.string,
+  placeholder: PropTypes.string,
+  maxLength: PropTypes.number,
+  errorMsg: PropTypes.string,
+  register: PropTypes.object.isRequired,
+};
+
+Button.propTypes = {
+  color: PropTypes.string.isRequired,
+  height: PropTypes.string.isRequired,
+  type: PropTypes.string,
+};
 
 export default function SignUp() {
   const [showPwd, setShowPwd] = useState(false); // 비밀번호: 초기는 보이지 않는 상태
@@ -99,17 +114,15 @@ export default function SignUp() {
       const res = await axios.post(`/users/`, updatedFormData);
       console.log("회원가입 성공:", res.data);
 
-      return { email, password, res };
+      return { email, password };
     },
 
-    onSuccess: async ({ email, password, res }) => {
-      // const user = res.data.item;
-
+    onSuccess: async ({ email, password }) => {
       // 회원가입 성공 후 로그인
       try {
         const autoSignIn = await axios.post(`/users/login`, {
-          email: email,
-          password: password,
+          email,
+          password,
         });
 
         const user = autoSignIn.data.item;
@@ -126,7 +139,7 @@ export default function SignUp() {
           },
         });
         console.log("zustand 저장 성공");
-        // navigate("/");
+        navigate("/");
       } catch (error) {
         if (error.response) {
           console.error("로그인 실패:", error.response.data);
@@ -160,7 +173,7 @@ export default function SignUp() {
 
   return (
     <div className="flex flex-col items-center justify-center mb-[40px]">
-      <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+      <form className="w-full" onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="flex flex-col items-center justify-center">
           <div className="relative inline-block">
             <label htmlFor="image-upload" className="cursor-pointer">
