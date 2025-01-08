@@ -1,7 +1,6 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import MyPageList from "@pages/myPage/MyPageList";
 import { useQuery } from "@tanstack/react-query";
-import useUserStore from "@zustand/userStore";
 import { Link, useLocation } from "react-router-dom";
 
 export default function Profile() {
@@ -9,17 +8,25 @@ export default function Profile() {
   const location = useLocation();
   const userId = location.pathname.split("/")[2];
   console.log(userId);
-  const { data } = useQuery({
+  const { data, isLoading: IsRepliesLoading } = useQuery({
+    queryKey: ["repliy", userId],
+    queryFn: () => axios.get(`/replies/products/${userId}`),
+    select: res => res.data,
+    staleTime: 1000 * 10,
+  });
+  ///위에 data는 알바력 계산할 때 사용 할 예정
+  const { data: user, isLoading: IsUserLoading } = useQuery({
     queryKey: ["users", userId],
     queryFn: () => axios.get(`/users/${userId}`),
     select: res => res.data,
     staleTime: 1000 * 10,
   });
-  console.log(data);
-  const { user } = useUserStore();
-  console.log(user);
-  console.log(user.image);
-  if (!data) {
+  console.log("data", data);
+  console.log("user", user);
+  // const { user } = useUserStore();
+  // console.log(user);
+  // console.log(user.image);
+  if (IsUserLoading || IsRepliesLoading) {
     return <div>로딩중..</div>;
   }
   return (
@@ -27,14 +34,14 @@ export default function Profile() {
       <div className="flex flex-col items-center border-b mb-8">
         <img
           src={
-            data.item.image
-              ? `https://11.fesp.shop/${data.item.image}`
+            user.item?.image
+              ? `https://11.fesp.shop/${user.item.image}`
               : "/images/smiling_daeddamon.png"
           }
           alt="프로필 이미지"
           className="size-48 mb-4 mt-6"
         />
-        <p className="font-bold text-4xl mb-6">{data.item.name}</p>
+        <p className="font-bold text-4xl mb-6">{user.item.name}</p>
       </div>
 
       <div className="myPage-container pt-5 flex-col flex pb-6">
