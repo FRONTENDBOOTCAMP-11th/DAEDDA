@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 export default function Likes() {
   const axios = useAxiosInstance();
   const { data, isLoading } = useQuery({
-    queryKey: ["posts"],
+    queryKey: ["product"],
     queryFn: () => axios.get("/bookmarks/product"),
     select: res => res.data.item,
     staleTime: 1000 * 10,
