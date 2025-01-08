@@ -649,7 +649,7 @@ export const initData = async (clientId, nextSeq) => {
         show: true,
         active: true,
         name: "기장대게 할인마트 홀 서빙 대타 구함!",
-        quantity: 3,
+        quantity: 1000,
         buyQuantity: 0,
         mainImages: [
           {
@@ -682,7 +682,7 @@ export const initData = async (clientId, nextSeq) => {
         show: true,
         active: true,
         name: "소문난손칼국수 점심 설거지 해주실 분",
-        quantity: 3,
+        quantity: 1000,
         buyQuantity: 0,
         mainImages: [
           {
@@ -715,7 +715,7 @@ export const initData = async (clientId, nextSeq) => {
         show: true,
         active: true,
         name: "올리브영 일일 MATE 구합니다",
-        quantity: 3,
+        quantity: 1000,
         buyQuantity: 0,
         mainImages: [
           {
@@ -748,7 +748,7 @@ export const initData = async (clientId, nextSeq) => {
         show: true,
         active: true,
         name: "카카오 본사에서 프론트엔드 개발자 구합니다.",
-        quantity: 3,
+        quantity: 1000,
         buyQuantity: 0,
         mainImages: [
           {
