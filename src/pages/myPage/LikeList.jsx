@@ -25,28 +25,29 @@ export default function LikeList({ item }) {
   console.log(item);
   return (
     <>
-      <Link to={`/main/${item.product._id}`}>
-        <div className="likes-container">
-          <div className="flex items-center ">
-            <p className="text-sm">
-              {item.product.extra?.condition?.company || "못된고양이"}
-            </p>
-            <img
-              src="/icons/likes.svg"
-              alt="찜하기 버튼"
-              className="ml-auto"
-              onClick={() => removeLike.mutate(item._id)}
-            />
-          </div>
-          <p className="text-lg font-bold">{item.product.name}</p>
-          <div className="flex gap-[6px] items-center">
-            <img src="/icons/mapPin.svg" alt="위치 표시" className="size-3" />
-            <p className="text-xs">민락동</p>
-          </div>
-          <div className="flex items-center">
-            <div className="font-semibold">
-              <p className="text-secondary py-[2px]">
-                {` 일당 ${item.product.price.toLocaleString()}원ㆍ시급
+      <div className="likes-container">
+        <div className="flex items-center ">
+          <p className="text-sm">
+            {item.product.extra?.condition?.company || "못된고양이"}
+          </p>
+          <img
+            src="/icons/likes.svg"
+            alt="찜하기 버튼"
+            className="ml-auto cursor-pointer"
+            onClick={() => removeLike.mutate(item._id)}
+          />
+        </div>
+        <Link to={`/main/${item.product._id}`}>
+          <div>
+            <p className="text-lg font-bold">{item.product.name}</p>
+            <div className="flex gap-[6px] items-center">
+              <img src="/icons/mapPin.svg" alt="위치 표시" className="size-3" />
+              <p className="text-xs">민락동</p>
+            </div>
+            <div className="flex items-center">
+              <div className="font-semibold">
+                <p className="text-secondary py-[2px]">
+                  {` 일당 ${item.product.price.toLocaleString()}원ㆍ시급
                   ${Math.round(
                     item.product.price /
                       getWorkTime(
@@ -54,26 +55,27 @@ export default function LikeList({ item }) {
                         item.product.extra?.condition?.workTime[1] || "17:00",
                       ),
                   ).toLocaleString()}원`}
-              </p>
-              <p className="text-beige-500 text-xs pb-3">
-                마감 : {item.product.extra?.condition?.date || "2025-02-01"}
-              </p>
+                </p>
+                <p className="text-beige-500 text-xs pb-3">
+                  마감 : {item.product.extra?.condition?.date || "2025-02-01"}
+                </p>
+              </div>
+              <button className="rounded-2xl border border-primary ml-auto">
+                <Link to={`/pr/write`}>
+                  <div className="flex gap-1 px-2 items-center">
+                    <img
+                      src="/icons/apply.svg"
+                      alt="지원 버튼"
+                      className="mb-1"
+                    />
+                    <p className="text-primary text-sm">지원</p>
+                  </div>
+                </Link>
+              </button>
             </div>
-            <button className="rounded-2xl border border-primary ml-auto">
-              <Link to={`/pr/write`}>
-                <div className="flex gap-1 px-2 items-center">
-                  <img
-                    src="/icons/apply.svg"
-                    alt="지원 버튼"
-                    className="mb-1"
-                  />
-                  <p className="text-primary text-sm">지원</p>
-                </div>
-              </Link>
-            </button>
           </div>
-        </div>
-      </Link>
+        </Link>
+      </div>
     </>
   );
 }
