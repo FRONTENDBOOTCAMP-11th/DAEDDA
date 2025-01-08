@@ -9,12 +9,13 @@ const alertfun = () => {
   alert("신고되었습니다");
 };
 export default function MyReviewList({ item }) {
-  const { _id } = useParams();
+  // const { _id } = useParams();
 
   if (!item) {
     return <div>데이터가 없습니다.</div>;
   }
   console.log(item);
+  console.log(item._id);
   // let product = item.product._id;
   // console.log(product_id);
   return (
@@ -23,11 +24,11 @@ export default function MyReviewList({ item }) {
         <div key={reply._id} className="reviews-container">
           <div className="flex gap-1 ">
             <div className="flex gap-5 flex-grow">
-              <Link to={`/user/${_id}`} className="flex-shrink-0">
+              <Link to={`/user/${reply.user._id}`} className="flex-shrink-0">
                 <img
                   src={
-                    reply.image
-                      ? `https://11.fesp.shop/${reply.image}`
+                    reply.user.image
+                      ? `https://11.fesp.shop/${reply.user.image}`
                       : `/src/asset/images/smiling_daeddamon.png`
                   }
                   alt="사용자 이미지"
@@ -36,7 +37,7 @@ export default function MyReviewList({ item }) {
               </Link>
               <Link to={`/main/${item._id}`} className="w-full">
                 <div className="max-w-[440px]">
-                  <p className="font-bold text-sm">{reply.user_name}</p>
+                  <p className="font-bold text-sm">{reply.user.name}</p>
                   <div className="flex gap-1 size-3 mb-2">
                     <img src="/icons/reviews/star.svg" />
                     <img src="/icons/reviews/star.svg" />
