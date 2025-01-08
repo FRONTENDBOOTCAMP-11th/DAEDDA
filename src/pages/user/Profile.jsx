@@ -76,7 +76,7 @@ export default function Profile() {
           <Link to="/error">
             <MyPageList label="인증 뱃지" icon="badge" className="mt-[1px]" />
           </Link>
-          <Link to="/myPage/myReviews/2">
+          <Link to={`/myPage/myReviews/${userId}`}>
             <MyPageList label="받은 리뷰" icon="review" />
           </Link>
         </div>
