@@ -1,24 +1,24 @@
 import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import useUserStore from "@zustand/userStore";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 export default function Edit() {
+  const goBack = () => {
+    navigate(-1);
+  };
+
   const axios = useAxiosInstance();
   const navigate = useNavigate();
+  const { user, setUser } = useUserStore();
+  console.log(user);
 
   const [preview, setPreview] = useState(null);
   const fileInput = useRef(null);
-
-  const { data } = useQuery({
-    queryKey: ["user", "userId"],
-    queryFn: () => axios.get(`/users/2`),
-    select: res => res.data,
-    staleTime: 1000 * 10,
-  });
 
   const {
     register,
@@ -29,26 +29,23 @@ export default function Edit() {
   } = useForm();
 
   useEffect(() => {
-    if (data?.item) {
+    if (user) {
       reset({
-        name: data.item.name,
-        email: data.item.email,
-        phone: data.item.phone,
-        birth: data.item.extra.birthday,
+        name: user.name || "",
+        phone: user.phone || "",
+        birthday: user.extra.birthday || "",
       });
+
       setPreview(
-        data.item.image
-          ? `https://11.fesp.shop/${data.item.image}`
+        user.image
+          ? `https://11.fesp.shop/${user.image}`
           : "/images/smiling_daeddamon.png",
       );
     }
-  }, [data, reset]);
-
-  // console.log(data?.item);
+  }, [user, reset]);
 
   const editUser = useMutation({
     mutationFn: async formData => {
-      // 파일 업로드 처리
       console.log("최종 formData", formData);
 
       if (fileInput.current) {
@@ -61,9 +58,7 @@ export default function Edit() {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log("fileRes", fileRes);
         const uploadedImagePath = fileRes.data.item[0]?.path;
-        console.log("업로드된 이미지 경로:", uploadedImagePath);
 
         if (uploadedImagePath) {
           formData.image = uploadedImagePath;
@@ -73,10 +68,46 @@ export default function Edit() {
         delete formData.attach;
         console.log(fileRes.data.item[0]);
       }
-      console.log(formData);
-      return axios.patch("/users/2", formData);
+
+      const updatedFormData = {
+        ...formData,
+        extra: {
+          // ...(user.extra || {}),
+          birthday: formData.birthday, // birthday를 extra로 이동
+        },
+      };
+      delete updatedFormData.birthday;
+      // console.log(formData);
+      // console.log(user);
+      console.log("서버로 보낼 데이터:", updatedFormData);
+      return axios.patch(`/users/${user._id}`, updatedFormData);
     },
-    onSuccess: () => {
+    onSuccess: res => {
+      console.log("res", res);
+      const updatedUser = res.data.item;
+      console.log(updatedUser);
+      const newUser = {
+        ...user,
+        ...updatedUser,
+        extra: {
+          ...user.extra, // 기존 extra 유지, 추후 extra 추가 될 경우를 위해
+          birthday: updatedUser?.extra?.birthday,
+        },
+      };
+
+      setUser(newUser);
+      console.log(newUser);
+
+      reset({
+        name: newUser.name,
+        phone: newUser.phone,
+        birthday: newUser.extra.birthday,
+      });
+      setPreview(
+        user.image
+          ? `https://11.fesp.shop/${user.image}`
+          : "/images/smiling_daeddamon.png",
+      );
       alert("정보가 수정되었습니다");
       navigate(`/myPage`);
     },
@@ -93,7 +124,6 @@ export default function Edit() {
   });
   const imageChange = e => {
     const file = e.target.files[0];
-    // console.log("File이다", file);
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setPreview(imageUrl); // 미리보기 업뎃뎃
@@ -163,17 +193,17 @@ export default function Edit() {
         />
 
         <InputField
-          errorMsg={errors.birth?.message}
+          errorMsg={errors.birthday?.message}
           labelName="생년월일"
           type="date"
           placeholder="연도-월-일"
-          register={register("birth", {
+          register={register("birthday", {
             required: "생년월일은 필수 입력입니다.",
           })}
         />
 
         <div className="flex gap-6 w-full pt-4">
-          <Button color="white" height="lg">
+          <Button color="white" height="lg" onClick={goBack}>
             취소
           </Button>
           <Button color="purple" height="lg" type="submit">

@@ -30,7 +30,12 @@ export default function Error() {
         >
           메인으로
         </Button>
-        <Button className="w-[160px]" height="lg" onClick={goBack}>
+        <Button
+          className="w-[160px]"
+          height="lg"
+          onClick={goBack}
+          color="purple"
+        >
           이전으로
         </Button>
       </div>
