@@ -1,7 +1,7 @@
 import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";

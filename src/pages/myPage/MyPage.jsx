@@ -1,8 +1,6 @@
-import useAxiosInstance from "@hooks/useAxiosInstance";
 import MyPageList from "@pages/myPage/MyPageList";
-import { useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function MyPage() {
   const { user } = useUserStore();

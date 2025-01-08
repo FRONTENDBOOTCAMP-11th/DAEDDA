@@ -2,13 +2,10 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import MyReviewList from "@pages/myPage/MyReviewList";
 import { useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
-import { useParams } from "react-router-dom";
-import { useStore } from "zustand";
 
 export default function MyReviews() {
   const axios = useAxiosInstance();
 
-  // const { _id } = useParams();
   const { user } = useUserStore();
   const { data } = useQuery({
     queryKey: ["reviews"],
