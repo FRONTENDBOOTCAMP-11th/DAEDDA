@@ -2,27 +2,39 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import MyPageList from "@pages/myPage/MyPageList";
 import { useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Profile() {
   const axios = useAxiosInstance();
+  const location = useLocation();
+  const userId = location.pathname.split("/")[2];
+  console.log(userId);
+  const { data } = useQuery({
+    queryKey: ["users", userId],
+    queryFn: () => axios.get(`/users/${userId}`),
+    select: res => res.data,
+    staleTime: 1000 * 10,
+  });
+  console.log(data);
   const { user } = useUserStore();
   console.log(user);
   console.log(user.image);
-
+  if (!data) {
+    return <div>로딩중..</div>;
+  }
   return (
     <div className="mb-[40px]">
       <div className="flex flex-col items-center border-b mb-8">
         <img
           src={
-            user.image
-              ? `https://11.fesp.shop/${user.image}`
+            data.item.image
+              ? `https://11.fesp.shop/${data.item.image}`
               : "/images/smiling_daeddamon.png"
           }
           alt="프로필 이미지"
           className="size-48 mb-4 mt-6"
         />
-        <p className="font-bold text-4xl mb-6">{user.name}</p>
+        <p className="font-bold text-4xl mb-6">{data.item.name}</p>
       </div>
 
       <div className="myPage-container pt-5 flex-col flex pb-6">
