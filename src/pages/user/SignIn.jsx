@@ -167,7 +167,7 @@ export default function SignIn() {
                 message: "비밀번호는 최소 8자리 이상 입력해야 합니다.",
               },
             })}
-            maxLength="20"
+            maxLength={20}
           ></InputField>
           <img
             src={showPwd ? "/icons/eye.svg" : "/icons/eyeHalf.svg"}
