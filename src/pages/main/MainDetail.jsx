@@ -115,7 +115,11 @@ export default function MainDetail() {
         <h2 className="font-bold mb-2">근무지 사진</h2>
         <div className="mt-2 mb-7 w-[136px] h-[136px] flex bg-slate-600 items-center justify-center rounded-lg cursor-pointer">
           <img
-            src={`https://11.fesp.shop/files/final01/${data?.item.mainImages[0].name}`}
+            src={
+              data?.item.mainImages
+                ? `https://11.fesp.shop/files/final01/${data?.item.mainImages[0].name}`
+                : "https://placehold.co/400"
+            }
             alt="근무지 이미지"
             className="w-full h-full object-cover rounded-lg"
           />
