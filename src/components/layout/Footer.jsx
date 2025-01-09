@@ -5,36 +5,14 @@ export default function Footer() {
 
   const mainPage = useMatch("/");
   const myPage = useMatch("myPage");
-  const myPageLikeList = useMatch("myPage/likeList");
   const review = useMatch("review");
   const reviewMyPlace = useMatch("review/myPlace");
   const reviewMyPerson = useMatch("review/myPerson");
 
   const footerMatch =
-    mainPage ||
-    myPage ||
-    myPageLikeList ||
-    review ||
-    reviewMyPlace ||
-    reviewMyPerson;
+    mainPage || myPage || review || reviewMyPlace || reviewMyPerson;
 
   const tabs = [
-    {
-      name: "home",
-      icon: "/icons/footer/home.svg",
-      activeIcon: "/icons/footer/purpleHome.svg",
-      label: "홈",
-      path: "/",
-      match: mainPage,
-    },
-    {
-      name: "likeList",
-      icon: "/icons/footer/heart.svg",
-      activeIcon: "/icons/footer/purpleHeart.svg",
-      label: "찜 목록",
-      path: "/myPage/likeList",
-      match: myPageLikeList,
-    },
     {
       name: "review",
       icon: "/icons/footer/history.svg",
@@ -42,6 +20,14 @@ export default function Footer() {
       label: "알바 내역",
       path: "/review",
       match: review || reviewMyPerson || reviewMyPlace,
+    },
+    {
+      name: "home",
+      icon: "/icons/footer/home.svg",
+      activeIcon: "/icons/footer/purpleHome.svg",
+      label: "홈",
+      path: "/",
+      match: mainPage,
     },
     {
       name: "profile",
