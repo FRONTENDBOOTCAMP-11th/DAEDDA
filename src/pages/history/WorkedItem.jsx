@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { formatDate } from "@/utills/func.js";
 
-MyPlaceItem.propTypes = {
+WorkedItem.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
 // data.extra.position에 따라 worker, employer 구분
 
-export default function MyPlaceItem({ data }) {
+export default function WorkedItem({ data }) {
   const state = useGetOrderState(data.state);
 
   return (
@@ -37,28 +37,12 @@ export default function MyPlaceItem({ data }) {
           </div>
           {/* 리뷰 작성 버튼 활성화 로직 */}
           <Link
-            className={
-              data.extra.position === "worker"
-                ? state === "입금 완료"
-                  ? ""
-                  : "pointer-events-none"
-                : state === "대타 완료"
-                  ? ""
-                  : "pointer-events-none"
-            }
+            className={state === "입금 완료" ? "" : "pointer-events-none"}
             to={`/review/${data.products[0]._id}/write`}
-            state={{ position: data.extra.position, order: data }}
+            state={{ order: data }}
           >
             <Button
-              color={
-                data.extra.position === "worker"
-                  ? state === "입금 완료"
-                    ? "purple"
-                    : "gray"
-                  : state === "대타 완료"
-                    ? "purple"
-                    : "gray"
-              }
+              color={state === "입금 완료" ? "purple" : "gray"}
               height="md"
             >
               리뷰 작성하기

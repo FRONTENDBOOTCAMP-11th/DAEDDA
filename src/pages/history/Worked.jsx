@@ -1,11 +1,9 @@
 import InputField from "@components/layout/InputField";
 import { useGetOrders } from "@hooks/useGetOrders";
-import MyPlaceItem from "@pages/reviews/MyPlaceItem";
+import WorkedItem from "@pages/history/WorkedItem";
 
-// 구매 회원 id = 4로 샘플 데이터 채움
-
-export default function ReviewWrite() {
-  const { data, isLoading } = useGetOrders("worker");
+export default function Worked() {
+  const { data, isLoading } = useGetOrders();
 
   return (
     <div>
@@ -29,7 +27,7 @@ export default function ReviewWrite() {
         </div>
       </div>
       {isLoading && "로딩중..."}
-      {data && data.map(order => <MyPlaceItem key={order._id} data={order} />)}
+      {data && data.map(order => <WorkedItem key={order._id} data={order} />)}
     </div>
   );
 }

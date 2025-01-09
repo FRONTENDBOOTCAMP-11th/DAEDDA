@@ -1,7 +1,7 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetOrders = position => {
+export const useGetOrders = () => {
   const axios = useAxiosInstance();
 
   return useQuery({
@@ -10,7 +10,7 @@ export const useGetOrders = position => {
       return axios.get("/orders");
     },
     select: res => {
-      return res.data.item.filter(item => item.extra.position === position);
+      return res.data.item;
     },
     staleTime: 1000 * 10,
   });
