@@ -66,7 +66,12 @@ export default function ReviewWrite() {
         );
         // employer order의 state를 송금 완료로 변경
         editOrderState.mutate({ orderId: order._id, state: "EM040" });
+
         // worker order의 state를 입금 완료로 변경
+        // 1. product_id === order.products[0]._id && state === "W030"인 주문의 주문 id를 찾는다.
+        // a) 상품 상세 조회 API 사용 -> 필터링 후 주문 id 획득
+        // b) 판매자에게 주문한 주문 목록 조회 (상태로 검색) -> 필터링 후 주문 id 획득
+        // 2. editOrderState로 state를 변경한다.
       }
       // worker가 리뷰 작성
       else {
