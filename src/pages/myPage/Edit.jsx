@@ -5,9 +5,10 @@ import { useMutation } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
 export default function Edit() {
+  // 선아님 코드 시작
   const goBack = () => {
     navigate(-1);
   };
@@ -130,6 +131,45 @@ export default function Edit() {
       fileInput.current = file;
     }
   };
+  // 선아님 코드 끝
+
+  // 카카오 로그인 코드 시작
+  // 로그인 성공시 url에 code가 보임
+  // code 있을 때 처리
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const code = params.get("code");
+
+    if (code) {
+      sendKakaoRequest(code);
+    }
+  }, [location.search]);
+
+  // 받은 code로 요청 보내기
+  const sendKakaoRequest = async code => {
+    try {
+      const response = await axios.post(`/users/login/kakao`, {
+        code,
+        redirect_uri: "http://localhost:5173/myPage/edit",
+      });
+
+      const { data } = response;
+      console.log("카카오 로그인 성공", data);
+
+      console.log(data.item.name);
+      console.log(data.item.image);
+      // 화면에 데이터 뿌리기 (name, image)
+      reset({
+        image: data.item.image,
+        name: data.item.name,
+      });
+
+      setPreview(data.image || "/images/smiling_daeddamon.png");
+    } catch (error) {
+      console.error("카카오 실패", error);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit(editUser.mutate)}>
       <div className="mb-[40px]">
