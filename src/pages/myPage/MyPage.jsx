@@ -61,22 +61,9 @@ export default function MyPage() {
             <Link to={`/myPage/likeList`}>
               <MyPageList label="관심 목록" icon="heart" className="mt-[2px]" />
             </Link>
-            <Link to={`/myPage/edit`}>
-              <MyPageList
-                label="회원 정보 수정"
-                icon="userInfo"
-                className="mb-[2px]"
-              />
-            </Link>
-            <Link to="/error">
-              <MyPageList label="인증 뱃지" icon="badge" className="mt-[1px]" />
-            </Link>
-            <Link to={`/myPage/myReviews/${user._id}`}>
-              <MyPageList
-                label="내가 받은 리뷰"
-                icon="review"
-                className="mt-[2px]"
-              />
+
+            <Link to="/review/worked">
+              <MyPageList label="쓴 게시글" icon="write" />
             </Link>
           </div>
         </div>
@@ -99,6 +86,13 @@ export default function MyPage() {
         <div className="myPage-container pb-4">
           <p className="mb-3 text-2xl font-bold pt-6">계정관리</p>
           <div>
+            <Link to={`/myPage/edit`}>
+              <MyPageList
+                label="회원 정보 수정"
+                icon="userInfo"
+                className="mb-[2px]"
+              />
+            </Link>
             <MyPageList label="로그 아웃" icon="logout" />
             <Link to="/error">
               <MyPageList label="회원 탈퇴" icon="withdraw" />
