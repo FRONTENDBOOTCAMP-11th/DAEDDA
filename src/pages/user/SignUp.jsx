@@ -175,6 +175,10 @@ export default function SignUp() {
     navigate("/user/signIn");
   };
 
+  const preventSpace = e => {
+    if (e.key === " ") e.preventDefault();
+  };
+
   return (
     <div className="flex flex-col items-center justify-center mb-[40px]">
       <form className="w-full" onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -204,6 +208,7 @@ export default function SignUp() {
             placeholder="이메일을 입력해주세요."
             maxLength="30"
             errorMsg={errors.email?.message}
+            onKeyPress={preventSpace}
             register={register("email", {
               required: "이메일을 입력해주세요.",
               pattern: {
@@ -219,6 +224,7 @@ export default function SignUp() {
             placeholder="닉네임을 입력해주세요."
             maxLength="10"
             errorMsg={errors.name?.message}
+            onKeyPress={preventSpace}
             register={register("name", {
               required: "닉네임을 입력해주세요",
               minLength: {
@@ -233,6 +239,7 @@ export default function SignUp() {
             type={showPwd ? "text" : "password"}
             placeholder="비밀번호를 입력해주세요."
             maxLength="20"
+            onKeyPress={preventSpace}
             errorMsg={errors.password?.message}
             register={register("password", {
               required: "비밀번호를 입력해주세요.",
@@ -247,9 +254,7 @@ export default function SignUp() {
             })}
           ></InputField>
           <img
-            src={
-              showPwd ? "/public/icons/eye.svg" : "/public/icons/eyeHalf.svg"
-            }
+            src={showPwd ? "/icons/eye.svg" : "/icons/eyeHalf.svg"}
             className="absolute right-3 top-3"
             onClick={() => setShowPwd(pre => !pre)}
           />
@@ -259,6 +264,7 @@ export default function SignUp() {
             type={showPwdCheck ? "text" : "password"}
             placeholder="비밀번호를 확인해주세요."
             maxLength="20"
+            onKeyPress={preventSpace}
             errorMsg={errors.pwdCheck?.message}
             register={register("pwdCheck", {
               required: "비밀번호를 확인해주세요.",
@@ -270,11 +276,7 @@ export default function SignUp() {
             })}
           ></InputField>
           <img
-            src={
-              showPwdCheck
-                ? "/public/icons/eye.svg"
-                : "/public/icons/eyeHalf.svg"
-            }
+            src={showPwdCheck ? "/icons/eye.svg" : "/icons/eyeHalf.svg"}
             className="absolute right-3 top-3"
             onClick={() => setShowPwdCheck(pre => !pre)}
           />
@@ -294,6 +296,7 @@ export default function SignUp() {
             type="text"
             maxLength="11"
             placeholder="휴대폰 번호는 '-' 제외하고 입력해주세요."
+            onKeyPress={preventSpace}
             errorMsg={errors.phone?.message}
             register={register("phone", {
               required: "휴대폰 번호을 입력해주세요.",
