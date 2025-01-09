@@ -62,9 +62,9 @@ export default function MyPage() {
               <MyPageList label="관심 목록" icon="heart" className="mt-[2px]" />
             </Link>
 
-            <Link to="/review/worked">
+            {/* <Link to="/review/worked">
               <MyPageList label="쓴 게시글" icon="write" />
-            </Link>
+            </Link> */}
           </div>
         </div>
 

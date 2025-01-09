@@ -77,9 +77,9 @@ export default function Profile() {
       <div className="myPage-container pb-4">
         <p className="mb-3 text-2xl font-bold pt-6">활동</p>
         <div>
-          <Link to="/review/worked">
+          {/* <Link to="/review/worked">
             <MyPageList label="쓴 게시글" icon="write" />
-          </Link>
+          </Link> */}
           <Link to="/error">
             <MyPageList label="인증 뱃지" icon="badge" className="mt-[1px]" />
           </Link>
