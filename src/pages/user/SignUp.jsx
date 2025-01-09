@@ -59,9 +59,7 @@ export default function SignUp() {
       axios.get(`/users/email`, {
         params: { email },
       }),
-    onSuccess: () => {
-      console.log("이메일 중복 검증 통과");
-    },
+    onSuccess: () => {},
     onError: error => {
       if (error.response?.status === 409) {
         setError("email", { message: "이미 사용 중인 이메일입니다." });
@@ -110,9 +108,8 @@ export default function SignUp() {
       delete updatedFormData.pwdCheck;
 
       // 데이터 확인 및 회원가입 요청 전송
-      console.log(updatedFormData);
-      const res = await axios.post(`/users/`, updatedFormData);
-      console.log("회원가입 성공:", res.data);
+      await axios.post(`/users/`, updatedFormData);
+      alert(`환영합니다 ${updatedFormData.name} 님!`);
 
       return { email, password };
     },
@@ -126,7 +123,6 @@ export default function SignUp() {
         });
 
         const user = autoSignIn.data.item;
-        console.log("자동 로그인 성공", user);
         setUser({
           _id: user._id,
           name: user.name,
@@ -138,7 +134,6 @@ export default function SignUp() {
             birthday: user.extra?.birthday,
           },
         });
-        console.log("zustand 저장 성공");
         navigate("/");
       } catch (error) {
         if (error.response) {
@@ -159,8 +154,6 @@ export default function SignUp() {
     // 이메일 중복 체크
     emailCheck.mutate(data.email, {
       onSuccess: () => {
-        console.log("submit - 이메일 중복 테스트 통과");
-
         // 중복 테스트 통과 후 회원가입 진행
         signUp.mutate(data);
       },
@@ -206,7 +199,7 @@ export default function SignUp() {
           <InputField
             type="email"
             placeholder="이메일을 입력해주세요."
-            maxLength="30"
+            maxLength={30}
             errorMsg={errors.email?.message}
             onKeyPress={preventSpace}
             register={register("email", {
@@ -222,7 +215,7 @@ export default function SignUp() {
           <InputField
             type="text"
             placeholder="닉네임을 입력해주세요."
-            maxLength="10"
+            maxLength={10}
             errorMsg={errors.name?.message}
             onKeyPress={preventSpace}
             register={register("name", {
@@ -238,7 +231,7 @@ export default function SignUp() {
           <InputField
             type={showPwd ? "text" : "password"}
             placeholder="비밀번호를 입력해주세요."
-            maxLength="20"
+            maxLength={20}
             onKeyPress={preventSpace}
             errorMsg={errors.password?.message}
             register={register("password", {
@@ -263,7 +256,7 @@ export default function SignUp() {
           <InputField
             type={showPwdCheck ? "text" : "password"}
             placeholder="비밀번호를 확인해주세요."
-            maxLength="20"
+            maxLength={20}
             onKeyPress={preventSpace}
             errorMsg={errors.pwdCheck?.message}
             register={register("pwdCheck", {
@@ -294,7 +287,7 @@ export default function SignUp() {
         <div className="w-full">
           <InputField
             type="text"
-            maxLength="11"
+            maxLength={11}
             placeholder="휴대폰 번호는 '-'를 제외하고 입력해주세요."
             onKeyPress={preventSpace}
             errorMsg={errors.phone?.message}
