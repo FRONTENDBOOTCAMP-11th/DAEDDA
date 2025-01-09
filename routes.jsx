@@ -15,7 +15,7 @@ import MainList from "@pages/main/MainList";
 import MainWrite from "@pages/main/MainWrite";
 import MainEdit from "@pages/main/MainEdit";
 import ReviewList from "@pages/history/ReviewList";
-import ReviewWrite from "@pages/history/ReviewWrite";
+import ReviewWrite from "@pages/history/WorkedReview";
 import Profile from "@pages/user/Profile";
 import Error from "@pages/Error";
 import Worked from "@pages/history/Worked";
@@ -42,10 +42,10 @@ const router = createBrowserRouter(
               element: <Navigate to="worked" replace />,
             },
             { path: "worked", element: <Worked /> },
-            { path: "hired", element: <Employed /> },
+            { path: "employed", element: <Employed /> },
           ],
         },
-        { path: "history/:_id/write", element: <ReviewWrite /> },
+        { path: "history/:_id/reviewWrite", element: <ReviewWrite /> },
 
         { path: "pr/write", element: <PRWrite /> },
         { path: "pr/:_id", element: <PRDetail /> },
