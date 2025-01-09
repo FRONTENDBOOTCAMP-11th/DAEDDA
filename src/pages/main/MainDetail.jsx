@@ -5,18 +5,32 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getWorkTime, formatDate } from "@/utills/func";
 import DOMPurify from "dompurify";
 import MainItem from "@pages/main/MainItem";
+import { useEffect, useState } from "react";
+import useUserStore from "@zustand/userStore";
 
 export default function MainDetail() {
+  const [bookMark, setBookMark] = useState(false);
   const queryClient = useQueryClient();
   const axios = useAxiosInstance();
   const navigate = useNavigate();
   const { _id } = useParams();
+  const { user } = useUserStore();
+  console.log(user);
 
   const { data } = useQuery({
-    queryKey: ["seller/products", _id],
-    queryFn: () => axios.get(`/seller/products/${_id}`),
-    select: res => res.data,
+    queryKey: ["products", _id],
+    queryFn: () => axios.get(`/products/${_id}`),
+    select: res => {
+      console.log(res.data);
+      return res.data;
+    },
   });
+
+  useEffect(() => {
+    if (data?.item?.bookmarks) {
+      setBookMark(true);
+    }
+  }, [data]);
 
   const sanitizedContent = DOMPurify.sanitize(`${data?.item.content}`);
 
@@ -67,23 +81,73 @@ export default function MainDetail() {
     }
   };
 
+  const addBookMark = useMutation({
+    mutationFn: async formData => {
+      const body = {
+        target_id: formData.product_id,
+        extra: {
+          type: "product",
+        },
+      };
+      return axios.post(`/bookmarks/product`, body);
+    },
+    onMutate: () => {
+      setBookMark(true);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["bookmarks"]);
+      alert("북마크 추가");
+    },
+    onError: error => {
+      console.error("북마크 실패", error);
+      setBookMark(false);
+    },
+  });
+
+  const deleteBookMark = useMutation({
+    mutationFn: _id => axios.delete(`/bookmarks/${_id}`),
+    onMutate: () => {
+      setBookMark(false);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["products", _id]);
+      queryClient.invalidateQueries(["bookmarks"]);
+      alert("찜하기 삭제");
+    },
+    onError: error => {
+      console.error("북마크 삭제 실패", error);
+      setBookMark(true);
+    },
+  });
+
+  const handleBookMarkToggle = () => {
+    if (bookMark) {
+      deleteBookMark.mutate(data?.item._id);
+    } else {
+      addBookMark.mutate({ product_id: data?.item._id });
+    }
+  };
+
   return (
     <div className="mb-[40px]">
       <section className="flex items-center justify-between mt-4 flex-wrap">
         <div className="font-bold text-[20px] py-4 break-keep whitespace-normal">
           {data?.item.name}
         </div>
-        <div className="flex">
-          <img
-            src="/icons/blackHeart.svg"
-            className="h-7 w-7 ml-2"
-            alt="찜 풀기 아이콘"
-          />
-          <img
-            src="/icons/likes.svg"
-            className="h-7 w-7 ml-2"
-            alt="찜 아이콘"
-          />
+        <div className="flex" onClick={handleBookMarkToggle}>
+          {bookMark ? (
+            <img
+              src="/icons/likes.svg"
+              className="h-7 w-7 ml-2 cursor-pointer"
+              alt="찜 풀기 아이콘"
+            />
+          ) : (
+            <img
+              src="/icons/blackHeart.svg"
+              className="h-7 w-7 ml-2 cursor-pointer"
+              alt="찜 아이콘"
+            />
+          )}
         </div>
 
         <div className="flex justify-end gap-2 screen-530:justify-end screen-530:w-full">
@@ -176,15 +240,19 @@ export default function MainDetail() {
             </ul>
           </div>
         </section>
-        <div className="mt-7 ">
-          <Button
-            color="purple"
-            height="lg"
-            type="submit"
-            onClick={handleApply}
-          >
-            지원하기
-          </Button>
+        <div className="mt-7">
+          {data?.item?.seller_id !== user._id ? (
+            <Button
+              color="purple"
+              height="lg"
+              type="submit"
+              onClick={handleApply}
+            >
+              지원하기
+            </Button>
+          ) : (
+            ""
+          )}
         </div>
         <MainItem />
       </div>
