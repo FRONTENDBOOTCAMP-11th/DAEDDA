@@ -87,11 +87,15 @@ export default function MainWrite() {
           },
         ],
       };
-      return axios.post("/orders/", body);
+      return axios.post("/orders", body);
     },
   });
 
   const onSubmit = async formData => {
+    if (imageError) {
+      setImageError(true);
+      return;
+    }
     try {
       const addPostResponse = await addPost.mutateAsync(formData);
       const productId = addPostResponse.data.item._id;
