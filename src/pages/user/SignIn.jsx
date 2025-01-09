@@ -95,40 +95,43 @@ export default function SignIn() {
 
   // 카카오 로그인 처리
   const handleKakako = () => {
-    const REST_API_KEY = "a30d718509473f620fe5233b40a67565";
+    const REST_API_KEY = "7b635f7b3d4379252462f78787fc908b";
     const REDIRECT_URI = "http://localhost:5173/myPage/edit";
     const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
     window.location.href = KAKAO_AUTH_URI;
   };
 
-  const sendRequest = async code => {
-    try {
-      const response = await axios.post(`/users/login/kakao`, {
-        code,
-        redirect_uri: "http://localhost:5173/myPage/edit",
-        user: {},
-      });
-      console.log(response.data);
-    } catch (error) {
-      // console.log(code);
-      console.error("상태 코드:", error.response?.status);
-      console.error("상태 텍스트:", error.response?.statusText);
-      console.error("서버 반환 데이터:", error.response?.data);
-      console.error("요청 설정:", error.response?.config);
-    }
-  };
+  // const sendRequest = async code => {
+  //   console.log(code);
+  //   try {
+  //     const response = await axios.post(`/users/login/kakao`, {
+  //       code,
+  //       redirect_uri: "http://localhost:5173/myPage/edit",
+  //       user: {},
+  //     });
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     // console.log(code);
+  //     console.error("상태 코드:", error.response?.status);
+  //     console.error("상태 텍스트:", error.response?.statusText);
+  //     console.error("서버 반환 데이터:", error.response?.data);
+  //     console.error("요청 설정:", error.response?.config);
+  //   }
+  // };
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const code = params.get("code");
-    console.log(code); //코드 가져옴
+  // useEffect(() => {
+  //   const params = new URLSearchParams(location.search);
+  //   const code = params.get("code");
+  //   console.log(code); //코드 가져옴
 
-    if (code) {
-      // 서버에 코드 전송하기
-      sendRequest(code);
-    }
-  }, [location]);
+  //   if (code) {
+  //     // 서버에 코드 전송하기
+  //     sendRequest(code);
+  //     console.log("test");
+  //     navigate(`/mypage/edit?code=${code}`);
+  //   }
+  // }, [location.search]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center overflow-auto">
