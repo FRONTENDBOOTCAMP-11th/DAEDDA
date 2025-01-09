@@ -2,7 +2,7 @@ import Button from "@components/layout/Button";
 import InputField from "@components/layout/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import MainMap from "@pages/main/MainMap";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -19,15 +19,17 @@ export default function MainWrite() {
   const [preview, setPreview] = useState(null);
   const [imageError, setImageError] = useState(true);
   const axios = useAxiosInstance();
+  const queryClient = useQueryClient();
 
   const addPost = useMutation({
     mutationFn: async formData => {
       let body = {
         name: formData.name,
         price: formData.price,
-        quantity: 1,
+        quantity: 1000,
         content: DOMPurify.sanitize(formData.content, { ALLOWED_TAGS: [] }),
         extra: {
+          position: "employer",
           location: [35.155625, 129.131793],
           address: formData.address,
           condition: {
@@ -36,6 +38,7 @@ export default function MainWrite() {
             workTime: formData.workTime.split(" - "),
           },
         },
+        state: "EM010",
       };
 
       if (formData.attach?.length > 0) {
@@ -59,13 +62,6 @@ export default function MainWrite() {
 
       return axios.post("/seller/products", body);
     },
-    onSuccess: response => {
-      const mainPostId = response.data.item._id;
-      navigate(`/main/${mainPostId}`);
-    },
-    onError: error => {
-      console.error("등록 실패:", error);
-    },
   });
 
   const handleImageChange = e => {
@@ -80,8 +76,37 @@ export default function MainWrite() {
     }
   };
 
+  const buyPost = useMutation({
+    mutationFn: async productId => {
+      let body = {
+        product_id: productId,
+        products: [
+          {
+            _id: productId,
+            quantity: 1,
+          },
+        ],
+      };
+      return axios.post("/orders/", body);
+    },
+  });
+
+  const onSubmit = async formData => {
+    try {
+      const addPostResponse = await addPost.mutateAsync(formData);
+      const productId = addPostResponse.data.item._id;
+
+      await buyPost.mutateAsync(productId);
+
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      navigate(`/main/${productId}`);
+    } catch (error) {
+      console.error("등록 또는 구매 실패:", error);
+    }
+  };
+
   return (
-    <form className="mb-[40px]" onSubmit={handleSubmit(addPost.mutate)}>
+    <form className="mb-[40px]" onSubmit={handleSubmit(onSubmit)}>
       <div className="mt-5">
         <InputField
           labelName="제목"
@@ -232,7 +257,12 @@ export default function MainWrite() {
         />
       </fieldset>
       <div className="mt-11">
-        <Button color="purple" height="lg" type="submit">
+        <Button
+          color="purple"
+          height="lg"
+          type="submit"
+          onSubmit={handleSubmit(buyPost.mutate)}
+        >
           등록
         </Button>
       </div>

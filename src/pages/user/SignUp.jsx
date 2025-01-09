@@ -97,7 +97,7 @@ export default function SignUp() {
       const updatedFormData = {
         ...formData,
         password: formData.password,
-        image: uploadedImgPath || "images/smiling_daeddamon.png",
+        image: uploadedImgPath,
         type: "seller",
         extra: {
           birthday: formData.birthday,
