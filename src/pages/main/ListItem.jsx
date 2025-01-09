@@ -40,7 +40,11 @@ export default function ListItem({ data }) {
       <div className="flex-shrink-0 screen-530:hidden">
         <img
           className="size-[136px] object-cover"
-          src={`https://11.fesp.shop/files/final01/${data.mainImages[0].name}`}
+          src={
+            data.mainImages
+              ? `https://11.fesp.shop/files/final01/${data.mainImages[0].name}`
+              : "https://placehold.co/400"
+          }
         />
       </div>
     </Link>
