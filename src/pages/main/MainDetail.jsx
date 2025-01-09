@@ -1,7 +1,6 @@
 import Button from "@components/layout/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import useUserStore from "@zustand/userStore";
 import { useNavigate, useParams } from "react-router-dom";
 import { getWorkTime, formatDate } from "@/utills/func";
 import DOMPurify from "dompurify";
@@ -9,7 +8,6 @@ import MainItem from "@pages/main/MainItem";
 
 export default function MainDetail() {
   const queryClient = useQueryClient();
-  const { user } = useUserStore();
   const axios = useAxiosInstance();
   const navigate = useNavigate();
   const { _id } = useParams();
@@ -75,11 +73,19 @@ export default function MainDetail() {
         <div className="font-bold text-[20px] py-4 break-keep whitespace-normal">
           {data?.item.name}
         </div>
-        <img
-          src="/icons/blackHeart.svg"
-          className="h-7 w-7 ml-2"
-          alt="찜 아이콘"
-        />
+        <div className="flex">
+          <img
+            src="/icons/blackHeart.svg"
+            className="h-7 w-7 ml-2"
+            alt="찜 풀기 아이콘"
+          />
+          <img
+            src="/icons/likes.svg"
+            className="h-7 w-7 ml-2"
+            alt="찜 아이콘"
+          />
+        </div>
+
         <div className="flex justify-end gap-2 screen-530:justify-end screen-530:w-full">
           <div className="w-[92px] h-[32px]">
             <Button color="purple" width="xl" height="sm" onClick={handleEdit}>
@@ -109,7 +115,11 @@ export default function MainDetail() {
         <h2 className="font-bold mb-2">근무지 사진</h2>
         <div className="mt-2 mb-7 w-[136px] h-[136px] flex bg-slate-600 items-center justify-center rounded-lg cursor-pointer">
           <img
-            src={`https://11.fesp.shop/files/final01/${data?.item.mainImages[0].name}`}
+            src={
+              data?.item.mainImages
+                ? `https://11.fesp.shop/files/final01/${data?.item.mainImages[0].name}`
+                : "https://placehold.co/400"
+            }
             alt="근무지 이미지"
             className="w-full h-full object-cover rounded-lg"
           />
