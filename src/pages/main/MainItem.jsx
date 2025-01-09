@@ -2,7 +2,6 @@ import Button from "@components/layout/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import Badge from "@pages/main/Badge";
 import { useQuery } from "@tanstack/react-query";
-import useUserStore from "@zustand/userStore";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -11,14 +10,13 @@ export default function MainItem() {
   const axios = useAxiosInstance();
   const navigate = useNavigate();
 
-  const { user } = useUserStore();
-  console.log(user);
-
   const { _id } = useParams();
   const { data: product } = useQuery({
     queryKey: ["product", _id],
     queryFn: () => axios.get(`/seller/products/${_id}`),
-    select: res => res.data.item,
+    select: res => {
+      return res.data.item;
+    },
   });
 
   const handleUserPage = userId => {
@@ -37,10 +35,14 @@ export default function MainItem() {
     setAccept(null);
   };
 
+  const filteredOrders = product?.orders?.filter(order =>
+    order.extra?.title?.trim(),
+  );
+
   return (
     <div>
-      {product && product.orders && product.orders.length > 0
-        ? product.orders.map(order => (
+      {filteredOrders && filteredOrders.length > 0
+        ? filteredOrders.map(order => (
             <div key={order?._id}>
               <section className="mt-7 pt-7 flex justify-between border-t-8">
                 <div
