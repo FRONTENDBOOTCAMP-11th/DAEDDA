@@ -10,7 +10,7 @@ export default function Likes() {
     select: res => res.data.item,
     staleTime: 1000 * 10,
   });
-  if (data.length === 0) {
+  if (!data || data.length === 0) {
     return (
       <div className="-mt-[80px] max-w-screen-sm m-auto h-screen overflow-y-auto flex items-center justify-center text-center text-xl text-gray-300">
         관심 표시한 글이 없어요.
