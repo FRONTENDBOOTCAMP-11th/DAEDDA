@@ -5,7 +5,7 @@ export default function ReviewList() {
     <div className="mb-[80px]">
       <div className="flex *:py-2 *:flex-1 text-center font-semibold text-sm mb-5">
         <NavLink
-          to="myPlace"
+          to="worked"
           className={({ isActive }) =>
             isActive ? "border-b-[3px] border-primary" : "text-gray-500"
           }
@@ -13,7 +13,7 @@ export default function ReviewList() {
           내가 한 일
         </NavLink>
         <NavLink
-          to="myPerson"
+          to="hired"
           className={({ isActive }) =>
             isActive ? "border-b-[3px] border-primary" : "text-gray-500"
           }

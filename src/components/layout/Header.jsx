@@ -2,13 +2,14 @@ import { Link, useMatch, useNavigate } from "react-router-dom";
 
 export default function Header() {
   const navigate = useNavigate();
+  const error = useMatch("/error");
   const prId = useMatch("pr/:_id");
   const prIdEdit = useMatch("pr/:_id/edit");
   const prWrite = useMatch("pr/write");
   const userTerms = useMatch("user/terms");
   const signUp = useMatch("user/signUp");
   const myPageEdit = useMatch("myPage/edit");
-  const myPageMyReviews = useMatch("myPage/myReviews");
+  const myPageMyReviews = useMatch("myPage/myReviews/:_id");
   const reviewWrite = useMatch("review/write");
   const mainWrite = useMatch("main/write");
   const mainID = useMatch("main/:_id");
@@ -53,6 +54,9 @@ export default function Header() {
     mainIDEdit ||
     userProfile;
 
+  if (error) {
+    return null;
+  }
   if (headerMatch) {
     return (
       <header className="w-full h-[60px] flex items-center justify-center border-b border-gray-200 mb-5 fixed top-0 max-w-screen-sm left-1/2 -translate-x-1/2 bg-white px-6 z-10">
@@ -72,7 +76,7 @@ export default function Header() {
     <header className="w-full h-[60px] flex items-center justify-between fixed top-0 max-w-screen-sm left-1/2 -translate-x-1/2 bg-white px-6 z-10">
       <Link to="/">
         <img
-          src="/src/assets/logos/header-logo.png"
+          src="/logos/header-logo.png"
           className="w-[190px] cursor-pointer"
         />
       </Link>

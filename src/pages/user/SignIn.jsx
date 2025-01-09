@@ -89,11 +89,8 @@ export default function SignIn() {
   });
   return (
     <div className="min-h-screen flex flex-col items-center justify-center overflow-auto">
-      <img src="/src/assets/logos/header-logo.png" className="mt-8 h-[70px]" />
-      <img
-        src="/src/assets/images/daeddamon.png"
-        className="my-7 w-[180px] h-[180px]"
-      />
+      <img src="/logos/header-logo.png" className="mt-8 h-[70px]" />
+      <img src="/images/daeddamon.png" className="my-7 w-[180px] h-[180px]" />
       <form
         onSubmit={handleSubmit(signIn.mutate)}
         className="w-full"
@@ -102,7 +99,7 @@ export default function SignIn() {
         <InputField
           type="email"
           placeholder="이메일"
-          maxLength="30"
+          maxLength={30}
           errorMsg={errors.email?.message}
           register={register("email", {
             required: "이메일을 입력해주세요.",
@@ -124,12 +121,10 @@ export default function SignIn() {
                 message: "비밀번호는 최소 8자리 이상 입력해야 합니다.",
               },
             })}
-            maxLength="20"
+            maxLength={20}
           ></InputField>
           <img
-            src={
-              showPwd ? "/public/icons/eye.svg" : "/public/icons/eyeHalf.svg"
-            }
+            src={showPwd ? "/icons/eye.svg" : "/icons/eyeHalf.svg"}
             className="absolute right-3 top-3"
             onClick={() => setShowPwd(pre => !pre)}
           />
