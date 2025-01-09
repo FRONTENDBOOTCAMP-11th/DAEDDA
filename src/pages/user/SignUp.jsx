@@ -210,10 +210,10 @@ export default function SignUp() {
             errorMsg={errors.email?.message}
             onKeyPress={preventSpace}
             register={register("email", {
-              required: "이메일을 입력해주세요.",
+              required: "이메일 입력은 필수입니다.",
               pattern: {
                 value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                message: "이메일 형식으로 작성해주세요.",
+                message: "유효한 이메일 형식으로 작성해주세요.",
               },
             })}
           ></InputField>
@@ -226,10 +226,10 @@ export default function SignUp() {
             errorMsg={errors.name?.message}
             onKeyPress={preventSpace}
             register={register("name", {
-              required: "닉네임을 입력해주세요",
+              required: "닉네임 입력은 필수 입니다.",
               minLength: {
                 value: 2,
-                message: "닉네임은 최소 2자리 이상 입력해야 합니다.",
+                message: "닉네임은 최소 2글자 이상 입력해주세요.",
               },
             })}
           ></InputField>
@@ -242,10 +242,10 @@ export default function SignUp() {
             onKeyPress={preventSpace}
             errorMsg={errors.password?.message}
             register={register("password", {
-              required: "비밀번호를 입력해주세요.",
+              required: "비밀번호 입력은 필수입니다.",
               minLength: {
                 value: 8,
-                message: "비밀번호는 최소 8자리 이상 입력해야 합나디.",
+                message: "비밀번호는 최소 8자리 이상 입력해야 합나다.",
               },
               pattern: {
                 value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
@@ -287,7 +287,7 @@ export default function SignUp() {
             type="date"
             errorMsg={errors.birthday?.message}
             register={register("birthday", {
-              required: "생년 월일을 입력해주세요.",
+              required: "생년월일 입력은 필수입니다..",
             })}
           ></InputField>
         </div>
@@ -295,15 +295,14 @@ export default function SignUp() {
           <InputField
             type="text"
             maxLength="11"
-            placeholder="휴대폰 번호는 '-' 제외하고 입력해주세요."
+            placeholder="휴대폰 번호는 '-'를 제외하고 입력해주세요."
             onKeyPress={preventSpace}
             errorMsg={errors.phone?.message}
             register={register("phone", {
-              required: "휴대폰 번호을 입력해주세요.",
+              required: "휴대폰 번호을 입력은 필수 입니다.",
               pattern: {
                 value: /^01\d{8,9}$/,
-                message:
-                  "휴대폰 번호는 '01' 로 시작하며 숫자만 입력 가능합니다.",
+                message: "휴대폰 번호는 '-' 없는 유효한 번호를 입력해주세요.",
               },
             })}
           ></InputField>
