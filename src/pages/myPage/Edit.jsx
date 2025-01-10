@@ -203,7 +203,7 @@ export default function Edit() {
       });
       // }
 
-      setPreview(data.item.image || "/images/smiling_daeddamon.png");
+      setPreview(data.item.image);
     } catch (error) {
       console.error("카카오 로그인 실패", error);
     }
