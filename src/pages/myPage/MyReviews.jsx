@@ -6,7 +6,7 @@ import useUserStore from "@zustand/userStore";
 import { useState } from "react";
 
 export default function MyReviews() {
-  const userId = location.pathname.split("/")[2];
+  const userId = location.pathname.split("/")[3];
   console.log(userId);
 
   const axios = useAxiosInstance();
@@ -30,20 +30,10 @@ export default function MyReviews() {
     queryFn: () => axios.get(`users/${userId}/bookmarks`),
     select: res => res.data.item, ///byUser로 불러오면됨
   });
-
   console.log("알바생입장에서", partTime);
   if (!data || !partTime) {
     return <div>로딩중</div>;
   }
-
-  // if (data.item.length === 0) {
-  //   return (
-  //     <div className="-mt-[80px] max-w-screen-sm m-auto h-screen overflow-y-auto flex items-center justify-center text-center text-xl text-gray-300">
-  //       받은 리뷰가 없어요.
-  //       <br /> 공고 리스트를 탐색하고 다양한 알바를 지원 해보세요!
-  //     </div>
-  //   );
-  // }
 
   console.log("사장입장에서", data);
   // 댓글 수 계산
@@ -78,8 +68,23 @@ export default function MyReviews() {
           {btnTxt}
         </Button>
       </div>
-
-      {btnTxt === "사장" ? list : hireList}
+      {btnTxt === "사장" && totalReplies === 0 ? (
+        <div className="py-10 -mb-[80px] -mt-[140px] max-w-screen-sm m-auto h-screen overflow-y-auto flex items-center justify-center text-center text-xl text-gray-300">
+          받은 리뷰가 없어요.
+          <br />
+          공고 리스트를 탐색하고 다양한 알바를 지원해보세요!
+        </div>
+      ) : btnTxt === "알바" && partTimeTotalRp === 0 ? (
+        <div className="py-10 -mb-[80px] -mt-[140px] max-w-screen-sm m-auto h-screen overflow-y-auto flex items-center justify-center text-center text-xl text-gray-300">
+          받은 리뷰가 없어요.
+          <br />
+          공고 리스트를 탐색하고 다양한 알바를 지원해보세요!
+        </div>
+      ) : (
+        // 리뷰 리스트 렌더링
+        <div>{btnTxt === "사장" ? list : hireList}</div>
+      )}
+      {/* {btnTxt === "사장" ? list : hireList} */}
     </div>
   );
 }
