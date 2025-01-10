@@ -6,17 +6,20 @@ import useUserStore from "@zustand/userStore";
 import { useState } from "react";
 
 export default function MyReviews() {
+  const userId = location.pathname.split("/")[2];
+  console.log(userId);
+
   const axios = useAxiosInstance();
   const [btnTxt, setBtnTxt] = useState("사장");
   const hireBtn = () => {
     setBtnTxt(btnTxt === "사장" ? "알바" : "사장");
   };
-  const { user } = useUserStore();
+  // const { user } = useUserStore();
 
   //-----------사장일 때 받은 리뷰 api----------------
   const { data } = useQuery({
     queryKey: ["reviews"],
-    queryFn: () => axios.get(`/replies/seller/${user._id}`),
+    queryFn: () => axios.get(`/replies/seller/${userId}`),
     select: res => res.data,
     staleTime: 1000 * 10,
   });
@@ -24,15 +27,25 @@ export default function MyReviews() {
   //----------------알바생일때 받은 리뷰일 때 api --------------
   const { data: partTime } = useQuery({
     queryKey: ["reviews", "partTime"],
-    queryFn: () => axios.get(`users/${user._id}/bookmarks`),
+    queryFn: () => axios.get(`users/${userId}/bookmarks`),
     select: res => res.data.item, ///byUser로 불러오면됨
   });
 
-  // console.log("알바생입장에서", partTime);
+  console.log("알바생입장에서", partTime);
   if (!data || !partTime) {
     return <div>로딩중</div>;
   }
-  // console.log("사장입장에서", data);
+
+  // if (data.item.length === 0) {
+  //   return (
+  //     <div className="-mt-[80px] max-w-screen-sm m-auto h-screen overflow-y-auto flex items-center justify-center text-center text-xl text-gray-300">
+  //       받은 리뷰가 없어요.
+  //       <br /> 공고 리스트를 탐색하고 다양한 알바를 지원 해보세요!
+  //     </div>
+  //   );
+  // }
+
+  console.log("사장입장에서", data);
   // 댓글 수 계산
   let totalReplies = 0;
   data.item.forEach(item => (totalReplies += item.replies.length));
@@ -65,6 +78,7 @@ export default function MyReviews() {
           {btnTxt}
         </Button>
       </div>
+
       {btnTxt === "사장" ? list : hireList}
     </div>
   );
