@@ -4,9 +4,17 @@ import { useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import { Link } from "react-router-dom";
 
+const starPower = {
+  1: -1,
+  2: -1,
+  3: 1,
+  4: 2,
+  5: 3,
+};
+
 export default function MyPage() {
   const { user } = useUserStore();
-  const axios = useAxiosInstance;
+  const axios = useAxiosInstance();
 
   //-----------사장일 때 받은 리뷰 api----------------
 
@@ -16,16 +24,26 @@ export default function MyPage() {
     select: res => res.data.item,
     staleTime: 1000 * 10,
   });
-
+  // console.log(data);
   //----------------알바생일때 받은 리뷰일 때 api --------------
   const { data: partTime } = useQuery({
     queryKey: ["reviews", "partTime"],
     queryFn: () => axios.get(`users/${user._id}/bookmarks`),
     select: res => res.data.item, ///byUser로 불러오면됨
   });
-  console.log(data);
-  let star = 0;
-  // data.replies.map(reply => reply.extra.stars);
+  // console.log(partTime);
+  //
+  let totalPower = 0;
+
+  //------------------------------알바력 계산하기--------------
+  data[0].replies.forEach(reply => {
+    const star = parseInt(reply.rating);
+    const power = starPower[star];
+    totalPower += power;
+  });
+  console.log(totalPower); ///====> 사장일때 받은 평균 별점 리뷰
+
+  //--------------알바일때 받은 평균 별점 리뷰
 
   console.log("userId", user._id);
   return (
