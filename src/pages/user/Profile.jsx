@@ -26,6 +26,7 @@ export default function Profile() {
   // const { user } = useUserStore();
   // console.log(user);
   // console.log(user.image);
+
   if (IsUserLoading || IsRepliesLoading) {
     return <div>로딩중..</div>;
   }

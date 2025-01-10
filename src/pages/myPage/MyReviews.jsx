@@ -1,34 +1,71 @@
+import Button from "@components/layout/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import MyReviewList from "@pages/myPage/MyReviewList";
 import { useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
+import { useState } from "react";
 
 export default function MyReviews() {
   const axios = useAxiosInstance();
-
+  const [btnTxt, setBtnTxt] = useState("사장");
+  const hireBtn = () => {
+    setBtnTxt(btnTxt === "사장" ? "알바" : "사장");
+  };
   const { user } = useUserStore();
+
+  //-----------사장일 때 받은 리뷰 api----------------
   const { data } = useQuery({
     queryKey: ["reviews"],
-    //일단 뿌리기 작업 test를 위해 seller 아이디를 2로 하드코딩, 이후에 로그인 작업이 완료되면 세션스토리지에서 id꺼내 올 예정
     queryFn: () => axios.get(`/replies/seller/${user._id}`),
     select: res => res.data,
     staleTime: 1000 * 10,
   });
-  if (!data) {
+
+  //----------------알바생일때 받은 리뷰일 때 api --------------
+  const { data: partTime } = useQuery({
+    queryKey: ["reviews", "partTime"],
+    queryFn: () => axios.get(`users/${user._id}/bookmarks`),
+    select: res => res.data.item, ///byUser로 불러오면됨
+  });
+
+  // console.log("알바생입장에서", partTime);
+  if (!data || !partTime) {
     return <div>로딩중</div>;
   }
-  console.log(data);
+  // console.log("사장입장에서", data);
   // 댓글 수 계산
   let totalReplies = 0;
   data.item.forEach(item => (totalReplies += item.replies.length));
 
+  const partTimeTotalRp = partTime.byUser.length;
+  // console.log(partTimeTotalRp);
+
   const list = data.item.map(item => (
-    <MyReviewList key={item._id} item={item} />
+    <MyReviewList key={item._id} item={item} btnTxt={btnTxt} />
   ));
+  const hireList = partTime?.byUser.map(item => (
+    <MyReviewList key={item.user_id} partTime={item} btnTxt={btnTxt} />
+  ));
+  // console.log("list", list);
+  // console.log("hireList", hireList);
   return (
     <div className="mb-[40px]">
-      <p className="font-bold text-[18px] pb-8 px-5">리뷰 {totalReplies}개</p>
-      {list}
+      <div className="flex  px-5 pb-5">
+        <p className="font-bold text-[18px] flex-grow ">
+          {btnTxt === "사장"
+            ? `리뷰 ${totalReplies}개`
+            : `리뷰 ${partTimeTotalRp}개`}
+        </p>
+        <Button
+          color={btnTxt === "사장" ? "purple" : "purple"}
+          className="w-14"
+          onClick={hireBtn}
+          height="sm"
+        >
+          {btnTxt}
+        </Button>
+      </div>
+      {btnTxt === "사장" ? list : hireList}
     </div>
   );
 }
