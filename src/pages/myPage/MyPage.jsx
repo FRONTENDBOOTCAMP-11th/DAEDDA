@@ -9,10 +9,11 @@ export default function MyPage() {
   const axios = useAxiosInstance;
 
   //-----------사장일 때 받은 리뷰 api----------------
+
   const { data } = useQuery({
     queryKey: ["reviews"],
     queryFn: () => axios.get(`/replies/seller/${user._id}`),
-    select: res => res.data,
+    select: res => res.data.item,
     staleTime: 1000 * 10,
   });
 
@@ -23,8 +24,10 @@ export default function MyPage() {
     select: res => res.data.item, ///byUser로 불러오면됨
   });
   console.log(data);
+  let star = 0;
+  // data.replies.map(reply => reply.extra.stars);
 
-  console.log(user);
+  console.log("userId", user._id);
   return (
     <>
       <div className="mb-[80px]">
