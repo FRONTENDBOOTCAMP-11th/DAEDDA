@@ -2,11 +2,9 @@ import Button from "@components/layout/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import Badge from "@pages/main/Badge";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function MainItem() {
-  const [accept, setAccept] = useState(null);
   const axios = useAxiosInstance();
   const navigate = useNavigate();
 
@@ -20,8 +18,9 @@ export default function MainItem() {
   });
 
   const changeState = useMutation({
-    mutationFn: async orderId => {
-      const body = { state: "WO020" };
+    mutationFn: async ({ orderId, newState }) => {
+      const body = { state: newState };
+      console.log(body);
       return axios.patch(`/seller/orders/${orderId}`, body);
     },
     onSuccess: () => {
@@ -33,8 +32,14 @@ export default function MainItem() {
     navigate(`/user/${userId}`);
   };
 
-  const handleAccept = orderId => {
-    changeState.mutate(orderId);
+  const handleChangeState = orderId => {
+    const newState = "WO020";
+    changeState.mutate({ orderId, newState });
+  };
+
+  const handleCancelState = orderId => {
+    const newState = "WO010";
+    changeState.mutate({ orderId, newState });
   };
 
   const filteredOrders = product?.orders?.filter(order =>
@@ -79,7 +84,14 @@ export default function MainItem() {
                 <div className="flex flex-col justify-center my-10">
                   {order.state === "WO020" ? (
                     <div className="w-full">
-                      <Button color="red" width="xl" height="lg">
+                      <Button
+                        color="red"
+                        width="xl"
+                        height="lg"
+                        onClick={() =>
+                          handleCancelState(order._id, order.state)
+                        }
+                      >
                         취소
                       </Button>
                     </div>
@@ -89,7 +101,9 @@ export default function MainItem() {
                         color="purple"
                         width="xl"
                         height="lg"
-                        onClick={() => handleAccept(order._id)}
+                        onClick={() =>
+                          handleChangeState(order._id, order.state)
+                        }
                       >
                         채택
                       </Button>
