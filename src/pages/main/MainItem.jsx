@@ -1,7 +1,7 @@
 import Button from "@components/layout/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import Badge from "@pages/main/Badge";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -11,7 +11,7 @@ export default function MainItem() {
   const navigate = useNavigate();
 
   const { _id } = useParams();
-  const { data: product } = useQuery({
+  const { data: product, refetch } = useQuery({
     queryKey: ["product", _id],
     queryFn: () => axios.get(`/seller/products/${_id}`),
     select: res => {
@@ -19,20 +19,22 @@ export default function MainItem() {
     },
   });
 
+  const changeState = useMutation({
+    mutationFn: async orderId => {
+      const body = { state: "WO020" };
+      return axios.patch(`/seller/orders/${orderId}`, body);
+    },
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
   const handleUserPage = userId => {
     navigate(`/user/${userId}`);
   };
 
-  const handleAccept = userId => {
-    if (accept === userId) {
-      setAccept(null);
-    } else {
-      setAccept(userId);
-    }
-  };
-
-  const handleCancel = () => {
-    setAccept(null);
+  const handleAccept = orderId => {
+    changeState.mutate(orderId);
   };
 
   const filteredOrders = product?.orders?.filter(order =>
@@ -75,14 +77,9 @@ export default function MainItem() {
                 <div className="mt-2">{order?.extra?.content}</div>
 
                 <div className="flex flex-col justify-center my-10">
-                  {accept === order?.user?._id ? (
+                  {order.state === "WO020" ? (
                     <div className="w-full">
-                      <Button
-                        color="red"
-                        width="xl"
-                        height="lg"
-                        onClick={handleCancel}
-                      >
+                      <Button color="red" width="xl" height="lg">
                         취소
                       </Button>
                     </div>
@@ -92,8 +89,7 @@ export default function MainItem() {
                         color="purple"
                         width="xl"
                         height="lg"
-                        onClick={() => handleAccept(order?.user?._id)}
-                        disabled={accept !== null && accept}
+                        onClick={() => handleAccept(order._id)}
                       >
                         채택
                       </Button>
