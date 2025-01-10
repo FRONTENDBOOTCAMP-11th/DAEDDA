@@ -1,9 +1,29 @@
+import useAxiosInstance from "@hooks/useAxiosInstance";
 import MyPageList from "@pages/myPage/MyPageList";
+import { useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import { Link } from "react-router-dom";
 
 export default function MyPage() {
   const { user } = useUserStore();
+  const axios = useAxiosInstance;
+
+  //-----------사장일 때 받은 리뷰 api----------------
+  const { data } = useQuery({
+    queryKey: ["reviews"],
+    queryFn: () => axios.get(`/replies/seller/${user._id}`),
+    select: res => res.data,
+    staleTime: 1000 * 10,
+  });
+
+  //----------------알바생일때 받은 리뷰일 때 api --------------
+  const { data: partTime } = useQuery({
+    queryKey: ["reviews", "partTime"],
+    queryFn: () => axios.get(`users/${user._id}/bookmarks`),
+    select: res => res.data.item, ///byUser로 불러오면됨
+  });
+  console.log(data);
+
   console.log(user);
   return (
     <>
