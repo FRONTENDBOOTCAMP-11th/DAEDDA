@@ -1,17 +1,43 @@
-import Button from "@components/layout/Button";
+import Button from "@components/Button";
 import { useGetOrderState } from "@hooks/useGetOrderState";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { formatDate } from "@/utills/func.js";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosInstance from "@hooks/useAxiosInstance";
 
 WorkedItem.propTypes = {
   data: PropTypes.object.isRequired,
+  refetch: PropTypes.func.isRequired,
 };
 
 // data.extra.position에 따라 worker, employer 구분
 
-export default function WorkedItem({ data }) {
+export default function WorkedItem({ data, refetch }) {
+  const navigate = useNavigate();
   const state = useGetOrderState(data.state);
+
+  const onReviewWriteClicked = () => {
+    // editOrderState.mutate(data._id, "WO040");
+    navigate(`reviewWrite/${data._id}`);
+  };
+
+  const axios = useAxiosInstance();
+
+  const editOrderState = useMutation({
+    mutationFn: async ({ orderId, state }) => {
+      return axios.patch(`/orders/${orderId}`, {
+        state,
+      });
+    },
+
+    onSuccess: () => {
+      refetch();
+    },
+    onError: error => {
+      console.error("등록 실패:", error);
+    },
+  });
 
   return (
     <>
@@ -36,18 +62,17 @@ export default function WorkedItem({ data }) {
             </p>
           </div>
           {/* 리뷰 작성 버튼 활성화 로직 */}
-          <Link
-            className={state === "입금 완료" ? "" : "pointer-events-none"}
-            to={`/review/${data.products[0]._id}/write`}
-            state={{ order: data }}
+
+          <Button
+            disabled={state === "입금 완료" ? false : true}
+            color={state === "입금 완료" ? "purple" : "gray"}
+            height="md"
+            onClick={() => {
+              onReviewWriteClicked();
+            }}
           >
-            <Button
-              color={state === "입금 완료" ? "purple" : "gray"}
-              height="md"
-            >
-              리뷰 작성하기
-            </Button>
-          </Link>
+            리뷰 작성하기
+          </Button>
         </div>
       )}
     </>

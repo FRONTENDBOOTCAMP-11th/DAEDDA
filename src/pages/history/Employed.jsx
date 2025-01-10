@@ -1,10 +1,14 @@
-import InputField from "@components/layout/InputField";
-import { useGetOrders } from "@hooks/useGetOrders";
-import MyPlaceItem from "@pages/history/WorkedItem";
+import InputField from "@components/InputField";
+import { useGetPosts } from "@hooks/useGetPosts";
+import EmployedItem from "@pages/history/EmployedItem";
+import useUserStore from "@zustand/userStore";
 
 export default function Employed() {
-  const { data, isLoading } = useGetOrders("employer");
+  const { user } = useUserStore();
 
+  const { data, refetch } = useGetPosts(user._id);
+
+  console.log(data);
   return (
     <div>
       <InputField
@@ -18,15 +22,22 @@ export default function Employed() {
         <div className="ring-1 ring-primary px-4 py-2 rounded-xl">
           구인 완료
         </div>
-        <div className="ring-1 ring-gray-200  text-gray-400 px-4 py-2 rounded-xl">
-          대타 완료
-        </div>
         <div className="ring-1 ring-primary px-4 py-2 rounded-xl">
           송금 완료
         </div>
+        <div className="ring-1 ring-primary px-4 py-2 rounded-xl">
+          리뷰 작성 완료
+        </div>
       </div>
-      {isLoading && "로딩중..."}
-      {data && data.map(order => <MyPlaceItem key={order._id} data={order} />)}
+      {data && (
+        <>
+          <EmployedItem data={data[0]} refetch={refetch} />
+          <EmployedItem data={data[1]} refetch={refetch} />
+          <EmployedItem data={data[2]} refetch={refetch} />
+          <EmployedItem data={data[3]} refetch={refetch} />
+        </>
+      )}
+      {/* {data && data.map(post => <EmployedItem key={post._id} data={post} />)} */}
     </div>
   );
 }

@@ -14,12 +14,12 @@ import MainDetail from "@pages/main/MainDetail";
 import MainList from "@pages/main/MainList";
 import MainWrite from "@pages/main/MainWrite";
 import MainEdit from "@pages/main/MainEdit";
-import ReviewList from "@pages/history/ReviewList";
-import ReviewWrite from "@pages/history/WorkedReview";
+import ReviewList from "@pages/history/Layout";
 import Profile from "@pages/user/Profile";
 import Error from "@pages/Error";
 import Worked from "@pages/history/Worked";
 import Employed from "@pages/history/Employed";
+import ReviewWrite from "@pages/history/ReviewWrite";
 
 const router = createBrowserRouter(
   [
@@ -45,7 +45,7 @@ const router = createBrowserRouter(
             { path: "employed", element: <Employed /> },
           ],
         },
-        { path: "history/:_id/reviewWrite", element: <ReviewWrite /> },
+        { path: "history/:from/reviewWrite/:id", element: <ReviewWrite /> },
 
         { path: "pr/write", element: <PRWrite /> },
         { path: "pr/:_id", element: <PRDetail /> },

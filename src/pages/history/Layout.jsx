@@ -13,7 +13,7 @@ export default function ReviewList() {
           내가 한 일
         </NavLink>
         <NavLink
-          to="hired"
+          to="employed"
           className={({ isActive }) =>
             isActive ? "border-b-[3px] border-primary" : "text-gray-500"
           }

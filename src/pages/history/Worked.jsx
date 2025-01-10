@@ -1,9 +1,9 @@
-import InputField from "@components/layout/InputField";
+import InputField from "@components/InputField";
 import { useGetOrders } from "@hooks/useGetOrders";
 import WorkedItem from "@pages/history/WorkedItem";
 
 export default function Worked() {
-  const { data, isLoading } = useGetOrders();
+  const { data, refetch } = useGetOrders();
 
   return (
     <div>
@@ -11,7 +11,6 @@ export default function Worked() {
         placeholder="내가 일하는 장소를 검색해보세요."
         isLast={true}
       />
-
       <div className="flex gap-4 mt-4 flex-wrap mb-5">
         <div className="ring-1 ring-gray-200  text-gray-400 px-4 py-2 rounded-xl">
           신청 완료
@@ -19,15 +18,17 @@ export default function Worked() {
         <div className="ring-1 ring-gray-200  text-gray-400  px-4 py-2 rounded-xl">
           채택 완료
         </div>
-        <div className="ring-1 ring-gray-200  text-gray-400 px-4 py-2 rounded-xl">
-          대타 완료
-        </div>
         <div className="ring-1 ring-primary px-4 py-2 rounded-xl">
           입금 완료
         </div>
+        <div className="ring-1 ring-primary px-4 py-2 rounded-xl">
+          리뷰 작성 완료
+        </div>
       </div>
-      {isLoading && "로딩중..."}
-      {data && data.map(order => <WorkedItem key={order._id} data={order} />)}
+      {data &&
+        data.map(order => (
+          <WorkedItem key={order._id} data={order} refetch={refetch} />
+        ))}
     </div>
   );
 }
