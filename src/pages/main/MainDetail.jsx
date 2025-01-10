@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getWorkTime, formatDate } from "@/utills/func";
 import DOMPurify from "dompurify";
 import MainItem from "@pages/main/MainItem";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useUserStore from "@zustand/userStore";
 
 export default function MainDetail() {
@@ -15,22 +15,12 @@ export default function MainDetail() {
   const navigate = useNavigate();
   const { _id } = useParams();
   const { user } = useUserStore();
-  console.log(user);
 
   const { data } = useQuery({
     queryKey: ["products", _id],
     queryFn: () => axios.get(`/products/${_id}`),
-    select: res => {
-      console.log(res.data);
-      return res.data;
-    },
+    select: res => res.data,
   });
-
-  useEffect(() => {
-    if (data?.item?.bookmarks) {
-      setBookMark(true);
-    }
-  }, [data]);
 
   const sanitizedContent = DOMPurify.sanitize(`${data?.item.content}`);
 
@@ -49,14 +39,6 @@ export default function MainDetail() {
     },
   });
 
-  const handleDelete = event => {
-    event.preventDefault();
-    const deletePost = window.confirm("삭제 하시겠습니까?");
-    if (deletePost) {
-      removePost.mutate(_id);
-    }
-  };
-
   const editDetailPost = useMutation({
     mutationFn: _id => axios.patch(`/seller/products/${_id}`),
 
@@ -70,9 +52,19 @@ export default function MainDetail() {
     },
   });
 
-  const handleEdit = () => {
+  const handleDelete = useCallback(
+    event => {
+      event.preventDefault();
+      if (window.confirm("삭제 하시겠습니까?")) {
+        removePost.mutate(_id);
+      }
+    },
+    [_id, removePost],
+  );
+
+  const handleEdit = useCallback(() => {
     editDetailPost.mutate(_id);
-  };
+  }, [_id, editDetailPost]);
 
   const handleApply = () => {
     const applyPost = window.confirm("지원 하시겠습니까?");
@@ -89,6 +81,7 @@ export default function MainDetail() {
           type: "product",
         },
       };
+      console.log(body);
       return axios.post(`/bookmarks/product`, body);
     },
     onMutate: () => {
@@ -104,8 +97,16 @@ export default function MainDetail() {
     },
   });
 
+  useEffect(() => {
+    if (data?.item?.bookmarks) {
+      setBookMark(true);
+    }
+  }, [data]);
+
   const deleteBookMark = useMutation({
-    mutationFn: _id => axios.delete(`/bookmarks/${_id}`),
+    mutationFn: async bookmarkId => {
+      axios.delete(`/bookmarks/${bookmarkId}`);
+    },
     onMutate: () => {
       setBookMark(false);
     },
@@ -122,7 +123,7 @@ export default function MainDetail() {
 
   const handleBookMarkToggle = () => {
     if (bookMark) {
-      deleteBookMark.mutate(data?.item._id);
+      deleteBookMark.mutate(data?.item.myBookmarkId);
     } else {
       addBookMark.mutate({ product_id: data?.item._id });
     }
