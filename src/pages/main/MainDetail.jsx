@@ -5,16 +5,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getWorkTime, formatDate } from "@/utills/func";
 import DOMPurify from "dompurify";
 import MainItem from "@pages/main/MainItem";
+import { useCallback, useEffect, useState } from "react";
+import useUserStore from "@zustand/userStore";
 
 export default function MainDetail() {
+  const [bookMark, setBookMark] = useState(false);
   const queryClient = useQueryClient();
   const axios = useAxiosInstance();
   const navigate = useNavigate();
   const { _id } = useParams();
+  const { user } = useUserStore();
+  const userId = user?._id;
 
   const { data } = useQuery({
-    queryKey: ["seller/products", _id],
-    queryFn: () => axios.get(`/seller/products/${_id}`),
+    queryKey: ["products", _id],
+    queryFn: () => axios.get(`/products/${_id}`),
     select: res => res.data,
   });
 
@@ -35,14 +40,6 @@ export default function MainDetail() {
     },
   });
 
-  const handleDelete = event => {
-    event.preventDefault();
-    const deletePost = window.confirm("삭제 하시겠습니까?");
-    if (deletePost) {
-      removePost.mutate(_id);
-    }
-  };
-
   const editDetailPost = useMutation({
     mutationFn: _id => axios.patch(`/seller/products/${_id}`),
 
@@ -56,14 +53,87 @@ export default function MainDetail() {
     },
   });
 
-  const handleEdit = () => {
+  const handleDelete = useCallback(
+    event => {
+      event.preventDefault();
+      if (window.confirm("삭제 하시겠습니까?")) {
+        removePost.mutate(_id);
+      }
+    },
+    [_id, removePost],
+  );
+
+  const handleEdit = useCallback(() => {
     editDetailPost.mutate(_id);
-  };
+  }, [_id, editDetailPost]);
 
   const handleApply = () => {
     const applyPost = window.confirm("지원 하시겠습니까?");
     if (applyPost) {
       navigate("/pr/write", { state: { product_id: data?.item._id } });
+    }
+  };
+
+  const addBookMark = useMutation({
+    mutationFn: async formData => {
+      const body = {
+        target_id: formData.product_id,
+        extra: {
+          type: "product",
+        },
+      };
+      return axios.post(`/bookmarks/product`, body);
+    },
+    onMutate: () => {
+      setBookMark(true);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["bookmarks"]);
+      alert("북마크 추가");
+    },
+    onError: error => {
+      console.error("북마크 실패", error);
+      setBookMark(false);
+    },
+  });
+
+  useEffect(() => {
+    if (data?.item?.bookmarks) {
+      setBookMark(true);
+    }
+  }, [data]);
+
+  const deleteBookMark = useMutation({
+    mutationFn: async bookmarkId => {
+      axios.delete(`/bookmarks/${bookmarkId}`);
+    },
+    onMutate: () => {
+      setBookMark(false);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["products", _id]);
+      queryClient.invalidateQueries(["bookmarks"]);
+      alert("찜하기 삭제");
+    },
+    onError: error => {
+      console.error("북마크 삭제 실패", error);
+      setBookMark(true);
+    },
+  });
+
+  const handleBookMarkToggle = () => {
+    if (bookMark) {
+      deleteBookMark.mutate(data?.item.myBookmarkId);
+    } else {
+      addBookMark.mutate({ product_id: data?.item._id });
+    }
+  };
+
+  const handleUserPage = product_id => {
+    if (userId === product_id) {
+      navigate(`/mypage`);
+    } else {
+      navigate(`/user/${data?.item.seller._id}`);
     }
   };
 
@@ -73,35 +143,54 @@ export default function MainDetail() {
         <div className="font-bold text-[20px] py-4 break-keep whitespace-normal">
           {data?.item.name}
         </div>
-        <div className="flex">
-          <img
-            src="/icons/blackHeart.svg"
-            className="h-7 w-7 ml-2"
-            alt="찜 풀기 아이콘"
-          />
-          <img
-            src="/icons/likes.svg"
-            className="h-7 w-7 ml-2"
-            alt="찜 아이콘"
-          />
-        </div>
 
-        <div className="flex justify-end gap-2 screen-530:justify-end screen-530:w-full">
-          <div className="w-[92px] h-[32px]">
-            <Button color="purple" width="xl" height="sm" onClick={handleEdit}>
-              수정
-            </Button>
-          </div>
+        {data?.item.seller_id === userId ? (
+          <div className="flex justify-end gap-2 screen-530:justify-end screen-530:w-full">
+            <div className="w-[92px] h-[32px]">
+              <Button
+                color="purple"
+                width="xl"
+                height="sm"
+                onClick={handleEdit}
+              >
+                수정
+              </Button>
+            </div>
 
-          <div className="w-[92px] h-[32px]">
-            <Button color="red" width="2xl" height="sm" onClick={handleDelete}>
-              삭제
-            </Button>
+            <div className="w-[92px] h-[32px]">
+              <Button
+                color="red"
+                width="2xl"
+                height="sm"
+                onClick={handleDelete}
+              >
+                삭제
+              </Button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex" onClick={handleBookMarkToggle}>
+            {bookMark ? (
+              <img
+                src="/icons/likes.svg"
+                className="h-7 w-7 ml-2 cursor-pointer"
+                alt="찜 풀기 아이콘"
+              />
+            ) : (
+              <img
+                src="/icons/blackHeart.svg"
+                className="h-7 w-7 ml-2 cursor-pointer"
+                alt="찜 아이콘"
+              />
+            )}
+          </div>
+        )}
       </section>
 
-      <section className="flex items-center h-20 shadow-custom-shadow rounded-3xl mt-6 p-3">
+      <section
+        className="flex items-center h-20 shadow-custom-shadow rounded-3xl mt-6 p-3"
+        onClick={() => handleUserPage(data?.item.seller_id)}
+      >
         <img
           src={`https://11.fesp.shop/${data?.item.seller.image}`}
           className="w-11 h-11"
@@ -176,15 +265,19 @@ export default function MainDetail() {
             </ul>
           </div>
         </section>
-        <div className="mt-7 ">
-          <Button
-            color="purple"
-            height="lg"
-            type="submit"
-            onClick={handleApply}
-          >
-            지원하기
-          </Button>
+        <div className="mt-7">
+          {data?.item?.seller_id !== userId ? (
+            <Button
+              color="purple"
+              height="lg"
+              type="submit"
+              onClick={handleApply}
+            >
+              지원하기
+            </Button>
+          ) : (
+            ""
+          )}
         </div>
         <MainItem />
       </div>

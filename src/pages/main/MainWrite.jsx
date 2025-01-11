@@ -87,11 +87,15 @@ export default function MainWrite() {
           },
         ],
       };
-      return axios.post("/orders/", body);
+      return axios.post("/orders", body);
     },
   });
 
   const onSubmit = async formData => {
+    if (imageError) {
+      setImageError(true);
+      return;
+    }
     try {
       const addPostResponse = await addPost.mutateAsync(formData);
       const productId = addPostResponse.data.item._id;
@@ -217,14 +221,17 @@ export default function MainWrite() {
 
         <InputField
           type="text"
-          placeholder="근무 시간은 00:00 - 00:00으로 입력해주세요."
+          placeholder="근무 시간은 00:00-00:00으로 입력해주세요."
           register={register("workTime", {
-            required: "근무 시간은 00:00 - 00:00으로 입력해주세요.",
+            required: "근무 시간은 00:00-00:00으로 입력해주세요.",
             pattern: {
               value: /^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
-              message: "근무 시간은 00:00 - 00:00 형식으로 입력해주세요.",
+              message: "근무 시간은 00:00-00:00 형식으로 입력해주세요.",
             },
           })}
+          onInput={e => {
+            e.target.value = e.target.value.replace(/\s+/g, "");
+          }}
           errorMsg={errors.workTime?.message}
         />
         <InputField
