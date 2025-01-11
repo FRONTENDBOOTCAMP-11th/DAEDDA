@@ -20,7 +20,6 @@ export default function MainItem() {
   const changeState = useMutation({
     mutationFn: async ({ orderId, newState }) => {
       const body = { state: newState };
-      console.log(body);
       return axios.patch(`/seller/orders/${orderId}`, body);
     },
     onSuccess: () => {

@@ -18,7 +18,6 @@ export default function MainEdit() {
     queryKey: ["seller/product", _id],
     queryFn: () => axios.get(`seller/products/${_id}`),
     select: res => {
-      console.log("API Response:", res.data);
       return res.data.item;
     },
   });
