@@ -3,8 +3,6 @@ import { useGetOrderState } from "@hooks/useGetOrderState";
 import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
 import { formatDate } from "@/utills/func.js";
-import { useMutation } from "@tanstack/react-query";
-import useAxiosInstance from "@hooks/useAxiosInstance";
 
 WorkedItem.propTypes = {
   data: PropTypes.object.isRequired,
@@ -18,26 +16,10 @@ export default function WorkedItem({ data, refetch }) {
   const state = useGetOrderState(data.state);
 
   const onReviewWriteClicked = () => {
-    // editOrderState.mutate(data._id, "WO040");
-    navigate(`reviewWrite/${data._id}`);
+    navigate(`reviewWrite/${data._id}`, {
+      state: { order: data, refetchWorked: refetch },
+    });
   };
-
-  const axios = useAxiosInstance();
-
-  const editOrderState = useMutation({
-    mutationFn: async ({ orderId, state }) => {
-      return axios.patch(`/orders/${orderId}`, {
-        state,
-      });
-    },
-
-    onSuccess: () => {
-      refetch();
-    },
-    onError: error => {
-      console.error("등록 실패:", error);
-    },
-  });
 
   return (
     <>

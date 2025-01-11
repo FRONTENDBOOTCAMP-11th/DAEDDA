@@ -1,12 +1,12 @@
 import InputField from "@components/InputField";
-import { useGetPosts } from "@hooks/useGetPosts";
+import { useGetProducts } from "@hooks/useGetProducts";
 import EmployedItem from "@pages/history/EmployedItem";
 import useUserStore from "@zustand/userStore";
 
 export default function Employed() {
   const { user } = useUserStore();
 
-  const { data, refetch } = useGetPosts(user._id);
+  const { data, refetch } = useGetProducts(user._id);
 
   console.log(data);
   return (
