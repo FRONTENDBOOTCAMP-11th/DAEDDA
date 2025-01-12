@@ -2,7 +2,7 @@ import Button from "@components/Button";
 import InputField from "@components/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
