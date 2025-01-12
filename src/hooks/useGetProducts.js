@@ -5,7 +5,7 @@ export const useGetProducts = userId => {
   const axios = useAxiosInstance();
 
   return useQuery({
-    queryKey: ["posts", userId],
+    queryKey: ["products", userId],
     queryFn: () => {
       return axios.get("/products", { params: { seller_id: userId } });
     },

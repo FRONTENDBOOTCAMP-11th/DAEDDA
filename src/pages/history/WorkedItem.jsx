@@ -9,15 +9,13 @@ WorkedItem.propTypes = {
   refetch: PropTypes.func.isRequired,
 };
 
-// data.extra.position에 따라 worker, employer 구분
-
 export default function WorkedItem({ data, refetch }) {
   const navigate = useNavigate();
   const state = useGetOrderState(data.state);
 
   const onReviewWriteClicked = () => {
     navigate(`reviewWrite/${data._id}`, {
-      state: { order: data, refetchWorked: refetch },
+      state: { order: data },
     });
   };
 
@@ -43,7 +41,6 @@ export default function WorkedItem({ data, refetch }) {
               {data.products[0].extra.condition.workTime[1]}
             </p>
           </div>
-          {/* 리뷰 작성 버튼 활성화 로직 */}
 
           <Button
             disabled={state === "입금 완료" ? false : true}

@@ -1,7 +1,7 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetOrderState = state => {
+export const useGetOrderState = code => {
   const axios = useAxiosInstance();
 
   const { data } = useQuery({
@@ -16,8 +16,8 @@ export const useGetOrderState = state => {
   });
 
   if (data) {
-    const code = data.orderState.codes.filter(item => item.code === state);
-    if (code[0]) return code[0].value;
+    const res = data.orderState.codes.find(item => item.code === code);
+    if (res) return res.value;
   }
   return "";
 };

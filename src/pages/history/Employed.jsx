@@ -8,7 +8,6 @@ export default function Employed() {
 
   const { data, refetch } = useGetProducts(user._id);
 
-  console.log(data);
   return (
     <div>
       <InputField
@@ -31,10 +30,10 @@ export default function Employed() {
       </div>
       {data && (
         <>
-          <EmployedItem data={data[0]} refetch={refetch} />
-          <EmployedItem data={data[1]} refetch={refetch} />
-          <EmployedItem data={data[2]} refetch={refetch} />
-          <EmployedItem data={data[3]} refetch={refetch} />
+          <EmployedItem productId={data[0]._id} refetch={refetch} />
+          <EmployedItem productId={data[1]._id} refetch={refetch} />
+          <EmployedItem productId={data[2]._id} refetch={refetch} />
+          <EmployedItem productId={data[3]._id} refetch={refetch} />
         </>
       )}
       {/* {data && data.map(post => <EmployedItem key={post._id} data={post} />)} */}
