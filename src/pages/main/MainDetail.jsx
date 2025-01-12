@@ -82,7 +82,6 @@ export default function MainDetail() {
           type: "product",
         },
       };
-      console.log(body);
       return axios.post(`/bookmarks/product`, body);
     },
     onMutate: () => {
