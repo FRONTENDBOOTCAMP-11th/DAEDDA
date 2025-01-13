@@ -2,6 +2,7 @@ import Button from "@components/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import Badge from "@pages/main/Badge";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function MainItem() {
@@ -17,7 +18,22 @@ export default function MainItem() {
     },
   });
 
-  const changeState = useMutation({
+  const [selectState, setSelectState] = useState(null);
+
+  const changePostState = useMutation({
+    mutationFn: async ({ orderId, productId, newState }) => {
+      const body = { state: newState };
+      return axios.patch(
+        `/seller/orders/${orderId}/products/${productId}`,
+        body,
+      );
+    },
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
+  const changeOrderState = useMutation({
     mutationFn: async ({ orderId, newState }) => {
       const body = { state: newState };
       return axios.patch(`/seller/orders/${orderId}`, body);
@@ -31,14 +47,38 @@ export default function MainItem() {
     navigate(`/user/${userId}`);
   };
 
-  const handleChangeState = orderId => {
-    const newState = "WO020";
-    changeState.mutate({ orderId, newState });
+  const handleChangeState = async (productId, orderId) => {
+    const postState = "EM020";
+    const orderState = "WO020";
+    setSelectState(orderId);
+
+    try {
+      await changePostState.mutateAsync({
+        productId,
+        orderId,
+        newState: postState,
+      });
+      await changeOrderState.mutateAsync({ orderId, newState: orderState });
+    } catch (error) {
+      console.error("상태 변화 오류", error);
+    }
   };
 
-  const handleCancelState = orderId => {
-    const newState = "WO010";
-    changeState.mutate({ orderId, newState });
+  const handleCancelState = async (productId, orderId) => {
+    const postState = "EM010";
+    const orderState = "WO010";
+    setSelectState(null);
+
+    try {
+      await changePostState.mutateAsync({
+        orderId,
+        productId,
+        newState: postState,
+      });
+      await changeOrderState.mutateAsync({ orderId, newState: orderState });
+    } catch (error) {
+      console.error("상태변화 오류", error);
+    }
   };
 
   const filteredOrders = product?.orders?.filter(order =>
@@ -95,7 +135,11 @@ export default function MainItem() {
                         width="xl"
                         height="lg"
                         onClick={() =>
-                          handleCancelState(order._id, order.state)
+                          handleCancelState(
+                            product?._id,
+                            order._id,
+                            order.state,
+                          )
                         }
                       >
                         취소
@@ -108,7 +152,12 @@ export default function MainItem() {
                         width="xl"
                         height="lg"
                         onClick={() =>
-                          handleChangeState(order._id, order.state)
+                          selectState === null || selectState === order._id
+                            ? handleChangeState(product?._id, order._id)
+                            : null
+                        }
+                        disabled={
+                          selectState !== null && selectState !== order._id
                         }
                       >
                         채택
