@@ -22,6 +22,9 @@ export default function MyPage() {
     resetUser();
     navigate("/user/signIn");
   };
+
+  // user가 null이면 로그인 페이지로 이동
+
   //-----------사장일 때 받은 리뷰 api----------------
 
   const { data, isLoading } = useQuery({
@@ -42,6 +45,10 @@ export default function MyPage() {
   let totalPower = 0;
   if (isLoading || partTimeLoading) {
     return <div>로딩중</div>;
+  }
+  if (!user) {
+    navigate("/user/signIn");
+    return null;
   }
   //------------------------------알바력 계산하기--------------
   data.forEach(item => {
