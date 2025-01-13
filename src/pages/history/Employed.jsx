@@ -33,6 +33,8 @@ export default function Employed() {
           <EmployedItem productId={data[1]._id} refetch={refetch} />
           <EmployedItem productId={data[2]._id} refetch={refetch} />
           <EmployedItem productId={data[3]._id} refetch={refetch} />
+          <EmployedItem productId={data[4]._id} refetch={refetch} />
+          <EmployedItem productId={data[5]._id} refetch={refetch} />
         </>
       )}
       {/* {data && data.map(post => <EmployedItem key={post._id} data={post} />)} */}
