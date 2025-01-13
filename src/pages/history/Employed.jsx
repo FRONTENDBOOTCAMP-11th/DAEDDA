@@ -7,7 +7,7 @@ export default function Employed() {
   const { user } = useUserStore();
 
   const { data, refetch } = useGetProducts(user._id);
-
+  console.log(data);
   return (
     <div>
       <InputField

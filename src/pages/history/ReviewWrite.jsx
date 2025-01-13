@@ -103,6 +103,43 @@ export default function ReviewWrite() {
   // 1. 기존 북마크 조회
   const { data: myBookmark } = useGetMyBookMark(order.user_id);
 
+  // const addEmployedReview = useMutation({
+  //   mutationFn: async formData => {
+  //     const body = {
+  //       target_id: order.user_id,
+  //       extra: {
+  //         contents: [
+  //           {
+  //             memo: formData.content,
+  //             rating,
+  //           },
+  //         ],
+  //       },
+  //     };
+
+  //     return axios.post("/bookmarks/user", body);
+  //   },
+
+  //   onSuccess: () => {
+  //     // 게시글의 state를 리뷰 작성 완료로 변경
+  //     editProductState.mutate({ productId, state: "EM040" });
+  //     console.log("리뷰 작성 완료");
+  //     alert("리뷰 작성이 완료되었습니다.");
+  //     navigate(-1);
+  //   },
+
+  //   onError: error => {
+  //     if (error.response && error.response.status === 409) {
+  //       console.log(error);
+  //     } else {
+  //       // 기존 북마크 정보 획득
+  //       // 내용 교체, 기존 북마크 제거
+  //       // 다시 axios 요청
+  //       console.error("등록 실패:", error);
+  //     }
+  //   },
+  // });
+
   const addEmployedReview = useMutation({
     mutationFn: async formData => {
       let body;
