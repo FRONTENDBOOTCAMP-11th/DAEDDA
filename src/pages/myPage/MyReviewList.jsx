@@ -14,7 +14,7 @@ export default function MyReviewList({ item, partTime }) {
 
   // console.log(item);
   // console.log(item._id);
-  // console.log("파트타타타타임", partTime);
+  console.log("파트타타타타임", partTime);
 
   if (item) {
     return (

@@ -5,7 +5,7 @@ import useUserStore from "@zustand/userStore";
 import { Link, useNavigate } from "react-router-dom";
 
 const starPower = {
-  1: -1,
+  1: -2,
   2: -1,
   3: 1,
   4: 2,
@@ -28,7 +28,7 @@ export default function MyPage() {
     queryKey: ["reviews", "myPage"],
     queryFn: () => axios.get(`/replies/seller/${user._id}`),
     select: res => res.data.item,
-    staleTime: 1000 * 10,
+    // staleTime: 1000 * 10,
   });
   // console.log("사장일때 데이터", data);
   //----------------알바생일때 받은 리뷰일 때 api --------------
@@ -45,9 +45,9 @@ export default function MyPage() {
   }
   //------------------------------알바력 계산하기--------------
   data.forEach(item => {
-    item.replies.forEach(reply => {
+    item.replies?.forEach(reply => {
       const star = parseInt(reply.rating);
-      const power = starPower[star];
+      const power = starPower[star] || 0;
       totalPower += power;
     });
   });
@@ -58,8 +58,11 @@ export default function MyPage() {
   // console.log("알바생일때 받은 리뷰", partTime);
   let partTimetotalPower = 0;
   partTime.byUser.forEach(reply => {
-    const partTimeStar = reply.extra.rating;
-    const partTimePower = starPower[partTimeStar];
+    const partTimeStar = reply.extra?.rating || 0;
+    const partTimePower = starPower[partTimeStar] || 0;
+    // console.log(partTimeStar, "별");
+    // console.log(partTimePower);
+    //3+1+1
     partTimetotalPower += partTimePower;
   });
   // console.log("알바생일때 받은 리뷰", partTimetotalPower);
