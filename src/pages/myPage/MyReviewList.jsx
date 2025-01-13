@@ -25,13 +25,20 @@ export default function MyReviewList({ item, partTime }) {
               <div className="flex gap-5 flex-grow">
                 <Link to={`/user/${reply.user._id}`} className="flex-shrink-0">
                   <img
+                    // src={
+                    //   reply.user.image
+                    //     ? `https://11.fesp.shop/${reply.user.image}`
+                    //     : `/images/smiling_daeddamon.png`
+                    // }
                     src={
                       reply.user.image
-                        ? `https://11.fesp.shop/${reply.user.image}`
-                        : `/images/smiling_daeddamon.png`
+                        ? reply.user.image.includes("kakaocdn.net")
+                          ? reply.user.image
+                          : `https://11.fesp.shop/${reply.user.image}`
+                        : "/images/smiling_daeddamon.png"
                     }
                     alt="사용자 이미지"
-                    className="size-10"
+                    className="size-10 rounded-full"
                   />
                 </Link>
                 <Link to={`/main/${item._id}`} className="w-full">
@@ -85,7 +92,7 @@ export default function MyReviewList({ item, partTime }) {
                   //     : `/src/asset/images/smiling_daeddamon.png`
                   // }
                   alt="사용자 이미지"
-                  className="size-10"
+                  className="size-10 rounded-full"
                 />
               </Link>
               <Link to={`/main/${partTime.user._id}`} className="w-full">
