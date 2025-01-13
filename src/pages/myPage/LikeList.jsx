@@ -4,6 +4,9 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+const applyClick = () => {
+  alert(`지원글 작성 페이지로 이동합니다.`);
+};
 
 LikeList.propTypes = {
   item: PropTypes.object.isRequired,
@@ -14,7 +17,7 @@ export default function LikeList({ item }) {
   const removeLike = useMutation({
     mutationFn: _id => axios.delete(`/bookmarks/${_id}`),
     onSuccess: () => {
-      alert("좋아요가 삭제되었습니다");
+      alert("관심 목록에서 삭제되었습니다");
       queryClient.invalidateQueries({ queryKey: ["product"] });
     },
     onError: err => {
@@ -22,7 +25,7 @@ export default function LikeList({ item }) {
     },
   });
 
-  console.log(item);
+  // console.log(item);
   return (
     <>
       <div className="likes-container">
@@ -61,7 +64,7 @@ export default function LikeList({ item }) {
                 </p>
               </div>
               <button className="rounded-2xl border border-primary ml-auto">
-                <Link to={`/pr/write`}>
+                <Link to={`/pr/write`} onClick={applyClick}>
                   <div className="flex gap-1 px-2 items-center">
                     <img
                       src="/icons/apply.svg"
