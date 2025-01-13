@@ -1,8 +1,7 @@
-import Button from "@components/layout/Button";
+import Button from "@components/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import MyReviewList from "@pages/myPage/MyReviewList";
 import { useQuery } from "@tanstack/react-query";
-import useUserStore from "@zustand/userStore";
 import { useState } from "react";
 
 export default function MyReviews() {

@@ -57,7 +57,7 @@ export default function Profile() {
   //1+1 = 2
 
   //--------------알바일때 받은 평균 별점 리뷰
-  console.log("알바생일때 받은 리뷰", partTime);
+  // console.log("알바생일때 받은 리뷰", partTime);
   let partTimetotalPower = 0;
   partTime.byUser.forEach(reply => {
     const partTimeStar = reply.extra.rating;
