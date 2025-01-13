@@ -57,7 +57,7 @@ export default function MainList() {
 
       <Link
         to="main/write"
-        className="bottom-[80px] fixed self-end size-20 bg-primary text-white rounded-full flex justify-center items-center shadow-md"
+        className="bottom-[80px] fixed self-end size-20 bg-primary text-white rounded-full flex justify-center items-center shadow-md screen-530:size-16"
       >
         <img src="/icons/whitePlus.svg" />
       </Link>
