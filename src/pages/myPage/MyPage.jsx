@@ -18,15 +18,15 @@ export default function MyPage() {
 
   //-----------사장일 때 받은 리뷰 api----------------
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["reviews"],
     queryFn: () => axios.get(`/replies/seller/${user._id}`),
     select: res => res.data.item,
     staleTime: 1000 * 10,
   });
-  // console.log(data);
+  console.log(data);
   //----------------알바생일때 받은 리뷰일 때 api --------------
-  const { data: partTime } = useQuery({
+  const { data: partTime, isLoading: partTimeLoading } = useQuery({
     queryKey: ["reviews", "partTime"],
     queryFn: () => axios.get(`users/${user._id}/bookmarks`),
     select: res => res.data.item, ///byUser로 불러오면됨
@@ -34,14 +34,19 @@ export default function MyPage() {
   // console.log(partTime);
   //
   let totalPower = 0;
-
+  if (isLoading || partTimeLoading) {
+    return <div>로딩중</div>;
+  }
   //------------------------------알바력 계산하기--------------
-  data[0].replies.forEach(reply => {
-    const star = parseInt(reply.rating);
-    const power = starPower[star];
-    totalPower += power;
+  data.forEach(item => {
+    item.replies.forEach(reply => {
+      const star = parseInt(reply.rating);
+      const power = starPower[star];
+      totalPower += power;
+    });
   });
   console.log(totalPower); ///====> 사장일때 받은 평균 별점 리뷰
+  //3+-1 +3+2
 
   //--------------알바일때 받은 평균 별점 리뷰
 
