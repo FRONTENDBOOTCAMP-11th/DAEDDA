@@ -74,7 +74,6 @@ export default function EmployedItem({ productId, refetch }) {
 
   // 리뷰 작성 버튼 클릭 시
   const onReviewWriteClicked = () => {
-    console.log(targetOrder);
     navigate(`reviewWrite/${data._id}`, { state: { order: targetOrder } });
   };
 
