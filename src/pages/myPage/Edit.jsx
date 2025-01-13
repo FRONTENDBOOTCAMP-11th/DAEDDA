@@ -153,59 +153,6 @@ export default function Edit() {
     if (e.key === " ") e.preventDefault();
   };
 
-  // 카카오 로그인 코드 시작: 로그인 성공시 url에 code가 보임
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const code = params.get("code");
-
-    if (code) {
-      sendKakaoRequest(code);
-    }
-  }, [location.search]);
-
-  // 받은 code로 요청 보내기
-  const sendKakaoRequest = async code => {
-    try {
-      const response = await axios.post(`/users/login/kakao`, {
-        code,
-        redirect_uri: "http://localhost:5173/myPage/edit",
-        user: {
-          type: "seller",
-        },
-      });
-
-      const { data } = response;
-      // console.log("카카오 로그인 성공", data);
-
-      // 카카오로부터 받은 사용자 정보
-      const newUserData = {
-        _id: data.item._id,
-        name: data.item.name,
-        image: data.item.image,
-        phone: "",
-        type: "seller",
-        extra: {
-          birthday: "",
-        },
-        accessToken: data.item.token.accessToken,
-        refreshToken: data.item.token.refreshToken,
-        loginType: "kakao",
-      };
-
-      setUser(newUserData);
-
-      // 화면에 데이터 뿌리기 (name, image)
-      reset({
-        image: data.item.image,
-        name: data.item.name,
-      });
-
-      setPreview(data.item.image);
-    } catch (error) {
-      // console.error("카카오 로그인 실패", error);
-    }
-  };
-
   return (
     <form onSubmit={handleSubmit(editUser.mutate)}>
       <div className="mb-[40px]">
