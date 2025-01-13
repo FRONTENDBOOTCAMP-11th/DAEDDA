@@ -67,6 +67,10 @@ const router = createBrowserRouter(
       path: "user/signIn",
       element: <SignIn />,
     },
+    {
+      path: "user/signin/kakao",
+      element: <KakaoSignIn />,
+    },
   ],
   {
     future: {
