@@ -10,15 +10,15 @@ export default function ReviewList() {
             isActive ? "border-b-[3px] border-primary" : "text-gray-500"
           }
         >
-          내가 일한 장소
+          내가 한 일
         </NavLink>
         <NavLink
-          to="hired"
+          to="employed"
           className={({ isActive }) =>
             isActive ? "border-b-[3px] border-primary" : "text-gray-500"
           }
         >
-          나 대신 일하는 사람
+          내가 시킨 일
         </NavLink>
       </div>
       <Outlet />

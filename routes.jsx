@@ -14,12 +14,12 @@ import MainDetail from "@pages/main/MainDetail";
 import MainList from "@pages/main/MainList";
 import MainWrite from "@pages/main/MainWrite";
 import MainEdit from "@pages/main/MainEdit";
-import ReviewList from "@pages/reviews/ReviewList";
-import ReviewWrite from "@pages/reviews/ReviewWrite";
+import ReviewList from "@pages/history/Layout";
 import Profile from "@pages/user/Profile";
 import Error from "@pages/Error";
-import Worked from "@pages/reviews/Worked";
-import Hired from "@pages/reviews/Hired";
+import Worked from "@pages/history/Worked";
+import Employed from "@pages/history/Employed";
+import ReviewWrite from "@pages/history/ReviewWrite";
 import KakaoSignIn from "@pages/user/KakaoSignIn";
 
 const router = createBrowserRouter(
@@ -35,7 +35,7 @@ const router = createBrowserRouter(
         { path: "main/:_id/edit", element: <MainEdit /> },
 
         {
-          path: "review",
+          path: "history",
           element: <ReviewList />,
           children: [
             {
@@ -43,10 +43,10 @@ const router = createBrowserRouter(
               element: <Navigate to="worked" replace />,
             },
             { path: "worked", element: <Worked /> },
-            { path: "hired", element: <Hired /> },
+            { path: "employed", element: <Employed /> },
           ],
         },
-        { path: "review/:_id/write", element: <ReviewWrite /> },
+        { path: "history/:from/reviewWrite/:id", element: <ReviewWrite /> },
 
         { path: "pr/write", element: <PRWrite /> },
         { path: "pr/:_id", element: <PRDetail /> },

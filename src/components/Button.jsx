@@ -7,6 +7,7 @@ Button.propTypes = {
   height: PropTypes.string,
   type: PropTypes.string,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default function Button({
@@ -16,6 +17,7 @@ export default function Button({
   height = "sm",
   type = "button",
   className = "w-full",
+  disabled = false,
 }) {
   let combinedClassName = "";
 
@@ -73,6 +75,7 @@ export default function Button({
       className={`${combinedClassName} ${className}`}
       onClick={onClick}
       type={type}
+      disabled={disabled}
     >
       {children}
     </button>
