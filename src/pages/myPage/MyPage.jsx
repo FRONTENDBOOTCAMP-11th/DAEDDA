@@ -1,10 +1,85 @@
+import useAxiosInstance from "@hooks/useAxiosInstance";
 import MyPageList from "@pages/myPage/MyPageList";
+import { useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+const starPower = {
+  1: -2,
+  2: -1,
+  3: 1,
+  4: 2,
+  5: 3,
+};
 
 export default function MyPage() {
-  const { user } = useUserStore();
-  console.log(user);
+  const { user, resetUser } = useUserStore();
+  const navigate = useNavigate();
+  const axios = useAxiosInstance();
+
+  const logoutFun = () => {
+    alert("로그아웃 되었습니다.");
+    resetUser();
+    navigate("/user/signIn");
+  };
+
+  // user가 null이면 로그인 페이지로 이동
+
+  //-----------사장일 때 받은 리뷰 api----------------
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["reviews", "myPage"],
+    queryFn: () => axios.get(`/replies/seller/${user._id}`),
+    select: res => res.data.item,
+    // staleTime: 1000 * 10,
+  });
+  // console.log("사장일때 데이터", data);
+  //----------------알바생일때 받은 리뷰일 때 api --------------
+  const { data: partTime, isLoading: partTimeLoading } = useQuery({
+    queryKey: ["reviews", "partTimeMyPage"],
+    queryFn: () => axios.get(`users/${user._id}/bookmarks`),
+    select: res => res.data.item, ///byUser로 불러오면됨
+  });
+  // console.log(partTime);
+  //
+  let totalPower = 0;
+  if (isLoading || partTimeLoading) {
+    return <div>로딩중</div>;
+  }
+  if (!user) {
+    navigate("/user/signIn");
+    return null;
+  }
+  //------------------------------알바력 계산하기--------------
+  data.forEach(item => {
+    item.replies?.forEach(reply => {
+      const star = parseInt(reply.rating);
+      const power = starPower[star] || 0;
+      totalPower += power;
+    });
+  });
+  // console.log("사장일때 받은 리뷰", totalPower); ///====> 사장일때 받은 평균 별점 리뷰
+  //1+1 = 2
+
+  //--------------알바일때 받은 평균 별점 리뷰
+  // console.log("알바생일때 받은 리뷰", partTime);
+  let partTimetotalPower = 0;
+  partTime.byUser.forEach(reply => {
+    const partTimeStar = reply.extra?.rating || 0;
+    const partTimePower = starPower[partTimeStar] || 0;
+    // console.log(partTimeStar, "별");
+    // console.log(partTimePower);
+    //3+1+1
+    partTimetotalPower += partTimePower;
+  });
+  // console.log("알바생일때 받은 리뷰", partTimetotalPower);
+  //3+3+3+3 = 12
+  // console.log("userId", user._id);
+
+  let totalReview = Math.round(partTimetotalPower + totalPower) / 2;
+  // console.log("총합 평점 리뷰", totalReview);
+  let dydamicWidth = totalReview + 50;
+  // console.log(dydamicWidth);
   return (
     <>
       <div className="mb-[80px]">
@@ -18,11 +93,6 @@ export default function MyPage() {
                     : `https://11.fesp.shop/${user.image}`
                   : "/images/smiling_daeddamon.png"
               }
-              // src={
-              //   user?.image
-              //     ? `https://11.fesp.shop/${user.image}`
-              //     : `/images/smiling_daeddamon.png`
-              // }
               alt="대따몬 프로필"
               className="size-16 w-fit mr-5 rounded-full"
             />
@@ -40,9 +110,9 @@ export default function MyPage() {
               className="w-fit size-9 mt-1"
             />
             <div className="flex flex-col  mb-[14px]">
-              <p className="font-semibold text-xl">70%</p>
+              <p className="font-semibold text-xl">{totalReview + 50}%</p>
               <p className="font-semibold text-sm text-beige-500 tracking-wide">
-                알바력
+                대타력
               </p>
             </div>
           </div>
@@ -57,7 +127,8 @@ export default function MyPage() {
             <img
               src="/icons/energyBar2.svg"
               alt="에너지률"
-              className=" w-[50%] absolute  top-0 h-full object-cover aspect-auto rounded-3xl "
+              className={` absolute  top-0 h-full object-cover aspect-auto rounded-3xl`}
+              style={{ width: `${dydamicWidth}%` }}
             />
           </div>
         </div>
@@ -68,23 +139,10 @@ export default function MyPage() {
             <Link to={`/myPage/likeList`}>
               <MyPageList label="관심 목록" icon="heart" className="mt-[2px]" />
             </Link>
-            <Link to={`/myPage/edit`}>
-              <MyPageList
-                label="회원 정보 수정"
-                icon="userInfo"
-                className="mb-[2px]"
-              />
-            </Link>
-            <Link to="/error">
-              <MyPageList label="인증 뱃지" icon="badge" className="mt-[1px]" />
-            </Link>
-            <Link to={`/myPage/myReviews/${user._id}`}>
-              <MyPageList
-                label="내가 받은 리뷰"
-                icon="review"
-                className="mt-[2px]"
-              />
-            </Link>
+
+            {/* <Link to="/review/worked">
+              <MyPageList label="쓴 게시글" icon="write" />
+            </Link> */}
           </div>
         </div>
 
@@ -106,7 +164,16 @@ export default function MyPage() {
         <div className="myPage-container pb-4">
           <p className="mb-3 text-2xl font-bold pt-6">계정관리</p>
           <div>
-            <MyPageList label="로그 아웃" icon="logout" />
+            <Link to={`/myPage/edit`}>
+              <MyPageList
+                label="회원 정보 수정"
+                icon="userInfo"
+                className="mb-[2px]"
+              />
+            </Link>
+            <div onClick={logoutFun} className="cursor-pointer">
+              <MyPageList label="로그 아웃" icon="logout" />
+            </div>
             <Link to="/error">
               <MyPageList label="회원 탈퇴" icon="withdraw" />
             </Link>
