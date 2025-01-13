@@ -1,5 +1,5 @@
-import Button from "@components/layout/Button";
-import InputField from "@components/layout/InputField";
+import Button from "@components/Button";
+import InputField from "@components/InputField";
 
 export default function PREdit() {
   return (
