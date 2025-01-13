@@ -19,15 +19,15 @@ export default function MyPage() {
   //-----------사장일 때 받은 리뷰 api----------------
 
   const { data, isLoading } = useQuery({
-    queryKey: ["reviews"],
+    queryKey: ["reviews", "myPage"],
     queryFn: () => axios.get(`/replies/seller/${user._id}`),
     select: res => res.data.item,
     staleTime: 1000 * 10,
   });
-  console.log("사장일때 데이터", data);
+  // console.log("사장일때 데이터", data);
   //----------------알바생일때 받은 리뷰일 때 api --------------
   const { data: partTime, isLoading: partTimeLoading } = useQuery({
-    queryKey: ["reviews", "partTime"],
+    queryKey: ["reviews", "partTimeMyPage"],
     queryFn: () => axios.get(`users/${user._id}/bookmarks`),
     select: res => res.data.item, ///byUser로 불러오면됨
   });
@@ -45,25 +45,25 @@ export default function MyPage() {
       totalPower += power;
     });
   });
-  console.log("사장일때 받은 리뷰", totalPower); ///====> 사장일때 받은 평균 별점 리뷰
+  // console.log("사장일때 받은 리뷰", totalPower); ///====> 사장일때 받은 평균 별점 리뷰
   //1+1 = 2
 
   //--------------알바일때 받은 평균 별점 리뷰
-  console.log("알바생일때 받은 리뷰", partTime);
+  // console.log("알바생일때 받은 리뷰", partTime);
   let partTimetotalPower = 0;
   partTime.byUser.forEach(reply => {
     const partTimeStar = reply.extra.rating;
     const partTimePower = starPower[partTimeStar];
     partTimetotalPower += partTimePower;
   });
-  console.log("알바생일때 받은 리뷰", partTimetotalPower);
+  // console.log("알바생일때 받은 리뷰", partTimetotalPower);
   //3+3+3+3 = 12
   // console.log("userId", user._id);
 
   let totalReview = Math.round(partTimetotalPower + totalPower) / 2;
-  console.log("총합 평점 리뷰", totalReview);
+  // console.log("총합 평점 리뷰", totalReview);
   let dydamicWidth = totalReview + 50;
-  console.log(dydamicWidth);
+  // console.log(dydamicWidth);
   return (
     <>
       <div className="mb-[80px]">
@@ -77,11 +77,6 @@ export default function MyPage() {
                     : `https://11.fesp.shop/${user.image}`
                   : "/images/smiling_daeddamon.png"
               }
-              // src={
-              //   user?.image
-              //     ? `https://11.fesp.shop/${user.image}`
-              //     : `/images/smiling_daeddamon.png`
-              // }
               alt="대따몬 프로필"
               className="size-16 w-fit mr-5 rounded-full"
             />
@@ -101,7 +96,7 @@ export default function MyPage() {
             <div className="flex flex-col  mb-[14px]">
               <p className="font-semibold text-xl">{totalReview + 50}%</p>
               <p className="font-semibold text-sm text-beige-500 tracking-wide">
-                알바력
+                대타력
               </p>
             </div>
           </div>
