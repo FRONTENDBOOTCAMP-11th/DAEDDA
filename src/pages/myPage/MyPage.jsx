@@ -72,11 +72,18 @@ export default function MyPage() {
             <img
               src={
                 user?.image
-                  ? `https://11.fesp.shop/${user.image}`
-                  : `/images/smiling_daeddamon.png`
+                  ? user.image.includes("kakaocdn.net")
+                    ? user.image
+                    : `https://11.fesp.shop/${user.image}`
+                  : "/images/smiling_daeddamon.png"
               }
+              // src={
+              //   user?.image
+              //     ? `https://11.fesp.shop/${user.image}`
+              //     : `/images/smiling_daeddamon.png`
+              // }
               alt="대따몬 프로필"
-              className="size-16 w-fit pr-5"
+              className="size-16 w-fit mr-5 rounded-full"
             />
             <p className="font-bold flex items-center text-2xl flex-grow">
               {user.name}

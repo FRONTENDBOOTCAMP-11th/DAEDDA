@@ -36,11 +36,18 @@ export default function Profile() {
         <img
           src={
             user.item?.image
-              ? `https://11.fesp.shop/${user.item.image}`
+              ? user.item.image.includes("kakaocdn.net")
+                ? user.item.image
+                : `https://11.fesp.shop/${user.item.image}`
               : "/images/smiling_daeddamon.png"
           }
+          // src={
+          //   user.item?.image
+          //     ? `https://11.fesp.shop/${user.item.image}`
+          //     : "/images/smiling_daeddamon.png"
+          // }
           alt="프로필 이미지"
-          className="size-48 mb-4 mt-6"
+          className="size-48 mb-4 mt-6 rounded-full"
         />
         <p className="font-bold text-4xl mb-6">{user.item.name}</p>
       </div>

@@ -5,9 +5,10 @@ import { useMutation } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
 export default function Edit() {
+  // 선아님 코드 시작
   const goBack = () => {
     navigate(-1);
   };
@@ -15,7 +16,7 @@ export default function Edit() {
   const axios = useAxiosInstance();
   const navigate = useNavigate();
   const { user, setUser } = useUserStore();
-  console.log(user);
+  // console.log(user);
 
   const [preview, setPreview] = useState(null);
   const fileInput = useRef(null);
@@ -36,17 +37,26 @@ export default function Edit() {
         birthday: user.extra.birthday || "",
       });
 
-      setPreview(
-        user.image
-          ? `https://11.fesp.shop/${user.image}`
-          : "/images/smiling_daeddamon.png",
-      );
+      if (user.image?.includes("kakaocdn.net")) {
+        setPreview(user.image);
+      } else {
+        setPreview(
+          user.image
+            ? `https://11.fesp.shop/${user.image}`
+            : "/images/smiling_daeddamon.png",
+        );
+      }
     }
   }, [user, reset]);
 
+  // preview 값이 바뀔 때마다 로그를 찍어보는 예시
+  useEffect(() => {
+    // console.log("렌더링 시점, preview 값:", preview);
+  }, [preview]);
+
   const editUser = useMutation({
     mutationFn: async formData => {
-      console.log("최종 formData", formData);
+      // console.log("최종 formData", formData);
 
       if (fileInput.current) {
         const imageFormData = new FormData();
@@ -66,7 +76,7 @@ export default function Edit() {
           throw new Error("이미지 업로드에 실패했습니다. 경로가 없습니다.");
         }
         delete formData.attach;
-        console.log(fileRes.data.item[0]);
+        // console.log(fileRes.data.item[0]);
       }
 
       const updatedFormData = {
@@ -79,24 +89,24 @@ export default function Edit() {
       delete updatedFormData.birthday;
       // console.log(formData);
       // console.log(user);
-      console.log("서버로 보낼 데이터:", updatedFormData);
+      // console.log("서버로 보낼 데이터:", updatedFormData);
       return axios.patch(`/users/${user._id}`, updatedFormData);
     },
     onSuccess: res => {
-      console.log("res", res);
+      // console.log("res", res);
       const updatedUser = res.data.item;
-      console.log(updatedUser);
+      // console.log(updatedUser);
       const newUser = {
         ...user,
         ...updatedUser,
         extra: {
-          ...user.extra, // 기존 extra 유지, 추후 extra 추가 될 경우를 위해
+          ...user.extra,
           birthday: updatedUser?.extra?.birthday,
         },
       };
 
       setUser(newUser);
-      console.log(newUser);
+      // console.log(newUser);
 
       reset({
         name: newUser.name,
@@ -108,11 +118,17 @@ export default function Edit() {
           ? `https://11.fesp.shop/${user.image}`
           : "/images/smiling_daeddamon.png",
       );
-      alert("정보가 수정되었습니다");
-      navigate(`/myPage`);
+
+      if (user.loginType === "kakao") {
+        alert(`환영합니다 ${user.name} 님!`);
+        navigate("/");
+      } else {
+        alert("정보가 수정되었습니다");
+        navigate(`/myPage`);
+      }
     },
     onError: err => {
-      console.error(err);
+      // console.error(err);
       if (err.response?.data.errors) {
         err.response?.data.errors.forEach(error =>
           setError(error.path, { message: error.msg }),
@@ -130,6 +146,66 @@ export default function Edit() {
       fileInput.current = file;
     }
   };
+  // 선아님 코드 끝
+
+  // 인풋 공백 방지
+  const preventSpace = e => {
+    if (e.key === " ") e.preventDefault();
+  };
+
+  // 카카오 로그인 코드 시작: 로그인 성공시 url에 code가 보임
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const code = params.get("code");
+
+    if (code) {
+      sendKakaoRequest(code);
+    }
+  }, [location.search]);
+
+  // 받은 code로 요청 보내기
+  const sendKakaoRequest = async code => {
+    try {
+      const response = await axios.post(`/users/login/kakao`, {
+        code,
+        redirect_uri: "http://localhost:5173/myPage/edit",
+        user: {
+          type: "seller",
+        },
+      });
+
+      const { data } = response;
+      // console.log("카카오 로그인 성공", data);
+
+      // 카카오로부터 받은 사용자 정보
+      const newUserData = {
+        _id: data.item._id,
+        name: data.item.name,
+        image: data.item.image,
+        phone: "",
+        type: "seller",
+        extra: {
+          birthday: "",
+        },
+        accessToken: data.item.token.accessToken,
+        refreshToken: data.item.token.refreshToken,
+        loginType: "kakao",
+      };
+
+      setUser(newUserData);
+
+      // 화면에 데이터 뿌리기 (name, image)
+      reset({
+        image: data.item.image,
+        name: data.item.name,
+      });
+
+      setPreview(data.item.image);
+    } catch (error) {
+      // console.error("카카오 로그인 실패", error);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit(editUser.mutate)}>
       <div className="mb-[40px]">
@@ -140,7 +216,7 @@ export default function Edit() {
                 <img
                   src={preview || "/images/smiling_daeddamon.png"}
                   alt="프로필 이미지"
-                  className="size-32 mx-auto mb-3"
+                  className="size-32 mx-auto mb-3 rounded-full"
                 />
                 <img
                   src="/icons/imgEdit.svg"
@@ -165,6 +241,7 @@ export default function Edit() {
           errorMsg={errors.name?.message}
           labelName="닉네임"
           placeholder="닉네임을 입력해 주세요."
+          onKeyPress={preventSpace}
           register={register("name", {
             required: "닉네임은 필수 입력 입니다.",
             minLength: {
@@ -183,6 +260,8 @@ export default function Edit() {
           labelName="휴대폰 번호"
           type="text"
           placeholder="휴대폰 번호는 '-'를 제외하고 입력해주세요."
+          onKeyPress={preventSpace}
+          maxLength={11}
           register={register("phone", {
             required: "번호 입력은 필수입니다.",
             pattern: {

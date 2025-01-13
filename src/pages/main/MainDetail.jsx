@@ -192,8 +192,15 @@ export default function MainDetail() {
         onClick={() => handleUserPage(data?.item.seller_id)}
       >
         <img
-          src={`https://11.fesp.shop/${data?.item.seller.image}`}
-          className="w-11 h-11"
+          src={
+            data?.item.seller.image
+              ? data.item.seller.image.includes("kakaocdn.net")
+                ? data.item.seller.image
+                : `https://11.fesp.shop/${data?.item.seller.image}`
+              : "/images/smiling_daeddamon.png"
+          }
+          // src={`https://11.fesp.shop/${data?.item.seller.image}`}
+          className="w-11 h-11 rounded-full"
           alt="프로필 이미지"
         />
         <h2 className="font-bold ml-5">{data?.item.seller.name}</h2>

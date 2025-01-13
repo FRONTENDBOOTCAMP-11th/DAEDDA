@@ -1,6 +1,6 @@
 import Button from "@components/layout/Button";
 import PropTypes from "prop-types";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 MyReviewList.propTypes = {
   item: PropTypes.object,
@@ -74,9 +74,16 @@ export default function MyReviewList({ item, partTime }) {
                 <img
                   src={
                     partTime.user.image
-                      ? `https://11.fesp.shop/${partTime.user.image}`
-                      : `/images/smiling_daeddamon.png`
+                      ? partTime.user.image.includes("kakaocdn.net")
+                        ? partTime.user.image
+                        : `https://11.fesp.shop/${partTime.user.image}`
+                      : "/images/smiling_daeddamon.png"
                   }
+                  // src={
+                  //   reply.user.image
+                  //     ? `https://11.fesp.shop/${reply.user.image}`
+                  //     : `/src/asset/images/smiling_daeddamon.png`
+                  // }
                   alt="사용자 이미지"
                   className="size-10"
                 />

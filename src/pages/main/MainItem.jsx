@@ -56,8 +56,15 @@ export default function MainItem() {
                   onClick={() => handleUserPage(order?.user?._id)}
                 >
                   <img
-                    src={`https://11.fesp.shop/${order?.user.image}`}
-                    className="w-16 h-16"
+                    src={
+                      order?.user.image
+                        ? order?.user.image.includes("kakaocdn.net")
+                          ? order?.user.image
+                          : `https://11.fesp.shop/${order?.user.image}`
+                        : "/images/smiling_daeddamon.png"
+                    }
+                    // src={`https://11.fesp.shop/${order?.user.image}`}
+                    className="w-16 h-16 rounded-full"
                     alt={`${order?.user.name} 프로필 이미지`}
                   />
                   <div className="flex flex-col">
