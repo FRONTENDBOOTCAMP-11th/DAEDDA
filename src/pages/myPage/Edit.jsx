@@ -120,8 +120,9 @@ export default function Edit() {
       );
 
       if (user.isNew) {
-        const { isNew, ...resetUser } = user;
-        setUser(resetUser);
+        const { isNew, ...rest } = newUser;
+        setUser(rest);
+
         alert(`환영합니다 ${user.name} 님!`);
         navigate("/");
       } else {
