@@ -31,7 +31,7 @@ export default function MyReviews() {
     select: res => res.data.item, ///byUser로 불러오면됨
   });
   console.log("알바생입장에서", partTime);
-  if (data || partTime) {
+  if (!data || !partTime) {
     return <div>로딩중</div>;
   }
 
