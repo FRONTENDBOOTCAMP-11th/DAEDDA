@@ -28,9 +28,16 @@ export default function MyReviewList({ item }) {
                 <img
                   src={
                     reply.user.image
-                      ? `https://11.fesp.shop/${reply.user.image}`
-                      : `/src/asset/images/smiling_daeddamon.png`
+                      ? reply.user.image.includes("kakaocdn.net")
+                        ? reply.user.image
+                        : `https://11.fesp.shop/${reply.user.image}`
+                      : "/images/smiling_daeddamon.png"
                   }
+                  // src={
+                  //   reply.user.image
+                  //     ? `https://11.fesp.shop/${reply.user.image}`
+                  //     : `/src/asset/images/smiling_daeddamon.png`
+                  // }
                   alt="사용자 이미지"
                   className="size-10"
                 />
