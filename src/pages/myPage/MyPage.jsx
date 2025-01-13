@@ -2,7 +2,7 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import MyPageList from "@pages/myPage/MyPageList";
 import { useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const starPower = {
   1: -1,
@@ -13,9 +13,15 @@ const starPower = {
 };
 
 export default function MyPage() {
-  const { user } = useUserStore();
+  const { user, resetUser } = useUserStore();
+  const navigate = useNavigate();
   const axios = useAxiosInstance();
 
+  const logoutFun = () => {
+    alert("로그아웃 되었습니다.");
+    resetUser();
+    navigate("/user/signIn");
+  };
   //-----------사장일 때 받은 리뷰 api----------------
 
   const { data, isLoading } = useQuery({
@@ -155,7 +161,9 @@ export default function MyPage() {
                 className="mb-[2px]"
               />
             </Link>
-            <MyPageList label="로그 아웃" icon="logout" />
+            <div onClick={logoutFun} className="cursor-pointer">
+              <MyPageList label="로그 아웃" icon="logout" />
+            </div>
             <Link to="/error">
               <MyPageList label="회원 탈퇴" icon="withdraw" />
             </Link>
