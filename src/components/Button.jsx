@@ -70,8 +70,6 @@ export default function Button({
       break;
   }
 
-  console.log(disabled);
-
   return (
     <button
       className={`${combinedClassName} ${className}`}
