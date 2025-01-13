@@ -35,12 +35,10 @@ const getTimePassed = createdAt => {
 // date string을 받아
 // 월/일 요일 형태의 string으로 변환해주는 함수
 const formatDate = dateString => {
-  console.log(dateString);
   let date = new Date(dateString);
 
   let month = date.getMonth() + 1;
   let day = date.getDate();
-  console.log(month, day);
 
   const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
   let weekday = weekdays[date.getDay()];

@@ -1,46 +1,54 @@
 import Button from "@components/layout/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import Badge from "@pages/main/Badge";
-import { useQuery } from "@tanstack/react-query";
-import useUserStore from "@zustand/userStore";
-import { useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function MainItem() {
-  const [accept, setAccept] = useState(null);
   const axios = useAxiosInstance();
   const navigate = useNavigate();
 
-  const { user } = useUserStore();
-  console.log(user);
-
   const { _id } = useParams();
-  const { data: product } = useQuery({
+  const { data: product, refetch } = useQuery({
     queryKey: ["product", _id],
     queryFn: () => axios.get(`/seller/products/${_id}`),
-    select: res => res.data.item,
+    select: res => {
+      return res.data.item;
+    },
+  });
+
+  const changeState = useMutation({
+    mutationFn: async ({ orderId, newState }) => {
+      const body = { state: newState };
+      return axios.patch(`/seller/orders/${orderId}`, body);
+    },
+    onSuccess: () => {
+      refetch();
+    },
   });
 
   const handleUserPage = userId => {
     navigate(`/user/${userId}`);
   };
 
-  const handleAccept = userId => {
-    if (accept === userId) {
-      setAccept(null);
-    } else {
-      setAccept(userId);
-    }
+  const handleChangeState = orderId => {
+    const newState = "WO020";
+    changeState.mutate({ orderId, newState });
   };
 
-  const handleCancel = () => {
-    setAccept(null);
+  const handleCancelState = orderId => {
+    const newState = "WO010";
+    changeState.mutate({ orderId, newState });
   };
+
+  const filteredOrders = product?.orders?.filter(order =>
+    order.extra?.title?.trim(),
+  );
 
   return (
     <div>
-      {product && product.orders && product.orders.length > 0
-        ? product.orders.map(order => (
+      {filteredOrders && filteredOrders.length > 0
+        ? filteredOrders.map(order => (
             <div key={order?._id}>
               <section className="mt-7 pt-7 flex justify-between border-t-8">
                 <div
@@ -73,13 +81,15 @@ export default function MainItem() {
                 <div className="mt-2">{order?.extra?.content}</div>
 
                 <div className="flex flex-col justify-center my-10">
-                  {accept === order?.user?._id ? (
+                  {order.state === "WO020" ? (
                     <div className="w-full">
                       <Button
                         color="red"
                         width="xl"
                         height="lg"
-                        onClick={handleCancel}
+                        onClick={() =>
+                          handleCancelState(order._id, order.state)
+                        }
                       >
                         취소
                       </Button>
@@ -90,8 +100,9 @@ export default function MainItem() {
                         color="purple"
                         width="xl"
                         height="lg"
-                        onClick={() => handleAccept(order?.user?._id)}
-                        disabled={accept !== null && accept}
+                        onClick={() =>
+                          handleChangeState(order._id, order.state)
+                        }
                       >
                         채택
                       </Button>
