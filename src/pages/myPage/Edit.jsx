@@ -153,9 +153,7 @@ export default function Edit() {
     if (e.key === " ") e.preventDefault();
   };
 
-  // 카카오 로그인 코드 시작
-  // 로그인 성공시 url에 code가 보임
-  // code 있을 때 처리
+  // 카카오 로그인 코드 시작: 로그인 성공시 url에 code가 보임
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
@@ -201,7 +199,6 @@ export default function Edit() {
         image: data.item.image,
         name: data.item.name,
       });
-      // }
 
       setPreview(data.item.image);
     } catch (error) {
