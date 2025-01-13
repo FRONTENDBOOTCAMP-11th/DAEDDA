@@ -119,7 +119,9 @@ export default function Edit() {
           : "/images/smiling_daeddamon.png",
       );
 
-      if (user.loginType === "kakao") {
+      if (user.isNew) {
+        const { isNew, ...resetUser } = user;
+        setUser(resetUser);
         alert(`환영합니다 ${user.name} 님!`);
         navigate("/");
       } else {
