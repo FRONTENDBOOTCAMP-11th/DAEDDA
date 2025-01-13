@@ -7,12 +7,20 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 import { formatDate } from "@/utills/func.js";
+import { useGetProducts } from "@hooks/useGetProducts";
+import { useGetOrders } from "@hooks/useGetOrders";
 
 export default function ReviewWrite() {
   const axios = useAxiosInstance();
   const navigate = useNavigate();
   const location = useLocation();
   const order = location.state.order;
+
+  const { refetch: employedRefetch } = useGetProducts(
+    order.products[0].seller_id,
+  );
+  const { refetch: workedRefetch } = useGetOrders();
+
   const {
     register,
     handleSubmit,
@@ -53,6 +61,7 @@ export default function ReviewWrite() {
     onSuccess: () => {
       // 주문의 state를 리뷰 작성 완료로 변경
       editMyOrderState.mutate({ orderId: order._id, state: "WO040" });
+      workedRefetch();
       alert("리뷰 작성이 완료되었습니다.");
       navigate(-1);
     },
@@ -98,6 +107,7 @@ export default function ReviewWrite() {
   const onEmployedReviewSucces = () => {
     // 게시글의 state를 리뷰 작성 완료로 변경
     editProductState.mutate({ productId, state: "EM040" });
+    employedRefetch();
     alert("리뷰 작성이 완료되었습니다.");
     navigate(-1);
   };
