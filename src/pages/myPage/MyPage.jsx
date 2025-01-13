@@ -60,8 +60,10 @@ export default function MyPage() {
   //3+3+3+3 = 12
   // console.log("userId", user._id);
 
-  const totalReview = Math.round(partTimetotalPower + totalPower) / 2;
+  let totalReview = Math.round(partTimetotalPower + totalPower) / 2;
   console.log("총합 평점 리뷰", totalReview);
+  let dydamicWidth = totalReview + 50;
+  console.log(dydamicWidth);
   return (
     <>
       <div className="mb-[80px]">
@@ -107,7 +109,8 @@ export default function MyPage() {
             <img
               src="/icons/energyBar2.svg"
               alt="에너지률"
-              className="w-[20%] absolute  top-0 h-full object-cover aspect-auto rounded-3xl"
+              className={` absolute  top-0 h-full object-cover aspect-auto rounded-3xl`}
+              style={{ width: `${dydamicWidth}%` }}
             />
           </div>
         </div>
