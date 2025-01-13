@@ -20,6 +20,7 @@ import Profile from "@pages/user/Profile";
 import Error from "@pages/Error";
 import Worked from "@pages/reviews/Worked";
 import Hired from "@pages/reviews/Hired";
+import KakaoSignIn from "@pages/user/KakaoSignIn";
 
 const router = createBrowserRouter(
   [
@@ -66,6 +67,10 @@ const router = createBrowserRouter(
     {
       path: "user/signIn",
       element: <SignIn />,
+    },
+    {
+      path: "user/signin/kakao",
+      element: <KakaoSignIn />,
     },
   ],
   {
