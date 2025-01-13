@@ -15,7 +15,7 @@ export default function Profile() {
   const axios = useAxiosInstance();
   const location = useLocation();
   const userId = location.pathname.split("/")[2];
-  console.log(userId);
+  // console.log(userId);
   //-----------사장일 때 받은 리뷰 api----------------
 
   const { data, isLoading } = useQuery({
@@ -24,7 +24,7 @@ export default function Profile() {
     select: res => res.data.item,
     staleTime: 1000 * 10,
   });
-  console.log("사장일때 데이터", data);
+  // console.log("사장일때 데이터", data);
   //----------------알바생일때 받은 리뷰일 때 api --------------
   const { data: partTime, isLoading: partTimeLoading } = useQuery({
     queryKey: ["reviews", "partTimeProfile"],
@@ -53,7 +53,7 @@ export default function Profile() {
       totalPower += power;
     });
   });
-  console.log("사장일때 받은 리뷰", totalPower); ///====> 사장일때 받은 평균 별점 리뷰
+  // console.log("사장일때 받은 리뷰", totalPower); ///====> 사장일때 받은 평균 별점 리뷰
   //1+1 = 2
 
   //--------------알바일때 받은 평균 별점 리뷰
@@ -64,12 +64,12 @@ export default function Profile() {
     const partTimePower = starPower[partTimeStar];
     partTimetotalPower += partTimePower;
   });
-  console.log("알바생일때 받은 리뷰", partTimetotalPower);
+  // console.log("알바생일때 받은 리뷰", partTimetotalPower);
   //3+3+3+3 = 12
   // console.log("userId", user._id);
 
   let totalReview = Math.round(partTimetotalPower + totalPower) / 2;
-  console.log("총합 평점 리뷰", totalReview);
+  // console.log("총합 평점 리뷰", totalReview);
   let dydamicWidth = totalReview + 50;
 
   return (
