@@ -12,9 +12,6 @@ const alertfun = () => {
 export default function MyReviewList({ item, partTime }) {
   // const { _id } = useParams();
 
-  // if (!item || !partTime) {
-  //   return <div>데이터가 없습니다.</div>;
-  // }
   // console.log(item);
   // console.log(item._id);
   // console.log("파트타타타타임", partTime);
@@ -70,23 +67,23 @@ export default function MyReviewList({ item, partTime }) {
   } else {
     return (
       <>
-        <div key={partTime.user_id} className="reviews-container">
+        <div key={partTime._id} className="reviews-container">
           <div className="flex gap-1 ">
             <div className="flex gap-5 flex-grow">
-              <Link to={`/user/${partTime.user_id}`} className="flex-shrink-0">
+              <Link to={`/user/${partTime.user._id}`} className="flex-shrink-0">
                 <img
                   src={
-                    partTime.image
-                      ? `https://11.fesp.shop/${partTime.image}`
+                    partTime.user.image
+                      ? `https://11.fesp.shop/${partTime.user.image}`
                       : `/images/smiling_daeddamon.png`
                   }
                   alt="사용자 이미지"
                   className="size-10"
                 />
               </Link>
-              <Link to={`/main/${partTime.user_id}`} className="w-full">
+              <Link to={`/main/${partTime.user._id}`} className="w-full">
                 <div className="max-w-[440px]">
-                  <p className="font-bold text-sm">{partTime.name}</p>
+                  <p className="font-bold text-sm">{partTime.user.name}</p>
                   <div className="flex gap-1 size-3 mb-2">
                     <img src="/icons/reviews/star.svg" />
                     <img src="/icons/reviews/star.svg" />
@@ -95,7 +92,7 @@ export default function MyReviewList({ item, partTime }) {
                     <img src="/icons/reviews/blankStar.svg" />
                   </div>
                   <p className="break-keep whitespace-normal text-sm">
-                    일단하드코딩
+                    {partTime.memo}
                   </p>
                 </div>
               </Link>

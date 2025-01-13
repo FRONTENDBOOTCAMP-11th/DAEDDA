@@ -24,7 +24,7 @@ export default function MyPage() {
     select: res => res.data.item,
     staleTime: 1000 * 10,
   });
-  console.log(data);
+  console.log("사장일때 데이터", data);
   //----------------알바생일때 받은 리뷰일 때 api --------------
   const { data: partTime, isLoading: partTimeLoading } = useQuery({
     queryKey: ["reviews", "partTime"],
@@ -45,12 +45,23 @@ export default function MyPage() {
       totalPower += power;
     });
   });
-  console.log(totalPower); ///====> 사장일때 받은 평균 별점 리뷰
-  //3+-1 +3+2
+  console.log("사장일때 받은 리뷰", totalPower); ///====> 사장일때 받은 평균 별점 리뷰
+  //1+1 = 2
 
   //--------------알바일때 받은 평균 별점 리뷰
+  console.log("알바생일때 받은 리뷰", partTime);
+  let partTimetotalPower = 0;
+  partTime.byUser.forEach(reply => {
+    const partTimeStar = reply.extra.rating;
+    const partTimePower = starPower[partTimeStar];
+    partTimetotalPower += partTimePower;
+  });
+  console.log("알바생일때 받은 리뷰", partTimetotalPower);
+  //3+3+3+3 = 12
+  // console.log("userId", user._id);
 
-  console.log("userId", user._id);
+  const totalReview = Math.round(partTimetotalPower + totalPower) / 2;
+  console.log("총합 평점 리뷰", totalReview);
   return (
     <>
       <div className="mb-[80px]">
@@ -79,7 +90,7 @@ export default function MyPage() {
               className="w-fit size-9 mt-1"
             />
             <div className="flex flex-col  mb-[14px]">
-              <p className="font-semibold text-xl">70%</p>
+              <p className="font-semibold text-xl">{totalReview + 50}%</p>
               <p className="font-semibold text-sm text-beige-500 tracking-wide">
                 알바력
               </p>
@@ -96,7 +107,7 @@ export default function MyPage() {
             <img
               src="/icons/energyBar2.svg"
               alt="에너지률"
-              className=" w-[50%] absolute  top-0 h-full object-cover aspect-auto rounded-3xl "
+              className="w-[20%] absolute  top-0 h-full object-cover aspect-auto rounded-3xl"
             />
           </div>
         </div>
