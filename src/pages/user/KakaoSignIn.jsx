@@ -48,6 +48,7 @@ export default function KakaoSignIn() {
           accessToken: data.item.token.accessToken,
           refreshToken: data.item.token.refreshToken,
           loginType: "kakao",
+          isNew: true,
         };
 
         setUser(newUserData);
