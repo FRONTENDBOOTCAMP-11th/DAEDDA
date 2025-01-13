@@ -1,4 +1,4 @@
-import Button from "@components/layout/Button";
+import Button from "@components/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import Badge from "@pages/main/Badge";
 import { useMutation, useQuery } from "@tanstack/react-query";

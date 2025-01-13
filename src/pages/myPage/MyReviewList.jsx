@@ -1,4 +1,4 @@
-import Button from "@components/layout/Button";
+import Button from "@components/Button";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 

@@ -5,21 +5,21 @@ export default function Footer() {
 
   const mainPage = useMatch("/");
   const myPage = useMatch("myPage");
-  const review = useMatch("review");
-  const reviewMyPlace = useMatch("review/myPlace");
-  const reviewMyPerson = useMatch("review/myPerson");
+  const history = useMatch("history");
+  const historyWorked = useMatch("history/worked");
+  const historyEmployed = useMatch("history/employed");
 
   const footerMatch =
-    mainPage || myPage || review || reviewMyPlace || reviewMyPerson;
+    mainPage || myPage || history || historyWorked || historyEmployed;
 
   const tabs = [
     {
-      name: "review",
+      name: "history",
       icon: "/icons/footer/history.svg",
       activeIcon: "/icons/footer/purpleHistory.svg",
       label: "알바 내역",
-      path: "/review",
-      match: review || reviewMyPerson || reviewMyPlace,
+      path: "/history",
+      match: history || historyWorked || historyEmployed,
     },
     {
       name: "home",
