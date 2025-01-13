@@ -25,7 +25,7 @@ export default function LikeList({ item }) {
     },
   });
 
-  console.log(item);
+  // console.log(item);
   return (
     <>
       <div className="likes-container">

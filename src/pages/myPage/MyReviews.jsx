@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export default function MyReviews() {
   const userId = location.pathname.split("/")[3];
-  console.log(userId);
+  // console.log(userId);
 
   const axios = useAxiosInstance();
   const [btnTxt, setBtnTxt] = useState("사장");
@@ -35,7 +35,7 @@ export default function MyReviews() {
     return <div>로딩중</div>;
   }
 
-  console.log("사장입장에서", data);
+  // console.log("사장입장에서", data);
   // 댓글 수 계산
   let totalReplies = 0;
   data.item.forEach(item => (totalReplies += item.replies.length));
