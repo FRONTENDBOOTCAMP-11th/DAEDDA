@@ -34,31 +34,26 @@ export default function KakaoSignIn() {
 
       if (data.item.isNew) {
         console.log("신규 회원임");
-        // navigate("/myPage/edit");
+
         // 카카오로부터 받은 사용자 정보
-        // const newUserData = {
-        //   _id: data.item._id,
-        //   name: data.item.name,
-        //   image: data.item.image,
-        //   phone: "",
-        //   type: "seller",
-        //   extra: {
-        //     birthday: "",
-        //   },
-        //   accessToken: data.item.token.accessToken,
-        //   refreshToken: data.item.token.refreshToken,
-        //   loginType: "kakao",
-        // };
+        const newUserData = {
+          _id: data.item._id,
+          name: data.item.name,
+          image: data.item.image,
+          phone: "",
+          type: "seller",
+          extra: {
+            birthday: "",
+          },
+          accessToken: data.item.token.accessToken,
+          refreshToken: data.item.token.refreshToken,
+          loginType: "kakao",
+        };
 
-        // setUser(newUserData);
+        setUser(newUserData);
 
-        // // 화면에 데이터 뿌리기 (name, image)
-        // reset({
-        //   image: data.item.image,
-        //   name: data.item.name,
-        // });
-
-        // setPreview(data.item.image);
+        // 정보 setUser에 담고 edit 창으로 넘어가서 추가 정보 받기
+        navigate("/myPage/edit");
       } else {
         console.log("기존 회원");
         const newUserData = {
@@ -75,14 +70,15 @@ export default function KakaoSignIn() {
           loginType: "kakao",
         };
 
+        // 기존 회원 정보 저장 후 메인 페이지로 이동하기
         setUser(newUserData);
 
         navigate("/");
       }
     } catch (error) {
-      // console.error("카카오 로그인 실패", error);
+      console.error("카카오 로그인 실패", error);
     }
   };
 
-  return <div>카카오페이지</div>;
+  // return <div>카카오페이지</div>;
 }
