@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 import { formatDate } from "@/utills/func.js";
-import { useGetMyBookMark } from "@hooks/useGetMyBookmark";
 
 export default function ReviewWrite() {
   const axios = useAxiosInstance();
@@ -87,7 +86,7 @@ export default function ReviewWrite() {
 
   const deleteMyBookmark = useMutation({
     mutationFn: async bookmarkId => {
-      console.log(bookmarkId);
+      console.log("기존 북마크 제거");
       return axios.delete(`/bookmarks/${bookmarkId}`);
     },
     onSuccess: () => {},
@@ -96,96 +95,57 @@ export default function ReviewWrite() {
     },
   });
 
-  // todo
-  // 북마크가 없으면 페이지 리렌더 마다 404 에러 발생
-
-  // seller product에서 상태가 채택 완료인 order 획득
-  // 1. 기존 북마크 조회
-  const { data: myBookmark } = useGetMyBookMark(order.user_id);
-
-  // const addEmployedReview = useMutation({
-  //   mutationFn: async formData => {
-  //     const body = {
-  //       target_id: order.user_id,
-  //       extra: {
-  //         contents: [
-  //           {
-  //             memo: formData.content,
-  //             rating,
-  //           },
-  //         ],
-  //       },
-  //     };
-
-  //     return axios.post("/bookmarks/user", body);
-  //   },
-
-  //   onSuccess: () => {
-  //     // 게시글의 state를 리뷰 작성 완료로 변경
-  //     editProductState.mutate({ productId, state: "EM040" });
-  //     console.log("리뷰 작성 완료");
-  //     alert("리뷰 작성이 완료되었습니다.");
-  //     navigate(-1);
-  //   },
-
-  //   onError: error => {
-  //     if (error.response && error.response.status === 409) {
-  //       console.log(error);
-  //     } else {
-  //       // 기존 북마크 정보 획득
-  //       // 내용 교체, 기존 북마크 제거
-  //       // 다시 axios 요청
-  //       console.error("등록 실패:", error);
-  //     }
-  //   },
-  // });
+  const onEmployedReviewSucces = () => {
+    // 게시글의 state를 리뷰 작성 완료로 변경
+    editProductState.mutate({ productId, state: "EM040" });
+    alert("리뷰 작성이 완료되었습니다.");
+    navigate(-1);
+  };
 
   const addEmployedReview = useMutation({
     mutationFn: async formData => {
-      let body;
-      if (!myBookmark) {
-        // 2. 기존 북마크가 없는 경우 새로운 내용 추가
-        body = {
-          target_id: order.user_id,
-          extra: {
-            contents: [
-              {
-                memo: formData.content,
-                rating,
-              },
-            ],
-          },
-        };
-      } else {
-        // 2. 기존 북마크가 있는 기존 북마크 컨텐츠 복사
-        const previousContents = myBookmark.extra.contents;
-        // 3. 기존 북마크 삭제
-        await deleteMyBookmark.mutateAsync(myBookmark._id);
-        // 4. 새로운 값 push
-        previousContents.push({
-          memo: formData.content,
-          rating,
-        });
-        // 5. body의 contents로 지정
-        body = {
-          target_id: order.user_id,
-          extra: { contents: previousContents },
-        };
-      }
+      const body = {
+        target_id: order.user_id,
+        extra: {
+          contents: [
+            {
+              memo: formData.content,
+              rating,
+            },
+          ],
+        },
+      };
 
       return axios.post("/bookmarks/user", body);
     },
+
     onSuccess: () => {
-      // 게시글의 state를 리뷰 작성 완료로 변경
-      editProductState.mutate({ productId, state: "EM040" });
-      // worker order의 state를 입금 완료로 변경
-      console.log("리뷰 작성 완료");
-      alert("리뷰 작성이 완료되었습니다.");
-      navigate(-1);
+      onEmployedReviewSucces();
     },
 
-    onError: error => {
-      console.error("등록 실패:", error);
+    onError: async (error, formData) => {
+      if (error.response && error.response.status === 409) {
+        // 기존 북마크 정보 획득
+        const res = await axios.get(`/bookmarks/user/${order.user_id}`);
+        const prevBookmarkId = res.data.item._id;
+        const prevContents = res.data.item.extra.contents;
+        // 내용 교체, 기존 북마크 제거
+        prevContents.push({
+          memo: formData.content,
+          rating,
+        });
+        await deleteMyBookmark.mutateAsync(prevBookmarkId);
+        // 다시 axios 요청
+        await axios.post("/bookmarks/user", {
+          target_id: order.user_id,
+          extra: {
+            contents: prevContents,
+          },
+        });
+        onEmployedReviewSucces();
+      } else {
+        console.error("등록 실패:", error);
+      }
     },
   });
 
