@@ -1,4 +1,4 @@
-import Button from "@components/layout/Button";
+import Button from "@components/Button";
 import { useNavigate } from "react-router-dom";
 
 export default function Error() {

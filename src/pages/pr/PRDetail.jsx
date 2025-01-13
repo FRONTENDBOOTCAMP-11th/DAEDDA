@@ -1,4 +1,4 @@
-import Button from "@components/layout/Button";
+import Button from "@components/Button";
 import Badge from "@pages/main/Badge";
 
 export default function PRDetail() {
