@@ -16,7 +16,7 @@ export default function Edit() {
   const axios = useAxiosInstance();
   const navigate = useNavigate();
   const { user, setUser } = useUserStore();
-  console.log(user);
+  // console.log(user);
 
   const [preview, setPreview] = useState(null);
   const fileInput = useRef(null);
@@ -51,12 +51,12 @@ export default function Edit() {
 
   // preview 값이 바뀔 때마다 로그를 찍어보는 예시
   useEffect(() => {
-    console.log("렌더링 시점, preview 값:", preview);
+    // console.log("렌더링 시점, preview 값:", preview);
   }, [preview]);
 
   const editUser = useMutation({
     mutationFn: async formData => {
-      console.log("최종 formData", formData);
+      // console.log("최종 formData", formData);
 
       if (fileInput.current) {
         const imageFormData = new FormData();
@@ -76,7 +76,7 @@ export default function Edit() {
           throw new Error("이미지 업로드에 실패했습니다. 경로가 없습니다.");
         }
         delete formData.attach;
-        console.log(fileRes.data.item[0]);
+        // console.log(fileRes.data.item[0]);
       }
 
       const updatedFormData = {
@@ -89,13 +89,13 @@ export default function Edit() {
       delete updatedFormData.birthday;
       // console.log(formData);
       // console.log(user);
-      console.log("서버로 보낼 데이터:", updatedFormData);
+      // console.log("서버로 보낼 데이터:", updatedFormData);
       return axios.patch(`/users/${user._id}`, updatedFormData);
     },
     onSuccess: res => {
-      console.log("res", res);
+      // console.log("res", res);
       const updatedUser = res.data.item;
-      console.log(updatedUser);
+      // console.log(updatedUser);
       const newUser = {
         ...user,
         ...updatedUser,
@@ -106,7 +106,7 @@ export default function Edit() {
       };
 
       setUser(newUser);
-      console.log(newUser);
+      // console.log(newUser);
 
       reset({
         name: newUser.name,
@@ -128,7 +128,7 @@ export default function Edit() {
       }
     },
     onError: err => {
-      console.error(err);
+      // console.error(err);
       if (err.response?.data.errors) {
         err.response?.data.errors.forEach(error =>
           setError(error.path, { message: error.msg }),
@@ -175,7 +175,7 @@ export default function Edit() {
       });
 
       const { data } = response;
-      console.log("카카오 로그인 성공", data);
+      // console.log("카카오 로그인 성공", data);
 
       // 카카오로부터 받은 사용자 정보
       const newUserData = {
@@ -202,7 +202,7 @@ export default function Edit() {
 
       setPreview(data.item.image);
     } catch (error) {
-      console.error("카카오 로그인 실패", error);
+      // console.error("카카오 로그인 실패", error);
     }
   };
 
