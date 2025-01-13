@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link, useLocation } from "react-router-dom";
 
 const starPower = {
-  1: -1,
+  1: -2,
   2: -1,
   3: 1,
   4: 2,
@@ -22,7 +22,7 @@ export default function Profile() {
     queryKey: ["reviews", "Profile"],
     queryFn: () => axios.get(`/replies/seller/${userId}`),
     select: res => res.data.item,
-    staleTime: 1000 * 10,
+    // staleTime: 1000 * 10,
   });
   // console.log("사장일때 데이터", data);
   //----------------알바생일때 받은 리뷰일 때 api --------------
@@ -38,7 +38,7 @@ export default function Profile() {
     queryKey: ["users", userId],
     queryFn: () => axios.get(`/users/${userId}`),
     select: res => res.data,
-    staleTime: 1000 * 10,
+    // staleTime: 1000 * 10,
   });
 
   let totalPower = 0;
@@ -48,8 +48,8 @@ export default function Profile() {
   //------------------------------알바력 계산하기--------------
   data.forEach(item => {
     item.replies.forEach(reply => {
-      const star = parseInt(reply.rating);
-      const power = starPower[star];
+      const star = parseInt(reply?.rating);
+      const power = starPower[star] || 0;
       totalPower += power;
     });
   });
@@ -60,8 +60,8 @@ export default function Profile() {
   // console.log("알바생일때 받은 리뷰", partTime);
   let partTimetotalPower = 0;
   partTime.byUser.forEach(reply => {
-    const partTimeStar = reply.extra.rating;
-    const partTimePower = starPower[partTimeStar];
+    const partTimeStar = reply.extra?.rating || 0;
+    const partTimePower = starPower[partTimeStar] || 0;
     partTimetotalPower += partTimePower;
   });
   // console.log("알바생일때 받은 리뷰", partTimetotalPower);
