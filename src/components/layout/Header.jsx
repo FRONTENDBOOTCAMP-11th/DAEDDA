@@ -1,7 +1,9 @@
 import { Link, useMatch, useNavigate } from "react-router-dom";
+import useUserStore from "@zustand/userStore";
 
 export default function Header() {
   const navigate = useNavigate();
+  const { user } = useUserStore();
   const error = useMatch("/error");
   const prId = useMatch("pr/:_id");
   const prIdEdit = useMatch("pr/:_id/edit");
@@ -26,7 +28,10 @@ export default function Header() {
     { match: prIdEdit, title: "공고 지원 수정" },
     { match: userTerms, title: "약관 동의" },
     { match: signUp, title: "회원 정보 입력" },
-    { match: myPageEdit, title: "회원 정보 수정" },
+    {
+      match: myPageEdit,
+      title: user?.isNew ? "회원 정보 입력" : "회원 정보 수정",
+    },
     { match: myPageMyReviews, title: "내가 받은 리뷰" },
     { match: mainWrite, title: "글쓰기" },
     { match: mainID, title: "공고 상세 페이지" },
