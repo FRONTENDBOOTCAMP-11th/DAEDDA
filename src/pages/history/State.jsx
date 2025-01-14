@@ -29,7 +29,7 @@ export default function State({ code, toggledStates, setToggledStates }) {
       {data && (
         <div
           className={
-            toggledStates.includes(data.code)
+            toggledStates?.includes(data.code)
               ? "ring-1 ring-primary px-4 py-2 rounded-xl cursor-pointer"
               : "ring-1 ring-gray-200  text-gray-400 px-4 py-2 rounded-xl cursor-pointer"
           }

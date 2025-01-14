@@ -16,8 +16,10 @@ export const useGetOrders = select => {
   });
 };
 
-export const useOrdersFilter = state => {
-  useGetOrders(data => {
-    return data.filter(order => order.state === state);
+export const useOrdersFilter = states => {
+  return useGetOrders(data => {
+    if (states.length === 0) return data;
+    else
+      return data.filter(order => states.some(state => state === order.state));
   });
 };

@@ -1,5 +1,5 @@
 import InputField from "@components/InputField";
-import { useGetOrders } from "@hooks/useGetOrders";
+import { useGetOrders, useOrdersFilter } from "@hooks/useGetOrders";
 import State from "@pages/history/State";
 import WorkedItem from "@pages/history/WorkedItem";
 import { useState } from "react";
@@ -7,9 +7,8 @@ import { useState } from "react";
 const codes = ["WO010", "WO020", "WO030", "WO040"];
 
 export default function Worked() {
-  const { data, refetch } = useGetOrders();
-
   const [toggledStates, setToggledStates] = useState([]);
+  const { data, refetch } = useOrdersFilter(toggledStates);
 
   return (
     <div>

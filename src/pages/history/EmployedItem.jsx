@@ -17,7 +17,7 @@ export default function EmployedItem({ productId, refetch }) {
   const axios = useAxiosInstance();
 
   const { data } = useGetDetailedProduct(productId);
-  const state = useGetOrderState(data?.extra.state);
+  const { data: state } = useGetOrderState(data?.extra.state);
   const targetOrder = data?.orders?.find(
     order =>
       order.state === "WO020" ||
@@ -90,7 +90,7 @@ export default function EmployedItem({ productId, refetch }) {
             </Button>
           </Link>
           <div className="mb-6">
-            <h4 className="text-sm font-bold">{state}</h4>
+            <h4 className="text-sm font-bold">{state.value}</h4>
             <p>{data.extra.condition.company}</p>
             <p>{data.price.toLocaleString()}원</p>
             <p>

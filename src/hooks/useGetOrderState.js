@@ -12,9 +12,10 @@ export const useGetOrderState = code => {
       return axios.get("/codes/orderState");
     },
     select: res => {
-      return code
-        ? res.data.item.orderState.codes.find(item => item.code === code)
-        : res.data.item.orderState.codes;
+      const found = res.data.item.orderState.codes.find(
+        item => item.code === code,
+      );
+      return code ? (found ? found : "") : res.data.item.orderState.codes;
     },
     staleTime: 1000 * 10,
   });
