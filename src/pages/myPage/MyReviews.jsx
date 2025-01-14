@@ -20,7 +20,7 @@ export default function MyReviews() {
     queryKey: ["reviews"],
     queryFn: () => axios.get(`/replies/seller/${userId}`),
     select: res => res.data,
-    staleTime: 1000 * 10,
+    // staleTime: 1000 * 10,
   });
 
   //----------------알바생일때 받은 리뷰일 때 api --------------
