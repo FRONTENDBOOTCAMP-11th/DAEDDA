@@ -1,4 +1,5 @@
 import Button from "@components/Button";
+import Star from "@pages/myPage/Star";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
@@ -10,11 +11,9 @@ const alertfun = () => {
   alert("신고되었습니다");
 };
 export default function MyReviewList({ item, partTime }) {
-  // const { _id } = useParams();
+  // console.log("사장일때 받은 리뷰", item);
 
-  // console.log(item);
-  // console.log(item._id);
-  console.log("파트타타타타임", partTime);
+  // console.log("알바생일때", partTime);
 
   if (item) {
     return (
@@ -25,11 +24,6 @@ export default function MyReviewList({ item, partTime }) {
               <div className="flex gap-5 flex-grow">
                 <Link to={`/user/${reply.user._id}`} className="flex-shrink-0">
                   <img
-                    // src={
-                    //   reply.user.image
-                    //     ? `https://11.fesp.shop/${reply.user.image}`
-                    //     : `/images/smiling_daeddamon.png`
-                    // }
                     src={
                       reply.user.image
                         ? reply.user.image.includes("kakaocdn.net")
@@ -44,13 +38,7 @@ export default function MyReviewList({ item, partTime }) {
                 <Link to={`/main/${item._id}`} className="w-full">
                   <div className="max-w-[440px]">
                     <p className="font-bold text-sm">{reply.user.name}</p>
-                    <div className="flex gap-1 size-3 mb-2">
-                      <img src="/icons/reviews/star.svg" />
-                      <img src="/icons/reviews/star.svg" />
-                      <img src="/icons/reviews/star.svg" />
-                      <img src="/icons/reviews/star.svg" />
-                      <img src="/icons/reviews/blankStar.svg" />
-                    </div>
+                    <Star reply={reply} />
                     <p className="break-keep whitespace-normal text-sm">
                       {reply.content}
                     </p>
@@ -86,11 +74,6 @@ export default function MyReviewList({ item, partTime }) {
                         : `https://11.fesp.shop/${partTime.user.image}`
                       : "/images/smiling_daeddamon.png"
                   }
-                  // src={
-                  //   reply.user.image
-                  //     ? `https://11.fesp.shop/${reply.user.image}`
-                  //     : `/src/asset/images/smiling_daeddamon.png`
-                  // }
                   alt="사용자 이미지"
                   className="size-10 rounded-full"
                 />
@@ -98,13 +81,14 @@ export default function MyReviewList({ item, partTime }) {
               <Link to={`/main/${partTime.user._id}`} className="w-full">
                 <div className="max-w-[440px]">
                   <p className="font-bold text-sm">{partTime.user.name}</p>
-                  <div className="flex gap-1 size-3 mb-2">
+                  {/* <div className="flex gap-1 size-3 mb-2"> */}
+                  <Star partTime={partTime} />
+                  {/* <img src="/icons/reviews/star.svg" />
                     <img src="/icons/reviews/star.svg" />
                     <img src="/icons/reviews/star.svg" />
                     <img src="/icons/reviews/star.svg" />
-                    <img src="/icons/reviews/star.svg" />
-                    <img src="/icons/reviews/blankStar.svg" />
-                  </div>
+                    <img src="/icons/reviews/blankStar.svg" /> */}
+                  {/* </div> */}
                   <p className="break-keep whitespace-normal text-sm">
                     {partTime.memo}
                   </p>
