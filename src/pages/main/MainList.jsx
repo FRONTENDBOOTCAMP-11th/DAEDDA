@@ -1,17 +1,16 @@
-import useAxiosInstance from "@hooks/useAxiosInstance";
+import { useGetProducts } from "@hooks/useGetProducts";
 import ListItem from "@pages/main/ListItem";
-import { useQuery } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 export default function MainList() {
-  const axios = useAxiosInstance();
+  const { data } = useGetProducts();
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["posts"],
-    queryFn: () => axios.get("/products"),
-    select: res => res.data.item,
-    staleTime: 1000 * 10,
-  });
+  const { register, handleSubmit } = useForm();
+
+  const onSearchSubmit = formData => {
+    console.log(formData);
+  };
 
   return (
     <div className="mb-[80px] flex flex-col">
@@ -20,17 +19,20 @@ export default function MainList() {
         <img src="/icons/mapPin.svg" className="size-[18px] cursor-pointer" />
       </div>
 
-      <form className="mb-5">
+      <form className="mb-5" onSubmit={handleSubmit(onSearchSubmit)}>
         <div className="relative">
           <input
+            {...register("keyword")}
             className="w-full ring-2 ring-primary rounded-2xl py-2 pl-3 pr-[36px] re"
             type="text"
             placeholder="관심있는 대타 장소를 검색해보세요."
           />
-          <img
-            src="/icons/search.svg"
-            className="absolute right-[8px] top-1/2 -translate-y-1/2 cursor-pointer size-5"
-          />
+          <button type="submit">
+            <img
+              src="/icons/search.svg"
+              className="absolute right-[8px] top-1/2 -translate-y-1/2 size-5"
+            />
+          </button>
         </div>
       </form>
 
@@ -65,7 +67,6 @@ export default function MainList() {
       </div>
 
       <div className="flex flex-col gap-5">
-        {isLoading && <p>로딩중...</p>}
         {data && (
           <>
             <ListItem data={data[0]} />
