@@ -1,16 +1,23 @@
 import { useGetProducts } from "@hooks/useGetProducts";
 import ListItem from "@pages/main/ListItem";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 export default function MainList() {
-  const { data } = useGetProducts();
-
   const { register, handleSubmit } = useForm();
+  const [keyword, setKeyword] = useState("");
+  const { data, refetch } = useGetProducts(keyword);
 
   const onSearchSubmit = formData => {
-    console.log(formData);
+    setKeyword(formData.keyword);
   };
+
+  useEffect(() => {
+    if (keyword) {
+      refetch();
+    }
+  }, [keyword, refetch]);
 
   return (
     <div className="mb-[80px] flex flex-col">
@@ -70,8 +77,8 @@ export default function MainList() {
         {data && (
           <>
             <ListItem data={data[0]} />
-            <ListItem data={data[1]} />
-            <ListItem data={data[2]} />
+            {/* <ListItem data={data[1]} /> */}
+            {/* <ListItem data={data[2]} /> */}
           </>
         )}
       </div>

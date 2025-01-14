@@ -7,7 +7,7 @@ export const useGetProducts = keyword => {
   return useQuery({
     queryKey: ["products"],
     queryFn: () => {
-      return axios.get("/products", { params: { keyword } });
+      return axios.get(`/products/?keyword=${keyword}`);
     },
     select: res => {
       return res.data.item;
