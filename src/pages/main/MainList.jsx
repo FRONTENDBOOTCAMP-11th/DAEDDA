@@ -16,8 +16,8 @@ export default function MainList() {
   return (
     <div className="mb-[80px] flex flex-col">
       <div className="flex gap-2 items-center text-[18px] font-semibold mb-4">
-        <p>동래구 중앙대로 1473번길 14-2</p>
-        <img src="/icons/mapPin.svg" className="size-[18px]" />
+        <p className="cursor-pointer">동래구 중앙대로 1473번길 14-2</p>
+        <img src="/icons/mapPin.svg" className="size-[18px] cursor-pointer" />
       </div>
 
       <form className="mb-5">
@@ -29,12 +29,12 @@ export default function MainList() {
           />
           <img
             src="/icons/search.svg"
-            className="absolute right-[8px] top-1/2 -translate-y-1/2"
+            className="absolute right-[8px] top-1/2 -translate-y-1/2 cursor-pointer size-5"
           />
         </div>
       </form>
 
-      <div className="flex gap-4 mb-5 flex-wrap">
+      <div className="flex gap-4 mb-5 flex-wrap screen-530:justify-center">
         <div>
           <label
             htmlFor="time"
@@ -42,10 +42,11 @@ export default function MainList() {
           >
             시간
           </label>
-          <select className="ring-2 ring-gray-400 focus:ring-primary py-2 px-3 rounded-xl screen-530:py-[6px]">
-            <option className="text-[14px]">0 ~ 4시간</option>
-            <option className="text-[14px]">4 ~ 10시간</option>
-            <option className="text-[14px]">10시간 이상</option>
+          <select className="ring-2 ring-gray-400 focus:ring-primary py-2 px-2   rounded-xl  *:text-[14px]">
+            <option>모든 시간</option>
+            <option>0 ~ 4시간</option>
+            <option>4 ~ 10시간</option>
+            <option>10시간 이상</option>
           </select>
         </div>
         <div>
@@ -55,9 +56,10 @@ export default function MainList() {
           >
             시급
           </label>
-          <select className="ring-2 ring-gray-400 focus:ring-primary py-2 px-3 rounded-xl screen-530:py-[6px]">
-            <option className="text-[14px]">10,000원 이하</option>
-            <option className="text-[14px]">10,000원 이상</option>
+          <select className="ring-2 ring-gray-400 focus:ring-primary py-2 px-2 rounded-xl *:text-[14px]">
+            <option>모든 시급</option>
+            <option>10,000원 이하</option>
+            <option>10,000원 이상</option>
           </select>
         </div>
       </div>
