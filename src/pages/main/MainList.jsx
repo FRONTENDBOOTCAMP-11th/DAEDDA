@@ -14,10 +14,8 @@ export default function MainList() {
   };
 
   useEffect(() => {
-    if (keyword) {
-      refetch();
-    }
-  }, [keyword, refetch]);
+    refetch();
+  }, [keyword]);
 
   return (
     <div className="mb-[80px] flex flex-col">
@@ -77,8 +75,6 @@ export default function MainList() {
         {data && (
           <>
             <ListItem data={data[0]} />
-            {/* <ListItem data={data[1]} /> */}
-            {/* <ListItem data={data[2]} /> */}
           </>
         )}
       </div>
