@@ -130,7 +130,7 @@ export default function MainWrite() {
     );
 
     if (!accept) {
-      console.log("결제가 취소 되었습니다.");
+      alert("결제가 취소되어 게시물이 등록되지 않습니다.");
       return;
     }
     IMP.init("imp14397622");
