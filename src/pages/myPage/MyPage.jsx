@@ -1,7 +1,5 @@
-import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useProfileData } from "@hooks/useProfileData";
 import MyPageList from "@pages/myPage/MyPageList";
-import { useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -12,7 +10,6 @@ import {
 export default function MyPage() {
   const { user, resetUser } = useUserStore();
   const navigate = useNavigate();
-  const axios = useAxiosInstance();
 
   const logoutFun = () => {
     alert("로그아웃 되었습니다.");
@@ -20,60 +17,25 @@ export default function MyPage() {
     navigate("/user/signIn");
   };
 
-  // user가 null이면 로그인 페이지로 이동
-
-  //-----------사장일 때 받은 리뷰 api----------------
-
-  // const { data, isLoading } = useQuery({
-  //   queryKey: ["reviews", "myPage"],
-  //   queryFn: () => axios.get(`/replies/seller/${user._id}`),
-  //   select: res => res.data.item,
-  //   // staleTime: 1000 * 10,
-  // });
-  // console.log("사장일때 데이터", data);
-  //----------------알바생일때 받은 리뷰일 때 api --------------
-  // const { data: partTime, isLoading: partTimeLoading } = useQuery({
-  //   queryKey: ["reviews", "partTimeMyPage"],
-  //   queryFn: () => axios.get(`users/${user._id}/bookmarks`),
-  //   select: res => res.data.item, ///byUser로 불러오면됨
-  // });
-  // console.log(partTime);
-  //
-  const { reviews, isLoading, partTime } = useProfileData(user._id);
-  // let totalPower = 0;
+  const { userData, reviews, isLoading, partTime } = useProfileData(user._id);
+  console.log(userData);
   if (isLoading) {
     return <div>로딩중</div>;
   }
-  // let totalPower = 0;
-  // // if (isLoading || partTimeLoading) {
-  // //   return <div>로딩중</div>;
-  // // }
+
   if (!user) {
     navigate("/user/signIn");
     return null;
   }
-  //------------------------------알바력 계산하기--------------
-  // data.forEach(item => {
-  //   item.replies?.forEach(reply => {
-  //     const star = parseInt(reply.rating);
-  //     const power = starPower[star] || 0;
-  //     totalPower += power;
-  //   });
-  // });
-  // console.log("사장일때 받은 리뷰", totalPower); ///====> 사장일때 받은 평균 별점 리뷰
-  //1+1 = 2
 
-  //--------------알바일때 받은 평균 별점 리뷰
-  // console.log("알바생일때 받은 리뷰", partTime);
   const totalPower = calculateTotalPower(reviews || []);
-  console.log(totalPower, "토탈파워");
+  // console.log(totalPower, "토탈파워");
   const partTimePower = calculatePartTimePower(partTime || []);
-  console.log(partTimePower, "알바생");
+  // console.log(partTimePower, "알바생");
   //소수점 첫째자리 반올림
   const totalReview = Math.round(((totalPower + partTimePower) / 2) * 10) / 10;
-  console.log(totalReview, "총점리뷰 평균");
+  // console.log(totalReview, "총점리뷰 평균");
   const dydamicWidth = totalReview + 50;
-  console.log(dydamicWidth);
   // console.log(dydamicWidth);
   return (
     <>
@@ -82,10 +44,10 @@ export default function MyPage() {
           <div className="flex pb-5 border-b border-gray-200 mb-8">
             <img
               src={
-                user?.image
-                  ? user.image.includes("kakaocdn.net")
-                    ? user.image
-                    : `https://11.fesp.shop/${user.image}`
+                userData.item?.image
+                  ? userData.item.image.includes("kakaocdn.net")
+                    ? userData.item.image
+                    : `https://11.fesp.shop/${userData.item.image}`
                   : "/images/smiling_daeddamon.png"
               }
               alt="대따몬 프로필"
@@ -134,10 +96,6 @@ export default function MyPage() {
             <Link to={`/myPage/likeList`}>
               <MyPageList label="관심 목록" icon="heart" className="mt-[2px]" />
             </Link>
-
-            {/* <Link to="/review/worked">
-              <MyPageList label="쓴 게시글" icon="write" />
-            </Link> */}
           </div>
         </div>
 

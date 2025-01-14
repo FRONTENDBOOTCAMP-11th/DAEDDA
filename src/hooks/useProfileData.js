@@ -15,7 +15,7 @@ export function useProfileData(userId) {
       axios.get(`users/${userId}/bookmarks`).then(res => res.data.item),
   });
 
-  const { data: user, isLoading: isUserLoading } = useQuery({
+  const { data: userData, isLoading: isUserLoading } = useQuery({
     queryKey: ["user", userId],
     queryFn: () => axios.get(`/users/${userId}`).then(res => res.data),
   });
@@ -23,7 +23,7 @@ export function useProfileData(userId) {
   return {
     reviews,
     partTime,
-    user,
+    userData,
     isLoading: isReviewsLoading || isPartTimeLoading || isUserLoading,
   };
 }

@@ -81,14 +81,7 @@ export default function MyReviewList({ item, partTime }) {
               <Link to={`/main/${partTime.user._id}`} className="w-full">
                 <div className="max-w-[440px]">
                   <p className="font-bold text-sm">{partTime.user.name}</p>
-                  {/* <div className="flex gap-1 size-3 mb-2"> */}
                   <Star partTime={partTime} />
-                  {/* <img src="/icons/reviews/star.svg" />
-                    <img src="/icons/reviews/star.svg" />
-                    <img src="/icons/reviews/star.svg" />
-                    <img src="/icons/reviews/star.svg" />
-                    <img src="/icons/reviews/blankStar.svg" /> */}
-                  {/* </div> */}
                   <p className="break-keep whitespace-normal text-sm">
                     {partTime.memo}
                   </p>
