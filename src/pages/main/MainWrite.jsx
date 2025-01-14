@@ -23,6 +23,13 @@ export default function MainWrite() {
   const queryClient = useQueryClient();
   const { user } = useUserStore();
 
+  useEffect(() => {
+    const { IMP } = window;
+    if (IMP) {
+      IMP.init("imp14397622");
+    }
+  }, []);
+
   const addPost = useMutation({
     mutationFn: async formData => {
       let body = {
@@ -101,7 +108,7 @@ export default function MainWrite() {
       );
 
       if (!postResult) {
-        console.log("결제가 취소되어 게시물이 등록되지 않습니다.");
+        alert("결제가 취소되어 게시물이 등록되지 않습니다.");
         return;
       }
 
@@ -130,10 +137,8 @@ export default function MainWrite() {
     );
 
     if (!accept) {
-      alert("결제가 취소되어 게시물이 등록되지 않습니다.");
       return;
     }
-    IMP.init("imp14397622");
 
     const data = {
       pg: pgValue,
@@ -158,7 +163,6 @@ export default function MainWrite() {
       return true;
     } catch (error) {
       console.error("결제 실패:", error);
-      alert("결제가 실패했습니다. 다시 시도해주세요.");
       return false;
     }
   };
