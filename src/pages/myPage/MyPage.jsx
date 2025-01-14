@@ -7,10 +7,18 @@ import {
   calculateTotalPower,
 } from "@/utills/calculateStarPower";
 import { getDydamicWidth } from "@/utills/calculateStarPower";
+import { useEffect } from "react";
 
 export default function MyPage() {
   const { user, resetUser } = useUserStore();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      alert("로그인이 필요한 페이지입니다.");
+      navigate("/user/signIn");
+    }
+  }, [user, navigate]); // user 상태가 변경될 때 실행
 
   const logoutFun = () => {
     alert("로그아웃 되었습니다.");
@@ -22,11 +30,6 @@ export default function MyPage() {
   // console.log(userData);
   if (isLoading) {
     return <div>로딩중</div>;
-  }
-
-  if (!user) {
-    navigate("/user/signIn");
-    return null;
   }
 
   // const totalPower = calculateTotalPower(reviews || []);
