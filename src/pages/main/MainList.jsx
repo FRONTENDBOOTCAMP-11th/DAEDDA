@@ -20,7 +20,7 @@ export default function MainList() {
         <img src="/icons/mapPin.svg" className="size-[18px]" />
       </div>
 
-      <form className="mb-4">
+      <form className="mb-5">
         <div className="relative">
           <input
             className="w-full ring-2 ring-primary rounded-2xl py-2 pl-3 pr-[36px] re"
