@@ -1,8 +1,15 @@
+import PropTypes from "prop-types";
+
+Star.propTypes = {
+  reply: PropTypes.object,
+  partTime: PropTypes.object,
+};
+
 export default function Star({ reply, partTime }) {
   //   console.log("별 페이지 사장일때", reply);
   //   console.log("별페이지 알바생일때", partTime);
   if (reply) {
-    const rating = reply.rating;
+    const rating = reply.rating || 0;
     if (isNaN(rating) || rating < 1) {
       return <div>별점이 없습니다.</div>;
     }
@@ -14,7 +21,7 @@ export default function Star({ reply, partTime }) {
     }
     return <div className="flex gap-1 size-3 mb-2">{stars}</div>;
   } else {
-    const parTimeRating = partTime.extra.rating;
+    const parTimeRating = partTime.extra?.rating || 0;
     if (isNaN(parTimeRating) || parTimeRating < 1) {
       return <div>별점이 없습니다.</div>;
     }

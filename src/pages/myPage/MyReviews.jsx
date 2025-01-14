@@ -46,7 +46,7 @@ export default function MyReviews() {
     <MyReviewList key={item._id} item={item} btnTxt={btnTxt} />
   ));
   const hireList = partTime?.byUser.map(item => (
-    <MyReviewList key={item.user_id} partTime={item} btnTxt={btnTxt} />
+    <MyReviewList key={item._id} partTime={item} btnTxt={btnTxt} />
   ));
   // console.log("list", list);
   // console.log("hireList", hireList);
