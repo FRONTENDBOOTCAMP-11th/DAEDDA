@@ -1,52 +1,34 @@
 import Button from "@components/Button";
-import useAxiosInstance from "@hooks/useAxiosInstance";
+import { useProfileData } from "@hooks/useProfileData";
 import MyReviewList from "@pages/myPage/MyReviewList";
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function MyReviews() {
   const userId = location.pathname.split("/")[3];
   // console.log(userId);
 
-  const axios = useAxiosInstance();
   const [btnTxt, setBtnTxt] = useState("사장");
   const hireBtn = () => {
     setBtnTxt(btnTxt === "사장" ? "알바" : "사장");
   };
-  // const { user } = useUserStore();
 
-  //-----------사장일 때 받은 리뷰 api----------------
-  const { data } = useQuery({
-    queryKey: ["reviews"],
-    queryFn: () => axios.get(`/replies/seller/${userId}`),
-    select: res => res.data,
-    staleTime: 1000 * 10,
-  });
+  const { reviews, partTime, isLoading } = useProfileData(userId);
 
-  //----------------알바생일때 받은 리뷰일 때 api --------------
-  const { data: partTime } = useQuery({
-    queryKey: ["reviews", "partTime"],
-    queryFn: () => axios.get(`users/${userId}/bookmarks`),
-    select: res => res.data.item, ///byUser로 불러오면됨
-  });
-  // console.log("알바생입장에서", partTime);
-  if (!data || !partTime) {
+  if (isLoading) {
     return <div>로딩중</div>;
   }
 
-  // console.log("사장입장에서", data);
-  // 댓글 수 계산
+  // console.log(reviews, "리뷰");
   let totalReplies = 0;
-  data.item.forEach(item => (totalReplies += item.replies.length));
+  reviews.forEach(item => (totalReplies += item.replies.length));
 
   const partTimeTotalRp = partTime.byUser.length;
-  // console.log(partTimeTotalRp);
 
-  const list = data.item.map(item => (
+  const list = reviews.map(item => (
     <MyReviewList key={item._id} item={item} btnTxt={btnTxt} />
   ));
   const hireList = partTime?.byUser.map(item => (
-    <MyReviewList key={item.user_id} partTime={item} btnTxt={btnTxt} />
+    <MyReviewList key={item._id} partTime={item} btnTxt={btnTxt} />
   ));
   // console.log("list", list);
   // console.log("hireList", hireList);
@@ -83,7 +65,6 @@ export default function MyReviews() {
         // 리뷰 리스트 렌더링
         <div>{btnTxt === "사장" ? list : hireList}</div>
       )}
-      {/* {btnTxt === "사장" ? list : hireList} */}
     </div>
   );
 }
