@@ -9,10 +9,9 @@ WorkedItem.propTypes = {
   refetch: PropTypes.func.isRequired,
 };
 
-export default function WorkedItem({ data, refetch }) {
+export default function WorkedItem({ data }) {
   const navigate = useNavigate();
-  const state = useGetOrderState(data.state);
-
+  const { data: state } = useGetOrderState(data.state);
   const onReviewWriteClicked = () => {
     navigate(`reviewWrite/${data._id}`, {
       state: { order: data },
@@ -32,7 +31,7 @@ export default function WorkedItem({ data, refetch }) {
             </Button>
           </Link>
           <div className="mb-6">
-            <h4 className="text-sm font-bold">{state}</h4>
+            <h4 className="text-sm font-bold">{state.value}</h4>
             <p>{data.products[0].extra.condition.company}</p>
             <p>{data.products[0].price.toLocaleString()}원</p>
             <p>
@@ -43,8 +42,8 @@ export default function WorkedItem({ data, refetch }) {
           </div>
 
           <Button
-            disabled={state === "입금 완료" ? false : true}
-            color={state === "입금 완료" ? "purple" : "gray"}
+            disabled={state.value === "입금 완료" ? false : true}
+            color={state.value === "입금 완료" ? "purple" : "gray"}
             height="md"
             onClick={() => {
               onReviewWriteClicked();
