@@ -41,7 +41,7 @@ function useAxiosInstance() {
       const { config, response } = error;
 
       // 로그인 인증 실패
-      if (response?.status === 401 || response?.status === 404) {
+      if (response?.status === 401) {
         if (config.url === REFRESH_URL) {
           // 리프레시 토큰 만료시
           alert("로그인이 필요한 페이지입니다.");
