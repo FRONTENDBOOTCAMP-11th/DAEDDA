@@ -3,11 +3,12 @@ import InputField from "@components/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import MainMap from "@pages/main/MainMap";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
 import useUserStore from "@zustand/userStore";
+import { getWorkTime } from "@/utills/func";
 
 export default function MainWrite() {
   const navigate = useNavigate();
@@ -23,12 +24,7 @@ export default function MainWrite() {
   const queryClient = useQueryClient();
   const { user } = useUserStore();
 
-  useEffect(() => {
-    const { IMP } = window;
-    if (IMP) {
-      IMP.init("imp14397622");
-    }
-  }, []);
+  useEffect(() => {}, []);
 
   const addPost = useMutation({
     mutationFn: async formData => {
@@ -91,11 +87,16 @@ export default function MainWrite() {
       return;
     }
 
+    const workHours = getWorkTime(
+      formData.workTime.split(" - ")[0],
+      formData.workTime.split(" - ")[1],
+    );
+
     const paymentData = {
-      pgValue: "html5_inicis",
+      pgValue: "danal_tpay",
       formData: {
         name: formData.name,
-        price: formData.price,
+        price: formData.price * workHours,
       },
       user,
     };
@@ -125,6 +126,11 @@ export default function MainWrite() {
 
   const handlePayment = async (pgValue, formData, user) => {
     const { IMP } = window;
+
+    if (!IMP.isInitialized) {
+      IMP.init("imp14397622");
+      IMP.isInitialized = true;
+    }
     const accept = window.confirm(
       "대따는 일당을 선 결제로 하고 있습니다.\n\n" +
         "일당 환불 규정:\n" +
@@ -263,9 +269,9 @@ export default function MainWrite() {
 
         <InputField
           type="text"
-          placeholder="급여는 숫자만 입력주세요."
+          placeholder="시급은 숫자만 입력주세요."
           register={register("price", {
-            required: "급여 입력은 필수입니다.",
+            required: "시급 입력은 필수입니다.",
             pattern: {
               value: /^[0-9]+$/,
               message: "숫자만 입력해주세요.",
