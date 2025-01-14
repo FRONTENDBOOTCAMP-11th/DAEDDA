@@ -1,29 +1,18 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetProducts = (userId, select) => {
+export const useGetProducts = keyword => {
   const axios = useAxiosInstance();
 
   return useQuery({
-    queryKey: ["products", userId],
+    queryKey: ["products"],
     queryFn: () => {
-      return axios.get("/products", { params: { seller_id: userId } });
+      return axios.get(`/products/?keyword=${keyword}`);
     },
     select: res => {
-      return select ? select(res.data.item) : res.data.item;
+      return res.data.item;
     },
     staleTime: 1000 * 10,
-  });
-};
-
-export const useProductsFilter = (userId, states) => {
-  return useGetProducts(userId, data => {
-    if (states.length === 0) {
-      return data;
-    } else {
-      return data.filter(product => {
-        return states.some(state => state === product.extra.state);
-      });
-    }
+    enabled: true,
   });
 };
