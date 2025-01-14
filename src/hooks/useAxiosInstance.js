@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 function useAxiosInstance() {
   const REFRESH_URL = "/auth/refresh";
   const navigate = useNavigate();
-  const { user, setUser } = useUserStore();
+  const { user, setUser, resetUser } = useUserStore();
   const instance = axios.create({
     baseURL: "https://11.fesp.shop",
     timeout: 1000 * 15,
@@ -44,10 +44,16 @@ function useAxiosInstance() {
       if (response?.status === 401) {
         if (config.url === REFRESH_URL) {
           // 리프레시 토큰 만료시
-          alert("로그인이 필요한 페이지입니다. - 리프레시 만료 됨");
-
+          alert("로그인이 필요한 페이지입니다.");
+          resetUser();
           navigate("/user/signIn");
-        } else if (user) {
+        }
+        // else {
+        //   alert("엑세스 토큰 만료 로그인이 필요합니다.");
+        //   resetUser();
+        //   navigate("/user/signIn");
+        // }
+        else if (user) {
           console.log("리프레시 토큰 요청 시작");
           // accessToken 만료시 refreshToken으로 재발급 요청
           const {
@@ -57,11 +63,11 @@ function useAxiosInstance() {
               Authorization: `Bearer ${user.refreshToken}`,
             },
           });
-          // 새롭게 갱신된 accessToken
-          console.log(user.accessToken);
 
+          console.log(accessToken);
           // 갱신된 accessToken 으로 재요청
           setUser({ ...user, accessToken });
+          // 새롭게 갱신된 accessToken
 
           config.headers.Authorization = `Bearer ${accessToken}`;
           return axios(config);
