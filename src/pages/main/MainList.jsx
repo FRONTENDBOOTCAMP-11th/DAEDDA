@@ -28,7 +28,7 @@ export default function MainList() {
         <div className="relative">
           <input
             {...register("keyword")}
-            className="w-full ring-2 ring-primary rounded-2xl py-2 pl-3 pr-[36px] re"
+            className="w-full ring-2 ring-primary rounded-2xl py-2 pl-3 pr-[36px]"
             type="text"
             placeholder="관심있는 대타 장소를 검색해보세요."
           />
