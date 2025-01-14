@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
+import Payment from "@pages/main/Payment";
 
 export default function MainWrite() {
   const navigate = useNavigate();
@@ -76,21 +77,6 @@ export default function MainWrite() {
     }
   };
 
-  const buyPost = useMutation({
-    mutationFn: async productId => {
-      let body = {
-        product_id: productId,
-        products: [
-          {
-            _id: productId,
-            quantity: 1,
-          },
-        ],
-      };
-      return axios.post("/orders", body);
-    },
-  });
-
   const onSubmit = async formData => {
     if (imageError) {
       setImageError(true);
@@ -100,12 +86,26 @@ export default function MainWrite() {
       const addPostResponse = await addPost.mutateAsync(formData);
       const productId = addPostResponse.data.item._id;
 
-      await buyPost.mutateAsync(productId);
-
       queryClient.invalidateQueries({ queryKey: ["orders"] });
       navigate(`/main/${productId}`);
     } catch (error) {
       console.error("등록 또는 구매 실패:", error);
+    }
+  };
+
+  const payAlert = () => {
+    const accept = window.confirm(
+      "대따는 일당을 선 결제로 하고 있습니다.\n\n" +
+        "일당 환불 규정:\n" +
+        "✅ 채택 후 5일 전 취소: 100% 환불\n" +
+        "✅ 채택 후 5일 이후 ~ 근무일 1일 전 취소: 50% 환불\n" +
+        "✅ 근무일 당일 취소: 환불 불가능\n\n" +
+        "이에 동의하시면 확인 버튼, 거절하시려면 취소 버튼을 눌러주시길 바랍니다.\n" +
+        "동의 시 결제창으로 이동하게 됩니다.\n" +
+        "취소 시에는 구인글 등록이 되지 않습니다.",
+    );
+    if (accept) {
+      <Payment />;
     }
   };
 
@@ -265,10 +265,11 @@ export default function MainWrite() {
           color="purple"
           height="lg"
           type="submit"
-          onSubmit={handleSubmit(buyPost.mutate)}
+          onSubmit={handleSubmit(onSubmit.mutate)}
         >
           등록
         </Button>
+        <Button onClick={payAlert}>결제</Button>
       </div>
     </form>
   );

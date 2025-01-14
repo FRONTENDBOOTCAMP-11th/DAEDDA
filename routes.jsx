@@ -20,6 +20,7 @@ import Error from "@pages/Error";
 import Worked from "@pages/history/Worked";
 import Employed from "@pages/history/Employed";
 import ReviewWrite from "@pages/history/ReviewWrite";
+import KakaoSignIn from "@pages/user/KakaoSignIn";
 
 const router = createBrowserRouter(
   [
