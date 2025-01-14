@@ -1,16 +1,13 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
+import { useProfileData } from "@hooks/useProfileData";
 import MyPageList from "@pages/myPage/MyPageList";
 import { useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import { Link, useNavigate } from "react-router-dom";
-
-const starPower = {
-  1: -2,
-  2: -1,
-  3: 1,
-  4: 2,
-  5: 3,
-};
+import {
+  calculatePartTimePower,
+  calculateTotalPower,
+} from "@/utills/calculateStarPower";
 
 export default function MyPage() {
   const { user, resetUser } = useUserStore();
@@ -27,58 +24,56 @@ export default function MyPage() {
 
   //-----------사장일 때 받은 리뷰 api----------------
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["reviews", "myPage"],
-    queryFn: () => axios.get(`/replies/seller/${user._id}`),
-    select: res => res.data.item,
-    // staleTime: 1000 * 10,
-  });
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ["reviews", "myPage"],
+  //   queryFn: () => axios.get(`/replies/seller/${user._id}`),
+  //   select: res => res.data.item,
+  //   // staleTime: 1000 * 10,
+  // });
   // console.log("사장일때 데이터", data);
   //----------------알바생일때 받은 리뷰일 때 api --------------
-  const { data: partTime, isLoading: partTimeLoading } = useQuery({
-    queryKey: ["reviews", "partTimeMyPage"],
-    queryFn: () => axios.get(`users/${user._id}/bookmarks`),
-    select: res => res.data.item, ///byUser로 불러오면됨
-  });
+  // const { data: partTime, isLoading: partTimeLoading } = useQuery({
+  //   queryKey: ["reviews", "partTimeMyPage"],
+  //   queryFn: () => axios.get(`users/${user._id}/bookmarks`),
+  //   select: res => res.data.item, ///byUser로 불러오면됨
+  // });
   // console.log(partTime);
   //
-  let totalPower = 0;
-  if (isLoading || partTimeLoading) {
+  const { reviews, isLoading, partTime } = useProfileData(user._id);
+  // let totalPower = 0;
+  if (isLoading) {
     return <div>로딩중</div>;
   }
+  // let totalPower = 0;
+  // // if (isLoading || partTimeLoading) {
+  // //   return <div>로딩중</div>;
+  // // }
   if (!user) {
     navigate("/user/signIn");
     return null;
   }
   //------------------------------알바력 계산하기--------------
-  data.forEach(item => {
-    item.replies?.forEach(reply => {
-      const star = parseInt(reply.rating);
-      const power = starPower[star] || 0;
-      totalPower += power;
-    });
-  });
+  // data.forEach(item => {
+  //   item.replies?.forEach(reply => {
+  //     const star = parseInt(reply.rating);
+  //     const power = starPower[star] || 0;
+  //     totalPower += power;
+  //   });
+  // });
   // console.log("사장일때 받은 리뷰", totalPower); ///====> 사장일때 받은 평균 별점 리뷰
   //1+1 = 2
 
   //--------------알바일때 받은 평균 별점 리뷰
   // console.log("알바생일때 받은 리뷰", partTime);
-  let partTimetotalPower = 0;
-  partTime.byUser.forEach(reply => {
-    const partTimeStar = reply.extra?.rating || 0;
-    const partTimePower = starPower[partTimeStar] || 0;
-    // console.log(partTimeStar, "별");
-    // console.log(partTimePower);
-    //3+1+1
-    partTimetotalPower += partTimePower;
-  });
-  // console.log("알바생일때 받은 리뷰", partTimetotalPower);
-  //3+3+3+3 = 12
-  // console.log("userId", user._id);
-
-  let totalReview = Math.round(partTimetotalPower + totalPower) / 2;
-  // console.log("총합 평점 리뷰", totalReview);
-  let dydamicWidth = totalReview + 50;
+  const totalPower = calculateTotalPower(reviews || []);
+  console.log(totalPower, "토탈파워");
+  const partTimePower = calculatePartTimePower(partTime || []);
+  console.log(partTimePower, "알바생");
+  //소수점 첫째자리 반올림
+  const totalReview = Math.round(((totalPower + partTimePower) / 2) * 10) / 10;
+  console.log(totalReview, "총점리뷰 평균");
+  const dydamicWidth = totalReview + 50;
+  console.log(dydamicWidth);
   // console.log(dydamicWidth);
   return (
     <>
