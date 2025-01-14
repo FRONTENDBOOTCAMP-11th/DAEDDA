@@ -1,9 +1,14 @@
 import InputField from "@components/InputField";
-import { useGetOrders } from "@hooks/useGetOrders";
+import { useGetOrders, useOrdersFilter } from "@hooks/useGetOrders";
+import State from "@pages/history/State";
 import WorkedItem from "@pages/history/WorkedItem";
+import { useState } from "react";
+
+const codes = ["WO010", "WO020", "WO030", "WO040"];
 
 export default function Worked() {
-  const { data, refetch } = useGetOrders();
+  const [toggledStates, setToggledStates] = useState([]);
+  const { data, refetch } = useOrdersFilter(toggledStates);
 
   return (
     <div>
@@ -12,18 +17,14 @@ export default function Worked() {
         isLast={true}
       />
       <div className="flex gap-4 mt-4 flex-wrap mb-5">
-        <div className="ring-1 ring-gray-200  text-gray-400 px-4 py-2 rounded-xl">
-          신청 완료
-        </div>
-        <div className="ring-1 ring-gray-200  text-gray-400  px-4 py-2 rounded-xl">
-          채택 완료
-        </div>
-        <div className="ring-1 ring-primary px-4 py-2 rounded-xl">
-          입금 완료
-        </div>
-        <div className="ring-1 ring-primary px-4 py-2 rounded-xl">
-          리뷰 작성 완료
-        </div>
+        {codes.map((code, index) => (
+          <State
+            key={index}
+            code={code}
+            toggledStates={toggledStates}
+            setToggledStates={setToggledStates}
+          />
+        ))}
       </div>
       {data &&
         data.map(order => (
