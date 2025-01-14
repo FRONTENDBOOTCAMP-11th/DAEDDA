@@ -8,8 +8,8 @@ export default function Likes() {
     queryKey: ["product"],
     queryFn: () => axios.get("/bookmarks/product"),
     select: res => res.data.item,
-    staleTime: 1000 * 10,
   });
+  // console.log(data.item);
   if (!data || data.length === 0) {
     return (
       <div className="-mt-[80px] max-w-screen-sm m-auto h-screen overflow-y-auto flex items-center justify-center text-center text-xl text-gray-300">
@@ -21,7 +21,7 @@ export default function Likes() {
   if (isLoading) {
     return <div>로딩중</div>;
   }
-  console.log(data);
-  const list = data.map(item => <LikeList key={item.id} item={item} />);
+  // console.log(data);
+  const list = data.map(item => <LikeList key={item._id} item={item} />);
   return <div className="mb-[80px]">{list}</div>;
 }
