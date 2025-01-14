@@ -12,12 +12,14 @@ export default function ListItem({ data }) {
       to={`main/${data._id}`}
       className="flex justify-between shadow-custom-shadow rounded-3xl px-4 py-[22px] items-center"
     >
-      <div className="flex flex-col gap-1">
-        <h3 className="font-bold text-[20px]">{data.name}</h3>
-        <p className="font-semibold text-gray-500">
+      <div className="flex flex-col gap-1 screen-530:gap-[2px]">
+        <h3 className="font-bold text-[20px] screen-530:text-[16px]">
+          {data.name}
+        </h3>
+        <p className="font-semibold text-gray-500 screen-530:text-[14px]">
           {data.extra.condition.company} ㆍ {getTimePassed(data.createdAt)}
         </p>
-        <h3 className="text-[20px] font-bold text-purple-900">
+        <h3 className="text-[20px] font-bold text-purple-900 screen-530:text-[16px]">
           {`${data.price.toLocaleString()}원ㆍ시급 ${Math.round(
             data.price /
               getWorkTime(
@@ -26,7 +28,7 @@ export default function ListItem({ data }) {
               ),
           ).toLocaleString()}원`}
         </h3>
-        <p className="font-semibold">
+        <p className="font-semibold screen-530:text-[12px]">
           {formatDate(data.extra.condition.date)}ㆍ
           {data.extra.condition.workTime[0]} ~{" "}
           {data.extra.condition.workTime[1]}ㆍ
@@ -37,9 +39,9 @@ export default function ListItem({ data }) {
           시간
         </p>
       </div>
-      <div className="flex-shrink-0 screen-530:hidden">
+      <div className="flex-shrink-0 ">
         <img
-          className="size-[136px] object-cover"
+          className="size-[136px] object-cover screen-530:size-[100px] rounded-xl"
           src={
             data.mainImages
               ? `https://11.fesp.shop/files/final01/${data.mainImages[0].name}`

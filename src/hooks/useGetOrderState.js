@@ -1,23 +1,22 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 
+// code가 있으면 code에 해당하는 상태를,
+// code가 없으면 orderState를 반환
 export const useGetOrderState = code => {
   const axios = useAxiosInstance();
 
-  const { data } = useQuery({
+  return useQuery({
     queryKey: ["orderState"],
     queryFn: () => {
       return axios.get("/codes/orderState");
     },
     select: res => {
-      return res.data.item;
+      const found = res.data.item.orderState.codes.find(
+        item => item.code === code,
+      );
+      return code ? (found ? found : "") : res.data.item.orderState.codes;
     },
     staleTime: 1000 * 10,
   });
-
-  if (data) {
-    const res = data.orderState.codes.find(item => item.code === code);
-    if (res) return res.value;
-  }
-  return "";
 };
