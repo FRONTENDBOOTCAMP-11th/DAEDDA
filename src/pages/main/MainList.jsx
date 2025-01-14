@@ -8,9 +8,23 @@ export default function MainList() {
   const { register, handleSubmit } = useForm();
   const [keyword, setKeyword] = useState("");
   const { data, refetch } = useGetProducts(keyword);
+  const [filter, setFilter] = useState({ worktime: "all", payment: "all" });
 
   const onSearchSubmit = formData => {
     setKeyword(formData.keyword);
+  };
+
+  const onWorktimeFilterChanged = e => {
+    console.log(e.target.value);
+    setFilter(prev => {
+      const temp = { ...prev };
+      console.log(temp);
+      return temp;
+    });
+  };
+
+  const onPaymentFilterChanged = e => {
+    console.log(e.target.value);
   };
 
   useEffect(() => {
@@ -49,11 +63,14 @@ export default function MainList() {
           >
             시간
           </label>
-          <select className="ring-2 ring-gray-400 focus:ring-primary py-2 px-2   rounded-xl  *:text-[14px]">
-            <option>모든 시간</option>
-            <option>0 ~ 4시간</option>
-            <option>4 ~ 10시간</option>
-            <option>10시간 이상</option>
+          <select
+            className="ring-2 ring-gray-400 focus:ring-primary py-2 px-2 rounded-xl *:text-[14px]"
+            onChange={onWorktimeFilterChanged}
+          >
+            <option value="all">모든 시간</option>
+            <option value="short">0 ~ 4시간</option>
+            <option value="normal">4 ~ 10시간</option>
+            <option value="long">10시간 이상</option>
           </select>
         </div>
         <div>
@@ -63,10 +80,13 @@ export default function MainList() {
           >
             시급
           </label>
-          <select className="ring-2 ring-gray-400 focus:ring-primary py-2 px-2 rounded-xl *:text-[14px]">
-            <option>모든 시급</option>
-            <option>10,000원 이하</option>
-            <option>10,000원 이상</option>
+          <select
+            className="ring-2 ring-gray-400 focus:ring-primary py-2 px-2 rounded-xl *:text-[14px]"
+            onChange={onPaymentFilterChanged}
+          >
+            <option value="all">모든 시급</option>
+            <option value="low">10,000원 이하</option>
+            <option value="high">10,000원 이상</option>
           </select>
         </div>
       </div>
