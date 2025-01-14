@@ -18,7 +18,7 @@ function useAxiosInstance() {
 
   // 요청 인터셉터 추가하기
   instance.interceptors.request.use(config => {
-    if (user) {
+    if (user && config.url !== REFRESH_URL) {
       config.headers["Authorization"] = `Bearer ${user.accessToken}`;
     }
     return config;
@@ -44,10 +44,12 @@ function useAxiosInstance() {
       if (response?.status === 401) {
         if (config.url === REFRESH_URL) {
           // 리프레시 토큰 만료시
-          alert("로그인이 필요한 페이지입니다. - 리프레시 만료");
+          alert("로그인이 필요한 페이지입니다. - 리프레시 만료 됨");
 
           navigate("/user/signIn");
         } else if (user) {
+          console.log("리프레시 토큰 요청 시작");
+          // accessToken 만료시 refreshToken으로 재발급 요청
           const {
             data: { accessToken },
           } = await instance.get(REFRESH_URL, {
@@ -55,6 +57,10 @@ function useAxiosInstance() {
               Authorization: `Bearer ${user.refreshToken}`,
             },
           });
+          // 새롭게 갱신된 accessToken
+          console.log(user.accessToken);
+
+          // 갱신된 accessToken 으로 재요청
           setUser({ ...user, accessToken });
 
           config.headers.Authorization = `Bearer ${accessToken}`;
