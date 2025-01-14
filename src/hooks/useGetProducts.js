@@ -13,5 +13,6 @@ export const useGetProducts = keyword => {
       return res.data.item;
     },
     staleTime: 1000 * 10,
+    enabled: true,
   });
 };
