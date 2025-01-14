@@ -3,10 +3,11 @@ import InputField from "@components/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import MainMap from "@pages/main/MainMap";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
+import useUserStore from "@zustand/userStore";
 
 export default function MainWrite() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export default function MainWrite() {
   const [imageError, setImageError] = useState(true);
   const axios = useAxiosInstance();
   const queryClient = useQueryClient();
+  const { user } = useUserStore();
 
   const addPost = useMutation({
     mutationFn: async formData => {
@@ -38,6 +40,7 @@ export default function MainWrite() {
             workTime: formData.workTime.split(" - "),
           },
         },
+
         state: "EM010",
       };
 
@@ -59,7 +62,6 @@ export default function MainWrite() {
           },
         ];
       }
-
       return axios.post("/seller/products", body);
     },
   });
@@ -76,36 +78,88 @@ export default function MainWrite() {
     }
   };
 
-  const buyPost = useMutation({
-    mutationFn: async productId => {
-      let body = {
-        product_id: productId,
-        products: [
-          {
-            _id: productId,
-            quantity: 1,
-          },
-        ],
-      };
-      return axios.post("/orders", body);
-    },
-  });
-
   const onSubmit = async formData => {
     if (imageError) {
       setImageError(true);
       return;
     }
+
+    const paymentData = {
+      pgValue: "html5_inicis",
+      formData: {
+        name: formData.name,
+        price: formData.price,
+      },
+      user,
+    };
+
     try {
+      const postResult = await handlePayment(
+        paymentData.pgValue,
+        paymentData.formData,
+        paymentData.user,
+      );
+
+      if (!postResult) {
+        console.log("결제가 취소되어 게시물이 등록되지 않습니다.");
+        return;
+      }
+
       const addPostResponse = await addPost.mutateAsync(formData);
       const productId = addPostResponse.data.item._id;
-
-      await buyPost.mutateAsync(productId);
 
       queryClient.invalidateQueries({ queryKey: ["orders"] });
       navigate(`/main/${productId}`);
     } catch (error) {
       console.error("등록 또는 구매 실패:", error);
+      alert("등록 또는 결제 중 문제가 발생했습니다. 다시 시도해주세요.");
+    }
+  };
+
+  const handlePayment = async (pgValue, formData, user) => {
+    const { IMP } = window;
+    const accept = window.confirm(
+      "대따는 일당을 선 결제로 하고 있습니다.\n\n" +
+        "일당 환불 규정:\n" +
+        "✅ 채택 후 5일 전 취소: 100% 환불\n" +
+        "✅ 채택 후 5일 이후 ~ 근무일 1일 전 취소: 50% 환불\n" +
+        "✅ 근무일 당일 취소: 환불 불가능\n\n" +
+        "이에 동의하시면 확인 버튼, 거절하시려면 취소 버튼을 눌러주시길 바랍니다.\n" +
+        "동의 시 결제창으로 이동하게 됩니다.\n" +
+        "취소 시에는 구인글 등록이 되지 않습니다.",
+    );
+
+    if (!accept) {
+      console.log("결제가 취소 되었습니다.");
+      return;
+    }
+    IMP.init("imp14397622");
+
+    const data = {
+      pg: pgValue,
+      pay_method: "card",
+      merchant_uid: `order_${new Date().getTime()}`,
+      name: formData.name,
+      amount: formData.price,
+      buyer_name: user.name,
+      buyer_tel: user.phone,
+    };
+
+    try {
+      const response = await new Promise((resolve, reject) => {
+        IMP.request_pay(data, res => {
+          if (res.success) {
+            resolve(res);
+          } else {
+            reject(res.error_msg);
+          }
+        });
+      });
+      return true;
+    } catch (error) {
+      console.error("결제 실패:", error);
+      alert("결제가 실패했습니다. 다시 시도해주세요.");
+      return false;
     }
   };
 
@@ -265,7 +319,7 @@ export default function MainWrite() {
           color="purple"
           height="lg"
           type="submit"
-          onSubmit={handleSubmit(buyPost.mutate)}
+          onSubmit={handleSubmit(onSubmit.mutate)}
         >
           등록
         </Button>
