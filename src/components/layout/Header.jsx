@@ -70,7 +70,7 @@ export default function Header() {
       <header className="w-full h-[60px] flex items-center justify-center border-b border-gray-200 mb-5 fixed top-0 max-w-screen-sm left-1/2 -translate-x-1/2 bg-white px-6 z-10">
         <img
           src="/icons/back.svg"
-          className="absolute left-[16px] w-6 h-6 hover:cursor-pointer"
+          className="absolute left-[16px] w-6 h-6 hover:cursor-pointer "
           onClick={() => navigate(-1)}
         />
         <div className="w-full text-center text-[24px] font-bold">
@@ -85,7 +85,7 @@ export default function Header() {
       <Link to="/">
         <img
           src="/logos/header-logo.png"
-          className="w-[190px] cursor-pointer"
+          className="w-[170px] cursor-pointer"
         />
       </Link>
       <div className="flex items-center gap-4">

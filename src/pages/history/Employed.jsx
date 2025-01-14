@@ -1,5 +1,5 @@
 import InputField from "@components/InputField";
-import { useGetProducts, useProductsFilter } from "@hooks/useGetProducts";
+import { useMyProductsFilter } from "@hooks/useGetMyProducts";
 import EmployedItem from "@pages/history/EmployedItem";
 import State from "@pages/history/State";
 import useUserStore from "@zustand/userStore";
@@ -11,7 +11,7 @@ export default function Employed() {
   const { user } = useUserStore();
   const [toggledStates, setToggledStates] = useState([]);
 
-  const { data, refetch } = useProductsFilter(user?._id, toggledStates);
+  const { data, refetch } = useMyProductsFilter(user?._id, toggledStates);
   return (
     <div>
       <InputField
