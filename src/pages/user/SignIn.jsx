@@ -4,61 +4,9 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-
-// 이메일 로그인 관련 함수들
-const signInFn = (axios, formData) => {
-  return axios.post(`/users/login`, formData, {
-    // params: {
-    //   expiresIn: "10s",
-    // },
-  });
-};
-
-const handleOnSuccess = (res, setUser, navigate) => {
-  console.log(res);
-  const user = res.data.item;
-  setUser({
-    _id: user._id,
-    name: user.name,
-    phone: user.phone,
-    image: user.image,
-    accessToken: user.token.accessToken,
-    refreshToken: user.token.refreshToken,
-    extra: {
-      birthday: user.extra?.birthday,
-    },
-  });
-  console.log("성공");
-  // console.log(user.token.accessToken);
-  navigate("/");
-};
-
-const handleOnError = (err, setError) => {
-  if (err.response) {
-    const errorCode = err.response.status;
-
-    switch (errorCode) {
-      case 403:
-        console.log("오류 코드 403: 아이디 비밀번호 불일치");
-        setError("password", {
-          message: "이메일과 비밀번호를 확인하세요.",
-        });
-        break;
-      case 500:
-        console.log("오류 코드 500: 서버오류");
-        setError("password", { message: "잠시 후에 다시 시도해주세요." });
-        break;
-      default:
-        console.error("기타 오류:", err.response.data.message);
-        break;
-    }
-  } else {
-    console.error("알 수 없는 오류입니다:", err.message);
-  }
-};
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   // propTypes
@@ -79,7 +27,6 @@ export default function SignIn() {
   // 선언
   const axios = useAxiosInstance();
   const navigate = useNavigate();
-  const location = useLocation();
   const setUser = useUserStore(store => store.setUser);
   const [showPwd, setShowPwd] = useState(false); // 비밀번호: 초기는 보이지 않는 상태
 
@@ -93,9 +40,50 @@ export default function SignIn() {
 
   // 이메일 로그인 처리
   const signIn = useMutation({
-    mutationFn: formData => signInFn(axios, formData),
-    onSuccess: res => handleOnSuccess(res, setUser, navigate),
-    onError: err => handleOnError(err, setError),
+    mutationFn: async formData => {
+      const response = await axios.post(`/users/login`, formData);
+      return response;
+    },
+    onSuccess: response => {
+      const user = response.data.item;
+      setUser({
+        _id: user._id,
+        name: user.name,
+        phone: user.phone,
+        image: user.image,
+        accessToken: user.token.accessToken,
+        refreshToken: user.token.refreshToken,
+        extra: {
+          birthday: user.extra?.birthday,
+        },
+      });
+      // console.log("성공");
+      // console.log(user.token.accessToken);
+      navigate("/");
+    },
+    onError: err => {
+      if (err.response) {
+        const errorCode = err.response.status;
+
+        switch (errorCode) {
+          case 403:
+            console.log("오류 코드 403: 아이디 비밀번호 불일치");
+            setError("password", {
+              message: "이메일과 비밀번호를 확인하세요.",
+            });
+            break;
+          case 500:
+            console.log("오류 코드 500: 서버오류");
+            setError("password", { message: "잠시 후에 다시 시도해주세요." });
+            break;
+          default:
+            console.error("기타 오류:", err.response.data.message);
+            break;
+        }
+      } else {
+        console.error("알 수 없는 오류입니다:", err.message);
+      }
+    },
   });
 
   // 카카오 로그인 처리
@@ -106,35 +94,6 @@ export default function SignIn() {
 
     window.location.href = KAKAO_AUTH_URI;
   };
-  //   console.log(code);
-  //   try {
-  //     const response = await axios.post(`/users/login/kakao`, {
-  //       code,
-  //       redirect_uri: "http://localhost:5173/myPage/edit",
-  //       user: {},
-  //     });
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     // console.log(code);
-  //     console.error("상태 코드:", error.response?.status);
-  //     console.error("상태 텍스트:", error.response?.statusText);
-  //     console.error("서버 반환 데이터:", error.response?.data);
-  //     console.error("요청 설정:", error.response?.config);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const params = new URLSearchParams(location.search);
-  //   const code = params.get("code");
-  //   console.log(code); //코드 가져옴
-
-  //   if (code) {
-  //     // 서버에 코드 전송하기
-  //     sendRequest(code);
-  //     console.log("test");
-  //     navigate(`/mypage/edit?code=${code}`);
-  //   }
-  // }, [location.search]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center overflow-auto">
@@ -194,8 +153,8 @@ export default function SignIn() {
       </form>
 
       <div className="flex items-center justify-center gap-2 mt-2">
-        <p className="font-bold text-sm">대타를 찾고 있다면?</p>
-        <Link to="/user/terms" className="underline text-sm">
+        <p className="font-bold text-[0.875rem]">대타를 찾고 있다면?</p>
+        <Link to="/user/terms" className="underline text-[0.875rem]">
           회원가입
         </Link>
       </div>
