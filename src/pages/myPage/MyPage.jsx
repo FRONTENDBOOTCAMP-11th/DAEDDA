@@ -18,7 +18,7 @@ export default function MyPage() {
     navigate("/user/signIn");
   };
 
-  const { userData, reviews, isLoading, partTime } = useProfileData(user._id);
+  const { userData, reviews, isLoading, partTime } = useProfileData(user?._id);
   // console.log(userData);
   if (isLoading) {
     return <div>로딩중</div>;
