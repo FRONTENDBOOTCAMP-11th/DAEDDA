@@ -25,3 +25,10 @@ export function calculatePartTimePower(data) {
   });
   return partTimetotalPower;
 }
+
+export function getDydamicWidth(reviews = [], partTime = {}) {
+  const totalPower = calculateTotalPower(reviews);
+  const partTimePower = calculatePartTimePower(partTime);
+  const totalReview = Math.round(((totalPower + partTimePower) / 2) * 10) / 10;
+  return totalReview + 50; // 최종 대타력 값 반환
+}

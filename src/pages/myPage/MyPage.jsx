@@ -6,6 +6,7 @@ import {
   calculatePartTimePower,
   calculateTotalPower,
 } from "@/utills/calculateStarPower";
+import { getDydamicWidth } from "@/utills/calculateStarPower";
 
 export default function MyPage() {
   const { user, resetUser } = useUserStore();
@@ -28,15 +29,17 @@ export default function MyPage() {
     return null;
   }
 
-  const totalPower = calculateTotalPower(reviews || []);
-  // console.log(totalPower, "토탈파워");
-  const partTimePower = calculatePartTimePower(partTime || []);
-  // console.log(partTimePower, "알바생");
-  //소수점 첫째자리 반올림
-  const totalReview = Math.round(((totalPower + partTimePower) / 2) * 10) / 10;
-  // console.log(totalReview, "총점리뷰 평균");
-  const dydamicWidth = totalReview + 50;
-  // console.log(dydamicWidth);
+  // const totalPower = calculateTotalPower(reviews || []);
+  // // console.log(totalPower, "토탈파워");
+  // const partTimePower = calculatePartTimePower(partTime || []);
+  // // console.log(partTimePower, "알바생");
+  // //소수점 첫째자리 반올림
+  // const totalReview = Math.round(((totalPower + partTimePower) / 2) * 10) / 10;
+  // // console.log(totalReview, "총점리뷰 평균");
+  // const dydamicWidth = totalReview + 50;
+  // // console.log(dydamicWidth);
+  const dydamicWidth = getDydamicWidth(reviews, partTime);
+
   return (
     <>
       <div className="mb-[80px]">
@@ -67,7 +70,7 @@ export default function MyPage() {
               className="w-fit size-9 mt-1"
             />
             <div className="flex flex-col  mb-[14px]">
-              <p className="font-semibold text-xl">{totalReview + 50}%</p>
+              <p className="font-semibold text-xl">{dydamicWidth}%</p>
               <p className="font-semibold text-sm text-beige-500 tracking-wide">
                 대타력
               </p>
