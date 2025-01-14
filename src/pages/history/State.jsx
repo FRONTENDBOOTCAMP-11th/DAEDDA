@@ -30,7 +30,7 @@ export default function State({ code, toggledStates, setToggledStates }) {
         <div
           className={
             toggledStates?.includes(data.code)
-              ? "ring-1 ring-primary px-4 py-2 rounded-xl cursor-pointer"
+              ? "ring-2 ring-primary px-4 py-2 rounded-xl cursor-pointer"
               : "ring-1 ring-gray-200  text-gray-400 px-4 py-2 rounded-xl cursor-pointer"
           }
           onClick={onStateClicked}

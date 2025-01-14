@@ -11,7 +11,7 @@ export default function Employed() {
   const { user } = useUserStore();
   const [toggledStates, setToggledStates] = useState([]);
 
-  const { data, refetch } = useProductsFilter(user._id, toggledStates);
+  const { data, refetch } = useProductsFilter(user?._id, toggledStates);
   return (
     <div>
       <InputField
