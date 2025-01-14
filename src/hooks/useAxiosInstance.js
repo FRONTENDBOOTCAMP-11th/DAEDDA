@@ -1,8 +1,11 @@
 import useUserStore from "@zustand/userStore";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function useAxiosInstance() {
-  const { user } = useUserStore();
+  const REFRESH_URL = "/auth/refresh";
+  const navigate = useNavigate();
+  const { user, setUser } = useUserStore();
   const instance = axios.create({
     baseURL: "https://11.fesp.shop",
     timeout: 1000 * 15,
@@ -29,10 +32,39 @@ function useAxiosInstance() {
 
       return response;
     },
-    error => {
+    async error => {
       // 2xx 외의 범위에 있는 상태 코드는 이 함수가 호출됨
       // 공통 에러 처리
       console.error("인터셉터", error);
+      // return Promise.reject(error);
+
+      const { config, response } = error;
+
+      // 로그인 인증 실패
+      if (response?.status === 401) {
+        if (config.url === REFRESH_URL) {
+          // 리프레시 토큰 만료시
+          alert("로그인이 필요한 페이지입니다. - 리프레시 만료");
+
+          navigate("/user/signIn");
+        } else if (user) {
+          const {
+            data: { accessToken },
+          } = await instance.get(REFRESH_URL, {
+            headers: {
+              Authorization: `Bearer ${user.refreshToken}`,
+            },
+          });
+          setUser({ ...user, accessToken });
+
+          config.headers.Authorization = `Bearer ${accessToken}`;
+          return axios(config);
+        } else {
+          // 로그인이 안 된 경우
+          alert("로그인이 필요한 페이지입니다.");
+          navigate("/user/signIn");
+        }
+      }
       return Promise.reject(error);
     },
   );
