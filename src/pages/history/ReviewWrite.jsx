@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 import { formatDate } from "@/utills/func.js";
-import { useGetProducts } from "@hooks/useGetProducts";
+import { useGetMyProducts } from "@hooks/useGetMyProducts";
 import { useGetOrders } from "@hooks/useGetOrders";
 
 export default function ReviewWrite() {
@@ -16,7 +16,7 @@ export default function ReviewWrite() {
   const location = useLocation();
   const order = location.state.order;
 
-  const { refetch: employedRefetch } = useGetProducts(
+  const { refetch: employedRefetch } = useGetMyProducts(
     order.products[0].seller_id,
   );
   const { refetch: workedRefetch } = useGetOrders();
