@@ -10,7 +10,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 // 이메일 로그인 관련 함수들
 const signInFn = (axios, formData) => {
-  return axios.post(`/users/login`, formData);
+  return axios.post(`/users/login`, formData, {
+    // params: {
+    //   expiresIn: "10s",
+    // },
+  });
 };
 
 const handleOnSuccess = (res, setUser, navigate) => {
