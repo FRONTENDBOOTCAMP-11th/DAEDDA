@@ -3,12 +3,12 @@ import InputField from "@components/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import MainMap from "@pages/main/MainMap";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
-import useUserStore from "@zustand/userStore";
-import { getWorkTime } from "@/utills/func";
+// import useUserStore from "@zustand/userStore";
+// import { getWorkTime } from "@/utills/func";
 
 export default function MainWrite() {
   const navigate = useNavigate();
@@ -22,9 +22,7 @@ export default function MainWrite() {
   const [imageError, setImageError] = useState(true);
   const axios = useAxiosInstance();
   const queryClient = useQueryClient();
-  const { user } = useUserStore();
-
-  useEffect(() => {}, []);
+  // const { user } = useUserStore();
 
   const addPost = useMutation({
     mutationFn: async formData => {
@@ -87,32 +85,33 @@ export default function MainWrite() {
       return;
     }
 
-    const workHours = getWorkTime(
-      formData.workTime.split(" - ")[0],
-      formData.workTime.split(" - ")[1],
-    );
+    // const workHours = getWorkTime(
+    //   formData.workTime.split(" - ")[0],
+    //   formData.workTime.split(" - ")[1],
+    // );
 
-    const paymentData = {
-      pgValue: "danal_tpay",
-      formData: {
-        name: formData.name,
-        price: formData.price * workHours,
-      },
-      user,
-    };
+    // const paymentData = {
+    //   pgValue: "danal_tpay",
+    //   formData: {
+    //     name: formData.name,
+    //     price: formData.price * workHours,
+    //   },
+    //   user,
+    // };
+
+    // try {
+    //   const postResult = await handlePayment(
+    //     paymentData.pgValue,
+    //     paymentData.formData,
+    //     paymentData.user,
+    //   );
+
+    //   if (!postResult) {
+    //     alert("결제가 취소되어 게시물이 등록되지 않습니다.");
+    //     return;
+    //   }
 
     try {
-      const postResult = await handlePayment(
-        paymentData.pgValue,
-        paymentData.formData,
-        paymentData.user,
-      );
-
-      if (!postResult) {
-        alert("결제가 취소되어 게시물이 등록되지 않습니다.");
-        return;
-      }
-
       const addPostResponse = await addPost.mutateAsync(formData);
       const productId = addPostResponse.data.item._id;
 
@@ -124,54 +123,54 @@ export default function MainWrite() {
     }
   };
 
-  const handlePayment = async (pgValue, formData, user) => {
-    const { IMP } = window;
+  // const handlePayment = async (pgValue, formData, user) => {
+  //   const { IMP } = window;
 
-    if (!IMP.isInitialized) {
-      IMP.init("imp14397622");
-      IMP.isInitialized = true;
-    }
-    const accept = window.confirm(
-      "대따는 일당을 선 결제로 하고 있습니다.\n\n" +
-        "일당 환불 규정:\n" +
-        "✅ 채택 후 5일 전 취소: 100% 환불\n" +
-        "✅ 채택 후 5일 이후 ~ 근무일 1일 전 취소: 50% 환불\n" +
-        "✅ 근무일 당일 취소: 환불 불가능\n\n" +
-        "이에 동의하시면 확인 버튼, 거절하시려면 취소 버튼을 눌러주시길 바랍니다.\n" +
-        "동의 시 결제창으로 이동하게 됩니다.\n" +
-        "취소 시에는 구인글 등록이 되지 않습니다.",
-    );
+  //   if (!IMP.isInitialized) {
+  //     IMP.init("imp14397622");
+  //     IMP.isInitialized = true;
+  //   }
+  //   const accept = window.confirm(
+  //     "대따는 일당을 선 결제로 하고 있습니다.\n\n" +
+  //       "일당 환불 규정:\n" +
+  //       "✅ 채택 후 5일 전 취소: 100% 환불\n" +
+  //       "✅ 채택 후 5일 이후 ~ 근무일 1일 전 취소: 50% 환불\n" +
+  //       "✅ 근무일 당일 취소: 환불 불가능\n\n" +
+  //       "이에 동의하시면 확인 버튼, 거절하시려면 취소 버튼을 눌러주시길 바랍니다.\n" +
+  //       "동의 시 결제창으로 이동하게 됩니다.\n" +
+  //       "취소 시에는 구인글 등록이 되지 않습니다.",
+  //   );
 
-    if (!accept) {
-      return;
-    }
+  //   if (!accept) {
+  //     return;
+  //   }
 
-    const data = {
-      pg: pgValue,
-      pay_method: "card",
-      merchant_uid: `order_${new Date().getTime()}`,
-      name: formData.name,
-      amount: formData.price,
-      buyer_name: user.name,
-      buyer_tel: user.phone,
-    };
+  //   const data = {
+  //     pg: pgValue,
+  //     pay_method: "card",
+  //     merchant_uid: `order_${new Date().getTime()}`,
+  //     name: formData.name,
+  //     amount: formData.price,
+  //     buyer_name: user.name,
+  //     buyer_tel: user.phone,
+  //   };
 
-    try {
-      const response = await new Promise((resolve, reject) => {
-        IMP.request_pay(data, res => {
-          if (res.success) {
-            resolve(res);
-          } else {
-            reject(res.error_msg);
-          }
-        });
-      });
-      return true;
-    } catch (error) {
-      console.error("결제 실패:", error);
-      return false;
-    }
-  };
+  //   try {
+  //     const response = await new Promise((resolve, reject) => {
+  //       IMP.request_pay(data, res => {
+  //         if (res.success) {
+  //           resolve(res);
+  //         } else {
+  //           reject(res.error_msg);
+  //         }
+  //       });
+  //     });
+  //     return true;
+  //   } catch (error) {
+  //     console.error("결제 실패:", error);
+  //     return false;
+  //   }
+  // };
 
   return (
     <form className="mb-[40px]" onSubmit={handleSubmit(onSubmit)}>
