@@ -55,13 +55,13 @@ export default function Terms() {
       <div className="flex justify-center w-full">
         <img src="/logos/logo.png" className="max-w-full h-[70px] mb-6" />
       </div>
-      <h1 className="text-[32px] mb-6">환영합니다!</h1>
-      <p className="font-light text-xs mb-6">
+      <h1 className="text-[2rem] mb-6">환영합니다!</h1>
+      <p className="font-light text-[0.75rem] mb-6">
         약관에 동의 하셔야 회원 가입이 가능합니다.
       </p>
 
       <form onSubmit={handleSubmit}>
-        <p className="text-[16px] font-bold">약관 동의</p>
+        <p className="text-[1rem] font-bold">약관 동의</p>
         <div className="flex gap-6 items-center py-5 border-b-2">
           <input
             type="checkbox"
@@ -70,7 +70,7 @@ export default function Terms() {
             checked={allChecked}
             onChange={handleAllCheck}
           ></input>
-          <label htmlFor="check-all" className="font-semibold text-base">
+          <label htmlFor="check-all" className="font-semibold text-[1rem]">
             전체 동의
           </label>
         </div>
@@ -82,7 +82,7 @@ export default function Terms() {
             onChange={handleIndividual(0)}
             id="check-1"
           ></input>
-          <label htmlFor="check-1" className="text-base">
+          <label htmlFor="check-1" className="text-[1rem]">
             <strong>(필수)</strong> 서비스 이용 약관 동의
           </label>
         </div>
