@@ -1,8 +1,8 @@
 import Button from "@components/Button";
 import InputField from "@components/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
+import useSignIn from "@hooks/useSignIn";
 import { useMutation } from "@tanstack/react-query";
-import useUserStore from "@zustand/userStore";
 import PropTypes from "prop-types";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -28,9 +28,9 @@ export default function SignUp() {
   const [preview, setPreview] = useState("/images/smiling_daeddamon.png"); // 이미지: 디폴트는 대따몬 이미지
   const fileInput = useRef(null);
 
-  const setUser = useUserStore(store => store.setUser);
   const axios = useAxiosInstance();
   const navigate = useNavigate();
+  const signIn = useSignIn();
 
   const {
     register,
@@ -114,38 +114,12 @@ export default function SignUp() {
       return { email, password };
     },
 
-    onSuccess: async ({ email, password }) => {
-      // 회원가입 성공 후 로그인
-      try {
-        const autoSignIn = await axios.post(`/users/login`, {
-          email,
-          password,
-        });
-
-        const user = autoSignIn.data.item;
-        setUser({
-          _id: user._id,
-          name: user.name,
-          phone: user.phone,
-          image: user.image,
-          accessToken: user.token.accessToken,
-          refreshToken: user.token.refreshToken,
-          extra: {
-            birthday: user.extra?.birthday,
-          },
-        });
-        navigate("/");
-      } catch (error) {
-        if (error.response) {
-          console.error("로그인 실패:", error.response.data);
-        } else {
-          console.error("로그인 실패:", error.message);
-        }
-      }
+    onSuccess: ({ email, password }) => {
+      signIn.mutate({ email, password });
     },
 
     onError: error => {
-      console.error("회원가입 실패", error);
+      console.error("실패", error.response.data);
     },
   });
 
