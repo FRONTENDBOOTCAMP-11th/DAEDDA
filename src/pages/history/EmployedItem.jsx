@@ -82,7 +82,7 @@ export default function EmployedItem({ productId, refetch }) {
       {data && (
         <div className="p-4 rounded-3xl shadow-custom-shadow mb-5 relative">
           <Link
-            to={`/main/${data._id}`}
+            to={`/post/${data._id}`}
             className="w-[83px] absolute top-4 right-4"
           >
             <Button color="white" width="xl" height="sm">

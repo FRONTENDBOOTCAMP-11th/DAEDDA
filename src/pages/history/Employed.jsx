@@ -1,7 +1,7 @@
 import InputField from "@components/InputField";
 import { useMyProductsFilter } from "@hooks/useGetMyProducts";
 import EmployedItem from "@pages/history/EmployedItem";
-import HistorySearch from "@pages/history/historySarch";
+import HistorySearch from "@pages/history/HistorySearch";
 import State from "@pages/history/State";
 import useUserStore from "@zustand/userStore";
 import { useEffect, useState } from "react";

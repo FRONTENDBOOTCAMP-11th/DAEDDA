@@ -8,17 +8,15 @@ export default function Header() {
   const navigate = useNavigate();
   const { user } = useUserStore();
   const error = useMatch("/error");
-  const prId = useMatch("pr/:_id");
-  const prIdEdit = useMatch("pr/:_id/edit");
   const prWrite = useMatch("pr/write");
   const userTerms = useMatch("user/terms");
   const signUp = useMatch("user/signUp");
   const myPageEdit = useMatch("myPage/edit");
   const myPageMyReviews = useMatch("myPage/myReviews/:_id");
   const reviewWrite = useMatch("review/write");
-  const mainWrite = useMatch("main/write");
-  const mainID = useMatch("main/:_id");
-  const mainIDEdit = useMatch("main/:_id/edit");
+  const PostWrite = useMatch("post/write");
+  const mainID = useMatch("post/:_id");
+  const mainIDEdit = useMatch("post/:_id/edit");
   const userProfile = useMatch("user/:_id");
   const likeList = useMatch("myPage/likeList");
 
@@ -27,8 +25,6 @@ export default function Header() {
 
   const titles = [
     { match: prWrite, title: "공고 지원 글 작성" },
-    { match: prId, title: "공고 지원 상세" },
-    { match: prIdEdit, title: "공고 지원 수정" },
     { match: userTerms, title: "약관 동의" },
     { match: signUp, title: "회원 정보 입력" },
     {
@@ -36,7 +32,7 @@ export default function Header() {
       title: user?.isNew ? "회원 정보 입력" : "회원 정보 수정",
     },
     { match: myPageMyReviews, title: "내가 받은 리뷰" },
-    { match: mainWrite, title: "글쓰기" },
+    { match: PostWrite, title: "글쓰기" },
     { match: mainID, title: "공고 상세 페이지" },
     { match: mainIDEdit, title: "공고 상세 수정" },
     { match: reviewWrite, title: "리뷰 작성" },
@@ -51,15 +47,13 @@ export default function Header() {
   };
 
   const headerMatch =
-    prId ||
-    prIdEdit ||
     prWrite ||
     userTerms ||
     signUp ||
     myPageEdit ||
     myPageMyReviews ||
     reviewWrite ||
-    mainWrite ||
+    PostWrite ||
     mainID ||
     mainIDEdit ||
     userProfile ||
