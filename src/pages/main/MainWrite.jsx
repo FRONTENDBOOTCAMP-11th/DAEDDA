@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
 import useUserStore from "@zustand/userStore";
 import { getWorkTime } from "@/utills/func";
+import * as PortOne from "@portone/browser-sdk/v2";
 
 export default function MainWrite() {
   const navigate = useNavigate();
@@ -79,56 +80,7 @@ export default function MainWrite() {
     }
   };
 
-  const onSubmit = async formData => {
-    if (imageError) {
-      setImageError(true);
-      return;
-    }
-
-    const workHours = getWorkTime(
-      formData.workTime.split(" - ")[0],
-      formData.workTime.split(" - ")[1],
-    );
-
-    const paymentData = {
-      pgValue: "danal_tpay",
-      formData: {
-        name: formData.name,
-        price: formData.price * workHours,
-      },
-      user,
-    };
-
-    try {
-      const postResult = await handlePayment(
-        paymentData.pgValue,
-        paymentData.formData,
-        paymentData.user,
-      );
-
-      if (!postResult) {
-        alert("결제가 취소되어 게시물이 등록되지 않습니다.");
-        return;
-      }
-
-      const addPostResponse = await addPost.mutateAsync(formData);
-      const productId = addPostResponse.data.item._id;
-
-      queryClient.invalidateQueries({ queryKey: ["orders"] });
-      navigate(`/main/${productId}`);
-    } catch (error) {
-      console.error("등록 또는 구매 실패:", error);
-      alert("등록 또는 결제 중 문제가 발생했습니다. 다시 시도해주세요.");
-    }
-  };
-
-  const handlePayment = async (pgValue, formData, user) => {
-    const { IMP } = window;
-
-    if (!IMP.isInitialized) {
-      IMP.init("imp14397622");
-      IMP.isInitialized = true;
-    }
+  const handlePayment = async (formData, user, productId) => {
     const accept = window.confirm(
       "대따는 일당을 선 결제로 하고 있습니다.\n\n" +
         "일당 환불 규정:\n" +
@@ -144,30 +96,64 @@ export default function MainWrite() {
       return;
     }
 
-    const data = {
-      pg: pgValue,
-      pay_method: "card",
-      merchant_uid: `order_${new Date().getTime()}`,
-      name: formData.name,
-      amount: formData.price,
-      buyer_name: user.name,
-      buyer_tel: user.phone,
+    const paymentData = {
+      storeId: "store-e4038486-8d83-41a5-acf1-844a009e0d94",
+      channelKey: "channel-key-4ca6a942-3ee0-48fb-93ef-f4294b876d28",
+      paymentId: `payment-${crypto.randomUUID()}`,
+      orderName: formData.name,
+      totalAmount: formData.price,
+      payMethod: "CARD",
+      currency: "KRW",
+      customer: {
+        fullName: user.name,
+        phoneNumber: user.phone,
+      },
+      redirectUrl: `http://localhost:5173/main/${productId}`,
     };
 
     try {
-      const response = await new Promise((resolve, reject) => {
-        IMP.request_pay(data, res => {
-          if (res.success) {
-            resolve(res);
-          } else {
-            reject(res.error_msg);
-          }
-        });
-      });
-      return true;
+      const response = await PortOne.requestPayment(paymentData);
+
+      if (response.success) {
+        console.log("결제 성공:", response);
+        return true;
+      } else {
+        console.error("결제 실패:", response.error);
+        return false;
+      }
     } catch (error) {
-      console.error("결제 실패:", error);
+      console.error("결제 요청 중 오류:", error);
       return false;
+    }
+  };
+
+  const onSubmit = async formData => {
+    if (imageError) {
+      setImageError(true);
+      return;
+    }
+
+    const workHours = getWorkTime(
+      formData.workTime.split(" - ")[0],
+      formData.workTime.split(" - ")[1],
+    );
+
+    formData.price = formData.price * workHours;
+
+    try {
+      const postResult = await handlePayment(formData, user);
+
+      const addPostResponse = await addPost.mutateAsync(formData);
+      const productId = addPostResponse.data.item._id;
+
+      if (productId) {
+        queryClient.invalidateQueries({ queryKey: ["orders"] });
+        navigate(`/main/${productId}`);
+      } else {
+        console.error("Product ID가 없어요.");
+      }
+    } catch (error) {
+      console.error("등록 또는 구매 실패:", error);
     }
   };
 
@@ -190,10 +176,10 @@ export default function MainWrite() {
       </div>
 
       <fieldset>
-        <label htmlFor="photo" className="text-[16px] font-bold">
+        <label htmlFor="photo" className="text-[1rem] font-bold">
           근무지 사진
         </label>
-        <div className="mt-2 flex items-center">
+        <div className="mt-2 flex items-center screen-320:flex-col screen-320:gap-2">
           {preview ? (
             <>
               <img
@@ -234,17 +220,18 @@ export default function MainWrite() {
 
         <div className="my-2 h-4">
           {imageError && (
-            <p className="text-red text-[12px]">*사진 1장은 필수 입니다.</p>
+            <p className="text-red text-[0.75rem]">*사진 1장은 필수 입니다.</p>
           )}
         </div>
       </fieldset>
 
       <fieldset>
-        <legend className="text-[16px] font-bold mb-2">위치</legend>
+        <legend className="text-[1rem] font-bold mb-2">위치</legend>
         <div className="mb-4">
           <MainMap />
         </div>
         <InputField
+          labelName="상세 주소"
           type="text"
           placeholder="상세 주소"
           register={register("address", {
@@ -266,6 +253,7 @@ export default function MainWrite() {
         />
 
         <InputField
+          labelName="시급"
           type="text"
           placeholder="시급은 숫자만 입력주세요."
           register={register("price", {
@@ -282,18 +270,21 @@ export default function MainWrite() {
         />
 
         <InputField
+          labelName="근무 시간"
           type="text"
-          placeholder="근무 시간은 00:00 - 00:00으로 입력해주세요."
+          placeholder="근무 시간은 00:00-00:00으로 입력해주세요."
           register={register("workTime", {
-            required: "근무 시간은 00:00 - 00:00으로 입력해주세요.",
+            required: "근무 시간은 00:00-00:00으로 입력해주세요.",
             pattern: {
               value: /^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
-              message: "근무 시간은 00:00 - 00:00 형식으로 입력해주세요.",
+              message: "근무 시간은 00:00-00:00 형식으로 입력해주세요.",
             },
           })}
           errorMsg={errors.workTime?.message}
         />
+
         <InputField
+          labelName="근무 일"
           type="date"
           register={register("date", {
             required: "날짜 입력은 필수입니다.",
