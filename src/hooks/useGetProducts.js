@@ -25,10 +25,18 @@ export const useGetProducts = (keyword, select) => {
 //   }
 export const useProductsFilter = (keyword, condition) => {
   return useGetProducts(keyword, data => {
-    // 필터 로직
     let result = [...data];
+
+    // 필터 로직직
+    // wortime
     if (condition.worktime === "short") {
       result = result.filter(data => {
+        console.log(
+          getWorkTime(
+            data.extra.condition.workTime[0],
+            data.extra.condition.workTime[1],
+          ) <= 4,
+        );
         return (
           getWorkTime(
             data.extra.condition.workTime[0],
@@ -46,8 +54,6 @@ export const useProductsFilter = (keyword, condition) => {
         );
       });
     } else if (condition.worktime === "long") {
-      console.log("AS");
-      console.log(result);
       result = result.filter(data => {
         return (
           getWorkTime(
@@ -56,8 +62,17 @@ export const useProductsFilter = (keyword, condition) => {
           ) > 8
         );
       });
-      console.log("Filtered");
-      console.log(result);
+    }
+
+    // price
+    if (condition.payment === "low") {
+      result = result.filter(data => {
+        return data.price < 10000;
+      });
+    } else if (condition.payment === "high") {
+      result = result.filter(data => {
+        return data.price >= 10000;
+      });
     }
     return result;
   });
