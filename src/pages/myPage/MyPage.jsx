@@ -53,7 +53,7 @@ export default function MyPage() {
               className="size-16 w-fit mr-5 rounded-full"
             />
             <p className="font-bold flex items-center text-2xl flex-grow">
-              {user?.name}
+              {userData?.item.name}
             </p>
             <img src="/icons/arrow.svg" alt="프로필 수정하기" />
           </div>
