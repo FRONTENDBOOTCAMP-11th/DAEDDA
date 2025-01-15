@@ -1,7 +1,8 @@
 import Button from "@components/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
+import { useGetDetailedProduct } from "@hooks/useGetDetailedProduct";
 import Badge from "@pages/main/Badge";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function MainItem() {
@@ -9,13 +10,8 @@ export default function MainItem() {
   const navigate = useNavigate();
 
   const { _id } = useParams();
-  const { data: product, refetch } = useQuery({
-    queryKey: ["product", _id],
-    queryFn: () => axios.get(`/seller/products/${_id}`),
-    select: res => {
-      return res.data.item;
-    },
-  });
+
+  const { data: product, refetch } = useGetDetailedProduct(_id);
 
   const changeState = useMutation({
     mutationFn: async ({ orderId, newState }) => {

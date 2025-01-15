@@ -23,5 +23,5 @@ export default function Likes() {
   }
   // console.log(data);
   const list = data.map(item => <LikeList key={item._id} item={item} />);
-  return <div className="mb-[80px]">{list}</div>;
+  return <div className="mb-[80px] mt-[10px]">{list}</div>;
 }
