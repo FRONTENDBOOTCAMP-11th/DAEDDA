@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { getWorkTime, formatDate } from "@/utills/func";
 import DOMPurify from "dompurify";
-import PostPR from "@pages/main/PostPR";
+import PostPR from "@pages/main/post/PostPR";
 import { useCallback, useEffect, useState } from "react";
 import useUserStore from "@zustand/userStore";
 

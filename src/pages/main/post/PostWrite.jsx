@@ -1,7 +1,7 @@
 import Button from "@components/Button";
 import InputField from "@components/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import MainMap from "@pages/main/MainMap";
+import MainMap from "@pages/main/post/MainMap";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
