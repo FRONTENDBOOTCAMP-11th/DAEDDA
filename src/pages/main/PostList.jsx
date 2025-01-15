@@ -77,7 +77,9 @@ export default function PostList() {
       <div className="flex flex-col gap-5">
         {data && (
           <>
-            <ListItem data={data[1]} />
+            {data.map(data => {
+              return <ListItem key={data._id} data={data} />;
+            })}
           </>
         )}
       </div>
