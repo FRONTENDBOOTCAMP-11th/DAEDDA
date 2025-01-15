@@ -85,7 +85,7 @@ export default function PostEdit() {
       return axios.patch(`/seller/products/${_id}`, body);
     },
     onSuccess: () => {
-      navigate(`/main/${_id}`);
+      navigate(`/post/${_id}`);
     },
     onError: error => {
       console.error("수정 실패:", error);
