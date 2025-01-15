@@ -298,7 +298,7 @@ export default function PostDetail() {
             ""
           )}
         </div>
-        <PostPR />
+        {data?.item?.seller_id == userId ? <PostPR /> : null}
       </div>
     </div>
   );
