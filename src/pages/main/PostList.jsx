@@ -83,7 +83,7 @@ export default function PostList() {
       </div>
 
       <Link
-        to="/write"
+        to="post/write"
         className="bottom-[76px] fixed self-end size-16 bg-primary text-white rounded-full flex justify-center items-center shadow-md"
       >
         <img src="/icons/whitePlus.svg" />
