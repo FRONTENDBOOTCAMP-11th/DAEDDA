@@ -1,7 +1,10 @@
-import { Link, useMatch, useNavigate } from "react-router-dom";
+import { Link, useMatch, useNavigate, useSearchParams } from "react-router-dom";
 import useUserStore from "@zustand/userStore";
+import { useState } from "react";
+import Sidebar from "@components/layout/SideBar";
 
 export default function Header() {
+  const [isOpen, setIsOpen] = useState(false); // 사이드바 초기 상태는 닫힘
   const navigate = useNavigate();
   const { user } = useUserStore();
   const error = useMatch("/error");
@@ -65,6 +68,11 @@ export default function Header() {
   if (error) {
     return null;
   }
+
+  const toggleSidebar = () => {
+    setIsOpen(prev => !prev);
+  };
+
   if (headerMatch) {
     return (
       <header className="w-full h-[60px] flex items-center justify-center border-b border-gray-200 mb-5 fixed top-0 max-w-screen-sm left-1/2 -translate-x-1/2 bg-white px-6 z-10">
@@ -81,17 +89,25 @@ export default function Header() {
   }
 
   return (
-    <header className="w-full h-[60px] flex items-center justify-between fixed top-0 max-w-screen-sm left-1/2 -translate-x-1/2 bg-white px-6 z-10">
-      <Link to="/">
-        <img
-          src="/logos/header-logo.png"
-          className="w-[170px] cursor-pointer"
-        />
-      </Link>
-      <div className="flex items-center gap-4">
-        <img src="/icons/alarm.svg" className="cursor-pointer" />
-        <img src="/icons/hamburger.svg" className="w-6 cursor-pointer" />
-      </div>
-    </header>
+    <>
+      <header className="w-full h-[60px] flex items-center justify-between fixed top-0 max-w-screen-sm left-1/2 -translate-x-1/2 bg-white px-6 z-10">
+        <Link to="/">
+          <img
+            src="/logos/header-logo.png"
+            className="w-[170px] cursor-pointer"
+          />
+        </Link>
+        <div className="flex items-center gap-4">
+          <img src="/icons/alarm.svg" className="cursor-pointer" />
+          <img
+            src="/icons/hamburger.svg"
+            className="w-6 cursor-pointer"
+            onClick={toggleSidebar}
+          />
+        </div>
+      </header>
+
+      {isOpen && <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />}
+    </>
   );
 }
