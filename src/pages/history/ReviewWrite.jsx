@@ -168,7 +168,7 @@ export default function ReviewWrite() {
       {order && (
         <div className="mb-[40px]">
           <div className="flex justify-between mb-4 flex-wrap">
-            <h2 className="text-[20px] font-semibold">
+            <h2 className="text-[1.25rem] font-semibold">
               {from === "worked" ? `내가 일한 장소 : ` : `내가 맡긴 장소 : `}
               {order.products[0].extra.condition.company}
             </h2>
@@ -201,7 +201,7 @@ export default function ReviewWrite() {
               })}
               errorMsg={errors.content?.message}
             />
-            <p className="text-[18px] font-semibold mb-4">
+            <p className="text-[1.125rem] font-semibold mb-4">
               {from === "worked" ? "받은 금액 : " : "보낼 금액 : "}
               {`${order.products[0].price.toLocaleString()}원`}
             </p>

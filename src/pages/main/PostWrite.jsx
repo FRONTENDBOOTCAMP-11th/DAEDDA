@@ -1,63 +1,38 @@
 import Button from "@components/Button";
 import InputField from "@components/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import MainMap from "@pages/main/MainMap";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
+import useUserStore from "@zustand/userStore";
+import * as PortOne from "@portone/browser-sdk/v2";
 
-export default function MainEdit() {
-  const { _id } = useParams();
-  const axios = useAxiosInstance();
+export default function PostWrite() {
   const navigate = useNavigate();
-  const [preview, setPreview] = useState(null);
-  const [imageError, setImageError] = useState(true);
-
-  const { data: productData } = useQuery({
-    queryKey: ["seller/product", _id],
-    queryFn: () => axios.get(`seller/products/${_id}`),
-    select: res => {
-      return res.data.item;
-    },
-  });
-
   const {
     register,
     handleSubmit,
-    formState: { errors },
     setValue,
+    formState: { errors },
   } = useForm();
+  const [preview, setPreview] = useState(null);
+  const [imageError, setImageError] = useState(true);
+  const axios = useAxiosInstance();
+  const queryClient = useQueryClient();
+  const { user } = useUserStore();
 
-  useEffect(() => {
-    if (productData) {
-      setValue("name", productData.name);
-      setValue("price", productData.price);
-      setValue("quantity", productData.quantity);
-      if (productData) {
-        const sanitizedHTML = DOMPurify.sanitize(productData.content);
-        setValue("content", sanitizedHTML);
-      }
-      setValue("location", productData.extra?.location);
-      setValue("address", productData.extra?.address);
-      setValue("date", productData.extra?.condition?.date);
-      setValue("company", productData.extra?.condition?.company);
-      setValue("workTime", productData.extra?.condition?.workTime.join(" - "));
-      if (productData.mainImages?.[0]?.path) {
-        const imageUrl = `https://11.fesp.shop${productData.mainImages[0].path}`;
-        setPreview(imageUrl);
-      }
-    }
-  }, [productData, setValue]);
-
-  const editPost = useMutation({
+  const addPost = useMutation({
     mutationFn: async formData => {
       let body = {
         name: formData.name,
         price: formData.price,
-        quantity: 1,
-        content: formData.content,
+        quantity: 1000,
+        content: DOMPurify.sanitize(formData.content, { ALLOWED_TAGS: [] }),
         extra: {
+          position: "employer",
           location: [35.155625, 129.131793],
           address: formData.address,
           condition: {
@@ -66,6 +41,8 @@ export default function MainEdit() {
             workTime: formData.workTime.split(" - "),
           },
         },
+
+        state: "EM010",
       };
 
       if (formData.attach?.length > 0) {
@@ -86,14 +63,7 @@ export default function MainEdit() {
           },
         ];
       }
-
-      return axios.patch(`/seller/products/${_id}`, body);
-    },
-    onSuccess: () => {
-      navigate(`/main/${_id}`);
-    },
-    onError: error => {
-      console.error("수정 실패:", error);
+      return axios.post("/seller/products", body);
     },
   });
 
@@ -109,8 +79,78 @@ export default function MainEdit() {
     }
   };
 
+  const handlePayment = async (formData, user, productId) => {
+    const accept = window.confirm(
+      "대따는 일당을 선 결제로 하고 있습니다.\n\n" +
+        "일당 환불 규정:\n" +
+        "✅ 채택 후 5일 전 취소: 100% 환불\n" +
+        "✅ 채택 후 5일 이후 ~ 근무일 1일 전 취소: 50% 환불\n" +
+        "✅ 근무일 당일 취소: 환불 불가능\n\n" +
+        "이에 동의하시면 확인 버튼, 거절하시려면 취소 버튼을 눌러주시길 바랍니다.\n" +
+        "동의 시 결제창으로 이동하게 됩니다.\n" +
+        "취소 시에는 구인글 등록이 되지 않습니다.",
+    );
+
+    if (!accept) {
+      return;
+    }
+
+    const paymentData = {
+      storeId: "store-e4038486-8d83-41a5-acf1-844a009e0d94",
+      channelKey: "channel-key-4ca6a942-3ee0-48fb-93ef-f4294b876d28",
+      paymentId: `payment-${crypto.randomUUID()}`,
+      orderName: formData.name,
+      totalAmount: formData.price,
+      payMethod: "CARD",
+      currency: "KRW",
+      customer: {
+        fullName: user.name,
+        phoneNumber: user.phone,
+      },
+      redirectUrl: `${window.location.origin}/post/${productId}`,
+    };
+
+    try {
+      const response = await PortOne.requestPayment(paymentData);
+
+      if (response.success) {
+        console.log("결제 성공:", response);
+        return true;
+      } else {
+        console.error("결제 실패:", response.error);
+        return false;
+      }
+    } catch (error) {
+      console.error("결제 요청 중 오류:", error);
+      return false;
+    }
+  };
+
+  const onSubmit = async formData => {
+    if (imageError) {
+      setImageError(true);
+      return;
+    }
+
+    try {
+      const postResult = await handlePayment(formData, user);
+
+      const addPostResponse = await addPost.mutateAsync(formData);
+      const productId = addPostResponse.data.item._id;
+
+      if (productId) {
+        queryClient.invalidateQueries({ queryKey: ["orders"] });
+        navigate(`/main/${productId}`);
+      } else {
+        console.error("Product ID가 없어요.");
+      }
+    } catch (error) {
+      console.error("등록 또는 구매 실패:", error);
+    }
+  };
+
   return (
-    <form className="mb-[40px]" onSubmit={handleSubmit(editPost.mutate)}>
+    <form className="mb-[40px]" onSubmit={handleSubmit(onSubmit)}>
       <div className="mt-5">
         <InputField
           labelName="제목"
@@ -127,11 +167,11 @@ export default function MainEdit() {
         />
       </div>
 
-      <fieldset className="">
-        <label htmlFor="photo" className="text-[16px] font-bold">
+      <fieldset>
+        <label htmlFor="photo" className="text-[1rem] font-bold">
           근무지 사진
         </label>
-        <div className="mt-2 flex items-center">
+        <div className="mt-2 flex items-center screen-320:flex-col screen-320:gap-2">
           {preview ? (
             <>
               <img
@@ -172,19 +212,19 @@ export default function MainEdit() {
 
         <div className="my-2 h-4">
           {imageError && (
-            <p className="text-red text-[12px]">*사진 1장은 필수 입니다.</p>
+            <p className="text-red text-[0.75rem]">*사진 1장은 필수 입니다.</p>
           )}
         </div>
       </fieldset>
 
       <fieldset>
-        <legend className="text-[16px] font-bold mb-2">위치</legend>
-        <div className="max-w-screen-sm h-24 bg-slate-500 mb-7 rounded-lg flex items-center justify-center">
-          지도
+        <legend className="text-[1rem] font-bold mb-2">위치</legend>
+        <div className="mb-4">
+          <MainMap />
         </div>
         <InputField
+          labelName="상세 주소"
           type="text"
-          id="address"
           placeholder="상세 주소"
           register={register("address", {
             required: "주소 입력은 필수입니다.",
@@ -205,35 +245,45 @@ export default function MainEdit() {
         />
 
         <InputField
+          labelName="일당"
           type="text"
-          placeholder="급여는 숫자만 입력주세요."
+          placeholder="일당은 숫자만 입력주세요."
           register={register("price", {
-            required: "급여 입력은 필수입니다.",
+            required: "일당 입력은 필수입니다.",
             pattern: {
               value: /^[0-9]+$/,
               message: "숫자만 입력해주세요.",
             },
           })}
+          onInput={e => {
+            e.target.value = e.target.value.replace(/\s+/g, "");
+          }}
           errorMsg={errors.price?.message}
         />
 
         <InputField
+          labelName="근무 시간"
           type="text"
           placeholder="근무 시간은 00:00 - 00:00으로 입력해주세요."
           register={register("workTime", {
             required: "근무 시간은 00:00 - 00:00으로 입력해주세요.",
             pattern: {
               value: /^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
-              message: "근무 시간은 00:00 - 00:00 형식으로 입력해주세요.",
+              message: "근무 시간은 00:00-00:00 형식으로 입력해주세요.",
             },
           })}
           errorMsg={errors.workTime?.message}
         />
+
         <InputField
+          labelName="근무 일"
           type="date"
           register={register("date", {
             required: "날짜 입력은 필수입니다.",
           })}
+          onInput={e => {
+            e.target.value = e.target.value.replace(/\s+/g, "");
+          }}
           errorMsg={errors.date?.message}
         />
       </fieldset>
@@ -242,6 +292,7 @@ export default function MainEdit() {
         <InputField
           type="text"
           labelName="근무 내용"
+          placeholder="상세한 근무 내용을 적어주세요."
           id="workTxt"
           isTextArea={true}
           register={register("content", {
@@ -254,9 +305,14 @@ export default function MainEdit() {
           errorMsg={errors.content?.message}
         />
       </fieldset>
-      <div className="mt-7">
-        <Button color="purple" height="lg" type="submit">
-          수정
+      <div className="mt-11">
+        <Button
+          color="purple"
+          height="lg"
+          type="submit"
+          onSubmit={handleSubmit(onSubmit.mutate)}
+        >
+          등록
         </Button>
       </div>
     </form>

@@ -9,17 +9,17 @@ ListItem.propTypes = {
 export default function ListItem({ data }) {
   return (
     <Link
-      to={`main/${data._id}`}
-      className="flex justify-between shadow-custom-shadow rounded-3xl px-4 py-[22px] items-center"
+      to={`/post/${data._id}`}
+      className="flex justify-between shadow-custom-shadow rounded-3xl px-4 py-4 items-center"
     >
-      <div className="flex flex-col gap-1 screen-530:gap-[2px]">
-        <h3 className="font-bold text-[20px] screen-530:text-[16px]">
+      <div className="flex flex-col gap-1 screen-530:gap-[2px] ">
+        <h3 className="font-bold text-[1.25rem] screen-530:text-[1rem]">
           {data.name}
         </h3>
-        <p className="font-semibold text-gray-500 screen-530:text-[14px]">
+        <p className="font-semibold text-gray-500 text-[1rem] screen-530:text-[0.875rem]">
           {data.extra.condition.company} ㆍ {getTimePassed(data.createdAt)}
         </p>
-        <h3 className="text-[20px] font-bold text-purple-900 screen-530:text-[16px]">
+        <h3 className="text-[1.25rem] font-bold text-purple-900 screen-530:text-[1rem]">
           {`${data.price.toLocaleString()}원ㆍ시급 ${Math.round(
             data.price /
               getWorkTime(
@@ -28,7 +28,7 @@ export default function ListItem({ data }) {
               ),
           ).toLocaleString()}원`}
         </h3>
-        <p className="font-semibold screen-530:text-[12px]">
+        <p className="font-semibold text-[0.875rem] screen-530:text-[0.75rem]">
           {formatDate(data.extra.condition.date)}ㆍ
           {data.extra.condition.workTime[0]} ~{" "}
           {data.extra.condition.workTime[1]}ㆍ

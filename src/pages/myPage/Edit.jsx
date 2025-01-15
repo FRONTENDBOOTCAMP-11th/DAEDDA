@@ -161,12 +161,12 @@ export default function Edit() {
       <div className="mb-[40px]">
         <div className="border-gray-200 border-b mb-5">
           <div className="flex flex-col items-center justify-center h-full mb-4">
-            <div className="relative inline-block">
+            <div className="relative inline-block ">
               <label htmlFor="image-upload" className="cursor-pointer">
                 <img
                   src={preview || "/images/smiling_daeddamon.png"}
                   alt="프로필 이미지"
-                  className="size-32 mx-auto mb-3 rounded-full"
+                  className="size-32 mx-auto mb-3 rounded-full object-cover"
                 />
                 <img
                   src="/icons/imgEdit.svg"

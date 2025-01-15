@@ -1,8 +1,6 @@
 import Button from "@components/Button";
 import InputField from "@components/InputField";
-import useAxiosInstance from "@hooks/useAxiosInstance";
-import { useMutation } from "@tanstack/react-query";
-import useUserStore from "@zustand/userStore";
+import useSignIn from "@hooks/useSignIn";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -25,10 +23,9 @@ export default function SignIn() {
   };
 
   // 선언
-  const axios = useAxiosInstance();
   const navigate = useNavigate();
-  const setUser = useUserStore(store => store.setUser);
   const [showPwd, setShowPwd] = useState(false); // 비밀번호: 초기는 보이지 않는 상태
+  const signIn = useSignIn();
 
   // form
   const {
@@ -39,57 +36,41 @@ export default function SignIn() {
   } = useForm();
 
   // 이메일 로그인 처리
-  const signIn = useMutation({
-    mutationFn: async formData => {
-      const response = await axios.post(`/users/login`, formData);
-      return response;
-    },
-    onSuccess: response => {
-      const user = response.data.item;
-      setUser({
-        _id: user._id,
-        name: user.name,
-        phone: user.phone,
-        image: user.image,
-        accessToken: user.token.accessToken,
-        refreshToken: user.token.refreshToken,
-        extra: {
-          birthday: user.extra?.birthday,
-        },
-      });
-      // console.log("성공");
-      // console.log(user.token.accessToken);
-      navigate("/");
-    },
-    onError: err => {
-      if (err.response) {
-        const errorCode = err.response.status;
+  const onSubmit = data => {
+    signIn.mutate(data, {
+      onSuccess: () => {
+        navigate("/");
+      },
+      onError: err => {
+        if (err.response) {
+          const errorCode = err.response.status;
 
-        switch (errorCode) {
-          case 403:
-            console.log("오류 코드 403: 아이디 비밀번호 불일치");
-            setError("password", {
-              message: "이메일과 비밀번호를 확인하세요.",
-            });
-            break;
-          case 500:
-            console.log("오류 코드 500: 서버오류");
-            setError("password", { message: "잠시 후에 다시 시도해주세요." });
-            break;
-          default:
-            console.error("기타 오류:", err.response.data.message);
-            break;
+          switch (errorCode) {
+            case 403:
+              console.log("오류 코드 403: 아이디 비밀번호 불일치");
+              setError("password", {
+                message: "이메일과 비밀번호를 확인하세요.",
+              });
+              break;
+            case 500:
+              console.log("오류 코드 500: 서버오류");
+              setError("password", { message: "잠시 후에 다시 시도해주세요." });
+              break;
+            default:
+              console.error("기타 오류:", err.response.data.message);
+              break;
+          }
+        } else {
+          console.error("알 수 없는 오류입니다:", err.message);
         }
-      } else {
-        console.error("알 수 없는 오류입니다:", err.message);
-      }
-    },
-  });
+      },
+    });
+  };
 
   // 카카오 로그인 처리
   const handleKakako = () => {
     const REST_API_KEY = "7b635f7b3d4379252462f78787fc908b";
-    const REDIRECT_URI = "http://localhost:5173/user/signin/kakao";
+    const REDIRECT_URI = "https://daedda.netlify.app/user/signin/kakao";
     const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
     window.location.href = KAKAO_AUTH_URI;
@@ -99,11 +80,7 @@ export default function SignIn() {
     <div className="min-h-screen flex flex-col items-center justify-center overflow-auto">
       <img src="/logos/header-logo.png" className="mt-8 h-[70px]" />
       <img src="/images/daeddamon.png" className="my-7 w-[180px] h-[180px]" />
-      <form
-        onSubmit={handleSubmit(signIn.mutate)}
-        className="w-full"
-        noValidate
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full" noValidate>
         <InputField
           type="email"
           placeholder="이메일"

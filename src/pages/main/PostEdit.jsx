@@ -1,35 +1,58 @@
 import Button from "@components/Button";
 import InputField from "@components/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import MainMap from "@pages/main/MainMap";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
+import { useGetDetailedProduct } from "@hooks/useGetDetailedProduct";
 
-export default function MainWrite() {
+export default function PostEdit() {
+  const { _id } = useParams();
+  const axios = useAxiosInstance();
   const navigate = useNavigate();
+  const [preview, setPreview] = useState(null);
+  const [imageError, setImageError] = useState(true);
+
+  const { data: productData } = useGetDetailedProduct(_id);
+
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
+    setValue,
   } = useForm();
-  const [preview, setPreview] = useState(null);
-  const [imageError, setImageError] = useState(true);
-  const axios = useAxiosInstance();
-  const queryClient = useQueryClient();
 
-  const addPost = useMutation({
+  useEffect(() => {
+    if (productData) {
+      setValue("name", productData.name);
+      setValue("price", productData.price);
+      setValue("quantity", productData.quantity);
+      if (productData) {
+        const sanitizedHTML = DOMPurify.sanitize(productData.content);
+        setValue("content", sanitizedHTML);
+      }
+      setValue("location", productData.extra?.location);
+      setValue("address", productData.extra?.address);
+      setValue("date", productData.extra?.condition?.date);
+      setValue("company", productData.extra?.condition?.company);
+      setValue("workTime", productData.extra?.condition?.workTime.join(" - "));
+      if (productData.mainImages?.[0]?.path) {
+        const imageUrl = `https://11.fesp.shop${productData.mainImages[0].path}`;
+        setPreview(imageUrl);
+      }
+    }
+  }, [productData, setValue]);
+
+  const editPost = useMutation({
     mutationFn: async formData => {
       let body = {
         name: formData.name,
         price: formData.price,
-        quantity: 1000,
-        content: DOMPurify.sanitize(formData.content, { ALLOWED_TAGS: [] }),
+        quantity: 1,
+        content: formData.content,
         extra: {
-          position: "employer",
           location: [35.155625, 129.131793],
           address: formData.address,
           condition: {
@@ -38,7 +61,6 @@ export default function MainWrite() {
             workTime: formData.workTime.split(" - "),
           },
         },
-        state: "EM010",
       };
 
       if (formData.attach?.length > 0) {
@@ -60,7 +82,13 @@ export default function MainWrite() {
         ];
       }
 
-      return axios.post("/seller/products", body);
+      return axios.patch(`/seller/products/${_id}`, body);
+    },
+    onSuccess: () => {
+      navigate(`/post/${_id}`);
+    },
+    onError: error => {
+      console.error("수정 실패:", error);
     },
   });
 
@@ -76,41 +104,8 @@ export default function MainWrite() {
     }
   };
 
-  const buyPost = useMutation({
-    mutationFn: async productId => {
-      let body = {
-        product_id: productId,
-        products: [
-          {
-            _id: productId,
-            quantity: 1,
-          },
-        ],
-      };
-      return axios.post("/orders", body);
-    },
-  });
-
-  const onSubmit = async formData => {
-    if (imageError) {
-      setImageError(true);
-      return;
-    }
-    try {
-      const addPostResponse = await addPost.mutateAsync(formData);
-      const productId = addPostResponse.data.item._id;
-
-      await buyPost.mutateAsync(productId);
-
-      queryClient.invalidateQueries({ queryKey: ["orders"] });
-      navigate(`/main/${productId}`);
-    } catch (error) {
-      console.error("등록 또는 구매 실패:", error);
-    }
-  };
-
   return (
-    <form className="mb-[40px]" onSubmit={handleSubmit(onSubmit)}>
+    <form className="mb-[40px]" onSubmit={handleSubmit(editPost.mutate)}>
       <div className="mt-5">
         <InputField
           labelName="제목"
@@ -127,7 +122,7 @@ export default function MainWrite() {
         />
       </div>
 
-      <fieldset>
+      <fieldset className="">
         <label htmlFor="photo" className="text-[16px] font-bold">
           근무지 사진
         </label>
@@ -179,11 +174,12 @@ export default function MainWrite() {
 
       <fieldset>
         <legend className="text-[16px] font-bold mb-2">위치</legend>
-        <div className="mb-4">
-          <MainMap />
+        <div className="max-w-screen-sm h-24 bg-slate-500 mb-7 rounded-lg flex items-center justify-center">
+          지도
         </div>
         <InputField
           type="text"
+          id="address"
           placeholder="상세 주소"
           register={register("address", {
             required: "주소 입력은 필수입니다.",
@@ -213,9 +209,6 @@ export default function MainWrite() {
               message: "숫자만 입력해주세요.",
             },
           })}
-          onInput={e => {
-            e.target.value = e.target.value.replace(/\s+/g, "");
-          }}
           errorMsg={errors.price?.message}
         />
 
@@ -236,9 +229,6 @@ export default function MainWrite() {
           register={register("date", {
             required: "날짜 입력은 필수입니다.",
           })}
-          onInput={e => {
-            e.target.value = e.target.value.replace(/\s+/g, "");
-          }}
           errorMsg={errors.date?.message}
         />
       </fieldset>
@@ -247,7 +237,6 @@ export default function MainWrite() {
         <InputField
           type="text"
           labelName="근무 내용"
-          placeholder="상세한 근무 내용을 적어주세요."
           id="workTxt"
           isTextArea={true}
           register={register("content", {
@@ -260,14 +249,9 @@ export default function MainWrite() {
           errorMsg={errors.content?.message}
         />
       </fieldset>
-      <div className="mt-11">
-        <Button
-          color="purple"
-          height="lg"
-          type="submit"
-          onSubmit={handleSubmit(buyPost.mutate)}
-        >
-          등록
+      <div className="mt-7">
+        <Button color="purple" height="lg" type="submit">
+          수정
         </Button>
       </div>
     </form>

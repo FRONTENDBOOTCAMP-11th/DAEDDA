@@ -23,7 +23,7 @@ export default function KakaoSignIn() {
     try {
       const response = await axios.post(`/users/login/kakao`, {
         code,
-        redirect_uri: "http://localhost:5173/user/signin/kakao",
+        redirect_uri: "https://daedda.netlify.app/user/signin/kakao",
         user: {
           type: "seller",
         },
