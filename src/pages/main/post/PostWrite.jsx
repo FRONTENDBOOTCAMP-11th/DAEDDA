@@ -26,6 +26,7 @@ export default function PostWrite() {
 
   const addPost = useMutation({
     mutationFn: async formData => {
+      console.log(formData.workTime.split("-"));
       let body = {
         name: formData.name,
         price: formData.price,
@@ -38,11 +39,10 @@ export default function PostWrite() {
           condition: {
             date: formData.date,
             company: formData.company,
-            workTime: formData.workTime.split(" - "),
+            workTime: formData.workTime.split("-"),
           },
+          state: "EM010",
         },
-
-        state: "EM010",
       };
 
       if (formData.attach?.length > 0) {
@@ -133,9 +133,10 @@ export default function PostWrite() {
     }
 
     try {
-      const postResult = await handlePayment(formData, user);
+      // const postResult = await handlePayment(formData, user);
 
       const addPostResponse = await addPost.mutateAsync(formData);
+      console.log(addPostResponse);
       const productId = addPostResponse.data.item._id;
 
       if (productId) {
@@ -264,11 +265,11 @@ export default function PostWrite() {
         <InputField
           labelName="근무 시간"
           type="text"
-          placeholder="근무 시간은 00:00 - 00:00으로 입력해주세요."
+          placeholder="근무 시간은 00:00-00:00으로 입력해주세요."
           register={register("workTime", {
-            required: "근무 시간은 00:00 - 00:00으로 입력해주세요.",
+            required: "근무 시간은 00:00-00:00으로 입력해주세요.",
             pattern: {
-              value: /^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
+              value: /^([01]\d|2[0-3]):([0-5]\d)-([01]\d|2[0-3]):([0-5]\d)$/,
               message: "근무 시간은 00:00-00:00 형식으로 입력해주세요.",
             },
           })}
