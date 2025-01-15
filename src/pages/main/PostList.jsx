@@ -1,5 +1,6 @@
 import { useGetProducts } from "@hooks/useGetProducts";
 import ListItem from "@pages/main/ListItem";
+import useUserStore from "@zustand/userStore";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -8,6 +9,7 @@ export default function PostList() {
   const { register, handleSubmit } = useForm();
   const [keyword, setKeyword] = useState("");
   const { data, refetch } = useGetProducts(keyword);
+  const { user } = useUserStore();
 
   const onSearchSubmit = formData => {
     setKeyword(formData.keyword);
@@ -83,13 +85,14 @@ export default function PostList() {
           </>
         )}
       </div>
-
-      <Link
-        to="post/write"
-        className="bottom-[76px] fixed self-end size-16 bg-primary text-white rounded-full flex justify-center items-center shadow-md"
-      >
-        <img src="/icons/whitePlus.svg" />
-      </Link>
+      {user && (
+        <Link
+          to="post/write"
+          className="bottom-[76px] fixed self-end size-16 bg-primary text-white rounded-full flex justify-center items-center shadow-md"
+        >
+          <img src="/icons/whitePlus.svg" />
+        </Link>
+      )}
     </div>
   );
 }
