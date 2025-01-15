@@ -5,7 +5,7 @@ import Badge from "@pages/main/Badge";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 
-export default function MainItem() {
+export default function PostPR() {
   const axios = useAxiosInstance();
   const navigate = useNavigate();
 

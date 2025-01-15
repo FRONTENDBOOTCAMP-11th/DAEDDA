@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
 import { useGetDetailedProduct } from "@hooks/useGetDetailedProduct";
 
-export default function MainEdit() {
+export default function PostEdit() {
   const { _id } = useParams();
   const axios = useAxiosInstance();
   const navigate = useNavigate();

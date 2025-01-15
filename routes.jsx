@@ -1,8 +1,6 @@
 import MyPage from "@pages/myPage/MyPage";
 import Edit from "@pages/myPage/Edit";
 import Likes from "@pages/myPage/Likes";
-import PRDetail from "@pages/pr/PRDetail";
-import PREdit from "@pages/pr/PREdit";
 import PRWrite from "@pages/pr/PRWrite";
 import SignIn from "@pages/user/SignIn";
 import SignUp from "@pages/user/SignUp";
@@ -10,10 +8,10 @@ import Terms from "@pages/user/Terms";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import MyReviews from "@pages/myPage/MyReviews";
 import Layout from "@components/layout";
-import MainDetail from "@pages/main/MainDetail";
-import MainList from "@pages/main/MainList";
-import MainWrite from "@pages/main/MainWrite";
-import MainEdit from "@pages/main/MainEdit";
+import PostDetail from "@pages/main/PostDetail";
+import PostList from "@pages/main/PostList";
+import PostWrite from "@pages/main/PostWrite";
+import PostEdit from "@pages/main/PostEdit";
 import ReviewList from "@pages/history/Layout";
 import Profile from "@pages/user/Profile";
 import Error from "@pages/Error";
@@ -28,11 +26,11 @@ const router = createBrowserRouter(
       path: "/",
       element: <Layout />,
       children: [
-        { index: true, element: <MainList /> },
+        { index: true, element: <PostList /> },
 
-        { path: "main/write", element: <MainWrite /> },
-        { path: "main/:_id", element: <MainDetail /> },
-        { path: "main/:_id/edit", element: <MainEdit /> },
+        { path: "post/write", element: <PostWrite /> },
+        { path: "post/:_id", element: <PostDetail /> },
+        { path: "post/:_id/edit", element: <PostEdit /> },
 
         {
           path: "history",
@@ -49,8 +47,6 @@ const router = createBrowserRouter(
         { path: "history/:from/reviewWrite/:id", element: <ReviewWrite /> },
 
         { path: "pr/write", element: <PRWrite /> },
-        { path: "pr/:_id", element: <PRDetail /> },
-        { path: "pr/:_id/edit", element: <PREdit /> },
 
         { path: "myPage", element: <MyPage /> },
         { path: "myPage/edit", element: <Edit /> },

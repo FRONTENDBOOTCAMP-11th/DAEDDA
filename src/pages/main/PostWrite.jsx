@@ -11,7 +11,7 @@ import useUserStore from "@zustand/userStore";
 import { getWorkTime } from "@/utills/func";
 import * as PortOne from "@portone/browser-sdk/v2";
 
-export default function MainWrite() {
+export default function PostWrite() {
   const navigate = useNavigate();
   const {
     register,
