@@ -1,26 +1,21 @@
 import Button from "@components/Button";
 import InputField from "@components/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
+import { useGetDetailedProduct } from "@hooks/useGetDetailedProduct";
 
-export default function MainEdit() {
+export default function PostEdit() {
   const { _id } = useParams();
   const axios = useAxiosInstance();
   const navigate = useNavigate();
   const [preview, setPreview] = useState(null);
   const [imageError, setImageError] = useState(true);
 
-  const { data: productData } = useQuery({
-    queryKey: ["seller/product", _id],
-    queryFn: () => axios.get(`seller/products/${_id}`),
-    select: res => {
-      return res.data.item;
-    },
-  });
+  const { data: productData } = useGetDetailedProduct(_id);
 
   const {
     register,

@@ -9,7 +9,7 @@ ListItem.propTypes = {
 export default function ListItem({ data }) {
   return (
     <Link
-      to={`main/${data._id}`}
+      to={`/post/${data._id}`}
       className="flex justify-between shadow-custom-shadow rounded-3xl px-4 py-4 items-center"
     >
       <div className="flex flex-col gap-1 screen-530:gap-[2px] ">

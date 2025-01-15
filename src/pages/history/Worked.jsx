@@ -1,5 +1,5 @@
 import { useOrdersFilter } from "@hooks/useGetOrders";
-import HistorySearch from "@pages/history/historySarch";
+import HistorySearch from "@pages/history/HistorySearch";
 import State from "@pages/history/State";
 import WorkedItem from "@pages/history/WorkedItem";
 import { useEffect, useState } from "react";
