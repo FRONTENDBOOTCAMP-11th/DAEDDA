@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
 import useUserStore from "@zustand/userStore";
-import { getWorkTime } from "@/utills/func";
 import * as PortOne from "@portone/browser-sdk/v2";
 
 export default function PostWrite() {
@@ -108,7 +107,7 @@ export default function PostWrite() {
         fullName: user.name,
         phoneNumber: user.phone,
       },
-      redirectUrl: `http://localhost:5173/main/${productId}`,
+      redirectUrl: `http://localhost:5173/post/${productId}`,
     };
 
     try {
@@ -132,13 +131,6 @@ export default function PostWrite() {
       setImageError(true);
       return;
     }
-
-    const workHours = getWorkTime(
-      formData.workTime.split(" - ")[0],
-      formData.workTime.split(" - ")[1],
-    );
-
-    formData.price = formData.price * workHours;
 
     try {
       const postResult = await handlePayment(formData, user);
@@ -253,11 +245,11 @@ export default function PostWrite() {
         />
 
         <InputField
-          labelName="시급"
+          labelName="일당"
           type="text"
-          placeholder="시급은 숫자만 입력주세요."
+          placeholder="일당은 숫자만 입력주세요."
           register={register("price", {
-            required: "시급 입력은 필수입니다.",
+            required: "일당 입력은 필수입니다.",
             pattern: {
               value: /^[0-9]+$/,
               message: "숫자만 입력해주세요.",
@@ -272,9 +264,9 @@ export default function PostWrite() {
         <InputField
           labelName="근무 시간"
           type="text"
-          placeholder="근무 시간은 00:00-00:00으로 입력해주세요."
+          placeholder="근무 시간은 00:00 - 00:00으로 입력해주세요."
           register={register("workTime", {
-            required: "근무 시간은 00:00-00:00으로 입력해주세요.",
+            required: "근무 시간은 00:00 - 00:00으로 입력해주세요.",
             pattern: {
               value: /^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
               message: "근무 시간은 00:00-00:00 형식으로 입력해주세요.",
