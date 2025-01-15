@@ -1,4 +1,4 @@
-import { useGetProducts } from "@hooks/useGetProducts";
+import { useGetProducts, useProductsFilter } from "@hooks/useGetProducts";
 import ListItem from "@pages/main/ListItem";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -7,24 +7,29 @@ import { Link } from "react-router-dom";
 export default function MainList() {
   const { register, handleSubmit } = useForm();
   const [keyword, setKeyword] = useState("");
+  const [condition, setCondition] = useState({
+    worktime: "all",
+    payment: "all",
+  });
+
   const { data, refetch } = useGetProducts(keyword);
-  const [filter, setFilter] = useState({ worktime: "all", payment: "all" });
 
   const onSearchSubmit = formData => {
     setKeyword(formData.keyword);
   };
 
   const onWorktimeFilterChanged = e => {
-    console.log(e.target.value);
-    setFilter(prev => {
-      const temp = { ...prev };
-      console.log(temp);
+    setCondition(prev => {
+      const temp = { ...prev, worktime: e.target.value };
       return temp;
     });
   };
 
   const onPaymentFilterChanged = e => {
-    console.log(e.target.value);
+    setCondition(prev => {
+      const temp = { ...prev, payment: e.target.value };
+      return temp;
+    });
   };
 
   useEffect(() => {
