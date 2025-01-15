@@ -1,7 +1,7 @@
 import Button from "@components/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useGetDetailedProduct } from "@hooks/useGetDetailedProduct";
-import Badge from "@pages/main/Badge";
+import Badge from "@pages/main/post/Badge";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 
