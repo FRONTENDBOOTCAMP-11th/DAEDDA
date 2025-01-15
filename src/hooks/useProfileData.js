@@ -18,6 +18,7 @@ export function useProfileData(userId) {
   const { data: userData, isLoading: isUserLoading } = useQuery({
     queryKey: ["user", userId],
     queryFn: () => axios.get(`/users/${userId}`).then(res => res.data),
+    enabled: !!userId, //user정보 없으면 호출x
   });
 
   return {

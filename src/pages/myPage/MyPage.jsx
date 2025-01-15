@@ -1,43 +1,41 @@
+import { useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import useUserStore from "@zustand/userStore";
 import { useProfileData } from "@hooks/useProfileData";
 import MyPageList from "@pages/myPage/MyPageList";
-import useUserStore from "@zustand/userStore";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  calculatePartTimePower,
-  calculateTotalPower,
-} from "@/utills/calculateStarPower";
 import { getDydamicWidth } from "@/utills/calculateStarPower";
 
 export default function MyPage() {
   const { user, resetUser } = useUserStore();
   const navigate = useNavigate();
+  const isRedirected = useRef(false); // 중복 실행 방지
+  // ref사용-> 렌더링과 상관없이 값 유지,
 
-  const logoutFun = () => {
-    alert("로그아웃 되었습니다.");
-    resetUser();
-    navigate("/user/signIn");
-  };
+  useEffect(() => {
+    if (!user && !isRedirected.current) {
+      isRedirected.current = true; //true일때 alert실행X, false일때 alert와 nav실행
+      //alert중복 방지
+      alert("로그인이 필요한 페이지입니다.");
+      navigate("/user/signIn");
+    }
+  }, [user, navigate]);
 
-  const { userData, reviews, isLoading, partTime } = useProfileData(user._id);
-  // console.log(userData);
-  if (isLoading) {
+  // user가 없으면 useProfileData 실행하지 않음
+  const { userData, reviews, isLoading, partTime } = useProfileData(user?._id);
+
+  // 로딩 상태 표시
+  if (!user || isLoading) {
     return <div>로딩중</div>;
   }
 
-  if (!user) {
+  const logoutFun = () => {
+    // console.log(isRedirected.current); //=>false
+    alert("로그아웃 되었습니다.");
+    resetUser();
+    isRedirected.current = true;
     navigate("/user/signIn");
-    return null;
-  }
+  };
 
-  // const totalPower = calculateTotalPower(reviews || []);
-  // // console.log(totalPower, "토탈파워");
-  // const partTimePower = calculatePartTimePower(partTime || []);
-  // // console.log(partTimePower, "알바생");
-  // //소수점 첫째자리 반올림
-  // const totalReview = Math.round(((totalPower + partTimePower) / 2) * 10) / 10;
-  // // console.log(totalReview, "총점리뷰 평균");
-  // const dydamicWidth = totalReview + 50;
-  // // console.log(dydamicWidth);
   const dydamicWidth = getDydamicWidth(reviews, partTime);
 
   return (
@@ -47,17 +45,17 @@ export default function MyPage() {
           <div className="flex pb-5 border-b border-gray-200 mb-8">
             <img
               src={
-                userData.item?.image
-                  ? userData.item.image.includes("kakaocdn.net")
-                    ? userData.item.image
-                    : `https://11.fesp.shop/${userData.item.image}`
+                userData?.item?.image
+                  ? userData?.item.image.includes("kakaocdn.net")
+                    ? userData?.item.image
+                    : `https://11.fesp.shop/${userData?.item.image}`
                   : "/images/smiling_daeddamon.png"
               }
               alt="대따몬 프로필"
               className="size-16 w-fit mr-5 rounded-full"
             />
             <p className="font-bold flex items-center text-2xl flex-grow">
-              {user.name}
+              {userData?.item.name}
             </p>
             <img src="/icons/arrow.svg" alt="프로필 수정하기" />
           </div>
