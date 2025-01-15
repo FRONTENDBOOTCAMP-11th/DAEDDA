@@ -9,11 +9,12 @@ export default function MyPage() {
   const { user, resetUser } = useUserStore();
   const navigate = useNavigate();
   const isRedirected = useRef(false); // 중복 실행 방지
+  // ref사용-> 렌더링과 상관없이 값 유지,
 
-  // 로그인이 필요한 경우 리다이렉트 처리
   useEffect(() => {
     if (!user && !isRedirected.current) {
-      isRedirected.current = true; // 중복 실행 방지
+      isRedirected.current = true; //true일때 alert실행X, false일때 alert와 nav실행
+      //alert중복 방지
       alert("로그인이 필요한 페이지입니다.");
       navigate("/user/signIn");
     }
@@ -28,6 +29,7 @@ export default function MyPage() {
   }
 
   const logoutFun = () => {
+    console.log(isRedirected.current); //=>false
     alert("로그아웃 되었습니다.");
     resetUser();
     isRedirected.current = true;
