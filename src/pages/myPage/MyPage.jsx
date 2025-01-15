@@ -29,7 +29,7 @@ export default function MyPage() {
   }
 
   const logoutFun = () => {
-    console.log(isRedirected.current); //=>false
+    // console.log(isRedirected.current); //=>false
     alert("로그아웃 되었습니다.");
     resetUser();
     isRedirected.current = true;
