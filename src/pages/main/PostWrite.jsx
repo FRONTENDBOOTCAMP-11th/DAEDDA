@@ -107,7 +107,7 @@ export default function PostWrite() {
         fullName: user.name,
         phoneNumber: user.phone,
       },
-      redirectUrl: `http://localhost:5173/post/${productId}`,
+      redirectUrl: `${window.location.origin}/post/${productId}`,
     };
 
     try {
