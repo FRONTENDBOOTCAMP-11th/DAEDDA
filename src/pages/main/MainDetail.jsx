@@ -237,7 +237,19 @@ export default function MainDetail() {
               <h2 className="">{data?.item.extra.condition?.company}</h2>
             </article>
             <article className="flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center">
-              <h2 className="">{data?.item.price} 원</h2>
+              <h2 className="">
+                {`${data?.item.price.toLocaleString()}원ㆍ시급 ${
+                  data?.item.extra?.condition?.workTime
+                    ? Math.round(
+                        data.item.price /
+                          getWorkTime(
+                            data.item.extra.condition.workTime[0] || "00:00",
+                            data.item.extra.condition.workTime[1] || "00:00",
+                          ),
+                      ).toLocaleString()
+                    : ""
+                }원`}
+              </h2>
             </article>
             <article className="flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center">
               <h2 className="">{data?.item.extra.condition?.date}</h2>

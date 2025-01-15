@@ -7,6 +7,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
+import useUserStore from "@zustand/userStore";
+import { getWorkTime } from "@/utills/func";
+import * as PortOne from "@portone/browser-sdk/v2";
 
 export default function MainWrite() {
   const navigate = useNavigate();
@@ -20,6 +23,7 @@ export default function MainWrite() {
   const [imageError, setImageError] = useState(true);
   const axios = useAxiosInstance();
   const queryClient = useQueryClient();
+  const { user } = useUserStore();
 
   const addPost = useMutation({
     mutationFn: async formData => {
@@ -38,6 +42,7 @@ export default function MainWrite() {
             workTime: formData.workTime.split(" - "),
           },
         },
+
         state: "EM010",
       };
 
@@ -59,7 +64,6 @@ export default function MainWrite() {
           },
         ];
       }
-
       return axios.post("/seller/products", body);
     },
   });
@@ -76,34 +80,78 @@ export default function MainWrite() {
     }
   };
 
-  const buyPost = useMutation({
-    mutationFn: async productId => {
-      let body = {
-        product_id: productId,
-        products: [
-          {
-            _id: productId,
-            quantity: 1,
-          },
-        ],
-      };
-      return axios.post("/orders", body);
-    },
-  });
+  const handlePayment = async (formData, user, productId) => {
+    const accept = window.confirm(
+      "대따는 일당을 선 결제로 하고 있습니다.\n\n" +
+        "일당 환불 규정:\n" +
+        "✅ 채택 후 5일 전 취소: 100% 환불\n" +
+        "✅ 채택 후 5일 이후 ~ 근무일 1일 전 취소: 50% 환불\n" +
+        "✅ 근무일 당일 취소: 환불 불가능\n\n" +
+        "이에 동의하시면 확인 버튼, 거절하시려면 취소 버튼을 눌러주시길 바랍니다.\n" +
+        "동의 시 결제창으로 이동하게 됩니다.\n" +
+        "취소 시에는 구인글 등록이 되지 않습니다.",
+    );
+
+    if (!accept) {
+      return;
+    }
+
+    const paymentData = {
+      storeId: "store-e4038486-8d83-41a5-acf1-844a009e0d94",
+      channelKey: "channel-key-4ca6a942-3ee0-48fb-93ef-f4294b876d28",
+      paymentId: `payment-${crypto.randomUUID()}`,
+      orderName: formData.name,
+      totalAmount: formData.price,
+      payMethod: "CARD",
+      currency: "KRW",
+      customer: {
+        fullName: user.name,
+        phoneNumber: user.phone,
+      },
+      redirectUrl: `http://localhost:5173/main/${productId}`,
+    };
+
+    try {
+      const response = await PortOne.requestPayment(paymentData);
+
+      if (response.success) {
+        console.log("결제 성공:", response);
+        return true;
+      } else {
+        console.error("결제 실패:", response.error);
+        return false;
+      }
+    } catch (error) {
+      console.error("결제 요청 중 오류:", error);
+      return false;
+    }
+  };
 
   const onSubmit = async formData => {
     if (imageError) {
       setImageError(true);
       return;
     }
+
+    const workHours = getWorkTime(
+      formData.workTime.split(" - ")[0],
+      formData.workTime.split(" - ")[1],
+    );
+
+    formData.price = formData.price * workHours;
+
     try {
+      const postResult = await handlePayment(formData, user);
+
       const addPostResponse = await addPost.mutateAsync(formData);
       const productId = addPostResponse.data.item._id;
 
-      await buyPost.mutateAsync(productId);
-
-      queryClient.invalidateQueries({ queryKey: ["orders"] });
-      navigate(`/main/${productId}`);
+      if (productId) {
+        queryClient.invalidateQueries({ queryKey: ["orders"] });
+        navigate(`/main/${productId}`);
+      } else {
+        console.error("Product ID가 없어요.");
+      }
     } catch (error) {
       console.error("등록 또는 구매 실패:", error);
     }
@@ -128,10 +176,10 @@ export default function MainWrite() {
       </div>
 
       <fieldset>
-        <label htmlFor="photo" className="text-[16px] font-bold">
+        <label htmlFor="photo" className="text-[1rem] font-bold">
           근무지 사진
         </label>
-        <div className="mt-2 flex items-center">
+        <div className="mt-2 flex items-center screen-320:flex-col screen-320:gap-2">
           {preview ? (
             <>
               <img
@@ -172,17 +220,18 @@ export default function MainWrite() {
 
         <div className="my-2 h-4">
           {imageError && (
-            <p className="text-red text-[12px]">*사진 1장은 필수 입니다.</p>
+            <p className="text-red text-[0.75rem]">*사진 1장은 필수 입니다.</p>
           )}
         </div>
       </fieldset>
 
       <fieldset>
-        <legend className="text-[16px] font-bold mb-2">위치</legend>
+        <legend className="text-[1rem] font-bold mb-2">위치</legend>
         <div className="mb-4">
           <MainMap />
         </div>
         <InputField
+          labelName="상세 주소"
           type="text"
           placeholder="상세 주소"
           register={register("address", {
@@ -204,10 +253,11 @@ export default function MainWrite() {
         />
 
         <InputField
+          labelName="시급"
           type="text"
-          placeholder="급여는 숫자만 입력주세요."
+          placeholder="시급은 숫자만 입력주세요."
           register={register("price", {
-            required: "급여 입력은 필수입니다.",
+            required: "시급 입력은 필수입니다.",
             pattern: {
               value: /^[0-9]+$/,
               message: "숫자만 입력해주세요.",
@@ -220,18 +270,21 @@ export default function MainWrite() {
         />
 
         <InputField
+          labelName="근무 시간"
           type="text"
-          placeholder="근무 시간은 00:00 - 00:00으로 입력해주세요."
+          placeholder="근무 시간은 00:00-00:00으로 입력해주세요."
           register={register("workTime", {
-            required: "근무 시간은 00:00 - 00:00으로 입력해주세요.",
+            required: "근무 시간은 00:00-00:00으로 입력해주세요.",
             pattern: {
               value: /^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
-              message: "근무 시간은 00:00 - 00:00 형식으로 입력해주세요.",
+              message: "근무 시간은 00:00-00:00 형식으로 입력해주세요.",
             },
           })}
           errorMsg={errors.workTime?.message}
         />
+
         <InputField
+          labelName="근무 일"
           type="date"
           register={register("date", {
             required: "날짜 입력은 필수입니다.",
@@ -265,7 +318,7 @@ export default function MainWrite() {
           color="purple"
           height="lg"
           type="submit"
-          onSubmit={handleSubmit(buyPost.mutate)}
+          onSubmit={handleSubmit(onSubmit.mutate)}
         >
           등록
         </Button>
