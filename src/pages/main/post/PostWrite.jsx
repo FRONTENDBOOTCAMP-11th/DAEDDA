@@ -32,7 +32,6 @@ export default function PostWrite() {
         quantity: 1000,
         content: DOMPurify.sanitize(formData.content, { ALLOWED_TAGS: [] }),
         extra: {
-          position: "employer",
           location: [35.155625, 129.131793],
           address: formData.address,
           condition: {
