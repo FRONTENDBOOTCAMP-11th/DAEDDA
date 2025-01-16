@@ -12,7 +12,7 @@ export default function PostPR() {
   const navigate = useNavigate();
   const { _id } = useParams();
   const { data: product, refetch } = useGetDetailedProduct(_id);
-  const checkAlarm = useAddAlarm();
+  const addAlarm = useAddAlarm();
   const queryClient = useQueryClient();
 
   const editProductState = useEditProductState();
@@ -30,7 +30,7 @@ export default function PostPR() {
       else
         notificationContent = `😭 지원하신 "${product.name}" 에 채택이 취소되었습니다.`;
 
-      checkAlarm.mutateAsync({
+      addAlarm.mutateAsync({
         targetId: userId,
         content: notificationContent,
         extra: { title: product.extra.condition.company },
