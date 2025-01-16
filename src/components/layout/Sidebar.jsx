@@ -6,8 +6,17 @@ export default function Sidebar() {
   const { user } = useUserStore();
   const { closeSidebar } = useSidebarStore();
   const navigate = useNavigate();
+
+  // 로그인으로 이동
   const goToSignIn = () => {
+    closeSidebar();
     navigate("/user/signIn");
+  };
+
+  // 404로 이동
+  const goToError = () => {
+    closeSidebar();
+    navigate("/error");
   };
 
   return (
@@ -37,7 +46,10 @@ export default function Sidebar() {
                 </h1>
                 <img src="/icons/arrow.svg" className="" />
               </div>
-              <h1 className="mt-4 text-[1rem] text-[#605D5D]">
+              <h1
+                className="mt-4 text-[1rem] text-[#605D5D] cursor-pointer"
+                onClick={goToError}
+              >
                 고객센터에 문의하기
               </h1>
             </>
@@ -51,10 +63,18 @@ export default function Sidebar() {
                   <b>{user.name}</b> 님
                 </h1>
               </div>
-              <h1 className="mt-4 text-[1rem] text-[#605D5D]">
+              <h1
+                className="mt-4 text-[1rem] text-[#605D5D] cursor-pointer"
+                onClick={goToError}
+              >
                 고객센터에 문의하기
               </h1>
-              <h1 className="mt-4 text-[1rem] text-[#605D5D]">환불 규정</h1>
+              <h1
+                className="mt-4 text-[1rem] text-[#605D5D] cursor-pointer"
+                onClick={goToError}
+              >
+                환불 규정
+              </h1>
             </>
           )}
         </div>
