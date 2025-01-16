@@ -1,10 +1,11 @@
-import { Link, useMatch, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useMatch, useNavigate } from "react-router-dom";
 import useUserStore from "@zustand/userStore";
-import { useState } from "react";
-import Sidebar from "@components/layout/SideBar";
+
+import useSidebarStore from "@zustand/sidebarStore";
+import Sidebar from "@components/layout/Sidebar";
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false); // 사이드바 초기 상태는 닫힘
+  const { openSidebar, isSidebarOpen } = useSidebarStore(); // 사이드바 상태
   const navigate = useNavigate();
   const { user } = useUserStore();
   const error = useMatch("/error");
@@ -63,10 +64,6 @@ export default function Header() {
     return null;
   }
 
-  const toggleSidebar = () => {
-    setIsOpen(prev => !prev);
-  };
-
   if (headerMatch) {
     return (
       <header className="w-full h-[60px] flex items-center justify-center border-b border-gray-200 mb-5 fixed top-0 max-w-screen-sm left-1/2 -translate-x-1/2 bg-white px-6 z-10">
@@ -96,12 +93,12 @@ export default function Header() {
           <img
             src="/icons/hamburger.svg"
             className="w-6 cursor-pointer"
-            onClick={toggleSidebar}
+            onClick={openSidebar}
           />
         </div>
       </header>
-
-      {isOpen && <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />}
+      {/* 사이드바 열렸을 때만 실행 */}
+      {isSidebarOpen && <Sidebar />}
     </>
   );
 }
