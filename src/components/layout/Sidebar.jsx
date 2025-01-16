@@ -1,11 +1,16 @@
 import useSidebarStore from "@zustand/sidebarStore";
 import useUserStore from "@zustand/userStore";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Sidebar() {
+export default function Sidebar({ closeSidebar }) {
   const { user } = useUserStore();
-  const { closeSidebar } = useSidebarStore();
+  const { isSidebarOpen } = useSidebarStore();
   const navigate = useNavigate();
+
+  const handleClose = () => {
+    closeSidebar();
+  };
 
   // 로그인으로 이동
   const goToSignIn = () => {
@@ -22,8 +27,8 @@ export default function Sidebar() {
   return (
     <>
       <div
-        className="absolute inset-0 bg-black bg-opacity-50 z-10"
-        onClick={closeSidebar}
+        className="absolute inset-0 bg-black bg-opacity-50 z-10 "
+        onClick={handleClose}
       ></div>
       <div className="absolute top-0 right-0 w-1/2 h-screen bg-[#F8F1FF] z-10">
         <div className="m-6">
@@ -31,7 +36,7 @@ export default function Sidebar() {
             <img
               src="/icons/x.svg"
               className="cursor-pointer"
-              onClick={closeSidebar}
+              onClick={handleClose}
             />
           </div>
 

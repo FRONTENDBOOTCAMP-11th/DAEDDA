@@ -3,8 +3,9 @@ import { persist, createJSONStorage } from "zustand/middleware";
 
 const SidebarStore = set => ({
   isSidebarOpen: false,
-  openSidebar: () => set({ isSidebarOpen: true }), // 사이드바 열리면 true
-  closeSidebar: () => set({ isSidebarOpen: false }), // 닫히면 false
+  setSidebarOpen: isOpen => set(() => ({ isSidebarOpen: isOpen })),
+  // openSidebar: () => set({ isSidebarOpen: true }), // 사이드바 열리면 true
+  // closeSidebar: () => set({ isSidebarOpen: false }), // 닫히면 false
 });
 
 // 스토리지를 사용할 경우

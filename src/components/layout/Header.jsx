@@ -5,7 +5,7 @@ import useSidebarStore from "@zustand/sidebarStore";
 import Sidebar from "@components/layout/Sidebar";
 
 export default function Header() {
-  const { openSidebar, isSidebarOpen } = useSidebarStore(); // 사이드바 상태
+  const { setSidebarOpen, isSidebarOpen } = useSidebarStore(); // 사이드바 상태
   const navigate = useNavigate();
   const { user } = useUserStore();
   const error = useMatch("/error");
@@ -64,6 +64,14 @@ export default function Header() {
     return null;
   }
 
+  const openSidebar = () => {
+    setSidebarOpen(true);
+  };
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
   if (headerMatch) {
     return (
       <header className="w-full h-[60px] flex items-center justify-center border-b border-gray-200 mb-5 fixed top-0 max-w-screen-sm left-1/2 -translate-x-1/2 bg-white px-6 z-10">
@@ -98,7 +106,7 @@ export default function Header() {
         </div>
       </header>
       {/* 사이드바 열렸을 때만 실행 */}
-      {isSidebarOpen && <Sidebar />}
+      {isSidebarOpen && <Sidebar closeSidebar={closeSidebar} />}
     </>
   );
 }
