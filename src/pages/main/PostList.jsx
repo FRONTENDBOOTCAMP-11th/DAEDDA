@@ -1,4 +1,4 @@
-import { useGetProducts } from "@hooks/useGetProducts";
+import { useProductsFilter } from "@hooks/useGetProducts";
 import ListItem from "@pages/main/ListItem";
 import useUserStore from "@zustand/userStore";
 import { useEffect, useState } from "react";
@@ -8,8 +8,27 @@ import { Link } from "react-router-dom";
 export default function PostList() {
   const { register, handleSubmit } = useForm();
   const [keyword, setKeyword] = useState("");
-  const { data, refetch } = useGetProducts(keyword);
   const { user } = useUserStore();
+
+  const [condition, setCondition] = useState({
+    worktime: "all",
+    payment: "all",
+  });
+  const { data, refetch } = useProductsFilter(keyword, condition);
+
+  const onWorktimeFilterChanged = e => {
+    setCondition(prev => {
+      const temp = { ...prev, worktime: e.target.value };
+      return temp;
+    });
+  };
+
+  const onPaymentFilterChanged = e => {
+    setCondition(prev => {
+      const temp = { ...prev, payment: e.target.value };
+      return temp;
+    });
+  };
 
   const onSearchSubmit = formData => {
     setKeyword(formData.keyword);
@@ -54,11 +73,14 @@ export default function PostList() {
           >
             시간
           </label>
-          <select className="ring-2 ring-gray-400 focus:ring-primary py-2 px-2   rounded-xl  *:text-[0.875rem]">
-            <option>모든 시간</option>
-            <option>0 ~ 4시간</option>
-            <option>4 ~ 10시간</option>
-            <option>10시간 이상</option>
+          <select
+            className="ring-2 ring-gray-400 focus:ring-primary py-2 px-2 rounded-xl *:text-[14px]"
+            onChange={onWorktimeFilterChanged}
+          >
+            <option value="all">모든 시간</option>
+            <option value="short">0 ~ 4시간</option>
+            <option value="normal">4 ~ 8시간</option>
+            <option value="long">8시간 초과</option>
           </select>
         </div>
         <div>
@@ -68,10 +90,13 @@ export default function PostList() {
           >
             시급
           </label>
-          <select className="ring-2 ring-gray-400 focus:ring-primary py-2 px-2 rounded-xl *:text-[0.875rem]">
-            <option>모든 시급</option>
-            <option>10,000원 이하</option>
-            <option>10,000원 이상</option>
+          <select
+            className="ring-2 ring-gray-400 focus:ring-primary py-2 px-2 rounded-xl *:text-[14px]"
+            onChange={onPaymentFilterChanged}
+          >
+            <option value="all">모든 시급</option>
+            <option value="low">10,000원 이하</option>
+            <option value="high">10,000원 이상</option>
           </select>
         </div>
       </div>
