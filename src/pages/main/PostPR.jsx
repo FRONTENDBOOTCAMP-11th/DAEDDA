@@ -3,14 +3,13 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useGetDetailedProduct } from "@hooks/useGetDetailedProduct";
 import Badge from "@pages/main/Badge";
 import { useMutation } from "@tanstack/react-query";
+import useUserStore from "@zustand/userStore";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function PostPR() {
   const axios = useAxiosInstance();
   const navigate = useNavigate();
-
   const { _id } = useParams();
-
   const { data: product, refetch } = useGetDetailedProduct(_id);
 
   const changeState = useMutation({

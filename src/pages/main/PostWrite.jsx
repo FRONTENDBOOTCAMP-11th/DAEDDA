@@ -140,7 +140,7 @@ export default function PostWrite() {
 
       if (productId) {
         queryClient.invalidateQueries({ queryKey: ["orders"] });
-        navigate(`/main/${productId}`);
+        navigate(`/post/${productId}`);
       } else {
         console.error("Product ID가 없어요.");
       }
