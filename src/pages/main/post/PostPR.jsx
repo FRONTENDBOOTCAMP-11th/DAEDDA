@@ -22,15 +22,22 @@ export default function PostPR() {
       return axios.patch(`/seller/orders/${orderId}`, body);
     },
     onSuccess: (_, variables) => {
-      const { userId } = variables;
-      const notificationContent = `🎉 지원하신 "${product.name}" 에 채택이 되었습니다.`;
+      const { newState, userId } = variables;
+
+      let notificationContent;
+      if (newState === "WO020")
+        notificationContent = `🎉 지원하신 "${product.name}" 에 채택이 되었습니다.`;
+      else
+        notificationContent = `😭 지원하신 "${product.name}" 에 채택이 취소되었습니다.`;
+
       checkAlarm.mutateAsync({
         targetId: userId,
         content: notificationContent,
-        extra: { title: product.name },
+        extra: { title: product.extra.condition.company },
       });
       refetch();
       queryClient.invalidateQueries({ queryKey: ["orders"] });
+      queryClient.invalidateQueries({ queryKey: ["product", product._id] });
     },
   });
 
@@ -39,15 +46,29 @@ export default function PostPR() {
   };
 
   const handleChangeState = order => {
-    const newState = "WO020";
-    changeOrderState.mutate({ orderId: order._id, newState });
-    editProductState.mutate({ productId: product._id, sate: "EM020" });
+    const isOk = confirm("정말 이 지원자를 채택하시겠습니까?");
+    if (isOk) {
+      const newState = "WO020";
+      changeOrderState.mutate({
+        orderId: order._id,
+        newState,
+        userId: order.user_id,
+      });
+      editProductState.mutate({ productId: product._id, state: "EM020" });
+    }
   };
 
   const handleCancelState = order => {
-    const newState = "WO010";
-    changeOrderState.mutate({ orderId: order._id, newState });
-    editProductState.mutate({ productId: product._id, sate: "EM015" });
+    const isOk = confirm("정말 채택을 취소하시겠습니까?");
+    if (isOk) {
+      const newState = "WO010";
+      changeOrderState.mutate({
+        orderId: order._id,
+        newState,
+        userId: order.user_id,
+      });
+      editProductState.mutate({ productId: product._id, state: "EM010" });
+    }
   };
 
   const filteredOrders = product?.orders?.filter(order =>

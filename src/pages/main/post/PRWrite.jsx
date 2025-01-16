@@ -55,7 +55,7 @@ export default function PRWrite() {
           title: response.data.item.products[0].name,
         },
       });
-
+      alert("성공적으로 지원되었습니다.");
       navigate(`/post/${productId}`);
     },
     onError: error => {
