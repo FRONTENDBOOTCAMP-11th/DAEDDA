@@ -602,37 +602,42 @@ export const initData = async (clientId, nextSeq) => {
           },
           {
             sort: 2,
+            code: "WO015",
+            value: "채택 취소",
+          },
+          {
+            sort: 3,
             code: "WO020",
             value: "채택 완료",
           },
 
           {
-            sort: 3,
+            sort: 4,
             code: "WO030",
             value: "입금 완료",
           },
           {
-            sort: 4,
+            sort: 5,
             code: "WO040",
             value: "리뷰 작성 완료",
           },
           {
-            sort: 5,
+            sort: 6,
             code: "EM010",
             value: "구인 중",
           },
           {
-            sort: 6,
+            sort: 7,
             code: "EM020",
             value: "구인 완료",
           },
           {
-            sort: 7,
+            sort: 8,
             code: "EM030",
             value: "송금 완료",
           },
           {
-            sort: 8,
+            sort: 9,
             code: "EM040",
             value: "리뷰 작성 완료",
           },
