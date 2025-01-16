@@ -70,7 +70,7 @@ export default function SignIn() {
   // 카카오 로그인 처리
   const handleKakako = () => {
     const REST_API_KEY = "7b635f7b3d4379252462f78787fc908b";
-    const REDIRECT_URI = "https://daedda.netlify.app/user/signin/kakao";
+    const REDIRECT_URI = `${window.location.origin}/user/signin/kakao`;
     const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
     window.location.href = KAKAO_AUTH_URI;
