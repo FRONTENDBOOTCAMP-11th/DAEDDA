@@ -1,6 +1,7 @@
 import Button from "@components/Button";
 import useAddAlarm from "@hooks/useAddAlarm";
 import useAxiosInstance from "@hooks/useAxiosInstance";
+import useEditProductState from "@hooks/useEditProductState";
 import { useGetDetailedProduct } from "@hooks/useGetDetailedProduct";
 import Badge from "@pages/main/post/Badge";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -14,7 +15,8 @@ export default function PostPR() {
   const checkAlarm = useAddAlarm();
   const queryClient = useQueryClient();
 
-  const changeState = useMutation({
+  const editProductState = useEditProductState();
+  const changeOrderState = useMutation({
     mutationFn: async ({ orderId, newState }) => {
       const body = { state: newState };
       return axios.patch(`/seller/orders/${orderId}`, body);
@@ -38,12 +40,14 @@ export default function PostPR() {
 
   const handleChangeState = order => {
     const newState = "WO020";
-    changeState.mutate({ orderId: order._id, newState, userId: order.user_id });
+    changeOrderState.mutate({ orderId: order._id, newState });
+    editProductState.mutate({ productId: product._id, sate: "EM020" });
   };
 
   const handleCancelState = order => {
     const newState = "WO010";
-    changeState.mutate({ orderId: order._id, newState, userId: order.user_id });
+    changeOrderState.mutate({ orderId: order._id, newState });
+    editProductState.mutate({ productId: product._id, sate: "EM015" });
   };
 
   const filteredOrders = product?.orders?.filter(order =>
@@ -69,7 +73,7 @@ export default function PostPR() {
                         : "/images/smiling_daeddamon.png"
                     }
                     // src={`https://11.fesp.shop/${order?.user.image}`}
-                    className="w-16 h-16 rounded-full"
+                    className="w-16 h-16 rounded-full object-cover"
                     alt={`${order?.user.name} 프로필 이미지`}
                   />
                   <div className="flex flex-col">

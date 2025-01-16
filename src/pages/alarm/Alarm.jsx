@@ -10,7 +10,7 @@ export default function Alarm() {
     queryKey: ["notifications"],
     queryFn: () => axios.get(`/notifications/`),
     select: res => {
-      return res.data.item;
+      return res.data.item.reverse();
     },
   });
 

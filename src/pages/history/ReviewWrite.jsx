@@ -9,6 +9,7 @@ import { Rating } from "react-simple-star-rating";
 import { formatDate } from "@/utills/func.js";
 import { useGetMyProducts } from "@hooks/useGetMyProducts";
 import { useGetOrders } from "@hooks/useGetOrders";
+import useEditProductState from "@hooks/useEditProductState";
 
 export default function ReviewWrite() {
   const axios = useAxiosInstance();
@@ -47,6 +48,8 @@ export default function ReviewWrite() {
     },
   });
 
+  console.log(order);
+
   const addWorkedReview = useMutation({
     mutationFn: async formData => {
       const body = {
@@ -76,22 +79,23 @@ export default function ReviewWrite() {
     addWorkedReview.mutate(formData);
   };
 
-  // from employed 로직
-  const editProductState = useMutation({
-    mutationFn: async ({ productId, state }) => {
-      return axios.patch(`/seller/products/${productId}`, {
-        "extra.state": state,
-      });
-    },
+  const editProductState = useEditProductState();
+  // // from employed 로직
+  // const editProductState = useMutation({
+  //   mutationFn: async ({ productId, state }) => {
+  //     return axios.patch(`/seller/products/${productId}`, {
+  //       "extra.state": state,
+  //     });
+  //   },
 
-    onSuccess: () => {
-      console.log("product state 리뷰 작성 완료로 변경");
-    },
+  //   onSuccess: () => {
+  //     console.log("product state 리뷰 작성 완료로 변경");
+  //   },
 
-    onError: error => {
-      console.error("등록 실패:", error);
-    },
-  });
+  //   onError: error => {
+  //     console.error("등록 실패:", error);
+  //   },
+  // });
 
   const deleteMyBookmark = useMutation({
     mutationFn: async bookmarkId => {
