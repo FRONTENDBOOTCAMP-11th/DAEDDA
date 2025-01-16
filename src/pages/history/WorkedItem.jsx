@@ -23,7 +23,7 @@ export default function WorkedItem({ data }) {
       {data && (
         <div className="p-4 rounded-3xl shadow-custom-shadow mb-5 relative">
           <Link
-            to={`/main/${data.products[0]._id}`}
+            to={`/post/${data.products[0]._id}`}
             className="w-[83px] absolute top-4 right-4"
           >
             <Button color="white" width="xl" height="sm">

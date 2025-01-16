@@ -14,7 +14,8 @@ export default function Likes() {
     return (
       <div className="-mt-[80px] max-w-screen-sm m-auto h-screen overflow-y-auto flex items-center justify-center text-center text-xl text-gray-300">
         관심 표시한 글이 없어요.
-        <br /> 공고 리스트에 올라온 글을 탐색하고 관심 표시를 해보세요!
+        <br /> 공고 리스트에 올라온 글을 탐색하고 <br />
+        관심 표시를 해보세요!
       </div>
     );
   }

@@ -52,7 +52,7 @@ export default function MyPage() {
                   : "/images/smiling_daeddamon.png"
               }
               alt="대따몬 프로필"
-              className="size-16 w-fit mr-5 rounded-full"
+              className="size-16 object-cover mr-5 rounded-full"
             />
             <p className="font-bold flex items-center text-2xl flex-grow">
               {userData?.item.name}

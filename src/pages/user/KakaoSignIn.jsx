@@ -23,7 +23,7 @@ export default function KakaoSignIn() {
     try {
       const response = await axios.post(`/users/login/kakao`, {
         code,
-        redirect_uri: "http://localhost:5173/user/signin/kakao",
+        redirect_uri: `${window.location.origin}/user/signin/kakao`,
         user: {
           type: "seller",
         },
@@ -32,49 +32,51 @@ export default function KakaoSignIn() {
       const { data } = response;
       console.log("카카오 로그인 성공", data);
 
-      if (data.item.isNew) {
-        console.log("신규 회원임");
+      if (data.item) {
+        if (data.item.isNew) {
+          console.log("신규 회원임");
 
-        // 카카오로부터 받은 사용자 정보
-        const newUserData = {
-          _id: data.item._id,
-          name: data.item.name,
-          image: data.item.image,
-          phone: "",
-          type: "seller",
-          extra: {
-            birthday: "",
-          },
-          accessToken: data.item.token.accessToken,
-          refreshToken: data.item.token.refreshToken,
-          loginType: "kakao",
-          isNew: true,
-        };
+          // 카카오로부터 받은 사용자 정보
+          const newUserData = {
+            _id: data.item._id,
+            name: data.item.name,
+            image: data.item.image,
+            phone: "",
+            type: "seller",
+            extra: {
+              birthday: "",
+            },
+            accessToken: data.item.token.accessToken,
+            refreshToken: data.item.token.refreshToken,
+            loginType: "kakao",
+            isNew: true,
+          };
 
-        setUser(newUserData);
+          setUser(newUserData);
 
-        // 정보 setUser에 담고 edit 창으로 넘어가서 추가 정보 받기
-        navigate("/myPage/edit");
-      } else {
-        console.log("기존 회원");
-        const newUserData = {
-          _id: data.item._id,
-          name: data.item.name,
-          image: data.item.image,
-          phone: data.item.phone,
-          type: "seller",
-          extra: {
-            birthday: data.item.extra.birthday,
-          },
-          accessToken: data.item.token.accessToken,
-          refreshToken: data.item.token.refreshToken,
-          loginType: "kakao",
-        };
+          // 정보 setUser에 담고 edit 창으로 넘어가서 추가 정보 받기
+          navigate("/myPage/edit");
+        } else {
+          console.log("기존 회원");
+          const newUserData = {
+            _id: data.item._id,
+            name: data.item.name,
+            image: data.item.image,
+            phone: data.item.phone,
+            type: "seller",
+            extra: {
+              birthday: data.item.extra.birthday,
+            },
+            accessToken: data.item.token.accessToken,
+            refreshToken: data.item.token.refreshToken,
+            loginType: "kakao",
+          };
 
-        // 기존 회원 정보 저장 후 메인 페이지로 이동하기
-        setUser(newUserData);
+          // 기존 회원 정보 저장 후 메인 페이지로 이동하기
+          setUser(newUserData);
 
-        navigate("/");
+          navigate("/");
+        }
       }
     } catch (error) {
       console.error("카카오 로그인 실패", error);

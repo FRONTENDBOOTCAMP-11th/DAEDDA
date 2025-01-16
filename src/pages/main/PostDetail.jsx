@@ -4,11 +4,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { getWorkTime, formatDate } from "@/utills/func";
 import DOMPurify from "dompurify";
-import MainItem from "@pages/main/MainItem";
+import PostPR from "@pages/main/PostPR";
 import { useCallback, useEffect, useState } from "react";
 import useUserStore from "@zustand/userStore";
 
-export default function MainDetail() {
+export default function PostDetail() {
   const [bookMark, setBookMark] = useState(false);
   const queryClient = useQueryClient();
   const axios = useAxiosInstance();
@@ -44,7 +44,7 @@ export default function MainDetail() {
     mutationFn: _id => axios.patch(`/seller/products/${_id}`),
 
     onSuccess: () => {
-      navigate(`/main/${_id}/edit`);
+      navigate(`/post/${_id}/edit`);
     },
 
     onError: error => {
@@ -237,7 +237,19 @@ export default function MainDetail() {
               <h2 className="">{data?.item.extra.condition?.company}</h2>
             </article>
             <article className="flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center">
-              <h2 className="">{data?.item.price} 원</h2>
+              <h2 className="">
+                {`${data?.item.price.toLocaleString()}원ㆍ시급 ${
+                  data?.item.extra?.condition?.workTime
+                    ? Math.round(
+                        data.item.price /
+                          getWorkTime(
+                            data.item.extra.condition.workTime[0] || "00:00",
+                            data.item.extra.condition.workTime[1] || "00:00",
+                          ),
+                      ).toLocaleString()
+                    : ""
+                }원`}
+              </h2>
             </article>
             <article className="flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center">
               <h2 className="">{data?.item.extra.condition?.date}</h2>
@@ -286,7 +298,7 @@ export default function MainDetail() {
             ""
           )}
         </div>
-        <MainItem />
+        {data?.item?.seller_id == userId ? <PostPR /> : null}
       </div>
     </div>
   );
