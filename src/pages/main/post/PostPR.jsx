@@ -1,9 +1,9 @@
 import Button from "@components/Button";
+import useAddAlarm from "@hooks/useAddAlarm";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useGetDetailedProduct } from "@hooks/useGetDetailedProduct";
 import Badge from "@pages/main/post/Badge";
-import { useMutation } from "@tanstack/react-query";
-import useUserStore from "@zustand/userStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function PostPR() {
@@ -11,14 +11,24 @@ export default function PostPR() {
   const navigate = useNavigate();
   const { _id } = useParams();
   const { data: product, refetch } = useGetDetailedProduct(_id);
+  const checkAlarm = useAddAlarm();
+  const queryClient = useQueryClient();
 
   const changeState = useMutation({
     mutationFn: async ({ orderId, newState }) => {
       const body = { state: newState };
       return axios.patch(`/seller/orders/${orderId}`, body);
     },
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
+      const { userId } = variables;
+      const notificationContent = `🎉 지원하신 "${product.name}" 에 채택이 되었습니다.`;
+      checkAlarm.mutateAsync({
+        targetId: userId,
+        content: notificationContent,
+        extra: { title: product.name },
+      });
       refetch();
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
     },
   });
 
@@ -26,14 +36,14 @@ export default function PostPR() {
     navigate(`/user/${userId}`);
   };
 
-  const handleChangeState = orderId => {
+  const handleChangeState = order => {
     const newState = "WO020";
-    changeState.mutate({ orderId, newState });
+    changeState.mutate({ orderId: order._id, newState, userId: order.user_id });
   };
 
-  const handleCancelState = orderId => {
+  const handleCancelState = order => {
     const newState = "WO010";
-    changeState.mutate({ orderId, newState });
+    changeState.mutate({ orderId: order._id, newState, userId: order.user_id });
   };
 
   const filteredOrders = product?.orders?.filter(order =>
@@ -89,9 +99,7 @@ export default function PostPR() {
                         color="red"
                         width="xl"
                         height="lg"
-                        onClick={() =>
-                          handleCancelState(order._id, order.state)
-                        }
+                        onClick={() => handleCancelState(order)}
                       >
                         취소
                       </Button>
@@ -102,9 +110,7 @@ export default function PostPR() {
                         color="purple"
                         width="xl"
                         height="lg"
-                        onClick={() =>
-                          handleChangeState(order._id, order.state)
-                        }
+                        onClick={() => handleChangeState(order)}
                       >
                         채택
                       </Button>

@@ -46,7 +46,7 @@ export default function PRWrite() {
     onSuccess: response => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
 
-      const notificationContent = `🙋‍♂️ 작성하신 ${response.data.item.products[0].name}에 새로운 지원자가 있습니다.`;
+      const notificationContent = `🙋‍♂️ 작성하신 "${response.data.item.products[0].name}" 에 새로운 지원자가 있습니다.`;
 
       addAlarm.mutate({
         targetId: response.data.item.products[0].seller_id,
