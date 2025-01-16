@@ -34,20 +34,6 @@ export default function PostList() {
     setKeyword(formData.keyword);
   };
 
-  const onWorktimeFilterChanged = e => {
-    setCondition(prev => {
-      const temp = { ...prev, worktime: e.target.value };
-      return temp;
-    });
-  };
-
-  const onPaymentFilterChanged = e => {
-    setCondition(prev => {
-      const temp = { ...prev, payment: e.target.value };
-      return temp;
-    });
-  };
-
   useEffect(() => {
     refetch();
   }, [keyword]);
