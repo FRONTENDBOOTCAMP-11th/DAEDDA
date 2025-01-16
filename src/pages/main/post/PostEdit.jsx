@@ -58,7 +58,7 @@ export default function PostEdit() {
           condition: {
             date: formData.date,
             company: formData.company,
-            workTime: formData.workTime.split(" - "),
+            workTime: formData.workTime.split("-"),
           },
           state: "EM010",
         },
@@ -219,8 +219,8 @@ export default function PostEdit() {
           register={register("workTime", {
             required: "근무 시간은 00:00 - 00:00으로 입력해주세요.",
             pattern: {
-              value: /^([01]\d|2[0-3]):([0-5]\d) - ([01]\d|2[0-3]):([0-5]\d)$/,
-              message: "근무 시간은 00:00 - 00:00 형식으로 입력해주세요.",
+              value: /^([01]\d|2[0-3]):([0-5]\d)-([01]\d|2[0-3]):([0-5]\d)$/,
+              message: "근무 시간은 00:00-00:00 형식으로 입력해주세요.",
             },
           })}
           errorMsg={errors.workTime?.message}

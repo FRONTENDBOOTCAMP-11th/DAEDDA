@@ -26,7 +26,6 @@ export default function PostWrite() {
 
   const addPost = useMutation({
     mutationFn: async formData => {
-      console.log(formData.workTime.split("-"));
       let body = {
         name: formData.name,
         price: formData.price,
