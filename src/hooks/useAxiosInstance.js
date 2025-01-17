@@ -71,11 +71,12 @@ function useAxiosInstance() {
 
           config.headers.Authorization = `Bearer ${accessToken}`;
           return axios(config);
-        } else {
-          // 로그인이 안 된 경우
-          alert("로그인이 필요한 페이지입니다.");
-          navigate("/user/signIn");
         }
+        // else {
+        //   // 로그인이 안 된 경우
+        //   alert("로그인이 필요한 페이지입니다.");
+        //   navigate("/user/signIn");
+        // }
       }
       return Promise.reject(error);
     },
