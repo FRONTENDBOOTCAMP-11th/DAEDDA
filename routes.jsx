@@ -20,6 +20,9 @@ import Employed from "@pages/history/Employed";
 import ReviewWrite from "@pages/history/ReviewWrite";
 import KakaoSignIn from "@pages/user/KakaoSignIn";
 import Alarm from "@pages/alarm/Alarm";
+import ProtectedRoute from "./protectedRoutes";
+
+// 접근 막을 페이지: nav 기준 마이페이지, 알바 내역 페이지
 
 const router = createBrowserRouter(
   [
@@ -29,36 +32,66 @@ const router = createBrowserRouter(
       children: [
         { index: true, element: <PostList /> },
 
-        { path: "alarm", element: <Alarm /> },
-        { path: "post/write", element: <PostWrite /> },
+        {
+          element: <ProtectedRoute />,
+          children: [
+            { path: "alarm", element: <Alarm /> },
+            { path: "post/write", element: <PostWrite /> },
+            { path: "post/:_id/edit", element: <PostEdit /> },
+            { path: "pr/write", element: <PRWrite /> },
+          ],
+        },
+
         { path: "post/:_id", element: <PostDetail /> },
-        { path: "post/:_id/edit", element: <PostEdit /> },
 
         {
           path: "history",
           element: <ReviewList />,
           children: [
             {
+              element: <ProtectedRoute />,
+              children: [
+                { path: "worked", element: <Worked /> },
+                { path: "employed", element: <Employed /> },
+                {
+                  path: ":from/reviewWrite/:id",
+                  element: <ReviewWrite />,
+                },
+              ],
+            },
+            {
               index: true,
               element: <Navigate to="worked" replace />,
             },
-            { path: "worked", element: <Worked /> },
-            { path: "employed", element: <Employed /> },
           ],
         },
-        { path: "history/:from/reviewWrite/:id", element: <ReviewWrite /> },
+        // { path: "history/:from/reviewWrite/:id", element: <ReviewWrite /> },
+        // { path: "pr/write", element: <PRWrite /> },
 
-        { path: "pr/write", element: <PRWrite /> },
+        {
+          path: "myPage",
+          children: [
+            {
+              element: <ProtectedRoute />,
+              children: [
+                { index: true, element: <MyPage /> },
+                { path: "myPage/edit", element: <Edit /> },
+                { path: "myPage/likeList", element: <Likes /> },
+                { path: "myPage/myReviews/:_id", element: <MyReviews /> },
+              ],
+            },
+          ],
+        },
 
-        { path: "myPage", element: <MyPage /> },
-        { path: "myPage/edit", element: <Edit /> },
-        { path: "myPage/likeList", element: <Likes /> },
-        { path: "myPage/myReviews/:_id", element: <MyReviews /> },
+        {
+          path: "user/:_id",
+          element: <ProtectedRoute />,
+          children: [{ index: true, element: <Profile /> }],
+        },
 
+        { path: "error", element: <Error /> },
         { path: "user/signUp", element: <SignUp /> },
         { path: "user/terms", element: <Terms /> },
-        { path: "user/:_id", element: <Profile /> },
-        { path: "error", element: <Error /> },
       ],
     },
 
