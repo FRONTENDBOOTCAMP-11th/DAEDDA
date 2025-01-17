@@ -9,6 +9,8 @@ import { Rating } from "react-simple-star-rating";
 import { formatDate } from "@/utills/func.js";
 import { useGetMyProducts } from "@hooks/useGetMyProducts";
 import { useGetOrders } from "@hooks/useGetOrders";
+import useEditProductState from "@hooks/useEditProductState";
+import useAddAlarm from "@hooks/useAddAlarm";
 
 export default function ReviewWrite() {
   const axios = useAxiosInstance();
@@ -33,7 +35,9 @@ export default function ReviewWrite() {
     setRating(rate);
   };
 
-  // from worked 로직
+  console.log(order);
+  const addAlarm = useAddAlarm();
+  const editProductState = useEditProductState();
   const editMyOrderState = useMutation({
     mutationFn: async ({ orderId, state }) => {
       return axios.patch(`/orders/${orderId}`, {
@@ -62,6 +66,11 @@ export default function ReviewWrite() {
       // 주문의 state를 리뷰 작성 완료로 변경
       editMyOrderState.mutate({ orderId: order._id, state: "WO040" });
       workedRefetch();
+      addAlarm.mutate({
+        targetId: order.products[0].seller_id,
+        content: `📝 등록하신 ${order.products[0].extra.condition.company}에서 시킨 일에 대해 리뷰가 작성되었습니다.`,
+        extra: { title: order.products[0].extra.condition.company },
+      });
       alert("리뷰 작성이 완료되었습니다.");
       navigate(-1);
     },
@@ -76,22 +85,7 @@ export default function ReviewWrite() {
     addWorkedReview.mutate(formData);
   };
 
-  // from employed 로직
-  const editProductState = useMutation({
-    mutationFn: async ({ productId, state }) => {
-      return axios.patch(`/seller/products/${productId}`, {
-        "extra.state": state,
-      });
-    },
-
-    onSuccess: () => {
-      console.log("product state 리뷰 작성 완료로 변경");
-    },
-
-    onError: error => {
-      console.error("등록 실패:", error);
-    },
-  });
+  // // from employed 로직
 
   const deleteMyBookmark = useMutation({
     mutationFn: async bookmarkId => {
@@ -108,6 +102,11 @@ export default function ReviewWrite() {
     // 게시글의 state를 리뷰 작성 완료로 변경
     editProductState.mutate({ productId, state: "EM040" });
     employedRefetch();
+    addAlarm.mutate({
+      targetId: order.user_id,
+      content: `📝 지원하신 ${order.products[0].extra.condition.company}에서 한 일에 대해 리뷰가 작성되었습니다.`,
+      extra: { title: order.products[0].extra.condition.company },
+    });
     alert("리뷰 작성이 완료되었습니다.");
     navigate(-1);
   };

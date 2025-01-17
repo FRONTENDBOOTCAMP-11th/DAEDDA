@@ -19,6 +19,7 @@ import Worked from "@pages/history/Worked";
 import Employed from "@pages/history/Employed";
 import ReviewWrite from "@pages/history/ReviewWrite";
 import KakaoSignIn from "@pages/user/KakaoSignIn";
+import Alarm from "@pages/alarm/Alarm";
 
 const router = createBrowserRouter(
   [
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
       children: [
         { index: true, element: <PostList /> },
 
+        { path: "alarm", element: <Alarm /> },
         { path: "post/write", element: <PostWrite /> },
         { path: "post/:_id", element: <PostDetail /> },
         { path: "post/:_id/edit", element: <PostEdit /> },

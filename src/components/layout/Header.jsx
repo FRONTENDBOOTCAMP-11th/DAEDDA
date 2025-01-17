@@ -1,5 +1,8 @@
 import { Link, useMatch, useNavigate } from "react-router-dom";
 import useUserStore from "@zustand/userStore";
+import useAxiosInstance from "@hooks/useAxiosInstance";
+import { useEffect } from "react";
+import useAlarmExistStore from "@zustand/alarmExistStore";
 import useSidebarStore from "@zustand/sidebarStore";
 
 export default function Header() {
@@ -17,6 +20,7 @@ export default function Header() {
   const mainIDEdit = useMatch("post/:_id/edit");
   const userProfile = useMatch("user/:_id");
   const likeList = useMatch("myPage/likeList");
+  const alarm = useMatch("/alarm");
 
   // 현재 url과 useMatch("pr/write")(=>prWrite) 와 일치한다면 pathname~,,등등 반환 불일치시 null 반환
   // titles 배열에 일치할 때 title을 미리 정의해두었다가 getTitle을 통해 title 반환
@@ -25,6 +29,22 @@ export default function Header() {
   const openSidebar = () => {
     setSidebarOpen(true);
   };
+
+  const { alarmExist, setAlarmExist } = useAlarmExistStore();
+  const axios = useAxiosInstance();
+
+  const checkAlarmExist = async () => {
+    const res = await axios.get(`/notifications`);
+    if (res.data.item.length > 0) {
+      setAlarmExist(true);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      checkAlarmExist();
+    }
+  }, [user]);
 
   const titles = [
     { match: prWrite, title: "공고 지원 글 작성" },
@@ -41,7 +61,12 @@ export default function Header() {
     { match: reviewWrite, title: "리뷰 작성" },
     { match: userProfile, title: "프로필" },
     { match: likeList, title: "관심 목록" },
+    { match: alarm, title: "알람" },
   ];
+
+  const handleAlarm = () => {
+    navigate("/alarm");
+  };
 
   const getTitle = () => {
     // match가 null이 아닌 것의 title을 반환, null이면 undefined
@@ -60,8 +85,8 @@ export default function Header() {
     mainID ||
     mainIDEdit ||
     userProfile ||
-    likeList;
-
+    likeList ||
+    alarm;
   if (error) {
     return null;
   }
@@ -82,23 +107,38 @@ export default function Header() {
   }
 
   return (
-    <>
-      <header className="w-full h-[60px] flex items-center justify-between fixed top-0 max-w-screen-sm left-1/2 -translate-x-1/2 bg-white px-6 z-10">
-        <Link to="/">
-          <img
-            src="/logos/header-logo.png"
-            className="w-[170px] cursor-pointer"
-          />
-        </Link>
-        <div className="flex items-center gap-4">
-          <img src="/icons/alarm.svg" className="cursor-pointer" />
-          <img
-            src="/icons/hamburger.svg"
-            className="w-6 cursor-pointer"
-            onClick={openSidebar}
-          />
-        </div>
-      </header>
-    </>
+    <header className="w-full h-[60px] flex items-center justify-between fixed top-0 max-w-screen-sm left-1/2 -translate-x-1/2 bg-white px-6 z-10">
+      <Link to="/">
+        <img
+          src="/logos/header-logo.png"
+          className="w-[170px] cursor-pointer"
+        />
+      </Link>
+      <div className="flex items-center gap-4">
+        {user ? (
+          alarmExist ? (
+            <img
+              src="/icons/redAlarm.svg"
+              className="cursor-pointer"
+              onClick={handleAlarm}
+            />
+          ) : (
+            <img
+              src="/icons/alarm.svg"
+              className="cursor-pointer"
+              onClick={handleAlarm}
+            />
+          )
+        ) : (
+          <></>
+        )}
+
+        <img
+          src="/icons/hamburger.svg"
+          className="w-6 cursor-pointer"
+          onClick={openSidebar}
+        />
+      </div>
+    </header>
   );
 }
