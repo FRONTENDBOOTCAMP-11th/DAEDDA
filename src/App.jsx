@@ -26,7 +26,9 @@ function App() {
   }, []);
 
   return (
-    <div className="px-6 max-w-screen-sm m-auto h-screen overflow-y-auto relative">
+    <div
+      className={`px-6 max-w-screen-sm m-auto h-screen relative overflow-y-auto`}
+    >
       {showSplash ? (
         <SplashScreen />
       ) : (
