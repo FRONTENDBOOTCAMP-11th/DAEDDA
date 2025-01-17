@@ -131,10 +131,9 @@ export default function PostWrite() {
     }
 
     try {
-      const postResult = await handlePayment(formData, user);
+      // const postResult = await handlePayment(formData, user);
 
       const addPostResponse = await addPost.mutateAsync(formData);
-      console.log(addPostResponse);
       const productId = addPostResponse.data.item._id;
 
       if (productId) {
