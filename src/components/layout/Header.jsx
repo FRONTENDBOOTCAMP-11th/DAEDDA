@@ -1,5 +1,8 @@
 import { Link, useMatch, useNavigate } from "react-router-dom";
 import useUserStore from "@zustand/userStore";
+import useAxiosInstance from "@hooks/useAxiosInstance";
+import { useEffect } from "react";
+import useAlarmExistStore from "@zustand/alarmExistStore";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -21,6 +24,22 @@ export default function Header() {
   // 현재 url과 useMatch("pr/write")(=>prWrite) 와 일치한다면 pathname~,,등등 반환 불일치시 null 반환
   // titles 배열에 일치할 때 title을 미리 정의해두었다가 getTitle을 통해 title 반환
 
+  const { alarmExist, setAlarmExist } = useAlarmExistStore();
+  const axios = useAxiosInstance();
+
+  const checkAlarmExist = async () => {
+    const res = await axios.get(`/notifications`);
+    if (res.data.item.length > 0) {
+      setAlarmExist(true);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      checkAlarmExist();
+    }
+  }, [user]);
+
   const titles = [
     { match: prWrite, title: "공고 지원 글 작성" },
     { match: userTerms, title: "약관 동의" },
@@ -38,6 +57,10 @@ export default function Header() {
     { match: likeList, title: "관심 목록" },
     { match: alarm, title: "알람" },
   ];
+
+  const handleAlarm = () => {
+    navigate("/alarm");
+  };
 
   const getTitle = () => {
     // match가 null이 아닌 것의 title을 반환, null이면 undefined
@@ -85,7 +108,20 @@ export default function Header() {
         />
       </Link>
       <div className="flex items-center gap-4">
-        <img src="/icons/alarm.svg" className="cursor-pointer" />
+        {alarmExist ? (
+          <img
+            src="/icons/redAlarm.svg"
+            className="cursor-pointer"
+            onClick={handleAlarm}
+          />
+        ) : (
+          <img
+            src="/icons/alarm.svg"
+            className="cursor-pointer"
+            onClick={handleAlarm}
+          />
+        )}
+
         <img src="/icons/hamburger.svg" className="w-6 cursor-pointer" />
       </div>
     </header>

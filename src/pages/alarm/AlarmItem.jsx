@@ -9,8 +9,6 @@ AlarmItem.propTypes = {
 };
 
 export default function AlarmItem({ notification }) {
-  console.log(notification);
-
   return (
     <>
       <section className="p-4 border-b">
