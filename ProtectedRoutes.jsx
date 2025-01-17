@@ -4,7 +4,11 @@ import useUserStore from "@zustand/userStore";
 const ProtectedRoute = () => {
   const user = useUserStore(state => state.user);
 
-  return user ? <Outlet /> : <Navigate to="/user/signIn" replace />;
+  if (!user) {
+    alert("로그인 필요 - protected route");
+    return <Navigate to="/user/signIn" replace />;
+  }
+  return <Outlet />;
 };
 
 export default ProtectedRoute;
