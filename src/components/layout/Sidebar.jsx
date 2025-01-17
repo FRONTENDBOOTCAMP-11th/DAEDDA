@@ -14,7 +14,7 @@ export default function Sidebar() {
     setTimeout(() => {
       // 상태 변화에 딜레이를 줌 (애니메이션이 동작하도록)
       setSidebarOpen(false);
-    }, 300);
+    }, 700);
   };
 
   // 로그인으로 이동
