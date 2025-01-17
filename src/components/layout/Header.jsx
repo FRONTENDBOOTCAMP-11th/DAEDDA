@@ -1,11 +1,8 @@
 import { Link, useMatch, useNavigate } from "react-router-dom";
 import useUserStore from "@zustand/userStore";
-
 import useSidebarStore from "@zustand/sidebarStore";
-import Sidebar from "@components/layout/Sidebar";
 
 export default function Header() {
-  const { setSidebarOpen, isSidebarOpen } = useSidebarStore(); // 사이드바 상태
   const navigate = useNavigate();
   const { user } = useUserStore();
   const error = useMatch("/error");
@@ -23,6 +20,11 @@ export default function Header() {
 
   // 현재 url과 useMatch("pr/write")(=>prWrite) 와 일치한다면 pathname~,,등등 반환 불일치시 null 반환
   // titles 배열에 일치할 때 title을 미리 정의해두었다가 getTitle을 통해 title 반환
+  const { setSidebarOpen } = useSidebarStore(); // 사이드바 상태
+
+  const openSidebar = () => {
+    setSidebarOpen(true);
+  };
 
   const titles = [
     { match: prWrite, title: "공고 지원 글 작성" },
@@ -64,14 +66,6 @@ export default function Header() {
     return null;
   }
 
-  const openSidebar = () => {
-    setSidebarOpen(true);
-  };
-
-  const closeSidebar = () => {
-    setSidebarOpen(false);
-  };
-
   if (headerMatch) {
     return (
       <header className="w-full h-[60px] flex items-center justify-center border-b border-gray-200 mb-5 fixed top-0 max-w-screen-sm left-1/2 -translate-x-1/2 bg-white px-6 z-10">
@@ -105,8 +99,6 @@ export default function Header() {
           />
         </div>
       </header>
-      {/* 사이드바 열렸을 때만 실행 */}
-      {isSidebarOpen && <Sidebar closeSidebar={closeSidebar} />}
     </>
   );
 }

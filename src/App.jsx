@@ -2,13 +2,9 @@ import { RouterProvider } from "react-router-dom";
 import "./index.css";
 import router from "../routes";
 import { useEffect, useState } from "react";
-import useSidebarStore from "@zustand/sidebarStore";
-import Sidebar from "@components/layout/Sidebar";
-import Header from "@components/layout/Header";
 
 function App() {
   const [showSplash, setShowSplash] = useState(false);
-  const { isSidebarOpen } = useSidebarStore();
 
   useEffect(() => {
     // 최초만 실행하기 위해 isShown을 sessionStorage에 저장
@@ -31,7 +27,7 @@ function App() {
 
   return (
     <div
-      className={`px-6 max-w-screen-sm m-auto h-screen relative ${isSidebarOpen ? "overflow-hidden" : "overflow-y-auto"}`}
+      className={`px-6 max-w-screen-sm m-auto h-screen relative overflow-y-auto`}
     >
       {showSplash ? (
         <SplashScreen />
