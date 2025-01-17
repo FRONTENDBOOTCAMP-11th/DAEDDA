@@ -1,33 +1,51 @@
+import useSidebarStore from "@zustand/sidebarStore";
 import useUserStore from "@zustand/userStore";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Sidebar({ closeSidebar }) {
-  const { user } = useUserStore();
+export default function Sidebar() {
   const navigate = useNavigate();
+  const { user } = useUserStore();
+  const { isSidebarOpen, setSidebarOpen } = useSidebarStore();
+  const [animate, setAnimate] = useState(""); // 애니메이션 제어
 
   const handleClose = () => {
-    closeSidebar();
+    setAnimate("animate-slide-out"); // 닫을때 애니메이션 추가
+    setTimeout(() => {
+      // 상태 변화에 딜레이를 줌 (애니메이션이 동작하도록)
+      setSidebarOpen(false);
+    }, 300);
   };
 
   // 로그인으로 이동
   const goToSignIn = () => {
-    closeSidebar();
+    handleClose();
     navigate("/user/signIn");
   };
 
   // 404로 이동
   const goToError = () => {
-    closeSidebar();
+    setSidebarOpen(false);
     navigate("/error");
   };
+
+  useEffect(() => {
+    if (isSidebarOpen) {
+      setAnimate("animate-slide-in");
+    } else {
+      setAnimate("");
+    }
+  }, [isSidebarOpen]);
 
   return (
     <div className="flex fixed inset-0 max-w-screen-sm m-auto z-10">
       <div
-        className="bg-black w-1/3 h-screen bg-opacity-50 z-10 "
+        className="absolute bg-black w-full h-screen bg-opacity-50 z-10 "
         onClick={handleClose}
       ></div>
-      <div className="w-2/3 h-screen bg-[#F8F1FF] z-10">
+      <div
+        className={`absolute top-0 right-0 w-2/3 h-screen bg-[#F8F1FF] z-10 ${animate}`}
+      >
         <div className="m-6">
           <div className="flex justify-end">
             <img
@@ -37,6 +55,7 @@ export default function Sidebar({ closeSidebar }) {
             />
           </div>
 
+          {/* 로그인 된 상태일 때 */}
           {!user?._id ? (
             <>
               <div
