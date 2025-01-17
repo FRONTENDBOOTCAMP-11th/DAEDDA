@@ -115,18 +115,22 @@ export default function Header() {
         />
       </Link>
       <div className="flex items-center gap-4">
-        {alarmExist ? (
-          <img
-            src="/icons/redAlarm.svg"
-            className="cursor-pointer"
-            onClick={handleAlarm}
-          />
+        {user ? (
+          alarmExist ? (
+            <img
+              src="/icons/redAlarm.svg"
+              className="cursor-pointer"
+              onClick={handleAlarm}
+            />
+          ) : (
+            <img
+              src="/icons/alarm.svg"
+              className="cursor-pointer"
+              onClick={handleAlarm}
+            />
+          )
         ) : (
-          <img
-            src="/icons/alarm.svg"
-            className="cursor-pointer"
-            onClick={handleAlarm}
-          />
+          <></>
         )}
 
         <img
