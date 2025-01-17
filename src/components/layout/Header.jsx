@@ -3,6 +3,7 @@ import useUserStore from "@zustand/userStore";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useEffect } from "react";
 import useAlarmExistStore from "@zustand/alarmExistStore";
+import useSidebarStore from "@zustand/sidebarStore";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -23,6 +24,11 @@ export default function Header() {
 
   // 현재 url과 useMatch("pr/write")(=>prWrite) 와 일치한다면 pathname~,,등등 반환 불일치시 null 반환
   // titles 배열에 일치할 때 title을 미리 정의해두었다가 getTitle을 통해 title 반환
+  const { setSidebarOpen } = useSidebarStore(); // 사이드바 상태
+
+  const openSidebar = () => {
+    setSidebarOpen(true);
+  };
 
   const { alarmExist, setAlarmExist } = useAlarmExistStore();
   const axios = useAxiosInstance();
@@ -84,6 +90,7 @@ export default function Header() {
   if (error) {
     return null;
   }
+
   if (headerMatch) {
     return (
       <header className="w-full h-[60px] flex items-center justify-center border-b border-gray-200 mb-5 fixed top-0 max-w-screen-sm left-1/2 -translate-x-1/2 bg-white px-6 z-10">
@@ -122,7 +129,11 @@ export default function Header() {
           />
         )}
 
-        <img src="/icons/hamburger.svg" className="w-6 cursor-pointer" />
+        <img
+          src="/icons/hamburger.svg"
+          className="w-6 cursor-pointer"
+          onClick={openSidebar}
+        />
       </div>
     </header>
   );
