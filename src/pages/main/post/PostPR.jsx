@@ -3,7 +3,7 @@ import useAddAlarm from "@hooks/useAddAlarm";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import useEditProductState from "@hooks/useEditProductState";
 import useEditProductWorker from "@hooks/useEditProductWorker";
-import { useGetDetailedProduct } from "@hooks/useGetDetailedProduct";
+import { useGetProductDetail } from "@hooks/useGetProductDetail";
 import Badge from "@pages/main/post/Badge";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,7 +12,7 @@ export default function PostPR() {
   const axios = useAxiosInstance();
   const navigate = useNavigate();
   const { _id } = useParams();
-  const { data: product, refetch } = useGetDetailedProduct(_id);
+  const { data: product, refetch } = useGetProductDetail(_id);
   const addAlarm = useAddAlarm();
   const queryClient = useQueryClient();
 

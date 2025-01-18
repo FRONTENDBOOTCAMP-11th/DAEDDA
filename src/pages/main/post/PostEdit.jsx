@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
-import { useGetDetailedProduct } from "@hooks/useGetDetailedProduct";
 import MainMap from "@pages/main/post/MainMap";
+import { useGetProductDetail } from "@hooks/useGetProductDetail";
 
 export default function PostEdit() {
   const { _id } = useParams();
@@ -16,7 +16,7 @@ export default function PostEdit() {
   const [preview, setPreview] = useState(null);
   const [imageError, setImageError] = useState(true);
 
-  const { data: productData } = useGetDetailedProduct(_id);
+  const { data: productData } = useGetProductDetail(_id);
 
   const {
     register,
