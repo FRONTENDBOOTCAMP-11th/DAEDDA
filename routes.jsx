@@ -46,7 +46,7 @@ const router = createBrowserRouter(
             { path: "employed", element: <Employed /> },
           ],
         },
-        { path: "history/:from/reviewWrite/:id", element: <ReviewWrite /> },
+        { path: "history/:from/reviewWrite", element: <ReviewWrite /> },
 
         { path: "pr/write", element: <PRWrite /> },
 

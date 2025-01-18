@@ -30,6 +30,8 @@ export default function Employed() {
     refetch();
   }, [keyword]);
 
+  console.log(data);
+
   return (
     <div>
       <HistorySearch
@@ -51,11 +53,7 @@ export default function Employed() {
       {data &&
         data.map(data => {
           return (
-            <EmployedItem
-              key={data._id}
-              productId={data._id}
-              refetch={refetch}
-            />
+            <EmployedItem key={data._id} product={data} refetch={refetch} />
           );
         })}
     </div>
