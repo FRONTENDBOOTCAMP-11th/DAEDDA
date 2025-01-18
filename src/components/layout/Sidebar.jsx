@@ -38,7 +38,7 @@ export default function Sidebar() {
   }, [isSidebarOpen]);
 
   return (
-    <div className="flex fixed inset-0 max-w-screen-sm m-auto z-10">
+    <div className="flex fixed inset-0 max-w-screen-sm m-auto z-10 overflow-hidden">
       <div
         className="absolute bg-black w-full h-screen bg-opacity-50 z-10 "
         onClick={handleClose}
