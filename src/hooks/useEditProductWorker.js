@@ -13,7 +13,6 @@ const useEditProductWorker = () => {
     },
 
     onSuccess: response => {
-      console.log(response);
       console.log("product state 변경 완료");
     },
 
