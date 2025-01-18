@@ -39,6 +39,10 @@ export default function PostWrite() {
             company: formData.company,
             workTime: formData.workTime.split("-"),
           },
+          worker: {
+            userId: null,
+            orderId: null,
+          },
           state: "EM010",
         },
       };
@@ -233,7 +237,7 @@ export default function PostWrite() {
 
       <fieldset>
         <InputField
-          labelName="근무 조건"
+          labelName="가게 이름"
           type="text"
           placeholder="가게 이름"
           register={register("company", {
