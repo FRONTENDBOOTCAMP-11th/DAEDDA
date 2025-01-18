@@ -5,8 +5,8 @@ import { formatDate } from "@/utills/func.js";
 import { useMutation } from "@tanstack/react-query";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useGetOrderState } from "@hooks/useGetOrderState";
-import { useGetDetailedProduct } from "@hooks/useGetDetailedProduct";
 import useAddAlarm from "@hooks/useAddAlarm";
+import { useGetProductDetail } from "@hooks/useGetProductDetail";
 
 EmployedItem.propTypes = {
   productId: PropTypes.number.isRequired,
@@ -17,7 +17,7 @@ export default function EmployedItem({ productId, refetch }) {
   const navigate = useNavigate();
   const axios = useAxiosInstance();
 
-  const { data } = useGetDetailedProduct(productId);
+  const { data } = useGetProductDetail(productId);
   const { data: state } = useGetOrderState(data?.extra.state);
   const targetOrder = data?.orders?.find(
     order =>
