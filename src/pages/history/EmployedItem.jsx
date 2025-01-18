@@ -75,6 +75,7 @@ export default function EmployedItem({ productId, refetch }) {
         content: `💸 지원하신 ${targetOrder.products[0].extra.condition.company}에서 한 일에 대해 입금이 완료되었습니다.`,
         extra: { title: targetOrder.products[0].extra.condition.company },
       });
+      refetch();
       navigate(`reviewWrite/${data._id}`, { state: { order: targetOrder } });
     }
   };
