@@ -134,7 +134,9 @@ export default function MainMap() {
       />
 
       <div>
-        <button onClick={handleAddressSearch}>주소 검색</button>
+        <button onClick={handleAddressSearch} className="mb-4 mr-2">
+          주소 검색
+        </button>
         <button onClick={clearMap}>초기화</button>
       </div>
     </>
