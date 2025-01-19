@@ -27,82 +27,59 @@ import ProtectedRoute from "./protectedRoutes";
 const router = createBrowserRouter(
   [
     {
-      path: "/",
       element: <Layout />,
       children: [
-        { index: true, element: <PostList /> },
-
+        // 로그인이 필요 없는 페이지
+        { path: "/", element: <PostList /> },
+        { path: "post/:_id", element: <PostDetail /> },
+        { path: "error", element: <Error /> },
         {
+          path: "user",
+          children: [
+            { path: "user/signUp", element: <SignUp /> },
+            { path: "user/terms", element: <Terms /> },
+            { path: "user/signIn", element: <SignIn /> },
+          ],
+        },
+        {
+          // 로그인이 필요한 페이지
           element: <ProtectedRoute />,
           children: [
             { path: "alarm", element: <Alarm /> },
             { path: "post/write", element: <PostWrite /> },
             { path: "post/:_id/edit", element: <PostEdit /> },
             { path: "pr/write", element: <PRWrite /> },
-          ],
-        },
-
-        { path: "post/:_id", element: <PostDetail /> },
-
-        {
-          path: "history",
-          element: <ProtectedRoute />,
-          // element: <ReviewList />,
-          children: [
             {
+              path: "history",
               element: <ReviewList />,
               children: [
                 { path: "worked", element: <Worked /> },
                 { path: "employed", element: <Employed /> },
-                {
-                  path: ":from/reviewWrite/:id",
-                  element: <ReviewWrite />,
-                },
+                { path: ":from/reviewWrite/:id", element: <ReviewWrite /> },
               ],
             },
             {
-              index: true,
-              element: <Navigate to="worked" replace />,
-            },
-          ],
-        },
-        // { path: "history/:from/reviewWrite/:id", element: <ReviewWrite /> },
-        // { path: "pr/write", element: <PRWrite /> },
-
-        {
-          path: "myPage",
-          children: [
-            {
-              element: <ProtectedRoute />,
+              path: "myPage",
               children: [
                 { index: true, element: <MyPage /> },
-                { path: "myPage/edit", element: <Edit /> },
-                { path: "myPage/likeList", element: <Likes /> },
-                { path: "myPage/myReviews/:_id", element: <MyReviews /> },
+                { path: "edit", element: <Edit /> },
+                { path: "likeList", element: <Likes /> },
+                { path: "myReviews/:_id", element: <MyReviews /> },
               ],
             },
+            { path: "user/:_id", element: <Profile /> },
           ],
         },
-
-        {
-          path: "user/:_id",
-          element: <ProtectedRoute />,
-          children: [{ index: true, element: <Profile /> }],
-        },
-
-        { path: "error", element: <Error /> },
-        { path: "user/signUp", element: <SignUp /> },
-        { path: "user/terms", element: <Terms /> },
       ],
     },
 
+    // 레이아웃 필요 없는 페이지
     {
-      path: "user/signIn",
-      element: <SignIn />,
-    },
-    {
-      path: "user/signin/kakao",
-      element: <KakaoSignIn />,
+      path: "user",
+      children: [
+        { path: "signIn", element: <SignIn /> },
+        { path: "signin/kakao", element: <KakaoSignIn /> },
+      ],
     },
   ],
   {
