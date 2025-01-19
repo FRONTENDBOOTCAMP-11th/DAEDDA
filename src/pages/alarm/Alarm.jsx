@@ -28,6 +28,7 @@ export default function Alarm() {
     console.log("Alarm removed");
     refetch();
     setAlarmExist(false);
+    queryClient.invalidateQueries({ queryKey: ["notifications"] });
   };
 
   return (
