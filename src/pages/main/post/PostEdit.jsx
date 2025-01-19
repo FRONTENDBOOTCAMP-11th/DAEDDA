@@ -37,7 +37,7 @@ export default function PostEdit() {
       setValue("address", productData.extra?.address);
       setValue("date", productData.extra?.condition?.date);
       setValue("company", productData.extra?.condition?.company);
-      setValue("workTime", productData.extra?.condition?.workTime.join(" - "));
+      setValue("workTime", productData.extra?.condition?.workTime.join("-"));
       if (productData.mainImages?.[0]?.path) {
         const imageUrl = `https://11.fesp.shop${productData.mainImages[0].path}`;
         setPreview(imageUrl);
@@ -215,9 +215,9 @@ export default function PostEdit() {
 
         <InputField
           type="text"
-          placeholder="근무 시간은 00:00 - 00:00으로 입력해주세요."
+          placeholder="근무 시간은 00:00-00:00으로 입력해주세요."
           register={register("workTime", {
-            required: "근무 시간은 00:00 - 00:00으로 입력해주세요.",
+            required: "근무 시간은 00:00-00:00으로 입력해주세요.",
             pattern: {
               value: /^([01]\d|2[0-3]):([0-5]\d)-([01]\d|2[0-3]):([0-5]\d)$/,
               message: "근무 시간은 00:00-00:00 형식으로 입력해주세요.",
