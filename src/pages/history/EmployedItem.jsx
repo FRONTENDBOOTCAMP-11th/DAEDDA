@@ -5,7 +5,8 @@ import { formatDate } from "@/utills/func.js";
 import { useMutation } from "@tanstack/react-query";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useGetOrderState } from "@hooks/useGetOrderState";
-import { useGetDetailedProduct } from "@hooks/useGetDetailedProduct";
+import useAddAlarm from "@hooks/useAddAlarm";
+import { useGetProductDetail } from "@hooks/useGetProductDetail";
 
 EmployedItem.propTypes = {
   productId: PropTypes.number.isRequired,
@@ -16,7 +17,7 @@ export default function EmployedItem({ productId, refetch }) {
   const navigate = useNavigate();
   const axios = useAxiosInstance();
 
-  const { data } = useGetDetailedProduct(productId);
+  const { data } = useGetProductDetail(productId);
   const { data: state } = useGetOrderState(data?.extra.state);
   const targetOrder = data?.orders?.find(
     order =>
@@ -25,6 +26,7 @@ export default function EmployedItem({ productId, refetch }) {
       order.state === "WO040",
   );
 
+  const addAlarm = useAddAlarm();
   // seller product에서 상태가 채택 완료인 order 획득
   const editOrderState = useMutation({
     mutationFn: async ({ orderId, state }) => {
@@ -68,6 +70,11 @@ export default function EmployedItem({ productId, refetch }) {
 
       // 주문 상태 채택 완료에서 입금 완료로 변경
       editOrderState.mutate({ orderId: targetOrder._id, state: "WO030" });
+      addAlarm.mutate({
+        targetId: targetOrder.user_id,
+        content: `💸 지원하신 ${targetOrder.products[0].extra.condition.company}에서 한 일에 대해 입금이 완료되었습니다.`,
+        extra: { title: targetOrder.products[0].extra.condition.company },
+      });
       navigate(`reviewWrite/${data._id}`, { state: { order: targetOrder } });
     }
   };
@@ -99,25 +106,28 @@ export default function EmployedItem({ productId, refetch }) {
               {data.extra.condition.workTime[1]}
             </p>
           </div>
-
           <Button
             disabled={
-              state === "구인 완료" || state === "송금 완료" ? false : true
+              state.value === "구인 완료" || state.value === "송금 완료"
+                ? false
+                : true
             }
             color={
-              state === "구인 완료" || state === "송금 완료" ? "purple" : "gray"
+              state.value === "구인 완료" || state.value === "송금 완료"
+                ? "purple"
+                : "gray"
             }
             height="md"
             onClick={
-              state === "구인 완료"
+              state.value === "구인 완료"
                 ? () =>
                     onCompleteClicked(data.extra.condition.company, data.price)
-                : state === "송금 완료"
+                : state.value === "송금 완료"
                   ? () => onReviewWriteClicked()
                   : null
             }
           >
-            {state === "구인 완료" ? "송금하기" : "리뷰 작성하기"}
+            {state.value === "구인 완료" ? "송금하기" : "리뷰 작성하기"}
           </Button>
         </div>
       )}

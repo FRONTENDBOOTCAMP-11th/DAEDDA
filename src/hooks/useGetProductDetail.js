@@ -1,10 +1,10 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetDetailedProduct = productId => {
+export const useGetProductDetail = productId => {
   const axios = useAxiosInstance();
   return useQuery({
-    queryKey: ["prouct", productId],
+    queryKey: ["product", productId],
     queryFn: () => {
       return axios.get(`/seller/products/${productId}`);
     },

@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import DOMPurify from "dompurify";
 import { useLocation, useNavigate } from "react-router-dom";
+import useAddAlarm from "@hooks/useAddAlarm";
 
 export default function PRWrite() {
   const navigate = useNavigate();
@@ -12,6 +13,8 @@ export default function PRWrite() {
   const queryClient = useQueryClient();
   const location = useLocation();
   const productId = location.state?.product_id;
+
+  const addAlarm = useAddAlarm();
 
   const {
     handleSubmit,
@@ -42,8 +45,18 @@ export default function PRWrite() {
 
     onSuccess: response => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
-      console.log("Response Data:", response.body);
-      navigate(`/main/${productId}`);
+
+      const notificationContent = `🙋‍♂️ 작성하신 "${response.data.item.products[0].name}" 에 새로운 지원자가 있습니다.`;
+
+      addAlarm.mutate({
+        targetId: response.data.item.products[0].seller_id,
+        content: notificationContent,
+        extra: {
+          title: response.data.item.products[0].name,
+        },
+      });
+      alert("성공적으로 지원되었습니다.");
+      navigate(`/post/${productId}`);
     },
     onError: error => {
       console.error("등록 실패:", error);
