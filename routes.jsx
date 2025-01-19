@@ -46,10 +46,11 @@ const router = createBrowserRouter(
 
         {
           path: "history",
-          element: <ReviewList />,
+          element: <ProtectedRoute />,
+          // element: <ReviewList />,
           children: [
             {
-              element: <ProtectedRoute />,
+              element: <ReviewList />,
               children: [
                 { path: "worked", element: <Worked /> },
                 { path: "employed", element: <Employed /> },
