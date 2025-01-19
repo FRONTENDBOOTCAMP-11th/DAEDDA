@@ -60,6 +60,10 @@ export default function PostEdit() {
             company: formData.company,
             workTime: formData.workTime.split("-"),
           },
+          worker: {
+            userId: null,
+            orderId: null,
+          },
           state: "EM010",
         },
       };
