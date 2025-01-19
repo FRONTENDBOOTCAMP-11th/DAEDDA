@@ -1,35 +1,23 @@
 import { RouterProvider } from "react-router-dom";
 import "./index.css";
 import router from "../routes";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import useSplashStore from "@zustand/splashStore";
 
 function App() {
-  const [showSplash, setShowSplash] = useState(false);
+  const { isSplashShown, hasShownSplash, showSplash } = useSplashStore();
 
   useEffect(() => {
-    // 최초만 실행하기 위해 isShown을 sessionStorage에 저장
-    const isShown = sessionStorage.getItem("isShown");
-
-    // null 일 때 실행 됨
-    if (!isShown) {
-      // splash 보여주기
-      setShowSplash(true);
-
-      const timer = setTimeout(() => {
-        // 2초 뒤에 화면 꺼짐
-        setShowSplash(false);
-
-        sessionStorage.setItem("isShown", "true");
-      }, 2000);
-      return () => clearTimeout(timer);
+    // 스플래시 화면이 한 번도 표시되지 않은 경우에만 실행
+    if (!hasShownSplash) {
+      showSplash(); // 스플래시 화면 표시 및 상태 변경
     }
-  }, []);
-
+  }, [hasShownSplash, showSplash]);
   return (
     <div
       className={`px-6 max-w-screen-sm m-auto h-screen relative overflow-y-auto`}
     >
-      {showSplash ? (
+      {isSplashShown ? (
         <SplashScreen />
       ) : (
         <RouterProvider router={router} future={{ v7_startTransition: true }} />

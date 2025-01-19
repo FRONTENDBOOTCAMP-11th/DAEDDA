@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useGetOrderState } from "@hooks/useGetOrderState";
 import useAddAlarm from "@hooks/useAddAlarm";
+import { useGetProductDetail } from "@hooks/useGetProductDetail";
 
 EmployedItem.propTypes = {
   product: PropTypes.object.isRequired,
