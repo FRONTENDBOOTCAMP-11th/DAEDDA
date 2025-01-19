@@ -64,9 +64,9 @@ export default function PostDetail() {
   );
 
   const handleEdit = useCallback(() => {
-    if (data.worker.workerId !== null) {
+    if (data.item.extra.worker.userId !== null) {
       alert(
-        "채택된 지원자가 있는 경우 글 수정이 불가합니다. 채택 취소를 먼저 진행해주세요.",
+        "채택된 지원자가 있는 경우 글 수정이 불가합니다.\n채택 취소를 먼저 진행해주세요.",
       );
     } else {
       editDetailPost.mutate(_id);
