@@ -221,18 +221,7 @@ export default function PostWrite() {
 
       <fieldset>
         <legend className="text-[1rem] font-bold mb-2">위치</legend>
-        <div className="mb-4">
-          <MainMap />
-        </div>
-        <InputField
-          labelName="상세 주소"
-          type="text"
-          placeholder="상세 주소"
-          register={register("address", {
-            required: "주소 입력은 필수입니다.",
-          })}
-          errorMsg={errors.address?.message}
-        />
+        <MainMap />
       </fieldset>
 
       <fieldset>
@@ -278,7 +267,7 @@ export default function PostWrite() {
         />
 
         <InputField
-          labelName="근무 일"
+          labelName="근무 날짜"
           type="date"
           register={register("date", {
             required: "날짜 입력은 필수입니다.",

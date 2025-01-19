@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
 import { useGetDetailedProduct } from "@hooks/useGetDetailedProduct";
+import MainMap from "@pages/main/post/MainMap";
 
 export default function PostEdit() {
   const { _id } = useParams();
@@ -37,7 +38,7 @@ export default function PostEdit() {
       setValue("address", productData.extra?.address);
       setValue("date", productData.extra?.condition?.date);
       setValue("company", productData.extra?.condition?.company);
-      setValue("workTime", productData.extra?.condition?.workTime.join(" - "));
+      setValue("workTime", productData.extra?.condition?.workTime.join("-"));
       if (productData.mainImages?.[0]?.path) {
         const imageUrl = `https://11.fesp.shop${productData.mainImages[0].path}`;
         setPreview(imageUrl);
@@ -59,6 +60,10 @@ export default function PostEdit() {
             date: formData.date,
             company: formData.company,
             workTime: formData.workTime.split("-"),
+          },
+          worker: {
+            userId: null,
+            orderId: null,
           },
           state: "EM010",
         },
@@ -174,24 +179,13 @@ export default function PostEdit() {
       </fieldset>
 
       <fieldset>
-        <legend className="text-[16px] font-bold mb-2">위치</legend>
-        <div className="max-w-screen-sm h-24 bg-slate-500 mb-7 rounded-lg flex items-center justify-center">
-          지도
-        </div>
-        <InputField
-          type="text"
-          id="address"
-          placeholder="상세 주소"
-          register={register("address", {
-            required: "주소 입력은 필수입니다.",
-          })}
-          errorMsg={errors.address?.message}
-        />
+        <legend className="text-[1rem] font-bold mb-2">위치</legend>
+        <MainMap />
       </fieldset>
 
       <fieldset>
         <InputField
-          labelName="근무 조건"
+          labelName="가게 이름"
           type="text"
           placeholder="가게 이름"
           register={register("company", {
@@ -202,9 +196,10 @@ export default function PostEdit() {
 
         <InputField
           type="text"
-          placeholder="급여는 숫자만 입력주세요."
+          labelName="일당"
+          placeholder="일당은 숫자만 입력주세요."
           register={register("price", {
-            required: "급여 입력은 필수입니다.",
+            required: "일당 입력은 필수입니다.",
             pattern: {
               value: /^[0-9]+$/,
               message: "숫자만 입력해주세요.",
@@ -214,10 +209,11 @@ export default function PostEdit() {
         />
 
         <InputField
+          labelName="근무 시간"
           type="text"
-          placeholder="근무 시간은 00:00 - 00:00으로 입력해주세요."
+          placeholder="근무 시간은 00:00-00:00으로 입력해주세요."
           register={register("workTime", {
-            required: "근무 시간은 00:00 - 00:00으로 입력해주세요.",
+            required: "근무 시간은 00:00-00:00으로 입력해주세요.",
             pattern: {
               value: /^([01]\d|2[0-3]):([0-5]\d)-([01]\d|2[0-3]):([0-5]\d)$/,
               message: "근무 시간은 00:00-00:00 형식으로 입력해주세요.",
@@ -226,6 +222,7 @@ export default function PostEdit() {
           errorMsg={errors.workTime?.message}
         />
         <InputField
+          labelName="근무 날짜"
           type="date"
           register={register("date", {
             required: "날짜 입력은 필수입니다.",
