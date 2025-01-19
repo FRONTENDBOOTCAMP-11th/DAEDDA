@@ -9,7 +9,7 @@ export default function Alarm() {
   const { setAlarmExist } = useAlarmExistStore();
   const queryClient = useQueryClient();
 
-  const { data: notifications } = useQuery({
+  const { data: notifications, refetch } = useQuery({
     queryKey: ["notifications"],
     queryFn: () => axios.get(`/notifications/`),
     select: res => {
@@ -25,8 +25,9 @@ export default function Alarm() {
 
   const onCloseClicked = () => {
     removeAlarm.mutate();
+    console.log("Alarm removed");
+    refetch();
     setAlarmExist(false);
-    queryClient.invalidateQueries({ queryKey: ["notifications"] });
   };
 
   return (
