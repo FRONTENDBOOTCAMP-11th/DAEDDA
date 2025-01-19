@@ -43,7 +43,7 @@ export default function Header() {
     if (user) {
       checkAlarmExist();
     }
-  }, [user]);
+  }, [user, alarmExist]);
 
   const titles = [
     { match: prWrite, title: "공고 지원 글 작성" },
