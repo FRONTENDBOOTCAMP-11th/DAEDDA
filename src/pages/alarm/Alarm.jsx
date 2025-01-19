@@ -35,7 +35,7 @@ export default function Alarm() {
     <div className="mt-2">
       {alarmExist ? (
         <div className="flex justify-end">
-          <div className="fixed mt-4">
+          <div className="fixed mt-2">
             <Button
               className="w-[70px] cursor-pointer"
               color="white"
