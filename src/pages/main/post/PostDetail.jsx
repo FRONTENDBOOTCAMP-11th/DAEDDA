@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { getWorkTime, formatDate } from "@/utills/func";
 import DOMPurify from "dompurify";
-import PostPR from "@pages/main/PostPR";
+import PostPR from "@pages/main/post/PostPR";
 import { useCallback, useEffect, useState } from "react";
 import useUserStore from "@zustand/userStore";
 
@@ -170,19 +170,21 @@ export default function PostDetail() {
           </div>
         ) : (
           <div className="flex" onClick={handleBookMarkToggle}>
-            {bookMark ? (
-              <img
-                src="/icons/likes.svg"
-                className="h-7 w-7 ml-2 cursor-pointer"
-                alt="찜 풀기 아이콘"
-              />
-            ) : (
-              <img
-                src="/icons/blackHeart.svg"
-                className="h-7 w-7 ml-2 cursor-pointer"
-                alt="찜 아이콘"
-              />
-            )}
+            {user ? (
+              bookMark ? (
+                <img
+                  src="/icons/likes.svg"
+                  className="h-7 w-7 ml-2 cursor-pointer"
+                  alt="찜 풀기 아이콘"
+                />
+              ) : (
+                <img
+                  src="/icons/blackHeart.svg"
+                  className="h-7 w-7 ml-2 cursor-pointer"
+                  alt="찜 아이콘"
+                />
+              )
+            ) : null}
           </div>
         )}
       </section>
@@ -285,20 +287,23 @@ export default function PostDetail() {
           </div>
         </section>
         <div className="mt-7">
-          {data?.item?.seller_id !== userId ? (
-            <Button
-              color="purple"
-              height="lg"
-              type="submit"
-              onClick={handleApply}
-            >
-              지원하기
-            </Button>
-          ) : (
-            ""
-          )}
+          {user ? (
+            data?.item?.seller_id !== userId ? (
+              <Button
+                color="purple"
+                height="lg"
+                type="submit"
+                onClick={handleApply}
+              >
+                지원하기
+              </Button>
+            ) : (
+              ""
+            )
+          ) : null}
         </div>
-        {data?.item?.seller_id == userId ? <PostPR /> : null}
+
+        {user ? data?.item?.seller_id == userId ? <PostPR /> : null : null}
       </div>
     </div>
   );

@@ -1,25 +1,43 @@
 import Button from "@components/Button";
+import useAddAlarm from "@hooks/useAddAlarm";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import { useGetDetailedProduct } from "@hooks/useGetDetailedProduct";
-import Badge from "@pages/main/Badge";
-import { useMutation } from "@tanstack/react-query";
+import useEditProductState from "@hooks/useEditProductState";
+import { useGetProductDetail } from "@hooks/useGetProductDetail";
+import Badge from "@pages/main/post/Badge";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function PostPR() {
   const axios = useAxiosInstance();
   const navigate = useNavigate();
-
   const { _id } = useParams();
+  const { data: product, refetch } = useGetProductDetail(_id);
+  const addAlarm = useAddAlarm();
+  const queryClient = useQueryClient();
 
-  const { data: product, refetch } = useGetDetailedProduct(_id);
-
-  const changeState = useMutation({
+  const editProductState = useEditProductState();
+  const changeOrderState = useMutation({
     mutationFn: async ({ orderId, newState }) => {
       const body = { state: newState };
       return axios.patch(`/seller/orders/${orderId}`, body);
     },
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
+      const { newState, userId } = variables;
+
+      let notificationContent;
+      if (newState === "WO020")
+        notificationContent = `🎉 지원하신 "${product.name}" 에 채택이 되었습니다.`;
+      else
+        notificationContent = `😭 지원하신 "${product.name}" 에 채택이 취소되었습니다.`;
+
+      addAlarm.mutateAsync({
+        targetId: userId,
+        content: notificationContent,
+        extra: { title: product.extra.condition.company },
+      });
       refetch();
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      queryClient.invalidateQueries({ queryKey: ["product", product._id] });
     },
   });
 
@@ -27,14 +45,30 @@ export default function PostPR() {
     navigate(`/user/${userId}`);
   };
 
-  const handleChangeState = orderId => {
-    const newState = "WO020";
-    changeState.mutate({ orderId, newState });
+  const handleChangeState = order => {
+    const isOk = confirm("정말 이 지원자를 채택하시겠습니까?");
+    if (isOk) {
+      const newState = "WO020";
+      changeOrderState.mutate({
+        orderId: order._id,
+        newState,
+        userId: order.user_id,
+      });
+      editProductState.mutate({ productId: product._id, state: "EM020" });
+    }
   };
 
-  const handleCancelState = orderId => {
-    const newState = "WO010";
-    changeState.mutate({ orderId, newState });
+  const handleCancelState = order => {
+    const isOk = confirm("정말 채택을 취소하시겠습니까?");
+    if (isOk) {
+      const newState = "WO010";
+      changeOrderState.mutate({
+        orderId: order._id,
+        newState,
+        userId: order.user_id,
+      });
+      editProductState.mutate({ productId: product._id, state: "EM010" });
+    }
   };
 
   const filteredOrders = product?.orders?.filter(order =>
@@ -60,7 +94,7 @@ export default function PostPR() {
                         : "/images/smiling_daeddamon.png"
                     }
                     // src={`https://11.fesp.shop/${order?.user.image}`}
-                    className="w-16 h-16 rounded-full"
+                    className="w-16 h-16 rounded-full object-cover"
                     alt={`${order?.user.name} 프로필 이미지`}
                   />
                   <div className="flex flex-col">
@@ -90,9 +124,7 @@ export default function PostPR() {
                         color="red"
                         width="xl"
                         height="lg"
-                        onClick={() =>
-                          handleCancelState(order._id, order.state)
-                        }
+                        onClick={() => handleCancelState(order)}
                       >
                         취소
                       </Button>
@@ -103,9 +135,7 @@ export default function PostPR() {
                         color="purple"
                         width="xl"
                         height="lg"
-                        onClick={() =>
-                          handleChangeState(order._id, order.state)
-                        }
+                        onClick={() => handleChangeState(order)}
                       >
                         채택
                       </Button>

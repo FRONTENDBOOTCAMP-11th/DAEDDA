@@ -1,17 +1,17 @@
 import MyPage from "@pages/myPage/MyPage";
 import Edit from "@pages/myPage/Edit";
 import Likes from "@pages/myPage/Likes";
-import PRWrite from "@pages/pr/PRWrite";
+import PRWrite from "@pages/main/post/PRWrite";
 import SignIn from "@pages/user/SignIn";
 import SignUp from "@pages/user/SignUp";
 import Terms from "@pages/user/Terms";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import MyReviews from "@pages/myPage/MyReviews";
 import Layout from "@components/layout";
-import PostDetail from "@pages/main/PostDetail";
+import PostDetail from "@pages/main/post/PostDetail";
 import PostList from "@pages/main/PostList";
-import PostWrite from "@pages/main/PostWrite";
-import PostEdit from "@pages/main/PostEdit";
+import PostWrite from "@pages/main/post/PostWrite";
+import PostEdit from "@pages/main/post/PostEdit";
 import ReviewList from "@pages/history/Layout";
 import Profile from "@pages/user/Profile";
 import Error from "@pages/Error";
@@ -19,6 +19,7 @@ import Worked from "@pages/history/Worked";
 import Employed from "@pages/history/Employed";
 import ReviewWrite from "@pages/history/ReviewWrite";
 import KakaoSignIn from "@pages/user/KakaoSignIn";
+import Alarm from "@pages/alarm/Alarm";
 
 const router = createBrowserRouter(
   [
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
       children: [
         { index: true, element: <PostList /> },
 
+        { path: "alarm", element: <Alarm /> },
         { path: "post/write", element: <PostWrite /> },
         { path: "post/:_id", element: <PostDetail /> },
         { path: "post/:_id/edit", element: <PostEdit /> },
