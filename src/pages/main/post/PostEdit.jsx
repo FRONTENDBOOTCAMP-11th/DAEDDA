@@ -15,6 +15,7 @@ export default function PostEdit() {
   const navigate = useNavigate();
   const [preview, setPreview] = useState(null);
   const [imageError, setImageError] = useState(true);
+  const [selectLocation, setSelectLocation] = useState([33.450701, 126.570667]);
 
   const { data: productData } = useGetProductDetail(_id);
 
@@ -30,12 +31,18 @@ export default function PostEdit() {
       setValue("name", productData.name);
       setValue("price", productData.price);
       setValue("quantity", productData.quantity);
-      if (productData) {
-        const sanitizedHTML = DOMPurify.sanitize(productData.content);
-        setValue("content", sanitizedHTML);
+
+      const sanitizedHTML = DOMPurify.sanitize(productData.content);
+      setValue("content", sanitizedHTML);
+
+      if (productData.extra?.location) {
+        setSelectLocation(productData.extra?.location);
+        setValue("location", productData.extra?.location);
       }
-      setValue("location", productData.extra?.location);
-      setValue("address", productData.extra?.address);
+
+      if (productData.extra?.address) {
+        setValue("address", productData.extra?.address);
+      }
       setValue("date", productData.extra?.condition?.date);
       setValue("company", productData.extra?.condition?.company);
       setValue("workTime", productData.extra?.condition?.workTime.join("-"));
@@ -54,7 +61,7 @@ export default function PostEdit() {
         quantity: 1,
         content: formData.content,
         extra: {
-          location: [35.155625, 129.131793],
+          location: formData.location,
           address: formData.address,
           condition: {
             date: formData.date,
@@ -180,7 +187,12 @@ export default function PostEdit() {
 
       <fieldset>
         <legend className="text-[1rem] font-bold mb-2">위치</legend>
-        <MainMap />
+        <MainMap
+          selectLocation={selectLocation}
+          setSelectLocation={setSelectLocation}
+          register={register}
+          setValue={setValue}
+        />
       </fieldset>
 
       <fieldset>

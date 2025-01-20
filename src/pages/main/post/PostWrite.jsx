@@ -23,6 +23,7 @@ export default function PostWrite() {
   const axios = useAxiosInstance();
   const queryClient = useQueryClient();
   const { user } = useUserStore();
+  const [selectLocation, setSelectLocation] = useState([33.450701, 126.570667]);
 
   const addPost = useMutation({
     mutationFn: async formData => {
@@ -32,7 +33,7 @@ export default function PostWrite() {
         quantity: 1000,
         content: DOMPurify.sanitize(formData.content, { ALLOWED_TAGS: [] }),
         extra: {
-          location: [35.155625, 129.131793],
+          location: formData.location,
           address: formData.address,
           condition: {
             date: formData.date,
@@ -221,7 +222,12 @@ export default function PostWrite() {
 
       <fieldset>
         <legend className="text-[1rem] font-bold mb-2">위치</legend>
-        <MainMap />
+        <MainMap
+          selectLocation={selectLocation}
+          setSelectLocation={setSelectLocation}
+          register={register}
+          setValue={setValue}
+        />
       </fieldset>
 
       <fieldset>

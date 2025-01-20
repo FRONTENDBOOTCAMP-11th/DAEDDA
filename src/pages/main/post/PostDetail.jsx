@@ -7,6 +7,7 @@ import DOMPurify from "dompurify";
 import PostPR from "@pages/main/post/PostPR";
 import { useCallback, useEffect, useState } from "react";
 import useUserStore from "@zustand/userStore";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 export default function PostDetail() {
   const [bookMark, setBookMark] = useState(false);
@@ -22,6 +23,20 @@ export default function PostDetail() {
     queryFn: () => axios.get(`/products/${_id}`),
     select: res => res.data,
   });
+
+  const [mapCenter, setMapCenter] = useState({
+    lat: 33.450701,
+    lng: 126.570667,
+  });
+
+  useEffect(() => {
+    if (data?.item?.extra?.location) {
+      setMapCenter({
+        lat: data.item.extra.location[0],
+        lng: data.item.extra.location[1],
+      });
+    }
+  }, [data]);
 
   const sanitizedContent = DOMPurify.sanitize(`${data?.item.content}`);
 
@@ -230,9 +245,27 @@ export default function PostDetail() {
         </div>
 
         <h2 className="font-bold mb-2">위치</h2>
-        <div className="w-full h-40 bg-slate-600 rounded-lg"></div>
+        <div className="w-full rounded-lg overflow-hidden">
+          {data?.item?.extra?.location ? (
+            <Map
+              center={{
+                lat: data?.item.extra.location[0],
+                lng: data?.item.extra.location[1],
+              }}
+              style={{ width: "100%", height: "350px" }}
+              level={4}
+              draggable={true}
+              zoomable={true}
+            >
+              <MapMarker position={mapCenter} />
+            </Map>
+          ) : (
+            ""
+          )}
+        </div>
+
         <div className="mt-4 sm:whitespace-normal md:whitespace-nowrap">
-          {data?.item.extra.address}
+          {data?.item?.extra?.address || "주소 정보가 없습니다."}
         </div>
       </section>
 
