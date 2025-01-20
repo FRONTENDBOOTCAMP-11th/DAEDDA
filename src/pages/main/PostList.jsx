@@ -37,7 +37,6 @@ export default function PostList() {
   useEffect(() => {
     refetch();
   }, [keyword]);
-
   return (
     <div className="mb-[80px] flex flex-col">
       <div className="flex gap-2 items-center text-[1.125rem] font-semibold mb-4">
@@ -105,8 +104,13 @@ export default function PostList() {
         {data && (
           <>
             {data.map(data => {
-              console.log(data.extra.state);
-              if (data.extra.state === "EM030" || data.extra.state === "EM040")
+              // 날짜가 지난 구인글인 경우
+              if (new Date(data.extra.condition.date) < new Date()) return null;
+              // 입금 완료되거나 리뷰가 작성된 구인글인 경우
+              else if (
+                data.extra.state === "EM030" ||
+                data.extra.state === "EM040"
+              )
                 return null;
               else return <ListItem key={data._id} data={data} />;
             })}
