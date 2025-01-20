@@ -79,7 +79,10 @@ export default function PostDetail() {
         data.item.extra.worker.userId !== null &&
         new Date() > new Date(data?.item.extra.condition.date)
       ) {
-        alert(
+        // alert(
+        //   "채택된 지원자가 있는 상태에서 근무 날짜가 지난 경우 글 삭제가 불가합니다.",
+        // );
+        toast.error(
           "채택된 지원자가 있는 상태에서 근무 날짜가 지난 경우 글 삭제가 불가합니다.",
         );
       } else {
