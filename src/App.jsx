@@ -17,9 +17,7 @@ function App() {
   }, [hasShownSplash, showSplash]);
   return (
     <>
-      <div
-        className={`px-6 max-w-screen-sm m-auto h-screen relative overflow-y-auto`}
-      >
+      <div className="px-6 max-w-screen-sm m-auto h-screen relative overflow-y-auto">
         {isSplashShown ? (
           <SplashScreen />
         ) : (
@@ -29,7 +27,7 @@ function App() {
           />
         )}
       </div>
-      <ToastContainer />
+      <ToastContainer position="top-center" />
     </>
   );
 }
