@@ -28,9 +28,7 @@ export default function EmployedItem({ product, refetch }) {
       });
     },
 
-    onSuccess: () => {
-      console.log("order state 입금 완료로 변경");
-    },
+    onSuccess: () => {},
     onError: error => {
       console.error("등록 실패:", error);
     },
@@ -92,6 +90,7 @@ export default function EmployedItem({ product, refetch }) {
           <Link
             to={`/post/${product._id}`}
             className="w-[83px] absolute top-4 right-4"
+            state={"employed"}
           >
             <Button color="white" width="xl" height="sm">
               상세 내역

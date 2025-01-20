@@ -12,9 +12,7 @@ export default function Alarm() {
   const { data: notifications, refetch } = useQuery({
     queryKey: ["notifications"],
     queryFn: () => axios.get(`/notifications/`),
-    select: res => {
-      return res.data.item.reverse();
-    },
+    select: res => [...res.data.item].reverse(),
   });
 
   const removeAlarm = useMutation({
@@ -25,7 +23,6 @@ export default function Alarm() {
 
   const onCloseClicked = () => {
     removeAlarm.mutate();
-    console.log("Alarm removed");
     refetch();
     setAlarmExist(false);
     queryClient.invalidateQueries({ queryKey: ["notifications"] });

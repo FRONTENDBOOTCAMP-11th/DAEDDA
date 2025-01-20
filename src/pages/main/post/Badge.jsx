@@ -7,8 +7,6 @@ Badge.propTypes = {
 };
 
 export default function Badge({ userId }) {
-  // console.log(userId);
-  // console.log(typeof userId);
   const { reviews, partTime } = useProfileData(userId);
   const dydamicWidth = getDydamicWidth(reviews, partTime);
 

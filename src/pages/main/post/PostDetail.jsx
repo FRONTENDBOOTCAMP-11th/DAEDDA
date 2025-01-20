@@ -1,7 +1,7 @@
 import Button from "@components/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getWorkTime, formatDate } from "@/utills/func";
 import DOMPurify from "dompurify";
 import PostPR from "@pages/main/post/PostPR";
@@ -355,7 +355,9 @@ export default function PostDetail() {
         </section>
         <div className="mt-7">
           {user ? (
-            data?.item?.seller_id !== userId ? (
+            data?.item?.seller_id !== userId &&
+            (data?.item?.extra.state === "EM010" ||
+              data?.item?.extra.state === "EM020") ? (
               <Button
                 color="purple"
                 height="lg"

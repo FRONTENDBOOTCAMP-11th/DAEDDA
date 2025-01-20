@@ -16,6 +16,7 @@ export default function PRWrite() {
   const productId = location.state?.product_id;
 
   const addAlarm = useAddAlarm();
+  console.log(productId);
 
   const {
     handleSubmit,
@@ -46,6 +47,7 @@ export default function PRWrite() {
         },
         state: "WO010",
       };
+
       return axios.post("/orders/", body);
     },
 

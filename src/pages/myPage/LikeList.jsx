@@ -28,7 +28,6 @@ export default function LikeList({ item }) {
     },
   });
 
-  // console.log(item);
   return (
     <>
       <div className="likes-container">
@@ -67,7 +66,11 @@ export default function LikeList({ item }) {
                 </p>
               </div>
               <button className="rounded-2xl border border-primary ml-auto">
-                <Link to={`/pr/write`} onClick={applyClick}>
+                <Link
+                  state={{ product_id: item.product._id }}
+                  to={`/pr/write`}
+                  onClick={applyClick}
+                >
                   <div className="flex gap-1 px-2 items-center">
                     <img
                       src="/icons/apply.svg"

@@ -124,7 +124,6 @@ export default function PostWrite() {
       const response = await PortOne.requestPayment(paymentData);
 
       if (response.success) {
-        console.log("결제 성공:", response);
         return true;
       } else {
         console.error("결제 실패:", response.error);

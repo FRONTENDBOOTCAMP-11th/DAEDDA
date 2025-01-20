@@ -60,7 +60,6 @@ function useAxiosInstance() {
             },
           });
 
-          console.log(accessToken);
           // 갱신된 accessToken 으로 재요청
           setUser({ ...user, accessToken });
           // 새롭게 갱신된 accessToken
