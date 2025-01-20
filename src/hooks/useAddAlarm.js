@@ -13,9 +13,7 @@ const useAddAlarm = () => {
       };
       return axios.post("/notifications/", body);
     },
-    onSuccess: response => {
-      console.log(response);
-    },
+    onSuccess: response => {},
   });
 };
 

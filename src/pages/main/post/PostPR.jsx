@@ -2,6 +2,7 @@ import Button from "@components/Button";
 import useAddAlarm from "@hooks/useAddAlarm";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import useEditProductState from "@hooks/useEditProductState";
+import useEditProductWorker from "@hooks/useEditProductWorker";
 import { useGetProductDetail } from "@hooks/useGetProductDetail";
 import Badge from "@pages/main/post/Badge";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -16,6 +17,7 @@ export default function PostPR() {
   const queryClient = useQueryClient();
 
   const editProductState = useEditProductState();
+  const editProductWorker = useEditProductWorker();
   const changeOrderState = useMutation({
     mutationFn: async ({ orderId, newState }) => {
       const body = { state: newState };
@@ -54,7 +56,16 @@ export default function PostPR() {
         newState,
         userId: order.user_id,
       });
-      editProductState.mutate({ productId: product._id, state: "EM020" });
+      editProductState.mutate({
+        productId: product._id,
+        state: "EM020",
+      });
+      editProductWorker.mutate({
+        productId: product._id,
+        state: "EM020",
+        orderId: order._id,
+        userId: order.user._id,
+      });
     }
   };
 
@@ -67,7 +78,18 @@ export default function PostPR() {
         newState,
         userId: order.user_id,
       });
-      editProductState.mutate({ productId: product._id, state: "EM010" });
+      editProductState.mutate({
+        productId: product._id,
+        state: "EM010",
+        orderId: order._id,
+        userId: order.user._id,
+      });
+      editProductWorker.mutate({
+        productId: product._id,
+        state: "EM010",
+        orderId: null,
+        userId: null,
+      });
     }
   };
 

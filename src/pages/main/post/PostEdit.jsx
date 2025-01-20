@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
+import MainMap from "@pages/main/post/MainMap";
 import { useGetProductDetail } from "@hooks/useGetProductDetail";
 
 export default function PostEdit() {
@@ -14,6 +15,7 @@ export default function PostEdit() {
   const navigate = useNavigate();
   const [preview, setPreview] = useState(null);
   const [imageError, setImageError] = useState(true);
+  const [selectLocation, setSelectLocation] = useState([33.450701, 126.570667]);
 
   const { data: productData } = useGetProductDetail(_id);
 
@@ -29,12 +31,18 @@ export default function PostEdit() {
       setValue("name", productData.name);
       setValue("price", productData.price);
       setValue("quantity", productData.quantity);
-      if (productData) {
-        const sanitizedHTML = DOMPurify.sanitize(productData.content);
-        setValue("content", sanitizedHTML);
+
+      const sanitizedHTML = DOMPurify.sanitize(productData.content);
+      setValue("content", sanitizedHTML);
+
+      if (productData.extra?.location) {
+        setSelectLocation(productData.extra?.location);
+        setValue("location", productData.extra?.location);
       }
-      setValue("location", productData.extra?.location);
-      setValue("address", productData.extra?.address);
+
+      if (productData.extra?.address) {
+        setValue("address", productData.extra?.address);
+      }
       setValue("date", productData.extra?.condition?.date);
       setValue("company", productData.extra?.condition?.company);
       setValue("workTime", productData.extra?.condition?.workTime.join("-"));
@@ -49,11 +57,11 @@ export default function PostEdit() {
     mutationFn: async formData => {
       let body = {
         name: formData.name,
-        price: formData.price,
+        price: +formData.price,
         quantity: 1,
         content: formData.content,
         extra: {
-          location: [35.155625, 129.131793],
+          location: formData.location,
           address: formData.address,
           condition: {
             date: formData.date,
@@ -178,24 +186,18 @@ export default function PostEdit() {
       </fieldset>
 
       <fieldset>
-        <legend className="text-[16px] font-bold mb-2">위치</legend>
-        <div className="max-w-screen-sm h-24 bg-slate-500 mb-7 rounded-lg flex items-center justify-center">
-          지도
-        </div>
-        <InputField
-          type="text"
-          id="address"
-          placeholder="상세 주소"
-          register={register("address", {
-            required: "주소 입력은 필수입니다.",
-          })}
-          errorMsg={errors.address?.message}
+        <legend className="text-[1rem] font-bold mb-2">위치</legend>
+        <MainMap
+          selectLocation={selectLocation}
+          setSelectLocation={setSelectLocation}
+          register={register}
+          setValue={setValue}
         />
       </fieldset>
 
       <fieldset>
         <InputField
-          labelName="근무 조건"
+          labelName="가게 이름"
           type="text"
           placeholder="가게 이름"
           register={register("company", {
@@ -206,9 +208,10 @@ export default function PostEdit() {
 
         <InputField
           type="text"
-          placeholder="급여는 숫자만 입력주세요."
+          labelName="일당"
+          placeholder="일당은 숫자만 입력주세요."
           register={register("price", {
-            required: "급여 입력은 필수입니다.",
+            required: "일당 입력은 필수입니다.",
             pattern: {
               value: /^[0-9]+$/,
               message: "숫자만 입력해주세요.",
@@ -218,6 +221,7 @@ export default function PostEdit() {
         />
 
         <InputField
+          labelName="근무 시간"
           type="text"
           placeholder="근무 시간은 00:00-00:00으로 입력해주세요."
           register={register("workTime", {
@@ -230,6 +234,7 @@ export default function PostEdit() {
           errorMsg={errors.workTime?.message}
         />
         <InputField
+          labelName="근무 날짜"
           type="date"
           register={register("date", {
             required: "날짜 입력은 필수입니다.",
