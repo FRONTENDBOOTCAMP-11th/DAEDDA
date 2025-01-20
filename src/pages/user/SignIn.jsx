@@ -52,13 +52,11 @@ export default function SignIn() {
 
           switch (errorCode) {
             case 403:
-              console.log("오류 코드 403: 아이디 비밀번호 불일치");
               setError("password", {
                 message: "이메일과 비밀번호를 확인하세요.",
               });
               break;
             case 500:
-              console.log("오류 코드 500: 서버오류");
               setError("password", { message: "잠시 후에 다시 시도해주세요." });
               break;
             default:

@@ -31,12 +31,6 @@ export const useProductsFilter = (keyword, condition) => {
     // wortime
     if (condition.worktime === "short") {
       result = result.filter(data => {
-        console.log(
-          getWorkTime(
-            data.extra.condition.workTime[0],
-            data.extra.condition.workTime[1],
-          ) <= 4,
-        );
         return (
           getWorkTime(
             data.extra.condition.workTime[0],

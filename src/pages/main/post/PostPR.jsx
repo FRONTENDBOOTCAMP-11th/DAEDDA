@@ -21,7 +21,6 @@ export default function PostPR() {
   const changeOrderState = useMutation({
     mutationFn: async ({ orderId, newState }) => {
       const body = { state: newState };
-      console.log(body);
       return axios.patch(`/seller/orders/${orderId}`, body);
     },
 

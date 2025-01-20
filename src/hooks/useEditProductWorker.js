@@ -12,10 +12,7 @@ const useEditProductWorker = () => {
       });
     },
 
-    onSuccess: response => {
-      console.log(response);
-      console.log("product state 변경 완료");
-    },
+    onSuccess: response => {},
 
     onError: error => {
       console.error("등록 실패:", error);

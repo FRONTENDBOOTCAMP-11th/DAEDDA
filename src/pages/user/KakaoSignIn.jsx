@@ -30,12 +30,9 @@ export default function KakaoSignIn() {
       });
 
       const { data } = response;
-      console.log("카카오 로그인 성공", data);
 
       if (data.item) {
         if (data.item.isNew) {
-          console.log("신규 회원임");
-
           // 카카오로부터 받은 사용자 정보
           const newUserData = {
             _id: data.item._id,
@@ -57,7 +54,6 @@ export default function KakaoSignIn() {
           // 정보 setUser에 담고 edit 창으로 넘어가서 추가 정보 받기
           navigate("/myPage/edit");
         } else {
-          console.log("기존 회원");
           const newUserData = {
             _id: data.item._id,
             name: data.item.name,
