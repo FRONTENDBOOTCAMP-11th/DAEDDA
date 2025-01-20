@@ -249,6 +249,7 @@ export default function PostEdit() {
             required: "날짜 입력은 필수입니다.",
           })}
           errorMsg={errors.date?.message}
+          min={new Date().toISOString().split("T")[0]}
         />
       </fieldset>
 
