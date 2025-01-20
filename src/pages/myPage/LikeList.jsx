@@ -39,7 +39,7 @@ export default function LikeList({ item }) {
             onClick={() => removeLike.mutate(item._id)}
           />
         </div>
-        <Link to={`/main/${item.product._id}`}>
+        <Link to={`/post/${item.product._id}`}>
           <div>
             <p className="text-lg font-bold">{item.product.name}</p>
             <div className="flex gap-[6px] items-center">
