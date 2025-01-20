@@ -2,13 +2,15 @@ import Button from "@components/Button";
 import Star from "@pages/myPage/Star";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 MyReviewList.propTypes = {
   item: PropTypes.object,
   partTime: PropTypes.object,
 };
 const alertfun = () => {
-  alert("신고되었습니다");
+  // alert("신고되었습니다");
+  toast.success("신고되었습니다");
 };
 export default function MyReviewList({ item, partTime }) {
   // console.log("사장일때 받은 리뷰", item);

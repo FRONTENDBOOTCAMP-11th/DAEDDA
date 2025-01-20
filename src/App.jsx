@@ -3,6 +3,8 @@ import "./index.css";
 import router from "../routes";
 import { useEffect } from "react";
 import useSplashStore from "@zustand/splashStore";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const { isSplashShown, hasShownSplash, showSplash } = useSplashStore();
@@ -14,15 +16,21 @@ function App() {
     }
   }, [hasShownSplash, showSplash]);
   return (
-    <div
-      className={`px-6 max-w-screen-sm m-auto h-screen relative overflow-y-auto`}
-    >
-      {isSplashShown ? (
-        <SplashScreen />
-      ) : (
-        <RouterProvider router={router} future={{ v7_startTransition: true }} />
-      )}
-    </div>
+    <>
+      <div
+        className={`px-6 max-w-screen-sm m-auto h-screen relative overflow-y-auto`}
+      >
+        {isSplashShown ? (
+          <SplashScreen />
+        ) : (
+          <RouterProvider
+            router={router}
+            future={{ v7_startTransition: true }}
+          />
+        )}
+      </div>
+      <ToastContainer />
+    </>
   );
 }
 

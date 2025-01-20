@@ -1,6 +1,7 @@
 import useUserStore from "@zustand/userStore";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function useAxiosInstance() {
   const REFRESH_URL = "/auth/refresh";
@@ -44,16 +45,11 @@ function useAxiosInstance() {
       if (response?.status === 401) {
         if (config.url === REFRESH_URL) {
           // 리프레시 토큰 만료시
-          alert("로그인이 필요한 페이지입니다.");
+          // alert("로그인이 필요한 페이지입니다.");
+          toast.error("로그인이 필요합니다.");
           resetUser();
           navigate("/user/signIn");
-        }
-        // else {
-        //   alert("엑세스 토큰 만료 로그인이 필요합니다.");
-        //   resetUser();
-        //   navigate("/user/signIn");
-        // }
-        else if (user) {
+        } else if (user) {
           console.log("리프레시 토큰 요청 시작");
           // accessToken 만료시 refreshToken으로 재발급 요청
           const {
@@ -73,7 +69,8 @@ function useAxiosInstance() {
           return axios(config);
         } else {
           // 로그인이 안 된 경우
-          alert("로그인이 필요한 페이지입니다.");
+          // alert("로그인이 필요한 페이지입니다.");
+          toast.error("로그인이 필요합니다.");
           navigate("/user/signIn");
         }
       }

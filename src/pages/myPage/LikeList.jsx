@@ -3,8 +3,11 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
 const applyClick = () => {
-  alert(`지원글 작성 페이지로 이동합니다.`);
+  // alert(`지원글 작성 페이지로 이동합니다.`);
+  toast.success(`지원글 작성 페이지로 이동합니다.`);
 };
 
 LikeList.propTypes = {
@@ -16,7 +19,8 @@ export default function LikeList({ item }) {
   const removeLike = useMutation({
     mutationFn: _id => axios.delete(`/bookmarks/${_id}`),
     onSuccess: () => {
-      alert("관심 목록에서 삭제되었습니다");
+      // alert("관심 목록에서 삭제되었습니다");
+      toast.success("관심 목록에서 삭제되었습니다");
       queryClient.invalidateQueries({ queryKey: ["product"] });
     },
     onError: err => {

@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import DOMPurify from "dompurify";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAddAlarm from "@hooks/useAddAlarm";
+import { toast } from "react-toastify";
 
 export default function PRWrite() {
   const navigate = useNavigate();
@@ -60,7 +61,8 @@ export default function PRWrite() {
           title: response.data.item.products[0].name,
         },
       });
-      alert("성공적으로 지원되었습니다.");
+      // alert("성공적으로 지원되었습니다.");
+      toast.success("성공적으로 지원되었습니다.");
       navigate(`/post/${productId}`);
     },
     onError: error => {
