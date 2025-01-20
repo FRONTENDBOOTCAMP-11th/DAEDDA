@@ -62,7 +62,8 @@ export default function ReviewWrite() {
 
       return axios.post("/replies", body);
     },
-    onSuccess: () => {
+    onSuccess: response => {
+      console.log(response);
       // 주문의 state를 리뷰 작성 완료로 변경
       editMyOrderState.mutate({ orderId: order._id, state: "WO040" });
       workedRefetch();
