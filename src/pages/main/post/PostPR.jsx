@@ -23,15 +23,17 @@ export default function PostPR() {
       const body = { state: newState };
       return axios.patch(`/seller/orders/${orderId}`, body);
     },
+
     onSuccess: (_, variables) => {
       const { newState, userId } = variables;
 
       let notificationContent;
       if (newState === "WO020")
         notificationContent = `🎉 지원하신 "${product.name}" 에 채택이 되었습니다.`;
-      else
+      // 채택된 지원자가 있는 상태에서 근무 날짜가 지난 경우
+      else {
         notificationContent = `😭 지원하신 "${product.name}" 에 채택이 취소되었습니다.`;
-
+      }
       addAlarm.mutateAsync({
         targetId: userId,
         content: notificationContent,
@@ -70,26 +72,32 @@ export default function PostPR() {
   };
 
   const handleCancelState = order => {
-    const isOk = confirm("정말 채택을 취소하시겠습니까?");
-    if (isOk) {
-      const newState = "WO010";
-      changeOrderState.mutate({
-        orderId: order._id,
-        newState,
-        userId: order.user_id,
-      });
-      editProductState.mutate({
-        productId: product._id,
-        state: "EM010",
-        orderId: order._id,
-        userId: order.user._id,
-      });
-      editProductWorker.mutate({
-        productId: product._id,
-        state: "EM010",
-        orderId: null,
-        userId: null,
-      });
+    ``;
+    if (new Date() > new Date(product.extra.condition.date)) {
+      alert("근무 날짜가 지난 후에는 채택을 취소하실 수 없습니다.");
+    } else {
+      const isOk = confirm("정말 채택을 취소하시겠습니까?");
+
+      if (isOk) {
+        const newState = "WO010";
+        changeOrderState.mutate({
+          orderId: order._id,
+          newState,
+          userId: order.user_id,
+        });
+        editProductState.mutate({
+          productId: product._id,
+          state: "EM010",
+          orderId: order._id,
+          userId: order.user._id,
+        });
+        editProductWorker.mutate({
+          productId: product._id,
+          state: "EM010",
+          orderId: null,
+          userId: null,
+        });
+      }
     }
   };
 
@@ -130,13 +138,13 @@ export default function PostPR() {
 
               <section className="break-keep whitespace-normal">
                 <div className="font-bold mt-7">제목</div>
-                <div className="mt-2">{order?.extra?.title}</div>
+                <div className="mt-2 break-words">{order?.extra?.title}</div>
 
                 <div className="font-bold mt-7">휴대폰 번호</div>
-                <div className="mt-2">{order?.user.phone}</div>
+                <div className="mt-2 break-words">{order?.user.phone}</div>
 
-                <div className="font-bold mt-7 ">자신을 표현해주세요!</div>
-                <div className="mt-2">{order?.extra?.content}</div>
+                <div className="font-bold mt-7">자신을 표현해주세요!</div>
+                <div className="mt-2 break-words">{order?.extra?.content}</div>
 
                 <div className="flex flex-col justify-center my-10">
                   {order.state === "WO020" ? (

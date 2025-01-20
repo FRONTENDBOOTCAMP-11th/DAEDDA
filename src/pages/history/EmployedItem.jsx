@@ -28,9 +28,7 @@ export default function EmployedItem({ product, refetch }) {
       });
     },
 
-    onSuccess: () => {
-      console.log("order state 입금 완료로 변경");
-    },
+    onSuccess: () => {},
     onError: error => {
       console.error("등록 실패:", error);
     },

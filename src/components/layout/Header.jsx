@@ -93,10 +93,8 @@ export default function Header() {
 
   const onBackClicked = () => {
     if (mainID) {
-      console.log("1");
       navigate("/");
     } else {
-      console.log("0");
       navigate(-1);
     }
   };

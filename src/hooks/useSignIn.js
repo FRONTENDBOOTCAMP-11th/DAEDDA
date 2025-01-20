@@ -25,7 +25,6 @@ export default function useSignIn() {
           birthday: user.extra?.birthday,
         },
       });
-      console.log("로그인 성공");
       navigate("/");
     },
     onError: error => {

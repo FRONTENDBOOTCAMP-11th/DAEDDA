@@ -7,7 +7,7 @@ import DOMPurify from "dompurify";
 import PostPR from "@pages/main/post/PostPR";
 import { useCallback, useEffect, useState } from "react";
 import useUserStore from "@zustand/userStore";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+// import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 export default function PostDetail() {
   const [bookMark, setBookMark] = useState(false);
@@ -24,19 +24,19 @@ export default function PostDetail() {
     select: res => res.data,
   });
 
-  const [mapCenter, setMapCenter] = useState({
-    lat: 33.450701,
-    lng: 126.570667,
-  });
+  // const [mapCenter, setMapCenter] = useState({
+  //   lat: 33.450701,
+  //   lng: 126.570667,
+  // });
 
-  useEffect(() => {
-    if (data?.item?.extra?.location) {
-      setMapCenter({
-        lat: data.item.extra.location[0],
-        lng: data.item.extra.location[1],
-      });
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data?.item?.extra?.location) {
+  //     setMapCenter({
+  //       lat: data.item.extra.location[0],
+  //       lng: data.item.extra.location[1],
+  //     });
+  //   }
+  // }, [data]);
 
   const sanitizedContent = DOMPurify.sanitize(`${data?.item.content}`);
 
@@ -71,8 +71,22 @@ export default function PostDetail() {
   const handleDelete = useCallback(
     event => {
       event.preventDefault();
-      if (window.confirm("삭제 하시겠습니까?")) {
-        removePost.mutate(_id);
+      if (
+        data.item.extra.worker.userId !== null &&
+        new Date() > new Date(data?.item.extra.condition.date)
+      ) {
+        alert(
+          "채택된 지원자가 있는 상태에서 근무 날짜가 지난 경우 글 삭제가 불가합니다.",
+        );
+      } else {
+        const isOk = window.confirm(
+          "삭제 하시겠습니까?\n\n" +
+            "🚨 일당 환불 규정:\n" +
+            "📌 취소 시: 100% 환불\n" +
+            "📌 채택 된 지원자가 있는 상태에서 근무 날짜가 지나면 삭제가 불가능합니다.\n" +
+            "이에 동의하면 확인 버튼, 거절은 취소 버튼을 눌러주시길 바랍니다.\n",
+        );
+        if (isOk) removePost.mutate(_id);
       }
     },
     [_id, removePost],
@@ -161,7 +175,7 @@ export default function PostDetail() {
   return (
     <div className="mb-[40px]">
       <section className="flex items-center justify-between mt-4 flex-wrap">
-        <div className="font-bold text-[20px] py-4 break-keep whitespace-normal">
+        <div className="font-bold text-[20px] py-4 break-words">
           {data?.item.name}
         </div>
 
@@ -243,7 +257,6 @@ export default function PostDetail() {
             className="w-full h-full object-cover rounded-lg"
           />
         </div>
-
         <h2 className="font-bold mb-2">위치</h2>
         <div className="w-full rounded-lg overflow-hidden">
           {/* {data?.item?.extra?.location ? (
@@ -264,7 +277,7 @@ export default function PostDetail() {
           )} */}
         </div>
 
-        <div className="sm:whitespace-normal md:whitespace-nowrap">
+        <div className="sm:whitespace-normal md:whitespace-nowrap break-words">
           {data?.item?.extra?.address || "주소 정보가 없습니다."}
         </div>
       </section>
@@ -275,7 +288,9 @@ export default function PostDetail() {
 
           <div className="grid custom-375:grid-cols-1 grid-cols-2  gap-6">
             <article className="flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center">
-              <h2 className="">{data?.item.extra.condition?.company}</h2>
+              <h2 className="break-words">
+                {data?.item.extra.condition?.company}
+              </h2>
             </article>
             <article className="flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center">
               <h2 className="">
@@ -315,9 +330,10 @@ export default function PostDetail() {
         </section>
         <section className="flex p-5 items-center shadow-custom-shadow rounded-3xl mt-6">
           <div>
-            <h2 className="font-bold ml-3">근무 내용</h2>
-            <ul className="ml-8 mt-2 break-keep whitespace-normal">
+            <h2 className="font-bold">근무 내용</h2>
+            <ul className="ml-2 mt-2  break-words">
               <span
+                className="break-words"
                 dangerouslySetInnerHTML={{
                   __html: sanitizedContent,
                 }}

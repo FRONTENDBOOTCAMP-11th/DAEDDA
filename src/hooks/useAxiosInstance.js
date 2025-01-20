@@ -54,7 +54,6 @@ function useAxiosInstance() {
         //   navigate("/user/signIn");
         // }
         else if (user) {
-          console.log("리프레시 토큰 요청 시작");
           // accessToken 만료시 refreshToken으로 재발급 요청
           const {
             data: { accessToken },
@@ -64,7 +63,6 @@ function useAxiosInstance() {
             },
           });
 
-          console.log(accessToken);
           // 갱신된 accessToken 으로 재요청
           setUser({ ...user, accessToken });
           // 새롭게 갱신된 accessToken

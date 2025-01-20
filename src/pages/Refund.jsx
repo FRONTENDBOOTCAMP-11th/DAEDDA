@@ -18,33 +18,23 @@ export default function Refund() {
       </div>
 
       <div>
-        <h3 className="mb-2"> ✅환불 규정</h3>
+        <h3 className="mb-2"> ✅ 환불 규정</h3>
         <div className="mb-3">
-          <h4 className="px-3 font-bold">📌 채택 후 5일 전 취소</h4>
+          <h4 className="px-3 font-bold">📌 100% 환불</h4>
           <ul className="px-8">
-            <li>- 100% 환불</li>
             <li>- 원할한 취소가 가능하며, 전액 환불됩니다.</li>
           </ul>
-        </div>
-        <div className="mb-2">
-          <h4 className="px-3 font-bold">
-            📌 채택 후 5일 이후 ~ 근무일 1일 전 취소
-          </h4>
-          <ul className="px-8">
-            <li>- 50% 환불</li>
-            <li>- 일부 금액이 환불됩니다</li>
-          </ul>
-        </div>
-        <div className="mb-2">
-          <h4 className="px-3 font-bold">📌 근무일 당일 취소</h4>
-          <p className="px-8">- 당일 취소는 환불이 불가능합니다.</p>
         </div>
       </div>
 
       <div className="mb-8">
-        <h3 className="mb-2"> ✅유의사항</h3>
+        <h3 className="mb-2"> ✅ 유의사항</h3>
         <ul className="px-3">
           <li className="pb-1">📌 취소 시 구인글은 재등록되지 않습니다.</li>
+          <li className="pb-1">
+            📌 채택 된 지원자가 있는 상태에서 근무 날짜가 지나면 삭제가
+            불가능합니다.
+          </li>
           <li>
             📌 환불 규정은 근무 매칭의 신뢰성을 보장하고,
             <p className="pl-7">

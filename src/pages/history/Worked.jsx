@@ -39,10 +39,15 @@ export default function Worked() {
           />
         ))}
       </div>
-      {data &&
+      {data && data.length > 0 ? (
         data.map(order => (
           <WorkedItem key={order._id} data={order} refetch={refetch} />
-        ))}
+        ))
+      ) : (
+        <div className="mt-[80px] flex items-center justify-center text-center text-xl text-gray-300">
+          아직 내가 지원한 일이 없어요.
+        </div>
+      )}
     </div>
   );
 }
