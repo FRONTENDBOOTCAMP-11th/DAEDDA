@@ -268,6 +268,7 @@ export default function SignUp() {
             register={register("birthday", {
               required: "생년월일 입력은 필수입니다..",
             })}
+            max={new Date().toISOString().split("T")[0]}
           ></InputField>
         </div>
         <div className="w-full">

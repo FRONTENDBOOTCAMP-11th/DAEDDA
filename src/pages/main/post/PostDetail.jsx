@@ -75,8 +75,22 @@ export default function PostDetail() {
   const handleDelete = useCallback(
     event => {
       event.preventDefault();
-      if (window.confirm("삭제 하시겠습니까?")) {
-        removePost.mutate(_id);
+      if (
+        data.item.extra.worker.userId !== null &&
+        new Date() > new Date(data?.item.extra.condition.date)
+      ) {
+        alert(
+          "채택된 지원자가 있는 상태에서 근무 날짜가 지난 경우 글 삭제가 불가합니다.",
+        );
+      } else {
+        const isOk = window.confirm(
+          "삭제 하시겠습니까?\n\n" +
+            "🚨 일당 환불 규정:\n" +
+            "📌 취소 시: 100% 환불\n" +
+            "📌 채택 된 지원자가 있는 상태에서 근무 날짜가 지나면 삭제가 불가능합니다.\n" +
+            "이에 동의하면 확인 버튼, 거절은 취소 버튼을 눌러주시길 바랍니다.\n",
+        );
+        if (isOk) removePost.mutate(_id);
       }
     },
     [_id, removePost],
@@ -353,14 +367,7 @@ export default function PostDetail() {
           ) : null}
         </div>
 
-        {user ? (
-          data?.item?.seller_id == userId ? (
-            <PostPR
-              workPrice={Number(data?.item.price)}
-              workDate={data?.item.extra.condition?.date}
-            />
-          ) : null
-        ) : null}
+        {user ? data?.item?.seller_id == userId ? <PostPR /> : null : null}
       </div>
     </div>
   );

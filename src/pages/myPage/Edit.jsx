@@ -194,6 +194,7 @@ export default function Edit() {
         <InputField
           errorMsg={errors.name?.message}
           labelName="닉네임"
+          maxLength={10}
           placeholder="닉네임을 입력해 주세요."
           onKeyPress={preventSpace}
           register={register("name", {
@@ -233,6 +234,7 @@ export default function Edit() {
           register={register("birthday", {
             required: "생년월일은 필수 입력입니다.",
           })}
+          max={new Date().toISOString().split("T")[0]}
         />
 
         <div className="flex gap-6 w-full pt-4">

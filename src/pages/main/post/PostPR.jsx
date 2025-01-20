@@ -8,7 +8,7 @@ import Badge from "@pages/main/post/Badge";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 
-export default function PostPR({ workPrice, workDate }) {
+export default function PostPR() {
   const axios = useAxiosInstance();
   const navigate = useNavigate();
   const { _id } = useParams();
@@ -31,9 +31,10 @@ export default function PostPR({ workPrice, workDate }) {
       let notificationContent;
       if (newState === "WO020")
         notificationContent = `🎉 지원하신 "${product.name}" 에 채택이 되었습니다.`;
-      else
+      // 채택된 지원자가 있는 상태에서 근무 날짜가 지난 경우
+      else {
         notificationContent = `😭 지원하신 "${product.name}" 에 채택이 취소되었습니다.`;
-
+      }
       addAlarm.mutateAsync({
         targetId: userId,
         content: notificationContent,
@@ -72,65 +73,32 @@ export default function PostPR({ workPrice, workDate }) {
   };
 
   const handleCancelState = order => {
-    const updatedAtDate = new Date(order?.updatedAt);
-    const currentDate = new Date();
-    const workStartDate = new Date(workDate);
-    const oneDayBeforeWork = new Date(workStartDate);
-    oneDayBeforeWork.setDate(workStartDate.getDate() - 1);
+    ``;
+    if (new Date() > new Date(product.extra.condition.date)) {
+      alert("근무 날짜가 지난 후에는 채택을 취소하실 수 없습니다.");
+    } else {
+      const isOk = confirm("정말 채택을 취소하시겠습니까?");
 
-    const diffFromUpdated = Math.ceil(
-      Math.abs(currentDate - updatedAtDate) / (1000 * 60 * 60 * 24),
-    );
-
-    const diffToWork = Math.ceil(
-      (workStartDate - currentDate) / (1000 * 60 * 60 * 24),
-    );
-
-    let refundRate;
-    let refundMessage;
-
-    if (diffFromUpdated <= 5) {
-      refundRate = 100;
-      refundMessage = `📌 채택 후 ${diffFromUpdated}일, 당일 100% 환불\n`;
-    } else if (diffFromUpdated === 1 && diffToWork >= 5) {
-      refundRate = 50;
-      refundMessage = `📌 채택 후 5일 이후 ~ 근무일 1일 전 취소: 50% 환불\n`;
-    } else if (currentDate >= oneDayBeforeWork) {
-      refundRate = 0;
-      refundMessage = `📌 근무일 당일 취소: 환불 불가능\n`;
-    }
-
-    const refundAmount = (Number(workPrice) * refundRate) / 100;
-
-    const isOk = confirm(
-      `정말 채택을 취소하시겠습니까?\n\n` +
-        `일당 환불 규정:\n${refundMessage}\n` +
-        `💰 환불 예정 금액: ${refundAmount.toLocaleString()} 원\n\n` +
-        `🔥 유의 사항\n` +
-        `이에 동의하시면 ✅ 확인 버튼\n` +
-        `거절하시려면 ❌ 취소 버튼을 눌러주시길 바랍니다.\n` +
-        `채택 취소 시 환불은 영업일 기준 3~4일 소요될 수 있습니다.`,
-    );
-
-    if (isOk) {
-      const newState = "WO010";
-      changeOrderState.mutate({
-        orderId: order._id,
-        newState,
-        userId: order.user_id,
-      });
-      editProductState.mutate({
-        productId: product._id,
-        state: "EM010",
-        orderId: order._id,
-        userId: order.user._id,
-      });
-      editProductWorker.mutate({
-        productId: product._id,
-        state: "EM010",
-        orderId: null,
-        userId: null,
-      });
+      if (isOk) {
+        const newState = "WO010";
+        changeOrderState.mutate({
+          orderId: order._id,
+          newState,
+          userId: order.user_id,
+        });
+        editProductState.mutate({
+          productId: product._id,
+          state: "EM010",
+          orderId: order._id,
+          userId: order.user._id,
+        });
+        editProductWorker.mutate({
+          productId: product._id,
+          state: "EM010",
+          orderId: null,
+          userId: null,
+        });
+      }
     }
   };
 
