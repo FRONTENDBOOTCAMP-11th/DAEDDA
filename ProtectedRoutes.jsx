@@ -5,7 +5,7 @@ const ProtectedRoute = () => {
   const user = useUserStore(state => state.user);
 
   if (!user) {
-    alert("로그인 필요 - protected route");
+    alert("로그인이 필요합니다.");
     return <Navigate to="/user/signIn" replace={true} />;
   }
   return <Outlet />;
