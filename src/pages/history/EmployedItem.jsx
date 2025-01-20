@@ -90,6 +90,7 @@ export default function EmployedItem({ product, refetch }) {
           <Link
             to={`/post/${product._id}`}
             className="w-[83px] absolute top-4 right-4"
+            state={"employed"}
           >
             <Button color="white" width="xl" height="sm">
               상세 내역
