@@ -13,8 +13,6 @@ const alertfun = () => {
 export default function MyBossReviewListItem({ item }) {
   //   console.log("사장일때 받은 리뷰", item);
 
-  //   console.log("알바생일때", partTime);
-
   return (
     <>
       {item.replies.map(reply => (
