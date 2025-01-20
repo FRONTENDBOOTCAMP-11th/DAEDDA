@@ -59,9 +59,9 @@ const router = createBrowserRouter(
                 },
                 { path: "worked", element: <Worked /> },
                 { path: "employed", element: <Employed /> },
-                { path: ":from/reviewWrite/", element: <ReviewWrite /> },
               ],
             },
+            { path: "history/:from/reviewWrite/", element: <ReviewWrite /> },
             {
               path: "myPage",
               children: [
