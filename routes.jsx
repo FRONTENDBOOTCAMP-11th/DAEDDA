@@ -37,9 +37,8 @@ const router = createBrowserRouter(
         {
           path: "user",
           children: [
-            { path: "user/signUp", element: <SignUp /> },
-            { path: "user/terms", element: <Terms /> },
-            { path: "user/signIn", element: <SignIn /> },
+            { path: "signUp", element: <SignUp /> },
+            { path: "terms", element: <Terms /> },
           ],
         },
         {
