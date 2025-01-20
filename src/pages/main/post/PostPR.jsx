@@ -50,24 +50,33 @@ export default function PostPR() {
   };
 
   const handleChangeState = order => {
-    const isOk = confirm("정말 이 지원자를 채택하시겠습니까?");
-    if (isOk) {
-      const newState = "WO020";
-      changeOrderState.mutate({
-        orderId: order._id,
-        newState,
-        userId: order.user_id,
-      });
-      editProductState.mutate({
-        productId: product._id,
-        state: "EM020",
-      });
-      editProductWorker.mutate({
-        productId: product._id,
-        state: "EM020",
-        orderId: order._id,
-        userId: order.user._id,
-      });
+    if (product.extra.worker.userId) {
+      alert("기존에 채택하신 지원자를 취소해주세요.");
+    } else if (
+      product?.extra.state === "EM030" ||
+      product?.extra.state === "EM040"
+    ) {
+      alert("채택이 불가능한 공고입니다.");
+    } else {
+      const isOk = confirm("정말 이 지원자를 채택하시겠습니까?");
+      if (isOk) {
+        const newState = "WO020";
+        changeOrderState.mutate({
+          orderId: order._id,
+          newState,
+          userId: order.user_id,
+        });
+        editProductState.mutate({
+          productId: product._id,
+          state: "EM020",
+        });
+        editProductWorker.mutate({
+          productId: product._id,
+          state: "EM020",
+          orderId: order._id,
+          userId: order.user._id,
+        });
+      }
     }
   };
 

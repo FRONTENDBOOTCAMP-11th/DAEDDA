@@ -92,11 +92,9 @@ export default function Header() {
   if (error || refund) {
     return null;
   }
-  console.log(location.state === "worked");
 
   const onBackClicked = () => {
     if (location.state === "worked") {
-      console.log("ASDAS");
       navigate("/history/worked");
     } else if (location.state === "employed") {
       navigate("/history/employed");

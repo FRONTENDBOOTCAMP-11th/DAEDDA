@@ -343,7 +343,9 @@ export default function PostDetail() {
         </section>
         <div className="mt-7">
           {user ? (
-            data?.item?.seller_id !== userId ? (
+            data?.item?.seller_id !== userId &&
+            (data?.item?.extra.state === "EM010" ||
+              data?.item?.extra.state === "EM020") ? (
               <Button
                 color="purple"
                 height="lg"
