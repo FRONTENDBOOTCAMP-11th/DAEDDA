@@ -24,6 +24,7 @@ export default function PostWrite() {
       price: "1000",
       workTime: "09:00-18:00",
       content: "알바생 구합니다 구합니다 구합니다 구합니다",
+      address: "제주특별자치도 카카오 본사",
     },
   });
   const [preview, setPreview] = useState(null);
