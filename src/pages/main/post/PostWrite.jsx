@@ -32,7 +32,7 @@ export default function PostWrite() {
   const axios = useAxiosInstance();
   const queryClient = useQueryClient();
   const { user } = useUserStore();
-  // const [selectLocation, setSelectLocation] = useState([33.450701, 126.570667]);
+  const [selectLocation, setSelectLocation] = useState([33.450701, 126.570667]);
 
   const addPost = useMutation({
     mutationFn: async formData => {
@@ -95,9 +95,9 @@ export default function PostWrite() {
     const accept = window.confirm(
       "대따는 일당을 선 결제로 하고 있습니다.\n\n" +
         "일당 환불 규정:\n" +
-        "✅ 채택 후 5일 전 취소: 100% 환불\n" +
-        "✅ 채택 후 5일 이후 ~ 근무일 1일 전 취소: 50% 환불\n" +
-        "✅ 근무일 당일 취소: 환불 불가능\n\n" +
+        "📌 채택 후 5일 전 취소: 100% 환불\n" +
+        "📌 채택 후 5일 이후 ~ 근무일 1일 전 취소: 50% 환불\n" +
+        "📌 근무일 당일 취소: 환불 불가능\n\n" +
         "이에 동의하시면 확인 버튼, 거절하시려면 취소 버튼을 눌러주시길 바랍니다.\n" +
         "동의 시 결제창으로 이동하게 됩니다.\n" +
         "취소 시에는 구인글 등록이 되지 않습니다.",
