@@ -8,7 +8,7 @@ import Badge from "@pages/main/post/Badge";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 
-export default function PostPR() {
+export default function PostPR({ workPrice, workDate }) {
   const axios = useAxiosInstance();
   const navigate = useNavigate();
   const { _id } = useParams();
@@ -21,8 +21,10 @@ export default function PostPR() {
   const changeOrderState = useMutation({
     mutationFn: async ({ orderId, newState }) => {
       const body = { state: newState };
+      console.log(body);
       return axios.patch(`/seller/orders/${orderId}`, body);
     },
+
     onSuccess: (_, variables) => {
       const { newState, userId } = variables;
 
@@ -70,7 +72,46 @@ export default function PostPR() {
   };
 
   const handleCancelState = order => {
-    const isOk = confirm("정말 채택을 취소하시겠습니까?");
+    const updatedAtDate = new Date(order?.updatedAt);
+    const currentDate = new Date();
+    const workStartDate = new Date(workDate);
+    const oneDayBeforeWork = new Date(workStartDate);
+    oneDayBeforeWork.setDate(workStartDate.getDate() - 1);
+
+    const diffFromUpdated = Math.ceil(
+      Math.abs(currentDate - updatedAtDate) / (1000 * 60 * 60 * 24),
+    );
+
+    const diffToWork = Math.ceil(
+      (workStartDate - currentDate) / (1000 * 60 * 60 * 24),
+    );
+
+    let refundRate;
+    let refundMessage;
+
+    if (diffFromUpdated <= 5) {
+      refundRate = 100;
+      refundMessage = `📌 채택 후 ${diffFromUpdated}일, 당일 100% 환불\n`;
+    } else if (diffFromUpdated === 1 && diffToWork >= 5) {
+      refundRate = 50;
+      refundMessage = `📌 채택 후 5일 이후 ~ 근무일 1일 전 취소: 50% 환불\n`;
+    } else if (currentDate >= oneDayBeforeWork) {
+      refundRate = 0;
+      refundMessage = `📌 근무일 당일 취소: 환불 불가능\n`;
+    }
+
+    const refundAmount = (Number(workPrice) * refundRate) / 100;
+
+    const isOk = confirm(
+      `정말 채택을 취소하시겠습니까?\n\n` +
+        `일당 환불 규정:\n${refundMessage}\n` +
+        `💰 환불 예정 금액: ${refundAmount.toLocaleString()} 원\n\n` +
+        `🔥 유의 사항\n` +
+        `이에 동의하시면 ✅ 확인 버튼\n` +
+        `거절하시려면 ❌ 취소 버튼을 눌러주시길 바랍니다.\n` +
+        `채택 취소 시 환불은 영업일 기준 3~4일 소요될 수 있습니다.`,
+    );
+
     if (isOk) {
       const newState = "WO010";
       changeOrderState.mutate({
@@ -130,13 +171,13 @@ export default function PostPR() {
 
               <section className="break-keep whitespace-normal">
                 <div className="font-bold mt-7">제목</div>
-                <div className="mt-2">{order?.extra?.title}</div>
+                <div className="mt-2 break-words">{order?.extra?.title}</div>
 
                 <div className="font-bold mt-7">휴대폰 번호</div>
-                <div className="mt-2">{order?.user.phone}</div>
+                <div className="mt-2 break-words">{order?.user.phone}</div>
 
-                <div className="font-bold mt-7 ">자신을 표현해주세요!</div>
-                <div className="mt-2">{order?.extra?.content}</div>
+                <div className="font-bold mt-7">자신을 표현해주세요!</div>
+                <div className="mt-2 break-words">{order?.extra?.content}</div>
 
                 <div className="flex flex-col justify-center my-10">
                   {order.state === "WO020" ? (
