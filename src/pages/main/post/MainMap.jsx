@@ -27,6 +27,7 @@ export default function MainMap({
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
   const [address, setAddress] = useState("");
+  const [showPostcode, setShowPostcode] = useState(false); // 검색창 상태 추가
 
   // 선택한 위치의 주소를 가져오는 함수
   const fetchAddress = (lat, lng) => {
@@ -81,20 +82,47 @@ export default function MainMap({
 
   // 주소 검색 버튼 클릭 시 실행
   const handleAddressSearch = () => {
-    new window.daum.Postcode({
-      oncomplete: data => {
-        if (!window.kakao) return;
+    setShowPostcode(true); // 검색창 표시 상태 변경
 
-        const geocoder = new kakao.maps.services.Geocoder();
-        geocoder.addressSearch(data.address, (result, status) => {
-          if (status === kakao.maps.services.Status.OK) {
-            const lat = parseFloat(result[0].y);
-            const lng = parseFloat(result[0].x);
-            updateMap(lat, lng, data.address);
-          }
-        });
-      },
-    }).open();
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      const script = document.createElement("script");
+      script.src =
+        "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+      document.body.appendChild(script);
+
+      script.onload = () => {
+        new window.daum.Postcode({
+          oncomplete: data => {
+            const geocoder = new kakao.maps.services.Geocoder();
+            geocoder.addressSearch(data.address, (result, status) => {
+              if (status === kakao.maps.services.Status.OK) {
+                const lat = parseFloat(result[0].y);
+                const lng = parseFloat(result[0].x);
+                updateMap(lat, lng, data.address);
+                setShowPostcode(false); // 검색 완료 후 닫기
+              }
+            });
+          },
+          width: "100%",
+          height: "400px",
+        }).embed(document.getElementById("postcode-frame"));
+      };
+    } else {
+      new window.daum.Postcode({
+        oncomplete: data => {
+          const geocoder = new kakao.maps.services.Geocoder();
+          geocoder.addressSearch(data.address, (result, status) => {
+            if (status === kakao.maps.services.Status.OK) {
+              const lat = parseFloat(result[0].y);
+              const lng = parseFloat(result[0].x);
+              updateMap(lat, lng, data.address);
+              setShowPostcode(false); // 검색 완료 후 닫기
+            }
+          });
+        },
+      }).open();
+    }
   };
 
   // 주소 및 마커 초기화
@@ -135,11 +163,28 @@ export default function MainMap({
       />
 
       <div>
-        <button onClick={handleAddressSearch} className="mb-4 mr-2">
+        <button
+          type="button"
+          onClick={handleAddressSearch}
+          className="mb-4 mr-2"
+        >
           주소 검색
         </button>
         <button onClick={clearMap}>초기화</button>
       </div>
+
+      {showPostcode && (
+        <div
+          id="postcode-frame"
+          style={{
+            width: "100%",
+            height: "400px",
+            marginTop: "16px",
+            border: "1px solid #ccc",
+            padding: "10px",
+          }}
+        ></div>
+      )}
     </>
   );
 }

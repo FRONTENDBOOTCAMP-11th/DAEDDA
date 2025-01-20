@@ -29,7 +29,7 @@ export default function PostWrite() {
     mutationFn: async formData => {
       let body = {
         name: formData.name,
-        price: formData.price,
+        price: +formData.price,
         quantity: 1000,
         content: DOMPurify.sanitize(formData.content, { ALLOWED_TAGS: [] }),
         extra: {

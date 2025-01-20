@@ -57,7 +57,7 @@ export default function PostEdit() {
     mutationFn: async formData => {
       let body = {
         name: formData.name,
-        price: formData.price,
+        price: +formData.price,
         quantity: 1,
         content: formData.content,
         extra: {
