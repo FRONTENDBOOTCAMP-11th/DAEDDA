@@ -25,6 +25,7 @@ export default function WorkedItem({ data }) {
           <Link
             to={`/post/${data.products[0]._id}`}
             className="w-[83px] absolute top-4 right-4"
+            state={"worked"}
           >
             <Button color="white" width="xl" height="sm">
               상세 내역

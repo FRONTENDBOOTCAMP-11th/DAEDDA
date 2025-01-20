@@ -1,4 +1,4 @@
-import { Link, useMatch, useNavigate } from "react-router-dom";
+import { Link, useLocation, useMatch, useNavigate } from "react-router-dom";
 import useUserStore from "@zustand/userStore";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useEffect } from "react";
@@ -25,6 +25,8 @@ export default function Header() {
   // 현재 url과 useMatch("pr/write")(=>prWrite) 와 일치한다면 pathname~,,등등 반환 불일치시 null 반환
   // titles 배열에 일치할 때 title을 미리 정의해두었다가 getTitle을 통해 title 반환
   const { setSidebarOpen } = useSidebarStore(); // 사이드바 상태
+
+  const location = useLocation();
 
   const openSidebar = () => {
     setSidebarOpen(true);
@@ -90,9 +92,15 @@ export default function Header() {
   if (error || refund) {
     return null;
   }
+  console.log(location.state === "worked");
 
   const onBackClicked = () => {
-    if (mainID) {
+    if (location.state === "worked") {
+      console.log("ASDAS");
+      navigate("/history/worked");
+    } else if (location.state === "employed") {
+      navigate("/history/employed");
+    } else if (mainID) {
       navigate("/");
     } else {
       navigate(-1);
