@@ -11,7 +11,7 @@ export default function Error() {
     navigate(-1);
   };
   return (
-    <div className=" -mt-[80px] -mx-6 max-w-screen-sm m-auto h-screen overflow-hidden   flex items-center  flex-col bg-[#F8F1FF] px-5">
+    <div className=" -mt-[70px] -mx-6 max-w-screen-sm m-auto h-screen overflow-hidden   flex items-center  flex-col bg-[#F8F1FF] px-5">
       <img src="/images/404_daeddamon.png" alt="" className="mt-20 mb-8" />
       <p className="font-bold text-3xl  text-center mb-8">
         죄송합니다. <br />
