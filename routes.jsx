@@ -21,7 +21,7 @@ import ReviewWrite from "@pages/history/ReviewWrite";
 import KakaoSignIn from "@pages/user/KakaoSignIn";
 import Alarm from "@pages/alarm/Alarm";
 import Refund from "@pages/Refund";
-import ProtectedRoute from "./protectedRoutes";
+import ProtectedRoute from "@components/layout/ProtectedRoutes";
 
 // 접근 막을 페이지: nav 기준 마이페이지, 알바 내역 페이지
 
@@ -37,9 +37,8 @@ const router = createBrowserRouter(
         {
           path: "user",
           children: [
-            { path: "user/signUp", element: <SignUp /> },
-            { path: "user/terms", element: <Terms /> },
-            { path: "user/signIn", element: <SignIn /> },
+            { path: "signUp", element: <SignUp /> },
+            { path: "terms", element: <Terms /> },
           ],
         },
         {
@@ -81,11 +80,9 @@ const router = createBrowserRouter(
     // 레이아웃 필요 없는 페이지
     {
       path: "user",
-      children: [
-        { path: "signIn", element: <SignIn /> },
-        { path: "signin/kakao", element: <KakaoSignIn /> },
-      ],
+      children: [{ path: "signIn", element: <SignIn /> }],
     },
+    { path: "users/login/kakao", element: <KakaoSignIn /> },
     { path: "refund", element: <Refund /> },
   ],
   {

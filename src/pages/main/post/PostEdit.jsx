@@ -15,7 +15,7 @@ export default function PostEdit() {
   const navigate = useNavigate();
   const [preview, setPreview] = useState(null);
   const [imageError, setImageError] = useState(true);
-  const [selectLocation, setSelectLocation] = useState([33.450701, 126.570667]);
+  // const [selectLocation, setSelectLocation] = useState([33.450701, 126.570667]);
 
   const { data: productData } = useGetProductDetail(_id);
 
@@ -36,7 +36,7 @@ export default function PostEdit() {
       setValue("content", sanitizedHTML);
 
       if (productData.extra?.location) {
-        setSelectLocation(productData.extra?.location);
+        // setSelectLocation(productData.extra?.location);
         setValue("location", productData.extra?.location);
       }
 
@@ -186,12 +186,21 @@ export default function PostEdit() {
       </fieldset>
 
       <fieldset>
-        <legend className="text-[1rem] font-bold mb-2">위치</legend>
-        <MainMap
+        {/* <legend className="text-[1rem] font-bold mb-2">위치</legend> */}
+        {/* <MainMap
           selectLocation={selectLocation}
           setSelectLocation={setSelectLocation}
           register={register}
           setValue={setValue}
+        /> */}
+        <InputField
+          labelName="주소 입력"
+          type="text"
+          placeholder="주소 입력"
+          register={register("address", {
+            required: "주소 입력은 필수입니다.",
+          })}
+          errorMsg={errors.company?.message}
         />
       </fieldset>
 

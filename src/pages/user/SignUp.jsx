@@ -38,7 +38,15 @@ export default function SignUp() {
     formState: { errors },
     setError,
     watch,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      email: "test@gmail.com",
+      name: "test",
+      password: "asdf1111",
+      pwdCheck: "asdf1111",
+      phone: "01011112222",
+    },
+  });
 
   // 이미지 프리뷰 변경
   const handleImageChange = e => {
@@ -183,6 +191,7 @@ export default function SignUp() {
                 message: "유효한 이메일 형식으로 작성해주세요.",
               },
             })}
+            defaultValue="test@gmail.com"
           ></InputField>
         </div>
         <div className="w-full">
@@ -199,6 +208,7 @@ export default function SignUp() {
                 message: "닉네임은 최소 2글자 이상 입력해주세요.",
               },
             })}
+            defaultValue="asdf1111"
           ></InputField>
         </div>
         <div className="relative w-full">

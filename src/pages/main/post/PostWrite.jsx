@@ -17,13 +17,22 @@ export default function PostWrite() {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: "알바생 구합니다 test",
+      company: "멋사",
+      price: "1000",
+      workTime: "09:00-18:00",
+      content: "알바생 구합니다 구합니다 구합니다 구합니다",
+      address: "제주특별자치도 카카오 본사",
+    },
+  });
   const [preview, setPreview] = useState(null);
   const [imageError, setImageError] = useState(true);
   const axios = useAxiosInstance();
   const queryClient = useQueryClient();
   const { user } = useUserStore();
-  const [selectLocation, setSelectLocation] = useState([33.450701, 126.570667]);
+  // const [selectLocation, setSelectLocation] = useState([33.450701, 126.570667]);
 
   const addPost = useMutation({
     mutationFn: async formData => {
@@ -221,12 +230,21 @@ export default function PostWrite() {
       </fieldset>
 
       <fieldset>
-        <legend className="text-[1rem] font-bold mb-2">위치</legend>
-        <MainMap
+        {/* <legend className="text-[1rem] font-bold mb-2">위치</legend> */}
+        {/* <MainMap
           selectLocation={selectLocation}
           setSelectLocation={setSelectLocation}
           register={register}
           setValue={setValue}
+        /> */}
+        <InputField
+          labelName="주소 입력"
+          type="text"
+          placeholder="주소 입력"
+          register={register("address", {
+            required: "주소 입력은 필수입니다.",
+          })}
+          errorMsg={errors.company?.message}
         />
       </fieldset>
 
