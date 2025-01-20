@@ -7,7 +7,7 @@ import DOMPurify from "dompurify";
 import PostPR from "@pages/main/post/PostPR";
 import { useCallback, useEffect, useState } from "react";
 import useUserStore from "@zustand/userStore";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+// import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { toast } from "react-toastify";
 
 export default function PostDetail() {
@@ -25,19 +25,19 @@ export default function PostDetail() {
     select: res => res.data,
   });
 
-  const [mapCenter, setMapCenter] = useState({
-    lat: 33.450701,
-    lng: 126.570667,
-  });
+  // const [mapCenter, setMapCenter] = useState({
+  //   lat: 33.450701,
+  //   lng: 126.570667,
+  // });
 
-  useEffect(() => {
-    if (data?.item?.extra?.location) {
-      setMapCenter({
-        lat: data.item.extra.location[0],
-        lng: data.item.extra.location[1],
-      });
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data?.item?.extra?.location) {
+  //     setMapCenter({
+  //       lat: data.item.extra.location[0],
+  //       lng: data.item.extra.location[1],
+  //     });
+  //   }
+  // }, [data]);
 
   const sanitizedContent = DOMPurify.sanitize(`${data?.item.content}`);
 
@@ -170,7 +170,7 @@ export default function PostDetail() {
   return (
     <div className="mb-[40px]">
       <section className="flex items-center justify-between mt-4 flex-wrap">
-        <div className="font-bold text-[20px] py-4 break-keep whitespace-normal">
+        <div className="font-bold text-[20px] py-4 break-words">
           {data?.item.name}
         </div>
 
@@ -252,7 +252,6 @@ export default function PostDetail() {
             className="w-full h-full object-cover rounded-lg"
           />
         </div>
-
         <h2 className="font-bold mb-2">위치</h2>
         <div className="w-full rounded-lg overflow-hidden">
           {/* {data?.item?.extra?.location ? (
@@ -273,7 +272,7 @@ export default function PostDetail() {
           )} */}
         </div>
 
-        <div className="sm:whitespace-normal md:whitespace-nowrap">
+        <div className="sm:whitespace-normal md:whitespace-nowrap break-words">
           {data?.item?.extra?.address || "주소 정보가 없습니다."}
         </div>
       </section>
@@ -284,7 +283,9 @@ export default function PostDetail() {
 
           <div className="grid custom-375:grid-cols-1 grid-cols-2  gap-6">
             <article className="flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center">
-              <h2 className="">{data?.item.extra.condition?.company}</h2>
+              <h2 className="break-words">
+                {data?.item.extra.condition?.company}
+              </h2>
             </article>
             <article className="flex items-center justify-center h-20 shadow-custom-shadow rounded-lg p-3 text-center">
               <h2 className="">
@@ -324,9 +325,10 @@ export default function PostDetail() {
         </section>
         <section className="flex p-5 items-center shadow-custom-shadow rounded-3xl mt-6">
           <div>
-            <h2 className="font-bold ml-3">근무 내용</h2>
-            <ul className="ml-8 mt-2 break-keep whitespace-normal">
+            <h2 className="font-bold">근무 내용</h2>
+            <ul className="ml-2 mt-2  break-words">
               <span
+                className="break-words"
                 dangerouslySetInnerHTML={{
                   __html: sanitizedContent,
                 }}
@@ -351,7 +353,14 @@ export default function PostDetail() {
           ) : null}
         </div>
 
-        {user ? data?.item?.seller_id == userId ? <PostPR /> : null : null}
+        {user ? (
+          data?.item?.seller_id == userId ? (
+            <PostPR
+              workPrice={Number(data?.item.price)}
+              workDate={data?.item.extra.condition?.date}
+            />
+          ) : null
+        ) : null}
       </div>
     </div>
   );
