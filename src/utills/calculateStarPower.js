@@ -20,12 +20,18 @@ export function calculateTotalPower(data) {
 export function calculatePartTimePower(data) {
   let partTimetotalPower = 0;
   data.byUser?.forEach(reply => {
-    const partTimeStar = reply.extra?.rating || 0;
-    partTimetotalPower += starPower[partTimeStar] || 0;
+    if (reply.extra?.contents) {
+      reply.extra?.contents.forEach(item => {
+        const partTimeStar = item.rating || 0;
+        partTimetotalPower += starPower[partTimeStar] || 0;
+      });
+      console.log(partTimetotalPower);
+    }
+    // const partTimeStar = reply.extra?.contents.map(item => item.rating) || 0;
+    // partTimetotalPower += starPower[partTimeStar] || 0;
   });
   return partTimetotalPower;
 }
-
 export function getDydamicWidth(reviews = [], partTime = {}) {
   const totalPower = calculateTotalPower(reviews);
   const partTimePower = calculatePartTimePower(partTime);
