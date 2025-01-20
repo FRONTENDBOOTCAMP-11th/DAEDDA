@@ -1,10 +1,7 @@
 import { useProfileData } from "@hooks/useProfileData";
 import MyPageList from "@pages/myPage/MyPageList";
 import { Link, useLocation } from "react-router-dom";
-import {
-  calculatePartTimePower,
-  calculateTotalPower,
-} from "@/utills/calculateStarPower";
+
 import { getDydamicWidth } from "@/utills/calculateStarPower";
 
 export default function Profile() {
@@ -16,15 +13,6 @@ export default function Profile() {
     return <div>로딩중</div>;
   }
   const dydamicWidth = getDydamicWidth(reviews, partTime);
-  // const totalPower = calculateTotalPower(reviews || []);
-  // // console.log(totalPower, "토탈파워");
-  // const partTimePower = calculatePartTimePower(partTime || []);
-  // // console.log(partTimePower, "알바생");
-  // //소수점 첫째자리 반올림
-  // const totalReview = Math.round(((totalPower + partTimePower) / 2) * 10) / 10;
-  // // console.log(totalReview, "총점리뷰 평균");
-  // const dydamicWidth = totalReview + 50;
-  // // console.log(dydamicWidth);
 
   return (
     <div className="mb-[40px]">

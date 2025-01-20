@@ -20,6 +20,7 @@ import Employed from "@pages/history/Employed";
 import ReviewWrite from "@pages/history/ReviewWrite";
 import KakaoSignIn from "@pages/user/KakaoSignIn";
 import Alarm from "@pages/alarm/Alarm";
+import Refund from "@pages/Refund";
 import ProtectedRoute from "./protectedRoutes";
 
 // 접근 막을 페이지: nav 기준 마이페이지, 알바 내역 페이지
@@ -70,6 +71,7 @@ const router = createBrowserRouter(
             { path: "user/:_id", element: <Profile /> },
           ],
         },
+        { path: "refund", element: <Refund /> },
       ],
     },
 
