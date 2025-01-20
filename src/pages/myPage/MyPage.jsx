@@ -1,5 +1,4 @@
-import { useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useUserStore from "@zustand/userStore";
 import { useProfileData } from "@hooks/useProfileData";
 import MyPageList from "@pages/myPage/MyPageList";
@@ -7,20 +6,7 @@ import { getDydamicWidth } from "@/utills/calculateStarPower";
 
 export default function MyPage() {
   const { user, resetUser } = useUserStore();
-  const navigate = useNavigate();
-  const isRedirected = useRef(false); // 중복 실행 방지
-  // ref사용-> 렌더링과 상관없이 값 유지,
 
-  useEffect(() => {
-    if (!user && !isRedirected.current) {
-      isRedirected.current = true; //true일때 alert실행X, false일때 alert와 nav실행
-      //alert중복 방지
-      alert("로그인이 필요한 페이지입니다.");
-      navigate("/user/signIn");
-    }
-  }, [user, navigate]);
-
-  // user가 없으면 useProfileData 실행하지 않음
   const { userData, reviews, isLoading, partTime } = useProfileData(user?._id);
 
   // 로딩 상태 표시
@@ -29,11 +15,7 @@ export default function MyPage() {
   }
 
   const logoutFun = () => {
-    // console.log(isRedirected.current); //=>false
-    // alert("로그인이 필요한 페이지입니다.");
     resetUser();
-    isRedirected.current = true;
-    navigate("/user/signIn");
   };
 
   const dydamicWidth = getDydamicWidth(reviews, partTime);
