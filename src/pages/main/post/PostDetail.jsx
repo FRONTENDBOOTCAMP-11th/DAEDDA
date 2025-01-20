@@ -246,7 +246,7 @@ export default function PostDetail() {
 
         <h2 className="font-bold mb-2">위치</h2>
         <div className="w-full rounded-lg overflow-hidden">
-          {data?.item?.extra?.location ? (
+          {/* {data?.item?.extra?.location ? (
             <Map
               center={{
                 lat: data?.item.extra.location[0],
@@ -261,10 +261,10 @@ export default function PostDetail() {
             </Map>
           ) : (
             ""
-          )}
+          )} */}
         </div>
 
-        <div className="mt-4 sm:whitespace-normal md:whitespace-nowrap">
+        <div className="sm:whitespace-normal md:whitespace-nowrap">
           {data?.item?.extra?.address || "주소 정보가 없습니다."}
         </div>
       </section>

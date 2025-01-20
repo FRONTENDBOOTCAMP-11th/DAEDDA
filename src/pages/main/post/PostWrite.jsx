@@ -31,7 +31,7 @@ export default function PostWrite() {
   const axios = useAxiosInstance();
   const queryClient = useQueryClient();
   const { user } = useUserStore();
-  const [selectLocation, setSelectLocation] = useState([33.450701, 126.570667]);
+  // const [selectLocation, setSelectLocation] = useState([33.450701, 126.570667]);
 
   const addPost = useMutation({
     mutationFn: async formData => {
@@ -229,12 +229,21 @@ export default function PostWrite() {
       </fieldset>
 
       <fieldset>
-        <legend className="text-[1rem] font-bold mb-2">위치</legend>
-        <MainMap
+        {/* <legend className="text-[1rem] font-bold mb-2">위치</legend> */}
+        {/* <MainMap
           selectLocation={selectLocation}
           setSelectLocation={setSelectLocation}
           register={register}
           setValue={setValue}
+        /> */}
+        <InputField
+          labelName="주소 입력"
+          type="text"
+          placeholder="주소 입력"
+          register={register("address", {
+            required: "주소 입력은 필수입니다.",
+          })}
+          errorMsg={errors.company?.message}
         />
       </fieldset>
 
