@@ -13,7 +13,7 @@ const alertfun = () => {
 export default function MyReviewList({ item, partTime }) {
   // console.log("사장일때 받은 리뷰", item);
 
-  // console.log("알바생일때", partTime);
+  console.log("알바생일때", partTime);
 
   if (item) {
     return (
@@ -62,43 +62,53 @@ export default function MyReviewList({ item, partTime }) {
   } else {
     return (
       <>
-        <div key={partTime._id} className="reviews-container">
-          <div className="flex gap-1 ">
-            <div className="flex gap-5 flex-grow">
-              <Link to={`/user/${partTime.user._id}`} className="flex-shrink-0">
-                <img
-                  src={
-                    partTime.user.image
-                      ? partTime.user.image.includes("kakaocdn.net")
-                        ? partTime.user.image
-                        : `https://11.fesp.shop/${partTime.user.image}`
-                      : "/images/smiling_daeddamon.png"
-                  }
-                  alt="사용자 이미지"
-                  className="size-10 rounded-full"
-                />
-              </Link>
-              <Link to={`/post/${partTime.user._id}`} className="w-full">
-                <div className="max-w-[440px]">
-                  <p className="font-bold text-sm">{partTime.user.name}</p>
-                  <Star partTime={partTime} />
-                  <p className="break-keep whitespace-normal text-sm">
-                    {partTime.memo}
-                  </p>
-                </div>
-              </Link>
-            </div>
+        {partTime.extra.contents.map(item => (
+          <div key={partTime._id} className="reviews-container">
+            <div className="flex gap-1 ">
+              <div className="flex gap-5 flex-grow">
+                <Link
+                  to={`/user/${partTime.user._id}`}
+                  className="flex-shrink-0"
+                >
+                  <img
+                    src={
+                      partTime.user.image
+                        ? partTime.user.image.includes("kakaocdn.net")
+                          ? partTime.user.image
+                          : `https://11.fesp.shop/${partTime.user.image}`
+                        : "/images/smiling_daeddamon.png"
+                    }
+                    alt="사용자 이미지"
+                    className="size-10 rounded-full"
+                  />
+                </Link>
+                <Link to={`/post/${partTime.user._id}`} className="w-full">
+                  <div className="max-w-[440px]">
+                    <p className="font-bold text-sm">{partTime.user.name}</p>
+                    <div className="flex">
+                      <div className="flex gap-1 size-3 mb-2">
+                        <Star className="flex" partTime={partTime} />
+                      </div>
+                    </div>
 
-            <Button
-              height="xs"
-              color="white"
-              className="w-[47px] shrink-0"
-              onClick={alertfun}
-            >
-              신고하기
-            </Button>
+                    <p className=" whitespace-normal break-words  text-sm">
+                      {item.memo}
+                    </p>
+                  </div>
+                </Link>
+              </div>
+
+              <Button
+                height="xs"
+                color="white"
+                className="w-[47px] shrink-0"
+                onClick={alertfun}
+              >
+                신고하기
+              </Button>
+            </div>
           </div>
-        </div>
+        ))}
       </>
     );
   }

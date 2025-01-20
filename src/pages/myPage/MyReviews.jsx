@@ -21,8 +21,21 @@ export default function MyReviews() {
   // console.log(reviews, "리뷰");
   let totalReplies = 0;
   reviews.forEach(item => (totalReplies += item.replies.length));
+  // console.log(partTime);
 
-  const partTimeTotalRp = partTime.byUser.length;
+  let partTimeTotalRp = 0;
+  if (partTime.byUser) {
+    partTime.byUser.forEach(user => {
+      // `byUser` 배열 하나를 기본으로 1 추가
+      // partTimeTotalRp += 1;
+      // `extra.content` 배열의 길이를 가져와 추가
+      if (user.extra && Array.isArray(user.extra.contents)) {
+        partTimeTotalRp += user.extra.contents.length;
+      }
+    });
+  }
+
+  // const partTimeTotalRp = partTime.byUser.length+partTime.byUser.map((item)=>item.);
 
   const list = reviews.map(item => (
     <MyReviewList key={item._id} item={item} btnTxt={btnTxt} />
