@@ -17,7 +17,15 @@ export default function PostWrite() {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: "알바생 구합니다 test",
+      company: "멋사",
+      price: "1000",
+      workTime: "09:00-18:00",
+      content: "알바생 구합니다 구합니다 구합니다 구합니다",
+    },
+  });
   const [preview, setPreview] = useState(null);
   const [imageError, setImageError] = useState(true);
   const axios = useAxiosInstance();

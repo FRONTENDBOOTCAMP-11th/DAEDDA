@@ -33,7 +33,12 @@ export default function SignIn() {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      email: "s1@market.com",
+      password: "11111111",
+    },
+  });
 
   // 이메일 로그인 처리
   const onSubmit = data => {

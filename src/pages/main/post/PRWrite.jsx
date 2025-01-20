@@ -20,7 +20,12 @@ export default function PRWrite() {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      title: "알바 지원 test",
+      content: "알바 지원합니다 지원합니다.",
+    },
+  });
 
   const prPost = useMutation({
     mutationFn: async formData => {
