@@ -165,11 +165,11 @@ export const initData = async (clientId, nextSeq) => {
           condition: {
             company: "기장대게할인마트",
             workTime: ["10:00", "18:00"],
-            date: "2025-01-11",
+            date: "2025-01-31",
           },
           worker: {
-            userId: 4,
-            orderId: 1,
+            userId: null,
+            orderId: null,
           },
         },
       },
@@ -203,11 +203,11 @@ export const initData = async (clientId, nextSeq) => {
           condition: {
             company: "소문난손칼국수",
             workTime: ["11:00", "16:00"],
-            date: "2025-01-05",
+            date: "2025-01-31",
           },
           worker: {
-            userId: 4,
-            orderId: 2,
+            userId: null,
+            orderId: null,
           },
         },
       },
@@ -241,11 +241,11 @@ export const initData = async (clientId, nextSeq) => {
           condition: {
             company: "올리브영명동타운",
             workTime: ["10:00", "18:00"],
-            date: "2025-01-01",
+            date: "2025-01-31",
           },
           worker: {
-            userId: 4,
-            orderId: 3,
+            userId: null,
+            orderId: null,
           },
         },
       },
@@ -282,11 +282,11 @@ export const initData = async (clientId, nextSeq) => {
           condition: {
             company: "카카오",
             workTime: ["09:00", "17:00"],
-            date: "2024-12-31",
+            date: "2025-01-31",
           },
           worker: {
-            userId: 4,
-            orderId: 4,
+            userId: null,
+            orderId: null,
           },
         },
       },
