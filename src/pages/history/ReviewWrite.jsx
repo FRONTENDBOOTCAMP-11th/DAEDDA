@@ -16,11 +16,12 @@ export default function ReviewWrite() {
   const axios = useAxiosInstance();
   const navigate = useNavigate();
   const location = useLocation();
-  const order = location.state.order;
+  const { from } = useParams();
+  const order = location.state?.order;
+  const product =
+    from === "worked" ? order.products[0] : location.state?.product;
 
-  const { refetch: employedRefetch } = useGetMyProducts(
-    order.products[0].seller_id,
-  );
+  const { refetch: employedRefetch } = useGetMyProducts(product?.seller_id);
   const { refetch: workedRefetch } = useGetOrders();
 
   const {
@@ -28,15 +29,14 @@ export default function ReviewWrite() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { from, id: productId } = useParams();
 
   const [rating, setRating] = useState(0);
   const handleRating = rate => {
     setRating(rate);
   };
 
-  console.log(order);
   const addAlarm = useAddAlarm();
+
   const editProductState = useEditProductState();
   const editMyOrderState = useMutation({
     mutationFn: async ({ orderId, state }) => {
@@ -55,7 +55,7 @@ export default function ReviewWrite() {
     mutationFn: async formData => {
       const body = {
         order_id: order._id,
-        product_id: order.products[0]._id,
+        product_id: product._id,
         rating,
         content: formData.content,
       };
@@ -100,12 +100,12 @@ export default function ReviewWrite() {
 
   const onEmployedReviewSucces = () => {
     // 게시글의 state를 리뷰 작성 완료로 변경
-    editProductState.mutate({ productId, state: "EM040" });
+    editProductState.mutate({ productId: product._id, state: "EM040" });
     employedRefetch();
     addAlarm.mutate({
-      targetId: order.user_id,
-      content: `📝 지원하신 ${order.products[0].extra.condition.company}에서 한 일에 대해 리뷰가 작성되었습니다.`,
-      extra: { title: order.products[0].extra.condition.company },
+      targetId: product.extra.worker.userId,
+      content: `📝 지원하신 ${product.extra.condition.company}에서 한 일에 대해 리뷰가 작성되었습니다.`,
+      extra: { title: product.extra.condition.company },
     });
     alert("리뷰 작성이 완료되었습니다.");
     navigate(-1);
@@ -114,7 +114,7 @@ export default function ReviewWrite() {
   const addEmployedReview = useMutation({
     mutationFn: async formData => {
       const body = {
-        target_id: order.user_id,
+        target_id: product.extra.worker.userId,
         extra: {
           contents: [
             {
@@ -135,7 +135,9 @@ export default function ReviewWrite() {
     onError: async (error, formData) => {
       if (error.response && error.response.status === 409) {
         // 기존 북마크 정보 획득
-        const res = await axios.get(`/bookmarks/user/${order.user_id}`);
+        const res = await axios.get(
+          `/bookmarks/user/${product.extra.worker.userId}`,
+        );
         const prevBookmarkId = res.data.item._id;
         const prevContents = res.data.item.extra.contents;
         // 내용 교체, 기존 북마크 제거
@@ -146,7 +148,7 @@ export default function ReviewWrite() {
         await deleteMyBookmark.mutateAsync(prevBookmarkId);
         // 다시 axios 요청
         await axios.post("/bookmarks/user", {
-          target_id: order.user_id,
+          target_id: product.extra.worker.userId,
           extra: {
             contents: prevContents,
           },
@@ -163,18 +165,19 @@ export default function ReviewWrite() {
   };
 
   return (
+    // <></>
     <>
-      {order && (
+      {product && (
         <div className="mb-[40px]">
           <div className="flex justify-between mb-4 flex-wrap">
             <h2 className="text-[1.25rem] font-semibold">
               {from === "worked" ? `내가 일한 장소 : ` : `내가 맡긴 장소 : `}
-              {order.products[0].extra.condition.company}
+              {product.extra.condition.company}
             </h2>
             <p className="text-gray-500 font-semibold">
-              {formatDate(order.products[0].extra.condition.date)}ㆍ
-              {order.products[0].extra.condition.workTime[0]} ~{" "}
-              {order.products[0].extra.condition.workTime[1]}
+              {formatDate(product.extra.condition.date)}ㆍ
+              {product.extra.condition.workTime[0]} ~{" "}
+              {product.extra.condition.workTime[1]}
             </p>
           </div>
           <Rating
@@ -202,7 +205,7 @@ export default function ReviewWrite() {
             />
             <p className="text-[1.125rem] font-semibold mb-4">
               {from === "worked" ? "받은 금액 : " : "보낼 금액 : "}
-              {`${order.products[0].price.toLocaleString()}원`}
+              {`${product.price.toLocaleString()}원`}
             </p>
             <Button color="purple" type="submit" height="lg">
               리뷰 쓰기

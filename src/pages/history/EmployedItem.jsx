@@ -9,25 +9,18 @@ import useAddAlarm from "@hooks/useAddAlarm";
 import { useGetProductDetail } from "@hooks/useGetProductDetail";
 
 EmployedItem.propTypes = {
-  productId: PropTypes.number.isRequired,
+  product: PropTypes.object.isRequired,
   refetch: PropTypes.func.isRequired,
 };
 
-export default function EmployedItem({ productId, refetch }) {
+export default function EmployedItem({ product, refetch }) {
   const navigate = useNavigate();
   const axios = useAxiosInstance();
 
-  const { data } = useGetProductDetail(productId);
-  const { data: state } = useGetOrderState(data?.extra.state);
-  const targetOrder = data?.orders?.find(
-    order =>
-      order.state === "WO020" ||
-      order.state === "WO030" ||
-      order.state === "WO040",
-  );
+  const { data: state } = useGetOrderState(product?.extra.state);
 
   const addAlarm = useAddAlarm();
-  // seller product에서 상태가 채택 완료인 order 획득
+
   const editOrderState = useMutation({
     mutationFn: async ({ orderId, state }) => {
       return axios.patch(`/seller/orders/${orderId}`, {
@@ -66,30 +59,38 @@ export default function EmployedItem({ productId, refetch }) {
     );
     if (isOkay) {
       // 구인글 상태 구인 완료에서 송금 완료로 변경
-      editProductState.mutate({ productId: data._id, state: "EM030" });
+      editProductState.mutate({ productId: product._id, state: "EM030" });
 
       // 주문 상태 채택 완료에서 입금 완료로 변경
-      editOrderState.mutate({ orderId: targetOrder._id, state: "WO030" });
-      addAlarm.mutate({
-        targetId: targetOrder.user_id,
-        content: `💸 지원하신 ${targetOrder.products[0].extra.condition.company}에서 한 일에 대해 입금이 완료되었습니다.`,
-        extra: { title: targetOrder.products[0].extra.condition.company },
+      editOrderState.mutate({
+        orderId: product.extra.worker.orderId,
+        state: "WO030",
       });
-      navigate(`reviewWrite/${data._id}`, { state: { order: targetOrder } });
+      addAlarm.mutate({
+        targetId: product.extra.worker.userId,
+        content: `💸 지원하신 ${product.extra.condition.company}에서 한 일에 대해 입금이 완료되었습니다.`,
+        extra: { title: product.extra.condition.company },
+      });
+      refetch();
+      navigate("reviewWrite", {
+        state: { product },
+      });
     }
   };
 
   // 리뷰 작성 버튼 클릭 시
   const onReviewWriteClicked = () => {
-    navigate(`reviewWrite/${data._id}`, { state: { order: targetOrder } });
+    navigate("reviewWrite", {
+      state: { product },
+    });
   };
 
   return (
     <>
-      {data && (
+      {product && (
         <div className="p-4 rounded-3xl shadow-custom-shadow mb-5 relative">
           <Link
-            to={`/post/${data._id}`}
+            to={`/post/${product._id}`}
             className="w-[83px] absolute top-4 right-4"
           >
             <Button color="white" width="xl" height="sm">
@@ -98,12 +99,12 @@ export default function EmployedItem({ productId, refetch }) {
           </Link>
           <div className="mb-6">
             <h4 className="text-sm font-bold">{state.value}</h4>
-            <p>{data.extra.condition.company}</p>
-            <p>{data.price.toLocaleString()}원</p>
+            <p>{product.extra.condition.company}</p>
+            <p>{product.price.toLocaleString()}원</p>
             <p>
-              {formatDate(data.extra.condition.date)}ㆍ
-              {data.extra.condition.workTime[0]} ~{" "}
-              {data.extra.condition.workTime[1]}
+              {formatDate(product.extra.condition.date)}ㆍ
+              {product.extra.condition.workTime[0]} ~{" "}
+              {product.extra.condition.workTime[1]}
             </p>
           </div>
           <Button
@@ -121,7 +122,10 @@ export default function EmployedItem({ productId, refetch }) {
             onClick={
               state.value === "구인 완료"
                 ? () =>
-                    onCompleteClicked(data.extra.condition.company, data.price)
+                    onCompleteClicked(
+                      product.extra.condition.company,
+                      product.price,
+                    )
                 : state.value === "송금 완료"
                   ? () => onReviewWriteClicked()
                   : null

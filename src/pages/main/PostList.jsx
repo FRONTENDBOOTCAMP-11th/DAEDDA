@@ -105,7 +105,10 @@ export default function PostList() {
         {data && (
           <>
             {data.map(data => {
-              return <ListItem key={data._id} data={data} />;
+              console.log(data.extra.state);
+              if (data.extra.state === "EM030" || data.extra.state === "EM040")
+                return null;
+              else return <ListItem key={data._id} data={data} />;
             })}
           </>
         )}
