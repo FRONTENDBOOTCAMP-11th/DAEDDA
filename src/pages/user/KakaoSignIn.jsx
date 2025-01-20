@@ -23,7 +23,7 @@ export default function KakaoSignIn() {
     try {
       const response = await axios.post(`/users/login/kakao`, {
         code,
-        redirect_uri: `${window.location.origin}/user/signin/kakao`,
+        redirect_uri: `${window.location.origin}/users/login/kakao`,
         user: {
           type: "seller",
         },
