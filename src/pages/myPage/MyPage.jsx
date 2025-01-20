@@ -18,6 +18,7 @@ export default function MyPage() {
     resetUser();
   };
 
+  console.log(partTime);
   const dydamicWidth = getDydamicWidth(reviews, partTime);
 
   return (
