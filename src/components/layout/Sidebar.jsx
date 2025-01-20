@@ -28,6 +28,11 @@ export default function Sidebar() {
     setSidebarOpen(false);
     navigate("/error");
   };
+  //환불규정으로 이동
+  const goToRefund = () => {
+    setSidebarOpen(false);
+    navigate("/refund");
+  };
 
   useEffect(() => {
     if (isSidebarOpen) {
@@ -92,7 +97,7 @@ export default function Sidebar() {
               </h1>
               <h1
                 className="mt-4 text-[1rem] text-[#605D5D] cursor-pointer"
-                onClick={goToError}
+                onClick={goToRefund}
               >
                 환불 규정
               </h1>

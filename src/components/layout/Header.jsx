@@ -9,6 +9,7 @@ export default function Header() {
   const navigate = useNavigate();
   const { user } = useUserStore();
   const error = useMatch("/error");
+  const refund = useMatch("/refund");
   const prWrite = useMatch("pr/write");
   const userTerms = useMatch("user/terms");
   const signUp = useMatch("user/signUp");
@@ -86,7 +87,7 @@ export default function Header() {
     userProfile ||
     likeList ||
     alarm;
-  if (error) {
+  if (error || refund) {
     return null;
   }
 
