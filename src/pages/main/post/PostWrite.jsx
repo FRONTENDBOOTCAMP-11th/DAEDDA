@@ -23,21 +23,26 @@ export default function PostWrite() {
   const axios = useAxiosInstance();
   const queryClient = useQueryClient();
   const { user } = useUserStore();
+  const [selectLocation, setSelectLocation] = useState([33.450701, 126.570667]);
 
   const addPost = useMutation({
     mutationFn: async formData => {
       let body = {
         name: formData.name,
-        price: formData.price,
+        price: +formData.price,
         quantity: 1000,
         content: DOMPurify.sanitize(formData.content, { ALLOWED_TAGS: [] }),
         extra: {
-          location: [35.155625, 129.131793],
+          location: formData.location,
           address: formData.address,
           condition: {
             date: formData.date,
             company: formData.company,
             workTime: formData.workTime.split("-"),
+          },
+          worker: {
+            userId: null,
+            orderId: null,
           },
           state: "EM010",
         },
@@ -217,23 +222,17 @@ export default function PostWrite() {
 
       <fieldset>
         <legend className="text-[1rem] font-bold mb-2">위치</legend>
-        <div className="mb-4">
-          <MainMap />
-        </div>
-        <InputField
-          labelName="상세 주소"
-          type="text"
-          placeholder="상세 주소"
-          register={register("address", {
-            required: "주소 입력은 필수입니다.",
-          })}
-          errorMsg={errors.address?.message}
+        <MainMap
+          selectLocation={selectLocation}
+          setSelectLocation={setSelectLocation}
+          register={register}
+          setValue={setValue}
         />
       </fieldset>
 
       <fieldset>
         <InputField
-          labelName="근무 조건"
+          labelName="가게 이름"
           type="text"
           placeholder="가게 이름"
           register={register("company", {
@@ -274,7 +273,7 @@ export default function PostWrite() {
         />
 
         <InputField
-          labelName="근무 일"
+          labelName="근무 날짜"
           type="date"
           register={register("date", {
             required: "날짜 입력은 필수입니다.",
