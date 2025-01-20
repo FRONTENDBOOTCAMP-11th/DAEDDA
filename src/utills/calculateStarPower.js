@@ -14,6 +14,7 @@ export function calculateTotalPower(data) {
       totalPower += starPower[star] || 0;
     });
   });
+  // console.log("사장 최종 알바력", totalPower);
   return totalPower;
 }
 
@@ -25,7 +26,7 @@ export function calculatePartTimePower(data) {
         const partTimeStar = item.rating || 0;
         partTimetotalPower += starPower[partTimeStar] || 0;
       });
-      console.log(partTimetotalPower);
+      // console.log("최종리뷰", partTimetotalPower);
     }
     // const partTimeStar = reply.extra?.contents.map(item => item.rating) || 0;
     // partTimetotalPower += starPower[partTimeStar] || 0;
