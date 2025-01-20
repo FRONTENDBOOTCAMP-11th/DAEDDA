@@ -35,7 +35,7 @@ export default function MyReviewList({ item, partTime }) {
                     className="size-10 rounded-full"
                   />
                 </Link>
-                <Link to={`/main/${item._id}`} className="w-full">
+                <Link to={`/post/${item._id}`} className="w-full">
                   <div className="max-w-[440px]">
                     <p className="font-bold text-sm">{reply.user.name}</p>
                     <Star reply={reply} />
@@ -78,7 +78,7 @@ export default function MyReviewList({ item, partTime }) {
                   className="size-10 rounded-full"
                 />
               </Link>
-              <Link to={`/main/${partTime.user._id}`} className="w-full">
+              <Link to={`/post/${partTime.user._id}`} className="w-full">
                 <div className="max-w-[440px]">
                   <p className="font-bold text-sm">{partTime.user.name}</p>
                   <Star partTime={partTime} />

@@ -30,7 +30,7 @@ export default function MyPage() {
 
   const logoutFun = () => {
     // console.log(isRedirected.current); //=>false
-    alert("로그아웃 되었습니다.");
+    alert("로그인이 필요한 페이지입니다.");
     resetUser();
     isRedirected.current = true;
     navigate("/user/signIn");
