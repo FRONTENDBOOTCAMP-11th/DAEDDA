@@ -20,6 +20,7 @@ import Employed from "@pages/history/Employed";
 import ReviewWrite from "@pages/history/ReviewWrite";
 import KakaoSignIn from "@pages/user/KakaoSignIn";
 import Alarm from "@pages/alarm/Alarm";
+import Refund from "@pages/Refund";
 
 const router = createBrowserRouter(
   [
@@ -59,6 +60,7 @@ const router = createBrowserRouter(
         { path: "user/terms", element: <Terms /> },
         { path: "user/:_id", element: <Profile /> },
         { path: "error", element: <Error /> },
+        { path: "refund", element: <Refund /> },
       ],
     },
 
