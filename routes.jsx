@@ -71,7 +71,6 @@ const router = createBrowserRouter(
             { path: "user/:_id", element: <Profile /> },
           ],
         },
-        { path: "refund", element: <Refund /> },
       ],
     },
 
@@ -83,6 +82,7 @@ const router = createBrowserRouter(
         { path: "signin/kakao", element: <KakaoSignIn /> },
       ],
     },
+    { path: "refund", element: <Refund /> },
   ],
   {
     future: {
