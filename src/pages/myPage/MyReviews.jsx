@@ -35,7 +35,7 @@ export default function MyReviews() {
   return (
     <div className="mb-[40px]">
       <div className="flex  px-5 pb-5">
-        <p className="font-bold text-[18px] flex-grow ">
+        <p className="font-bold text-[1.125rem] flex-grow ">
           {btnTxt === "사장"
             ? `리뷰 ${totalReplies}개`
             : `리뷰 ${partTimeTotalRp}개`}

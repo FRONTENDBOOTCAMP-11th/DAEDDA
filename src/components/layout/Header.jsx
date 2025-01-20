@@ -9,12 +9,13 @@ export default function Header() {
   const navigate = useNavigate();
   const { user } = useUserStore();
   const error = useMatch("/error");
+  const refund = useMatch("/refund");
   const prWrite = useMatch("pr/write");
   const userTerms = useMatch("user/terms");
   const signUp = useMatch("user/signUp");
   const myPageEdit = useMatch("myPage/edit");
   const myPageMyReviews = useMatch("myPage/myReviews/:_id");
-  const reviewWrite = useMatch("history/:from/reviewWrite/:id");
+  const reviewWrite = useMatch("history/:from/reviewWrite");
   const PostWrite = useMatch("post/write");
   const mainID = useMatch("post/:_id");
   const mainIDEdit = useMatch("post/:_id/edit");
@@ -43,7 +44,7 @@ export default function Header() {
     if (user) {
       checkAlarmExist();
     }
-  }, [user]);
+  }, [user, alarmExist]);
 
   const titles = [
     { match: prWrite, title: "공고 지원 글 작성" },
@@ -86,7 +87,7 @@ export default function Header() {
     userProfile ||
     likeList ||
     alarm;
-  if (error) {
+  if (error || refund) {
     return null;
   }
 

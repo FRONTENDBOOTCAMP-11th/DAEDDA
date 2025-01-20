@@ -15,6 +15,7 @@ export const useGetMyProducts = (userId, select, keyword) => {
       return select ? select(res.data.item) : res.data.item;
     },
     staleTime: 1000 * 10,
+    enabled: !!userId,
   });
 };
 

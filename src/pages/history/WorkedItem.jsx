@@ -13,7 +13,7 @@ export default function WorkedItem({ data }) {
   const navigate = useNavigate();
   const { data: state } = useGetOrderState(data.state);
   const onReviewWriteClicked = () => {
-    navigate(`reviewWrite/${data._id}`, {
+    navigate("reviewWrite", {
       state: { order: data },
     });
   };

@@ -96,7 +96,6 @@ export default function PostPR() {
   const filteredOrders = product?.orders?.filter(order =>
     order.extra?.title?.trim(),
   );
-
   return (
     <div>
       {filteredOrders && filteredOrders.length > 0
@@ -122,7 +121,7 @@ export default function PostPR() {
                   <div className="flex flex-col">
                     <div className="flex">
                       <h2 className="font-bold mr-1">{order?.user.name}</h2>
-                      <Badge number={70} />
+                      <Badge key={order?.user?._id} userId={order?.user?._id} />
                     </div>
                     <h2 className="font-light">{order?.updatedAt}</h2>
                   </div>

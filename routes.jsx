@@ -20,56 +20,69 @@ import Employed from "@pages/history/Employed";
 import ReviewWrite from "@pages/history/ReviewWrite";
 import KakaoSignIn from "@pages/user/KakaoSignIn";
 import Alarm from "@pages/alarm/Alarm";
+import Refund from "@pages/Refund";
+import ProtectedRoute from "./protectedRoutes";
+
+// 접근 막을 페이지: nav 기준 마이페이지, 알바 내역 페이지
 
 const router = createBrowserRouter(
   [
     {
-      path: "/",
       element: <Layout />,
       children: [
-        { index: true, element: <PostList /> },
-
-        { path: "alarm", element: <Alarm /> },
-        { path: "post/write", element: <PostWrite /> },
+        // 로그인이 필요 없는 페이지
+        { path: "/", element: <PostList /> },
         { path: "post/:_id", element: <PostDetail /> },
-        { path: "post/:_id/edit", element: <PostEdit /> },
-
+        { path: "error", element: <Error /> },
         {
-          path: "history",
-          element: <ReviewList />,
+          path: "user",
           children: [
-            {
-              index: true,
-              element: <Navigate to="worked" replace />,
-            },
-            { path: "worked", element: <Worked /> },
-            { path: "employed", element: <Employed /> },
+            { path: "user/signUp", element: <SignUp /> },
+            { path: "user/terms", element: <Terms /> },
+            { path: "user/signIn", element: <SignIn /> },
           ],
         },
-        { path: "history/:from/reviewWrite/:id", element: <ReviewWrite /> },
-
-        { path: "pr/write", element: <PRWrite /> },
-
-        { path: "myPage", element: <MyPage /> },
-        { path: "myPage/edit", element: <Edit /> },
-        { path: "myPage/likeList", element: <Likes /> },
-        { path: "myPage/myReviews/:_id", element: <MyReviews /> },
-
-        { path: "user/signUp", element: <SignUp /> },
-        { path: "user/terms", element: <Terms /> },
-        { path: "user/:_id", element: <Profile /> },
-        { path: "error", element: <Error /> },
+        {
+          // 로그인이 필요한 페이지
+          element: <ProtectedRoute />,
+          children: [
+            { path: "alarm", element: <Alarm /> },
+            { path: "post/write", element: <PostWrite /> },
+            { path: "post/:_id/edit", element: <PostEdit /> },
+            { path: "pr/write", element: <PRWrite /> },
+            {
+              path: "history",
+              element: <ReviewList />,
+              children: [
+                { path: "worked", element: <Worked /> },
+                { path: "employed", element: <Employed /> },
+                { path: ":from/reviewWrite/:id", element: <ReviewWrite /> },
+              ],
+            },
+            {
+              path: "myPage",
+              children: [
+                { index: true, element: <MyPage /> },
+                { path: "edit", element: <Edit /> },
+                { path: "likeList", element: <Likes /> },
+                { path: "myReviews/:_id", element: <MyReviews /> },
+              ],
+            },
+            { path: "user/:_id", element: <Profile /> },
+          ],
+        },
       ],
     },
 
+    // 레이아웃 필요 없는 페이지
     {
-      path: "user/signIn",
-      element: <SignIn />,
+      path: "user",
+      children: [
+        { path: "signIn", element: <SignIn /> },
+        { path: "signin/kakao", element: <KakaoSignIn /> },
+      ],
     },
-    {
-      path: "user/signin/kakao",
-      element: <KakaoSignIn />,
-    },
+    { path: "refund", element: <Refund /> },
   ],
   {
     future: {
