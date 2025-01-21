@@ -11,6 +11,7 @@ import { useGetMyProducts } from "@hooks/useGetMyProducts";
 import { useGetOrders } from "@hooks/useGetOrders";
 import useEditProductState from "@hooks/useEditProductState";
 import useAddAlarm from "@hooks/useAddAlarm";
+import { toast } from "react-toastify";
 
 export default function ReviewWrite() {
   const axios = useAxiosInstance();
@@ -71,7 +72,10 @@ export default function ReviewWrite() {
         content: `📝 등록하신 ${order.products[0].extra.condition.company}에서 시킨 일에 대해 리뷰가 작성되었습니다.`,
         extra: { title: order.products[0].extra.condition.company },
       });
-      alert("리뷰 작성이 완료되었습니다.");
+      // alert("리뷰 작성이 완료되었습니다.");
+      toast.success("리뷰 작성이 완료되었습니다.", {
+        icon: <img src="/icons/toastCheck.svg" alt="success" />,
+      });
       navigate(-1);
     },
 
@@ -106,7 +110,10 @@ export default function ReviewWrite() {
       content: `📝 지원하신 ${product.extra.condition.company}에서 한 일에 대해 리뷰가 작성되었습니다.`,
       extra: { title: product.extra.condition.company },
     });
-    alert("리뷰 작성이 완료되었습니다.");
+    // alert("리뷰 작성이 완료되었습니다.");
+    toast.success("리뷰 작성이 완료되었습니다.", {
+      icon: <img src="/icons/toastCheck.svg" alt="success" />,
+    });
     navigate(-1);
   };
 

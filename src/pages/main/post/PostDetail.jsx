@@ -9,6 +9,7 @@ import { useCallback, useEffect, useState } from "react";
 import useUserStore from "@zustand/userStore";
 import { PulseLoader } from "react-spinners";
 // import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { toast } from "react-toastify";
 
 export default function PostDetail() {
   const [bookMark, setBookMark] = useState(false);
@@ -45,14 +46,18 @@ export default function PostDetail() {
     mutationFn: _id => axios.delete(`/seller/products/${_id}`),
 
     onSuccess: () => {
-      alert("공고 페이지가 삭제되었습니다.");
+      // alert("공고 페이지가 삭제되었습니다.");
+      toast.success("공고 페이지가 삭제되었습니다.", {
+        icon: <img src="/icons/toastCheck.svg" alt="success" />,
+      });
       queryClient.invalidateQueries(["seller/products"]);
       navigate("/");
     },
 
     onError: error => {
       console.error("삭제 실패", error);
-      alert("삭제에 실패했습니다.");
+      // alert("삭제에 실패했습니다.");
+      toast.error("삭제에 실패했습니다.");
     },
   });
 
@@ -65,7 +70,8 @@ export default function PostDetail() {
 
     onError: error => {
       console.error("글 수정", error);
-      alert("글 수정에 실패했습니다.");
+      // alert("글 수정에 실패했습니다.");
+      toast.error("글 수정에 실패했습니다.");
     },
   });
 
@@ -76,7 +82,10 @@ export default function PostDetail() {
         data.item.extra.worker.userId !== null &&
         new Date() > new Date(data?.item.extra.condition.date)
       ) {
-        alert(
+        // alert(
+        //   "채택된 지원자가 있는 상태에서 근무 날짜가 지난 경우 글 삭제가 불가합니다.",
+        // );
+        toast.error(
           "채택된 지원자가 있는 상태에서 근무 날짜가 지난 경우 글 삭제가 불가합니다.",
         );
       } else {
@@ -95,7 +104,10 @@ export default function PostDetail() {
 
   const handleEdit = useCallback(() => {
     if (data.item.extra.worker.userId !== null) {
-      alert(
+      // alert(
+      //   "채택된 지원자가 있는 경우 글 수정이 불가합니다.\n채택 취소를 먼저 진행해주세요.",
+      // );
+      toast.error(
         "채택된 지원자가 있는 경우 글 수정이 불가합니다.\n채택 취소를 먼저 진행해주세요.",
       );
     } else {
@@ -125,7 +137,10 @@ export default function PostDetail() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["bookmarks"]);
-      alert("북마크 추가");
+      // alert("북마크 추가");
+      toast.success("관심 목록에 추가되었습니다", {
+        icon: <img src="/icons/toastCheck.svg" alt="success" />,
+      });
     },
     onError: error => {
       console.error("북마크 실패", error);
@@ -149,7 +164,8 @@ export default function PostDetail() {
     onSuccess: () => {
       queryClient.invalidateQueries(["products", _id]);
       queryClient.invalidateQueries(["bookmarks"]);
-      alert("찜하기 삭제");
+      // alert("찜하기 삭제");
+      toast.error("관심 목록에서 삭제되었습니다.");
     },
     onError: error => {
       console.error("북마크 삭제 실패", error);

@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 InputField.propTypes = {
   type: PropTypes.string,
@@ -117,7 +118,10 @@ export default function SignUp() {
 
       // 데이터 확인 및 회원가입 요청 전송
       await axios.post(`/users/`, updatedFormData);
-      alert(`환영합니다 ${updatedFormData.name} 님!`);
+      // alert(`환영합니다 ${updatedFormData.name} 님!`);
+      toast.success(`환영합니다 ${updatedFormData.name} 님!`, {
+        icon: <img src="/icons/fire.svg" alt="success" />,
+      });
 
       return { email, password };
     },

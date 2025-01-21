@@ -6,6 +6,7 @@ import useUserStore from "@zustand/userStore";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { redirect, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Edit() {
   // 선아님 코드 시작
@@ -123,10 +124,16 @@ export default function Edit() {
         const { isNew, ...rest } = newUser;
         setUser(rest);
 
-        alert(`환영합니다 ${user.name} 님!`);
+        // alert(`환영합니다 ${user.name} 님!`);
+        toast.success(`환영합니다 ${user.name} 님!`, {
+          icon: <img src="/icons/fire.svg" alt="success" />,
+        });
         navigate("/");
       } else {
-        alert("정보가 수정되었습니다");
+        // alert("정보가 수정되었습니다");
+        toast.success("정보가 수정되었습니다", {
+          icon: <img src="/icons/toastCheck.svg" alt="success" />,
+        });
         navigate(`/myPage`);
       }
     },
@@ -137,7 +144,8 @@ export default function Edit() {
           setError(error.path, { message: error.msg }),
         );
       } else {
-        alert(err.response?.data.message || "잠시후 다시 요청하세요");
+        // alert(err.response?.data.message || "잠시후 다시 요청하세요");
+        toast.error(err.response?.data.message || "잠시후 다시 요청하세요");
       }
     },
   });

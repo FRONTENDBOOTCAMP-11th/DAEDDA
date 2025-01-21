@@ -2,12 +2,16 @@ import Button from "@components/Button";
 import Star from "@pages/myPage/Star";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 MyReviewListItem.propTypes = {
   review: PropTypes.object,
 };
 const alertfun = () => {
-  alert("신고되었습니다");
+  // alert("신고되었습니다");
+  toast.success("신고되었습니다", {
+    icon: <img src="/icons/toastCheck.svg" alt="success" />,
+  });
 };
 export default function MyReviewListItem({ review }) {
   //   console.log(review);
