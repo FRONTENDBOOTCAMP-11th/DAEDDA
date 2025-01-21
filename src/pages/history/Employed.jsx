@@ -56,11 +56,11 @@ export default function Employed() {
       )}
       {data && data.length === 0 && (
         <div className="mt-[80px] flex items-center justify-center text-center text-xl text-gray-300">
-          아직 내가 시킨킨 일이 없어요.
+          아직 내가 시킨 일이 없어요.
         </div>
       )}
       {data &&
-        data.length !== 0 &&
+        data.length > 0 &&
         data.map(data => {
           return (
             <EmployedItem key={data._id} product={data} refetch={refetch} />

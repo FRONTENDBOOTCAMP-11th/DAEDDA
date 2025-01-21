@@ -51,7 +51,7 @@ export default function Worked() {
         </div>
       )}
       {data &&
-        data.length !== 0 &&
+        data.length > 0 &&
         data.map(order => (
           <WorkedItem key={order._id} data={order} refetch={refetch} />
         ))}

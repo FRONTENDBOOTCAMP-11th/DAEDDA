@@ -97,7 +97,7 @@ export default function EmployedItem({ product, refetch }) {
             </Button>
           </Link>
           <div className="mb-6">
-            <h4 className="text-sm font-bold">{state.value}</h4>
+            <h4 className="text-sm font-bold">{state?.value}</h4>
             <p>{product.extra.condition.company}</p>
             <p>{product.price.toLocaleString()}원</p>
             <p>
@@ -108,29 +108,29 @@ export default function EmployedItem({ product, refetch }) {
           </div>
           <Button
             disabled={
-              state.value === "구인 완료" || state.value === "송금 완료"
+              state?.value === "구인 완료" || state?.value === "송금 완료"
                 ? false
                 : true
             }
             color={
-              state.value === "구인 완료" || state.value === "송금 완료"
+              state?.value === "구인 완료" || state?.value === "송금 완료"
                 ? "purple"
                 : "gray"
             }
             height="md"
             onClick={
-              state.value === "구인 완료"
+              state?.value === "구인 완료"
                 ? () =>
                     onCompleteClicked(
                       product.extra.condition.company,
                       product.price,
                     )
-                : state.value === "송금 완료"
+                : state?.value === "송금 완료"
                   ? () => onReviewWriteClicked()
                   : null
             }
           >
-            {state.value === "구인 완료" ? "송금하기" : "리뷰 작성하기"}
+            {state?.value === "구인 완료" ? "송금하기" : "리뷰 작성하기"}
           </Button>
         </div>
       )}

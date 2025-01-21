@@ -57,7 +57,7 @@ export default function Header() {
       title: user?.isNew ? "회원 정보 입력" : "회원 정보 수정",
     },
     { match: myPageMyReviews, title: "내가 받은 리뷰" },
-    { match: PostWrite, title: "글쓰기" },
+    { match: PostWrite, title: "구인 글쓰기" },
     { match: mainID, title: "공고 상세 페이지" },
     { match: mainIDEdit, title: "공고 상세 수정" },
     { match: reviewWrite, title: "리뷰 작성" },
