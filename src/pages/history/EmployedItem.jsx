@@ -87,18 +87,22 @@ export default function EmployedItem({ product, refetch }) {
     <>
       {product && (
         <div className="p-4 rounded-3xl shadow-custom-shadow mb-5 relative">
-          <Link
-            to={`/post/${product._id}`}
-            className="w-[83px] absolute top-4 right-4"
-            state={"employed"}
-          >
-            <Button color="white" width="xl" height="sm">
-              상세 내역
-            </Button>
-          </Link>
+          <div>
+            <Link
+              to={`/post/${product._id}`}
+              className="flex  w-full justify-between mb-3"
+              state={"employed"}
+            >
+              <h4 className="flex items-center text-mb font-bold text-purple-900">
+                {state?.value}
+              </h4>
+              <Button color="white" height="sm" className="w-[80px]">
+                상세 내역
+              </Button>
+            </Link>
+          </div>
           <div className="mb-6">
-            <h4 className="text-sm font-bold">{state?.value}</h4>
-            <p>{product.extra.condition.company}</p>
+            <p className="font-semibold text-[1.125rem]">{product.name}</p>
             <p>{product.price.toLocaleString()}원</p>
             <p>
               {formatDate(product.extra.condition.date)}ㆍ

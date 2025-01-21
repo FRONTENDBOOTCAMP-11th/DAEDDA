@@ -81,8 +81,16 @@ export default function SignIn() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center overflow-auto">
-      <img src="/logos/header-logo.png" className="mt-8 h-[70px]" />
-      <img src="/images/daeddamon.png" className="my-7 w-[180px] h-[180px]" />
+      <img
+        src="/logos/header-logo.png"
+        className="mt-8 h-[70px]"
+        onClick={() => navigate("/")}
+      />
+      <img
+        src="/images/daeddamon.png"
+        className="my-7 w-[180px] h-[180px] "
+        onClick={() => navigate("/")}
+      />
       <form onSubmit={handleSubmit(onSubmit)} className="w-full" noValidate>
         <InputField
           type="email"

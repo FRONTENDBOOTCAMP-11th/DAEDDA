@@ -22,18 +22,24 @@ export default function WorkedItem({ data }) {
     <>
       {data && (
         <div className="p-4 rounded-3xl shadow-custom-shadow mb-5 relative">
-          <Link
-            to={`/post/${data.products[0]._id}`}
-            className="w-[83px] absolute top-4 right-4"
-            state={"worked"}
-          >
-            <Button color="white" width="xl" height="sm">
-              상세 내역
-            </Button>
-          </Link>
+          <div>
+            <Link
+              to={`/post/${data.products[0]._id}`}
+              className="flex  w-full justify-between mb-3"
+              state={"employed"}
+            >
+              <h4 className="flex items-center text-mb font-bold text-purple-900">
+                {state?.value}
+              </h4>
+              <Button color="white" height="sm" className="w-[80px]">
+                상세 내역
+              </Button>
+            </Link>
+          </div>
           <div className="mb-6">
-            <h4 className="text-sm font-bold">{state.value}</h4>
-            <p>{data.products[0].extra.condition.company}</p>
+            <p className="font-semibold text-[1.125rem]">
+              {data.products[0].name}
+            </p>
             <p>{data.products[0].price.toLocaleString()}원</p>
             <p>
               {formatDate(data.products[0].extra.condition.date)}ㆍ

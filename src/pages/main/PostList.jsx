@@ -63,7 +63,7 @@ export default function PostList() {
             htmlFor="time"
             className="mr-[16px] font-[700] text-[1rem] screen-530:mr-[8px]"
           >
-            시간
+            근무 시간
           </label>
           <select
             className="ring-2 ring-gray-400 focus:ring-primary py-2 px-2 rounded-xl *:text-[14px]"
