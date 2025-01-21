@@ -57,16 +57,16 @@ export default function PostList() {
         </div>
       </form>
 
-      <div className="flex gap-4 mb-5 flex-wrap screen-530:justify-center">
+      <div className="flex gap-4 mb-5 flex-wrap screen-530:justify-center screen-530:gap-2">
         <div>
           <label
             htmlFor="time"
-            className="mr-[16px] font-[700] text-[1rem] screen-530:mr-[8px]"
+            className="mr-[16px] font-[700] text-[1rem] screen-530:mr-[6px]"
           >
             근무 시간
           </label>
           <select
-            className="ring-2 ring-gray-400 focus:ring-primary py-2 px-2 rounded-xl *:text-[14px]"
+            className="ring-2 ring-gray-400 focus:ring-primary py-2 px-1 rounded-xl *:text-[12px]"
             onChange={onWorktimeFilterChanged}
           >
             <option value="all">모든 시간</option>
@@ -78,12 +78,12 @@ export default function PostList() {
         <div>
           <label
             htmlFor="time"
-            className="mr-[16px] font-[700] text-[1rem] screen-530:mr-[8px]"
+            className="mr-[16px] font-[700] text-[1rem] screen-530:mr-[6px]"
           >
             시급
           </label>
           <select
-            className="ring-2 ring-gray-400 focus:ring-primary py-2 px-2 rounded-xl *:text-[14px]"
+            className="ring-2 ring-gray-400 focus:ring-primary py-2 px-1 rounded-xl *:text-[12px]"
             onChange={onPaymentFilterChanged}
           >
             <option value="all">모든 시급</option>
