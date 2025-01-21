@@ -13,7 +13,7 @@ export default function ListItem({ data }) {
       className="flex justify-between shadow-custom-shadow rounded-3xl px-4 py-4 items-center"
     >
       <div className="flex flex-col gap-1 screen-530:gap-[2px] ">
-        <h3 className="font-bold text-[1.25rem] screen-530:text-[1rem]">
+        <h3 className="font-bold text-[1.25rem] screen-530:text-[1rem] break-keep">
           {data.name}
         </h3>
         <p className="font-semibold text-gray-500 text-[1rem] screen-530:text-[0.875rem]">
@@ -41,7 +41,7 @@ export default function ListItem({ data }) {
       </div>
       <div className="flex-shrink-0 ">
         <img
-          className="size-[136px] object-cover screen-530:size-[100px] rounded-xl"
+          className="size-[136px] object-cover screen-530:size-[100px] rounded-xl ml-2"
           src={
             data.mainImages
               ? `https://11.fesp.shop/files/final01/${data.mainImages[0].name}`
