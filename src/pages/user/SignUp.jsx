@@ -41,11 +41,11 @@ export default function SignUp() {
     watch,
   } = useForm({
     defaultValues: {
-      email: "test@gmail.com",
-      name: "test",
+      email: "worker05@gmail.com",
+      name: "대따몬",
       password: "asdf1111",
       pwdCheck: "asdf1111",
-      phone: "01011112222",
+      phone: "01012345678",
     },
   });
 
@@ -195,7 +195,6 @@ export default function SignUp() {
                 message: "유효한 이메일 형식으로 작성해주세요.",
               },
             })}
-            defaultValue="test@gmail.com"
           ></InputField>
         </div>
         <div className="w-full">
@@ -212,7 +211,6 @@ export default function SignUp() {
                 message: "닉네임은 최소 2글자 이상 입력해주세요.",
               },
             })}
-            defaultValue="asdf1111"
           ></InputField>
         </div>
         <div className="relative w-full">

@@ -24,8 +24,9 @@ export default function PRWrite() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      title: "알바 지원 test",
-      content: "알바 지원합니다 지원합니다.",
+      title: "대타 알바 지원합니다!",
+      content:
+        "안녕하세요! 알바 지원합니다.\n패스트푸드, 편의점, 영화관 아르바이트 경력 보유하고 있습니다!\n믿고 시켜만 주십시오!",
     },
   });
 

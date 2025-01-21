@@ -35,8 +35,8 @@ export default function SignIn() {
     setError,
   } = useForm({
     defaultValues: {
-      email: "s1@market.com",
-      password: "11111111",
+      email: "worker05@gmail.com",
+      password: "asdf1111",
     },
   });
 

@@ -20,12 +20,12 @@ export default function PostWrite() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: "알바생 구합니다 test",
-      company: "멋사",
-      price: "1000",
-      workTime: "09:00-18:00",
-      content: "알바생 구합니다 구합니다 구합니다 구합니다",
-      address: "제주특별자치도 카카오 본사",
+      name: "💥급구💥 저 대신 하루만 알바 해주실 분 구합니다",
+      company: "와우 신내떡 노량진",
+      price: "88000",
+      workTime: "13:00-21:00",
+      content: `개인 사정으로 인해 저 대신 하루만 알바 해주실 분을 구합니다!!\n위치는 노량진 와우 신내떡이고 단순 서빙 및 청소만 하면 됩니다!\n❗보건증 있는 분 우대합니다.\n많은 지원 부탁드립니다 😭`,
+      address: "서울 동작구 만양로14가길 3 1층",
     },
   });
   const [preview, setPreview] = useState(null);
