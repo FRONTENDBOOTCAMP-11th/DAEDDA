@@ -39,14 +39,6 @@ export default function PostList() {
   }, [keyword]);
   return (
     <div className="mb-[80px] flex flex-col">
-      <div className="flex gap-2 items-center text-[1.125rem] font-semibold mb-4">
-        <p className="cursor-pointer">동래구 중앙대로 1473번길 14-2</p>
-        <img
-          src="/icons/mapPin.svg"
-          className="size-[1.125rem] cursor-pointer"
-        />
-      </div>
-
       <form className="mb-5" onSubmit={handleSubmit(onSearchSubmit)}>
         <div className="relative">
           <input

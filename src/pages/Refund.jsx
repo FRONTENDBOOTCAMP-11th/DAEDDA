@@ -7,7 +7,7 @@ export default function Refund() {
     navigate(-1);
   };
   return (
-    <div className=" flex flex-col justify-center break-keep whitespace-normal px-6 -mt-[70px] -mx-6 max-w-screen-sm m-auto h-screen overflow-hidden">
+    <div className=" flex flex-col justify-center break-keep whitespace-normal px-6 -mx-6 max-w-screen-sm m-auto h-screen overflow-hidden">
       <div className="mb-5  border-b pb-5">
         <h1 className="text-3xl mb-3">대따몬 일당 환불 규정</h1>
         <p>

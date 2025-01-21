@@ -41,10 +41,6 @@ export default function LikeList({ item }) {
         <Link to={`/post/${item.product._id}`}>
           <div>
             <p className="text-lg font-bold">{item.product.name}</p>
-            <div className="flex gap-[6px] items-center">
-              <img src="/icons/mapPin.svg" alt="위치 표시" className="size-3" />
-              <p className="text-xs">민락동</p>
-            </div>
             <div className="flex items-center">
               <div className="font-semibold">
                 <p className="text-secondary py-[2px]">
