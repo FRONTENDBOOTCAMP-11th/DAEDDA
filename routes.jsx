@@ -33,7 +33,7 @@ const router = createBrowserRouter(
         // 로그인이 필요 없는 페이지
         { path: "/", element: <PostList /> },
         { path: "post/:_id", element: <PostDetail /> },
-        { path: "error", element: <Error /> },
+
         {
           path: "user",
           children: [
@@ -84,6 +84,7 @@ const router = createBrowserRouter(
     },
     { path: "users/login/kakao", element: <KakaoSignIn /> },
     { path: "refund", element: <Refund /> },
+    { path: "error", element: <Error /> },
   ],
   {
     future: {
