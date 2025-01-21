@@ -7,6 +7,7 @@ import { useGetProductDetail } from "@hooks/useGetProductDetail";
 import Badge from "@pages/main/post/Badge";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function PostPR() {
   const axios = useAxiosInstance();
@@ -51,12 +52,14 @@ export default function PostPR() {
 
   const handleChangeState = order => {
     if (product.extra.worker.userId) {
-      alert("기존에 채택하신 지원자를 취소해주세요.");
+      // alert("기존에 채택하신 지원자를 취소해주세요.");
+      toast.error("기존에 채택하신 지원자를 취소해주세요.");
     } else if (
       product?.extra.state === "EM030" ||
       product?.extra.state === "EM040"
     ) {
-      alert("채택이 불가능한 공고입니다.");
+      // alert("채택이 불가능한 공고입니다.");
+      toast.error("채택이 불가능한 공고입니다.");
     } else {
       const isOk = confirm("정말 이 지원자를 채택하시겠습니까?");
       if (isOk) {
@@ -83,7 +86,8 @@ export default function PostPR() {
   const handleCancelState = order => {
     ``;
     if (new Date() > new Date(product.extra.condition.date)) {
-      alert("근무 날짜가 지난 후에는 채택을 취소하실 수 없습니다.");
+      // alert("근무 날짜가 지난 후에는 채택을 취소하실 수 없습니다.");
+      toast.error("근무 날짜가 지난 후에는 채택을 취소하실 수 없습니다.");
     } else {
       const isOk = confirm("정말 채택을 취소하시겠습니까?");
 
