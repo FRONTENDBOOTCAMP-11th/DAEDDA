@@ -3,6 +3,7 @@ import useUserStore from "@zustand/userStore";
 import { useProfileData } from "@hooks/useProfileData";
 import MyPageList from "@pages/myPage/MyPageList";
 import { getDydamicWidth } from "@/utills/calculateStarPower";
+import { PulseLoader } from "react-spinners";
 
 export default function MyPage() {
   const { user, resetUser } = useUserStore();
@@ -11,7 +12,11 @@ export default function MyPage() {
 
   // 로딩 상태 표시
   if (!user || isLoading) {
-    return <div>로딩중</div>;
+    return (
+      <div className="flex justify-center items-center mt-48">
+        <PulseLoader color={"#8C6FEE"} />
+      </div>
+    );
   }
 
   const logoutFun = () => {

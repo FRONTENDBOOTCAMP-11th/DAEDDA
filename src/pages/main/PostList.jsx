@@ -4,6 +4,7 @@ import useUserStore from "@zustand/userStore";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { PulseLoader } from "react-spinners";
 
 export default function PostList() {
   const { register, handleSubmit } = useForm();
@@ -14,7 +15,7 @@ export default function PostList() {
     worktime: "all",
     payment: "all",
   });
-  const { data, refetch } = useProductsFilter(keyword, condition);
+  const { data, refetch, isLoading } = useProductsFilter(keyword, condition);
 
   const onWorktimeFilterChanged = e => {
     setCondition(prev => {
@@ -93,6 +94,11 @@ export default function PostList() {
       </div>
 
       <div className="flex flex-col gap-5">
+        {isLoading && (
+          <div className="flex justify-center items-center mt-32">
+            <PulseLoader color={"#8C6FEE"} />
+          </div>
+        )}
         {data && (
           <>
             {data.map(data => {

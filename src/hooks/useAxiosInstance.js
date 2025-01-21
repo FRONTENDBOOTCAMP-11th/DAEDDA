@@ -21,6 +21,10 @@ function useAxiosInstance() {
     if (user && config.url !== REFRESH_URL) {
       config.headers["Authorization"] = `Bearer ${user.accessToken}`;
     }
+    config.params = {
+      delay: 3000,
+      ...config.params, // 기존 쿼리스트링 복사
+    };
     return config;
   });
 

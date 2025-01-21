@@ -15,7 +15,6 @@ export default function PRWrite() {
   const productId = location.state?.product_id;
 
   const addAlarm = useAddAlarm();
-  console.log(productId);
 
   const {
     handleSubmit,
