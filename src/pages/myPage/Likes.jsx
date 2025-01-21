@@ -1,6 +1,7 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import LikeList from "@pages/myPage/LikeList";
 import { useQuery } from "@tanstack/react-query";
+import { PulseLoader } from "react-spinners";
 
 export default function Likes() {
   const axios = useAxiosInstance();
@@ -9,6 +10,13 @@ export default function Likes() {
     queryFn: () => axios.get("/bookmarks/product"),
     select: res => res.data.item,
   });
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center mt-32">
+        <PulseLoader color={"#8C6FEE"} />
+      </div>
+    );
+  }
 
   if (!data || data.length === 0) {
     return (
@@ -18,9 +26,6 @@ export default function Likes() {
         관심 표시를 해보세요!
       </div>
     );
-  }
-  if (isLoading) {
-    return <div>로딩중</div>;
   }
   // console.log(data);
   const list = data.map(item => <LikeList key={item._id} item={item} />);

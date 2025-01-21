@@ -7,6 +7,7 @@ import { useGetProductDetail } from "@hooks/useGetProductDetail";
 import Badge from "@pages/main/post/Badge";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
+import { PulseLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
 export default function PostPR() {
@@ -118,76 +119,83 @@ export default function PostPR() {
     order.extra?.title?.trim(),
   );
   return (
-    <div>
-      {filteredOrders && filteredOrders.length > 0
-        ? filteredOrders.map(order => (
-            <div key={order?._id}>
-              <section className="mt-7 pt-7 flex justify-between border-t-8">
-                <div
-                  className="flex items-center gap-3 cursor-pointer"
-                  onClick={() => handleUserPage(order?.user?._id)}
-                >
-                  <img
-                    src={
-                      order?.user.image
-                        ? order?.user.image.includes("kakaocdn.net")
-                          ? order?.user.image
-                          : `https://11.fesp.shop/${order?.user.image}`
-                        : "/images/smiling_daeddamon.png"
-                    }
-                    // src={`https://11.fesp.shop/${order?.user.image}`}
-                    className="w-16 h-16 rounded-full object-cover"
-                    alt={`${order?.user.name} 프로필 이미지`}
-                  />
-                  <div className="flex flex-col">
-                    <div className="flex">
-                      <h2 className="font-bold mr-1">{order?.user.name}</h2>
-                      <Badge key={order?.user?._id} userId={order?.user?._id} />
+    <>
+      <div>
+        {filteredOrders && filteredOrders.length > 0
+          ? filteredOrders.map(order => (
+              <div key={order?._id}>
+                <section className="mt-7 pt-7 flex justify-between border-t-8">
+                  <div
+                    className="flex items-center gap-3 cursor-pointer"
+                    onClick={() => handleUserPage(order?.user?._id)}
+                  >
+                    <img
+                      src={
+                        order?.user.image
+                          ? order?.user.image.includes("kakaocdn.net")
+                            ? order?.user.image
+                            : `https://11.fesp.shop/${order?.user.image}`
+                          : "/images/smiling_daeddamon.png"
+                      }
+                      // src={`https://11.fesp.shop/${order?.user.image}`}
+                      className="w-16 h-16 rounded-full object-cover"
+                      alt={`${order?.user.name} 프로필 이미지`}
+                    />
+                    <div className="flex flex-col">
+                      <div className="flex">
+                        <h2 className="font-bold mr-1">{order?.user.name}</h2>
+                        <Badge
+                          key={order?.user?._id}
+                          userId={order?.user?._id}
+                        />
+                      </div>
+                      <h2 className="font-light">{order?.updatedAt}</h2>
                     </div>
-                    <h2 className="font-light">{order?.updatedAt}</h2>
                   </div>
-                </div>
-              </section>
+                </section>
 
-              <section className="break-keep whitespace-normal">
-                <div className="font-bold mt-7">제목</div>
-                <div className="mt-2 break-words">{order?.extra?.title}</div>
+                <section className="break-keep whitespace-normal">
+                  <div className="font-bold mt-7">제목</div>
+                  <div className="mt-2 break-words">{order?.extra?.title}</div>
 
-                <div className="font-bold mt-7">휴대폰 번호</div>
-                <div className="mt-2 break-words">{order?.user.phone}</div>
+                  <div className="font-bold mt-7">휴대폰 번호</div>
+                  <div className="mt-2 break-words">{order?.user.phone}</div>
 
-                <div className="font-bold mt-7">자신을 표현해주세요!</div>
-                <div className="mt-2 break-words">{order?.extra?.content}</div>
+                  <div className="font-bold mt-7">자신을 표현해주세요!</div>
+                  <div className="mt-2 break-words">
+                    {order?.extra?.content}
+                  </div>
 
-                <div className="flex flex-col justify-center my-10">
-                  {order.state === "WO020" ? (
-                    <div className="w-full">
-                      <Button
-                        color="red"
-                        width="xl"
-                        height="lg"
-                        onClick={() => handleCancelState(order)}
-                      >
-                        취소
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="w-full">
-                      <Button
-                        color="purple"
-                        width="xl"
-                        height="lg"
-                        onClick={() => handleChangeState(order)}
-                      >
-                        채택
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              </section>
-            </div>
-          ))
-        : ""}
-    </div>
+                  <div className="flex flex-col justify-center my-10">
+                    {order.state === "WO020" ? (
+                      <div className="w-full">
+                        <Button
+                          color="red"
+                          width="xl"
+                          height="lg"
+                          onClick={() => handleCancelState(order)}
+                        >
+                          취소
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="w-full">
+                        <Button
+                          color="purple"
+                          width="xl"
+                          height="lg"
+                          onClick={() => handleChangeState(order)}
+                        >
+                          채택
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </section>
+              </div>
+            ))
+          : ""}
+      </div>
+    </>
   );
 }

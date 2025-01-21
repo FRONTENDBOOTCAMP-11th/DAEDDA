@@ -6,6 +6,7 @@ import State from "@pages/history/State";
 import useUserStore from "@zustand/userStore";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { PulseLoader } from "react-spinners";
 
 const codes = ["EM010", "EM020", "EM030", "EM040"];
 
@@ -16,7 +17,7 @@ export default function Employed() {
   const { register, handleSubmit } = useForm();
 
   const [toggledStates, setToggledStates] = useState([]);
-  const { data, refetch } = useMyProductsFilter(
+  const { data, refetch, isLoading } = useMyProductsFilter(
     user?._id,
     toggledStates,
     keyword,
@@ -48,17 +49,23 @@ export default function Employed() {
           />
         ))}
       </div>
-      {data && data.length > 0 ? (
+      {isLoading && (
+        <div className="flex justify-center items-center mt-32">
+          <PulseLoader color={"#8C6FEE"} />
+        </div>
+      )}
+      {data && data.length === 0 && (
+        <div className="mt-[80px] flex items-center justify-center text-center text-xl text-gray-300">
+          아직 내가 시킨 일이 없어요.
+        </div>
+      )}
+      {data &&
+        data.length > 0 &&
         data.map(data => {
           return (
             <EmployedItem key={data._id} product={data} refetch={refetch} />
           );
-        })
-      ) : (
-        <div className="mt-[80px] flex items-center justify-center text-center text-xl text-gray-300">
-          아직 내가 시킨킨 일이 없어요.
-        </div>
-      )}
+        })}
     </div>
   );
 }

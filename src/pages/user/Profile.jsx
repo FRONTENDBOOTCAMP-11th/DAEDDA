@@ -3,6 +3,7 @@ import MyPageList from "@pages/myPage/MyPageList";
 import { Link, useLocation } from "react-router-dom";
 
 import { getDydamicWidth } from "@/utills/calculateStarPower";
+import { PulseLoader } from "react-spinners";
 
 export default function Profile() {
   const location = useLocation();
@@ -10,7 +11,11 @@ export default function Profile() {
 
   const { reviews, isLoading, userData, partTime } = useProfileData(userId);
   if (isLoading) {
-    return <div>로딩중</div>;
+    return (
+      <div className="flex justify-center items-center mt-48">
+        <PulseLoader color={"#8C6FEE"} />
+      </div>
+    );
   }
   const dydamicWidth = getDydamicWidth(reviews, partTime);
 

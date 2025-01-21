@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import DOMPurify from "dompurify";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAddAlarm from "@hooks/useAddAlarm";
+import { PulseLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
 export default function PRWrite() {
@@ -16,7 +17,6 @@ export default function PRWrite() {
   const productId = location.state?.product_id;
 
   const addAlarm = useAddAlarm();
-  console.log(productId);
 
   const {
     handleSubmit,
@@ -75,48 +75,55 @@ export default function PRWrite() {
   });
 
   return (
-    <form
-      className="mb-[40px]"
-      onSubmit={handleSubmit(data => prPost.mutate(data))}
-    >
-      <div className="mt-5">
-        <InputField
-          labelName="제목"
-          type="text"
-          placeholder="제목"
-          register={register("title", {
-            required: "제목 입력은 필수입니다",
-            minLength: {
-              value: 2,
-              message: "제목은 최소 2자 이상 입력해주세요.",
-            },
-          })}
-          errorMsg={errors.title?.message}
-        />
-      </div>
+    <>
+      {prPost.isLoading && (
+        <div className="flex justify-center items-center mt-32">
+          <PulseLoader color={"#8C6FEE"} />
+        </div>
+      )}
+      <form
+        className="mb-[40px]"
+        onSubmit={handleSubmit(data => prPost.mutate(data))}
+      >
+        <div className="mt-5">
+          <InputField
+            labelName="제목"
+            type="text"
+            placeholder="제목"
+            register={register("title", {
+              required: "제목 입력은 필수입니다",
+              minLength: {
+                value: 2,
+                message: "제목은 최소 2자 이상 입력해주세요.",
+              },
+            })}
+            errorMsg={errors.title?.message}
+          />
+        </div>
 
-      <fieldset>
-        <InputField
-          type="text"
-          labelName="지원 내용"
-          placeholder="자신을 어필해주세요!"
-          isTextArea={true}
-          register={register("content", {
-            required: "지원 내용은 최소 10자 이상 입력해주세요.",
-            minLength: {
-              value: 10,
-              message: "지원 내용은 최소 10자 이상 입력해주세요.",
-            },
-          })}
-          errorMsg={errors.content?.message}
-        />
-      </fieldset>
+        <fieldset>
+          <InputField
+            type="text"
+            labelName="지원 내용"
+            placeholder="자신을 어필해주세요!"
+            isTextArea={true}
+            register={register("content", {
+              required: "지원 내용은 최소 10자 이상 입력해주세요.",
+              minLength: {
+                value: 10,
+                message: "지원 내용은 최소 10자 이상 입력해주세요.",
+              },
+            })}
+            errorMsg={errors.content?.message}
+          />
+        </fieldset>
 
-      <div className="mt-7">
-        <Button color="purple" type="submit" height="lg">
-          등록
-        </Button>
-      </div>
-    </form>
+        <div className="mt-7">
+          <Button color="purple" type="submit" height="lg">
+            등록
+          </Button>
+        </div>
+      </form>
+    </>
   );
 }

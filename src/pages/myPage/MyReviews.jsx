@@ -3,6 +3,7 @@ import { useProfileData } from "@hooks/useProfileData";
 import MyBossReviewListItem from "@pages/myPage/MyBossReviewListItem";
 import MyReviewListItem from "@pages/myPage/MyReviewListItem";
 import { useState } from "react";
+import { PulseLoader } from "react-spinners";
 
 export default function MyReviews() {
   const userId = location.pathname.split("/")[3];
@@ -15,7 +16,11 @@ export default function MyReviews() {
   const { reviews, partTime, isLoading } = useProfileData(userId);
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return (
+      <div className="flex justify-center items-center mt-48">
+        <PulseLoader color={"#8C6FEE"} />
+      </div>
+    );
   }
 
   let totalReplies = 0;
