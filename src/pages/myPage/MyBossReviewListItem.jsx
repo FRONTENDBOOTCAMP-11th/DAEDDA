@@ -10,7 +10,9 @@ MyBossReviewListItem.propTypes = {
 };
 const alertfun = () => {
   // alert("신고되었습니다");
-  toast.success("신고되었습니다");
+  toast.success("신고되었습니다", {
+    icon: <img src="/icons/toastCheck.svg" alt="success" />,
+  });
 };
 export default function MyBossReviewListItem({ item }) {
   //   console.log("사장일때 받은 리뷰", item);

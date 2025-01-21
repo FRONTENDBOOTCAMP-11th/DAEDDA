@@ -125,11 +125,15 @@ export default function Edit() {
         setUser(rest);
 
         // alert(`환영합니다 ${user.name} 님!`);
-        toast.success(`환영합니다 ${user.name} 님!`);
+        toast.success(`환영합니다 ${user.name} 님!`, {
+          icon: <img src="/icons/fire.svg" alt="success" />,
+        });
         navigate("/");
       } else {
         // alert("정보가 수정되었습니다");
-        toast.success("정보가 수정되었습니다");
+        toast.success("정보가 수정되었습니다", {
+          icon: <img src="/icons/toastCheck.svg" alt="success" />,
+        });
         navigate(`/myPage`);
       }
     },

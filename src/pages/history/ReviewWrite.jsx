@@ -73,7 +73,9 @@ export default function ReviewWrite() {
         extra: { title: order.products[0].extra.condition.company },
       });
       // alert("리뷰 작성이 완료되었습니다.");
-      toast.success("리뷰 작성이 완료되었습니다.");
+      toast.success("리뷰 작성이 완료되었습니다.", {
+        icon: <img src="/icons/toastCheck.svg" alt="success" />,
+      });
       navigate(-1);
     },
 
@@ -109,7 +111,9 @@ export default function ReviewWrite() {
       extra: { title: product.extra.condition.company },
     });
     // alert("리뷰 작성이 완료되었습니다.");
-    toast.success("리뷰 작성이 완료되었습니다.");
+    toast.success("리뷰 작성이 완료되었습니다.", {
+      icon: <img src="/icons/toastCheck.svg" alt="success" />,
+    });
     navigate(-1);
   };
 

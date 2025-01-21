@@ -3,7 +3,7 @@ import "./index.css";
 import router from "../routes";
 import { useEffect } from "react";
 import useSplashStore from "@zustand/splashStore";
-import { ToastContainer } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -27,7 +27,17 @@ function App() {
           />
         )}
       </div>
-      <ToastContainer position="top-center" />
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        toastClassName={() =>
+          "flex items-center justify-between p-4 px-8 rounded-lg bg-white text-black shadow-md"
+        }
+        bodyClassName={() => "text-sm"}
+        progressClassName={"bg-red-500"}
+        hideProgressBar={true}
+        transition={Slide}
+      />
     </>
   );
 }

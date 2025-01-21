@@ -46,7 +46,9 @@ export default function PostDetail() {
 
     onSuccess: () => {
       // alert("공고 페이지가 삭제되었습니다.");
-      toast.success("공고 페이지가 삭제되었습니다.");
+      toast.success("공고 페이지가 삭제되었습니다.", {
+        icon: <img src="/icons/toastCheck.svg" alt="success" />,
+      });
       queryClient.invalidateQueries(["seller/products"]);
       navigate("/");
     },
@@ -135,7 +137,9 @@ export default function PostDetail() {
     onSuccess: () => {
       queryClient.invalidateQueries(["bookmarks"]);
       // alert("북마크 추가");
-      toast.success("북마크 추가");
+      toast.success("관심 목록에 추가되었습니다", {
+        icon: <img src="/icons/toastCheck.svg" alt="success" />,
+      });
     },
     onError: error => {
       console.error("북마크 실패", error);
@@ -160,7 +164,7 @@ export default function PostDetail() {
       queryClient.invalidateQueries(["products", _id]);
       queryClient.invalidateQueries(["bookmarks"]);
       // alert("찜하기 삭제");
-      toast.success("찜하기 삭제");
+      toast.error("관심 목록에서 삭제되었습니다.");
     },
     onError: error => {
       console.error("북마크 삭제 실패", error);

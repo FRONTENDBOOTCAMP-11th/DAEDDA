@@ -64,7 +64,9 @@ export default function PRWrite() {
         },
       });
       // alert("성공적으로 지원되었습니다.");
-      toast.success("성공적으로 지원되었습니다.");
+      toast.success("성공적으로 지원되었습니다.", {
+        icon: <img src="/icons/toastCheck.svg" alt="success" />,
+      });
       navigate(`/post/${productId}`);
     },
     onError: error => {
