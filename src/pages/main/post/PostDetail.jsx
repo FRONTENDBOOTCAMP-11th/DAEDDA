@@ -272,7 +272,7 @@ export default function PostDetail() {
 
           <section className="mt-7">
             <h2 className="font-bold mb-2">근무지 사진</h2>
-            <div className="mt-2 mb-7 w-[136px] h-[136px] flex bg-slate-600 items-center justify-center rounded-lg cursor-pointer">
+            <div className="mt-2 mb-7 h-[360px] flex bg-slate-600 items-center justify-center rounded-lg cursor-pointer">
               <img
                 src={
                   data?.item.mainImages
