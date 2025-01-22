@@ -35,6 +35,8 @@ export default function PostList() {
     setKeyword(formData.keyword);
   };
 
+  console.log(data);
+
   useEffect(() => {
     refetch();
   }, [keyword]);

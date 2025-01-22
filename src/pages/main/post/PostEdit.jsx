@@ -59,7 +59,7 @@ export default function PostEdit() {
       let body = {
         name: formData.name,
         price: +formData.price,
-        quantity: 1,
+        quantity: 1000,
         content: formData.content,
         extra: {
           location: formData.location,
