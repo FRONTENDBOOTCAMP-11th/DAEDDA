@@ -131,19 +131,19 @@ export default function PostPR() {
                   >
                     <img
                       src={
-                        order?.user.image
-                          ? order?.user.image.includes("kakaocdn.net")
-                            ? order?.user.image
-                            : `https://11.fesp.shop/${order?.user.image}`
+                        order?.user?.image
+                          ? order?.user?.image.includes("kakaocdn.net")
+                            ? order?.user?.image
+                            : `https://11.fesp.shop/${order?.user?.image}`
                           : "/images/smiling_daeddamon.png"
                       }
                       // src={`https://11.fesp.shop/${order?.user.image}`}
                       className="w-16 h-16 rounded-full object-cover"
-                      alt={`${order?.user.name} 프로필 이미지`}
+                      alt={`${order?.user?.name} 프로필 이미지`}
                     />
                     <div className="flex flex-col">
                       <div className="flex">
-                        <h2 className="font-bold mr-1">{order?.user.name}</h2>
+                        <h2 className="font-bold mr-1">{order?.user?.name}</h2>
                         <Badge
                           key={order?.user?._id}
                           userId={order?.user?._id}
@@ -159,7 +159,7 @@ export default function PostPR() {
                   <div className="mt-2 break-words">{order?.extra?.title}</div>
 
                   <div className="font-bold mt-7">휴대폰 번호</div>
-                  <div className="mt-2 break-words">{order?.user.phone}</div>
+                  <div className="mt-2 break-words">{order?.user?.phone}</div>
 
                   <div className="font-bold mt-7">자신을 표현해주세요!</div>
                   <div className="mt-2 break-words">
