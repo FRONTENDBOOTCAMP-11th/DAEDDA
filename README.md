@@ -1,8 +1,6 @@
 
 <div align="center">
-  <a href="https://daedda.netlify.app/"> 
-    <h1>대따</h1>
-  </a>
+   <h1><a href="https://daedda.netlify.app/"> 대따</a></h1>
 </div>
 
 
