@@ -1,5 +1,5 @@
 
-<div align="center">
+<div align="center" style="margin-bottom: 20px;">
   <a href="https://daedda.netlify.app/"> 대따 </a>
 </div>
 
