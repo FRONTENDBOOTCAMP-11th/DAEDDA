@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
-import MainMap from "@pages/main/post/MainMap";
 import { useGetProductDetail } from "@hooks/useGetProductDetail";
 import { PulseLoader } from "react-spinners";
 
@@ -16,8 +15,6 @@ export default function PostEdit() {
   const navigate = useNavigate();
   const [preview, setPreview] = useState(null);
   const [imageError, setImageError] = useState(true);
-  // const [selectLocation, setSelectLocation] = useState([33.450701, 126.570667]);
-
   const { data: productData } = useGetProductDetail(_id);
 
   const {
@@ -37,7 +34,6 @@ export default function PostEdit() {
       setValue("content", sanitizedHTML);
 
       if (productData.extra?.location) {
-        // setSelectLocation(productData.extra?.location);
         setValue("location", productData.extra?.location);
       }
 
@@ -193,13 +189,6 @@ export default function PostEdit() {
         </fieldset>
 
         <fieldset>
-          {/* <legend className="text-[1rem] font-bold mb-2">위치</legend> */}
-          {/* <MainMap
-          selectLocation={selectLocation}
-          setSelectLocation={setSelectLocation}
-          register={register}
-          setValue={setValue}
-        /> */}
           <InputField
             labelName="주소 입력"
             type="text"

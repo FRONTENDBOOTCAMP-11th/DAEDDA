@@ -1,14 +1,13 @@
 import Button from "@components/Button";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getWorkTime, formatDate } from "@/utills/func";
 import DOMPurify from "dompurify";
 import PostPR from "@pages/main/post/PostPR";
 import { useCallback, useEffect, useState } from "react";
 import useUserStore from "@zustand/userStore";
 import { PulseLoader } from "react-spinners";
-// import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { toast } from "react-toastify";
 
 export default function PostDetail() {
@@ -26,27 +25,12 @@ export default function PostDetail() {
     select: res => res.data,
   });
 
-  // const [mapCenter, setMapCenter] = useState({
-  //   lat: 33.450701,
-  //   lng: 126.570667,
-  // });
-
-  // useEffect(() => {
-  //   if (data?.item?.extra?.location) {
-  //     setMapCenter({
-  //       lat: data.item.extra.location[0],
-  //       lng: data.item.extra.location[1],
-  //     });
-  //   }
-  // }, [data]);
-
   const sanitizedContent = DOMPurify.sanitize(`${data?.item.content}`);
 
   const removePost = useMutation({
     mutationFn: _id => axios.delete(`/seller/products/${_id}`),
 
     onSuccess: () => {
-      // alert("공고 페이지가 삭제되었습니다.");
       toast.success("공고 페이지가 삭제되었습니다.", {
         icon: <img src="/icons/toastCheck.svg" alt="success" />,
       });
@@ -70,7 +54,6 @@ export default function PostDetail() {
 
     onError: error => {
       console.error("글 수정", error);
-      // alert("글 수정에 실패했습니다.");
       toast.error("글 수정에 실패했습니다.");
     },
   });
@@ -82,9 +65,6 @@ export default function PostDetail() {
         data.item.extra.worker.userId !== null &&
         new Date() > new Date(data?.item.extra.condition.date)
       ) {
-        // alert(
-        //   "채택된 지원자가 있는 상태에서 근무 날짜가 지난 경우 글 삭제가 불가합니다.",
-        // );
         toast.error(
           "채택된 지원자가 있는 상태에서 근무 날짜가 지난 경우 글 삭제가 불가합니다.",
         );
@@ -104,9 +84,6 @@ export default function PostDetail() {
 
   const handleEdit = useCallback(() => {
     if (data.item.extra.worker.userId !== null) {
-      // alert(
-      //   "채택된 지원자가 있는 경우 글 수정이 불가합니다.\n채택 취소를 먼저 진행해주세요.",
-      // );
       toast.error(
         "채택된 지원자가 있는 경우 글 수정이 불가합니다.\n채택 취소를 먼저 진행해주세요.",
       );
@@ -137,7 +114,6 @@ export default function PostDetail() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["bookmarks"]);
-      // alert("북마크 추가");
       toast.success("관심 목록에 추가되었습니다", {
         icon: <img src="/icons/toastCheck.svg" alt="success" />,
       });
@@ -164,7 +140,6 @@ export default function PostDetail() {
     onSuccess: () => {
       queryClient.invalidateQueries(["products", _id]);
       queryClient.invalidateQueries(["bookmarks"]);
-      // alert("찜하기 삭제");
       toast.error("관심 목록에서 삭제되었습니다.");
     },
     onError: error => {
@@ -260,7 +235,6 @@ export default function PostDetail() {
                     : `https://11.fesp.shop/${data?.item.seller.image}`
                   : "/images/smiling_daeddamon.png"
               }
-              // src={`https://11.fesp.shop/${data?.item.seller.image}`}
               className="w-11 h-11 rounded-full"
               alt="프로필 이미지"
             />
@@ -284,25 +258,7 @@ export default function PostDetail() {
               />
             </div>
             <h2 className="font-bold mb-2">위치</h2>
-            <div className="w-full rounded-lg overflow-hidden">
-              {/* {data?.item?.extra?.location ? (
-            <Map
-              center={{
-                lat: data?.item.extra.location[0],
-                lng: data?.item.extra.location[1],
-              }}
-              style={{ width: "100%", height: "350px" }}
-              level={4}
-              draggable={true}
-              zoomable={true}
-            >
-              <MapMarker position={mapCenter} />
-            </Map>
-          ) : (
-            ""
-          )} */}
-            </div>
-
+            <div className="w-full rounded-lg overflow-hidden"></div>
             <div className="sm:whitespace-normal md:whitespace-nowrap break-words">
               {data?.item?.extra?.address || "주소 정보가 없습니다."}
             </div>
