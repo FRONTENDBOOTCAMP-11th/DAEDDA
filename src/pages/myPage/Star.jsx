@@ -6,7 +6,7 @@ Star.propTypes = {
 };
 
 export default function Star({ rating }) {
-  console.log(rating);
+  // console.log(rating);
   // if (reply) {
   //   const rating = reply.rating || 0;
   //   if (isNaN(rating) || rating < 1) {

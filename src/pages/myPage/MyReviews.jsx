@@ -57,14 +57,10 @@ export default function MyReviews() {
     });
   }
 
-  console.log(reviews);
+  // console.log(reviews);
   // console.log(partTime);
 
-  // const list = reviews.map(item => (
-  //   <MyBossReviewListItem key={item._id} item={item} btnTxt={btnTxt} />
-  // ));
-
-  console.log(reviewList);
+  // console.log(reviewList);
 
   const myReviewList = reviewList.map((review, i) => (
     <MyReviewListItem key={i} review={review} />
