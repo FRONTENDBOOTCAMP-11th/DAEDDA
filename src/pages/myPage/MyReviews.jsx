@@ -1,6 +1,5 @@
 import Button from "@components/Button";
 import { useProfileData } from "@hooks/useProfileData";
-import MyBossReviewListItem from "@pages/myPage/MyBossReviewListItem";
 import MyReviewListItem from "@pages/myPage/MyReviewListItem";
 import { useState } from "react";
 import { PulseLoader } from "react-spinners";
@@ -36,33 +35,36 @@ export default function MyReviews() {
   }
 
   let reviewList = [];
+  if (btnTxt === "알바") {
+    partTime?.byUser.map(byUser => {
+      const byUserContent = byUser.extra.contents.map(content => ({
+        ...byUser,
+        content,
+      }));
+      reviewList = [...reviewList, ...byUserContent];
+    });
+  } else {
+    reviews?.map(replies => {
+      const repliesContents = replies?.replies.map(content => ({
+        content: {
+          ...content,
+          memo: content.content,
+        },
+        user: content.user, //user데이터 바깥으로 뻄
+        _id: replies.product_id,
+      }));
+      reviewList = [...reviewList, ...repliesContents];
+    });
+  }
 
-  // if (btnTxt === "알바") {
-  //   partTime?.byUser.map(byUser => {
-  //     const byUserContent = byUser.extra.contents.map(content => ({
-  //       ...byUser,
-  //       content,
-  //     }));
-  //     reviewList = [...reviewList, ...byUserContent];
-  //   });
-  // } else {
-  //   reviewList = reviews.map(item => ({
-  //     // ...byUser,
-  //   }));
-  // }
-  // console.log(reviews);
-  const list = reviews.map(item => (
-    <MyBossReviewListItem key={item._id} item={item} btnTxt={btnTxt} />
-  ));
+  console.log(reviews);
+  // console.log(partTime);
 
-  partTime?.byUser.map(byUser => {
-    const byUserContent = byUser.extra.contents.map(content => ({
-      ...byUser,
-      content,
-    }));
-    reviewList = [...reviewList, ...byUserContent];
-  });
-  // console.log(reviewList);
+  // const list = reviews.map(item => (
+  //   <MyBossReviewListItem key={item._id} item={item} btnTxt={btnTxt} />
+  // ));
+
+  console.log(reviewList);
 
   const myReviewList = reviewList.map((review, i) => (
     <MyReviewListItem key={i} review={review} />
@@ -91,7 +93,7 @@ export default function MyReviews() {
         </div>
       ) : (
         // 리뷰 리스트 렌더링
-        <div>{btnTxt === "사장" ? list : myReviewList}</div>
+        <div>{myReviewList}</div>
       )}
     </div>
   );
