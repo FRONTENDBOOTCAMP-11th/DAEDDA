@@ -20,13 +20,13 @@ export default function MyReviewListItem({ review }) {
       <div className="reviews-container">
         <div className="flex gap-1 ">
           <div className="flex gap-5 flex-grow">
-            <Link to={`/user/${review.user._id}`} className="flex-shrink-0">
+            <Link to={`/user/${review?.user?._id}`} className="flex-shrink-0">
               <img
                 src={
-                  review.user.image
-                    ? review.user.image.includes("kakaocdn.net")
-                      ? review.user.image
-                      : `https://11.fesp.shop/${review.user.image}`
+                  review?.user?.image
+                    ? review?.user?.image.includes("kakaocdn.net")
+                      ? review?.user?.image
+                      : `https://11.fesp.shop/${review?.user?.image}`
                     : "/images/smiling_daeddamon.png"
                 }
                 alt="사용자 이미지"
@@ -35,12 +35,14 @@ export default function MyReviewListItem({ review }) {
             </Link>
             <Link to={`/post/${review._id}`} className="w-full">
               <div className="max-w-[440px]">
-                <p className="font-bold text-sm">{review.user.name}</p>
-                <div className="flex gap-1 size-3 mb-1">
-                  <Star rating={review.content.rating} />
+                <p className="font-bold text-sm leading-tight">
+                  {review?.user?.name}
+                </p>
+                <div className="flex gap-1 size-3 mb-2">
+                  <Star rating={review?.content?.rating} />
                 </div>
-                <p className="break-all whitespace-normal text-sm">
-                  {review.content.memo}
+                <p className="break-all whitespace-normal text-sm leading-tight">
+                  {review?.content?.memo}
                 </p>
               </div>
             </Link>
