@@ -40,6 +40,10 @@ export default function MyReviews() {
       const byUserContent = byUser.extra.contents.map(content => ({
         ...byUser,
         content,
+        _id:
+          partTime.product.length > 0
+            ? partTime?.product[0].product?._id
+            : null,
       }));
       reviewList = [...reviewList, ...byUserContent];
     });
@@ -58,7 +62,7 @@ export default function MyReviews() {
   }
 
   // console.log(reviews);
-  // console.log(partTime);
+  console.log(partTime);
 
   // console.log(reviewList);
 
