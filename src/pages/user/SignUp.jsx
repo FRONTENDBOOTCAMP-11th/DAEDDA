@@ -49,6 +49,17 @@ export default function SignUp() {
     },
   });
 
+  const watchField = watch([
+    "email",
+    "name",
+    "password",
+    "pwdCheck",
+    "birthday",
+    "phone",
+  ]);
+
+  const isFilled = watchField.every(value => value && value.trim() !== "");
+
   // 이미지 프리뷰 변경
   const handleImageChange = e => {
     const file = e.target.files[0];
@@ -291,7 +302,12 @@ export default function SignUp() {
           <Button color="white" height="lg" onClick={handleCancel}>
             취소
           </Button>
-          <Button color="purple" height="lg" type="submit">
+          <Button
+            color="bg-gray-400"
+            height="lg"
+            type="submit"
+            className={`w-full font-bold rounded text-white ${!isFilled ? "bg-gray-400 cursor-not-allowed" : "bg-primary cursor-pointer"}`}
+          >
             계속
           </Button>
         </div>
