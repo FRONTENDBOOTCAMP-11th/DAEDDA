@@ -164,7 +164,10 @@ export default function SignUp() {
         <div className="flex flex-col items-center justify-center">
           <div className="relative inline-block">
             <label htmlFor="image-upload" className="cursor-pointer">
-              <img src={preview} className="w-[150px] h-[150px] mb-3" />
+              <img
+                src={preview}
+                className="w-[150px] h-[150px] mb-3 rounded-full object-fit"
+              />
               <img
                 src="/icons/imgEdit.svg"
                 className="absolute right-2 bottom-2"
