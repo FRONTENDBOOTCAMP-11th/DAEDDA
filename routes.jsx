@@ -84,7 +84,7 @@ const router = createBrowserRouter(
     },
     { path: "users/login/kakao", element: <KakaoSignIn /> },
     { path: "refund", element: <Refund /> },
-    { path: "error", element: <Error /> },
+    { path: "*", element: <Error /> },
   ],
   {
     future: {
