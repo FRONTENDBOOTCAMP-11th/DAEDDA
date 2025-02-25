@@ -303,10 +303,10 @@ export default function SignUp() {
             취소
           </Button>
           <Button
-            color="bg-gray-400"
+            color="gray"
             height="lg"
             type="submit"
-            className={`w-full font-bold rounded text-white ${!isFilled ? "bg-gray-400 cursor-not-allowed" : "bg-primary cursor-pointer"}`}
+            className={`w-full font-bold rounded text-white ${!isFilled ? "bg-gray-200 cursor-not-allowed" : "bg-primary cursor-pointer"}`}
           >
             계속
           </Button>
