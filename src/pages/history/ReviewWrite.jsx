@@ -120,6 +120,7 @@ export default function ReviewWrite() {
   const addEmployedReview = useMutation({
     mutationFn: async formData => {
       const body = {
+        product_id: product._id,
         target_id: product.extra.worker.userId,
         extra: {
           contents: [
