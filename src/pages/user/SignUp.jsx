@@ -73,6 +73,13 @@ export default function SignUp() {
     }
   };
 
+  // 프로필 이미지 삭제
+  const deleteImg = () => {
+    // console.log("delete");
+    setPreview("/images/smiling_daeddamon.png");
+    fileInput.current.value = "";
+  };
+
   // 이메일 중복 체크
   const emailCheck = useMutation({
     mutationFn: email =>
@@ -179,11 +186,16 @@ export default function SignUp() {
                 src={preview}
                 className="w-[150px] h-[150px] mb-3 rounded-full object-fit"
               />
-              <img
+              {/* <img
                 src="/icons/imgEdit.svg"
                 className="absolute right-2 bottom-2"
-              />
+              /> */}
             </label>
+            <img
+              src="/icons/x-box.svg"
+              className="absolute right-3 bottom-3 cursor-pointer w-[30px] h-[30px]"
+              onClick={deleteImg}
+            />
           </div>
 
           <input
