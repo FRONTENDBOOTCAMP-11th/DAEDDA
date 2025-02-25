@@ -105,7 +105,7 @@ export default function Terms() {
         <Button
           color="bg-gray-400"
           height="lg"
-          className={`mb-2 w-full ${!allChecked ? "bg-gray-400 text-white cursor-not-allowed" : "bg-primary text-white cursor-pointer"}`}
+          className={`mb-2 w-full font-bold rounded text-white ${!allChecked ? "bg-gray-400 cursor-not-allowed" : "bg-primary cursor-pointer"}`}
           type="submit"
         >
           계속
