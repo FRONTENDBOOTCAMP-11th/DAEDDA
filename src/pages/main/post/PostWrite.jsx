@@ -1,18 +1,18 @@
 import Button from "@components/Button";
 import InputField from "@components/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import MainMap from "@pages/main/post/MainMap";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
-import useUserStore from "@zustand/userStore";
 import * as PortOne from "@portone/browser-sdk/v2";
 import { PulseLoader } from "react-spinners";
+import useUserStore from "@zustand/userStore";
 
 export default function PostWrite() {
   const navigate = useNavigate();
+  const { user } = useUserStore();
   const {
     register,
     handleSubmit,
@@ -32,8 +32,6 @@ export default function PostWrite() {
   const [imageError, setImageError] = useState(true);
   const axios = useAxiosInstance();
   const queryClient = useQueryClient();
-  const { user } = useUserStore();
-  const [selectLocation, setSelectLocation] = useState([33.450701, 126.570667]);
 
   const addPost = useMutation({
     mutationFn: async formData => {
@@ -143,7 +141,7 @@ export default function PostWrite() {
     }
 
     try {
-      // const postResult = await handlePayment(formData, user);
+      const postResult = await handlePayment(formData, user);
 
       const addPostResponse = await addPost.mutateAsync(formData);
       const productId = addPostResponse.data.item._id;
@@ -236,13 +234,6 @@ export default function PostWrite() {
         </fieldset>
 
         <fieldset>
-          {/* <legend className="text-[1rem] font-bold mb-2">위치</legend> */}
-          {/* <MainMap
-          selectLocation={selectLocation}
-          setSelectLocation={setSelectLocation}
-          register={register}
-          setValue={setValue}
-        /> */}
           <InputField
             labelName="주소 입력"
             type="text"
