@@ -8,9 +8,11 @@ import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
 import * as PortOne from "@portone/browser-sdk/v2";
 import { PulseLoader } from "react-spinners";
+import useUserStore from "@zustand/userStore";
 
 export default function PostWrite() {
   const navigate = useNavigate();
+  const { user } = useUserStore();
   const {
     register,
     handleSubmit,
@@ -139,7 +141,7 @@ export default function PostWrite() {
     }
 
     try {
-      // const postResult = await handlePayment(formData, user);
+      const postResult = await handlePayment(formData, user);
 
       const addPostResponse = await addPost.mutateAsync(formData);
       const productId = addPostResponse.data.item._id;
