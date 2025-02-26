@@ -103,9 +103,9 @@ export default function Terms() {
           <p className={`my-5 text-red`}>* 약관에 모두 동의해야 합니다.</p>
         </div>
         <Button
-          color="purple"
+          color="gray"
           height="lg"
-          className="mb-2 w-full"
+          className={`mb-2 w-full font-bold rounded text-white ${!allChecked ? "bg-gray-200 cursor-not-allowed" : "bg-primary cursor-pointer"}`}
           type="submit"
         >
           계속

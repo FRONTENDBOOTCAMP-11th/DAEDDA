@@ -16,8 +16,9 @@ function App() {
     }
   }, [hasShownSplash, showSplash]);
   return (
-    <>
-      <div className="px-6 max-w-screen-sm m-auto h-screen relative overflow-y-auto">
+    <div className="min-h-screen overflow-y-auto">
+      {/* <div className="px-6 max-w-screen-sm m-auto h-screen relative overflow-y-auto"> */}
+      <div className="px-6 max-w-screen-sm m-auto relative">
         {isSplashShown ? (
           <SplashScreen />
         ) : (
@@ -38,7 +39,7 @@ function App() {
         hideProgressBar={true}
         transition={Slide}
       />
-    </>
+    </div>
   );
 }
 

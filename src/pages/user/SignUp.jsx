@@ -49,6 +49,17 @@ export default function SignUp() {
     },
   });
 
+  const watchField = watch([
+    "email",
+    "name",
+    "password",
+    "pwdCheck",
+    "birthday",
+    "phone",
+  ]);
+
+  const isFilled = watchField.every(value => value && value.trim() !== "");
+
   // 이미지 프리뷰 변경
   const handleImageChange = e => {
     const file = e.target.files[0];
@@ -60,6 +71,13 @@ export default function SignUp() {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  // 프로필 이미지 삭제
+  const deleteImg = () => {
+    // console.log("delete");
+    setPreview("/images/smiling_daeddamon.png");
+    fileInput.current.value = "";
   };
 
   // 이메일 중복 체크
@@ -164,12 +182,20 @@ export default function SignUp() {
         <div className="flex flex-col items-center justify-center">
           <div className="relative inline-block">
             <label htmlFor="image-upload" className="cursor-pointer">
-              <img src={preview} className="w-[150px] h-[150px] mb-3" />
               <img
+                src={preview}
+                className="w-[150px] h-[150px] mb-3 rounded-full object-fit"
+              />
+              {/* <img
                 src="/icons/imgEdit.svg"
                 className="absolute right-2 bottom-2"
-              />
+              /> */}
             </label>
+            <img
+              src="/icons/x-box.svg"
+              className="absolute right-3 bottom-3 cursor-pointer w-[30px] h-[30px]"
+              onClick={deleteImg}
+            />
           </div>
 
           <input
@@ -291,7 +317,12 @@ export default function SignUp() {
           <Button color="white" height="lg" onClick={handleCancel}>
             취소
           </Button>
-          <Button color="purple" height="lg" type="submit">
+          <Button
+            color="gray"
+            height="lg"
+            type="submit"
+            className={`w-full font-bold rounded text-white ${!isFilled ? "bg-gray-200 cursor-not-allowed" : "bg-primary cursor-pointer"}`}
+          >
             계속
           </Button>
         </div>
