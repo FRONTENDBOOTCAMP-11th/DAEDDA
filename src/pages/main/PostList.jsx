@@ -1,6 +1,7 @@
 import { useProductsFilter } from "@hooks/useGetProducts";
 import ListItem from "@pages/main/ListItem";
 import useUserStore from "@zustand/userStore";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -35,13 +36,63 @@ export default function PostList() {
     setKeyword(formData.keyword);
   };
 
-  console.log(data);
-
   useEffect(() => {
     refetch();
   }, [keyword]);
+
+  /* 현재 위치에대한 주소 표시 */
+  const [location, setLocation] = useState({
+    x: 126.945134750779,
+    y: 37.5118104872992,
+    address: "서울특별시 동작구 만양로14가길 3",
+  });
+
+  const handleLocationChange = () => {
+    navigator.geolocation.getCurrentPosition(
+      async position => {
+        const x = position.coords.latitude + "";
+        const y = position.coords.longitude + "";
+        try {
+          const res = await axios.get(
+            "https://dapi.kakao.com/v2/local/geo/coord2address.json",
+            {
+              params: {
+                x: 126.945134750779,
+                y: 37.5118104872992,
+              },
+              headers: {
+                Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`,
+              },
+            },
+          );
+
+          if (res.data.documents.length > 0) {
+            setLocation({
+              x,
+              y,
+              address: res.data.documents[0].address.address_name,
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching address:", error);
+        }
+      },
+      error => {
+        console.error("Geolocation error:", error);
+      },
+    );
+  };
+
   return (
     <div className="mb-[80px] flex flex-col">
+      <div className="mb-4 text-[18px] font-semibold flex gap-2 items-center">
+        <p>{location.address}</p>
+        <img
+          src="/icons/mapPin.svg"
+          className="size-[18px] cursor-pointer"
+          onClick={handleLocationChange}
+        />
+      </div>
       <form className="mb-5" onSubmit={handleSubmit(onSearchSubmit)}>
         <div className="relative">
           <input
@@ -58,7 +109,6 @@ export default function PostList() {
           </button>
         </div>
       </form>
-
       <div className="flex gap-4 mb-5 flex-wrap screen-530:justify-center screen-530:gap-2">
         <div>
           <label
