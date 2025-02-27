@@ -14,7 +14,7 @@ const alertfun = () => {
   });
 };
 export default function MyReviewListItem({ review }) {
-  //   console.log(review);
+  // console.log(review);
   return (
     <>
       <div className="reviews-container">
