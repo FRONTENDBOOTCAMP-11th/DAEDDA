@@ -17,6 +17,9 @@ export default function Likes() {
       </div>
     );
   }
+  let dataList = [];
+  dataList = data.slice().reverse();
+  // console.log(dataList);
 
   if (!data || data.length === 0) {
     return (
@@ -27,7 +30,7 @@ export default function Likes() {
       </div>
     );
   }
-  // console.log(data);
-  const list = data.map(item => <LikeList key={item._id} item={item} />);
+
+  const list = dataList.map(item => <LikeList key={item._id} item={item} />);
   return <div className="mb-[80px] mt-[10px]">{list}</div>;
 }
