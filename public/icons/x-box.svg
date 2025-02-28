@@ -1,5 +1,8 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 4ab0885 (💄 style: x-box.svg 디자인 수정)
 <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_d_1627_625)">
 <path d="M29 15.5C29 22.4036 23.4036 28 16.5 28C9.59644 28 4 22.4036 4 15.5C4 8.59644 9.59644 3 16.5 3C23.4036 3 29 8.59644 29 15.5Z" fill="white"/>
@@ -17,6 +20,7 @@
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1627_625" result="shape"/>
 </filter>
 </defs>
+<<<<<<< HEAD
 =======
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 =======
@@ -26,4 +30,6 @@
 <path d="M5.75 5.75L18.25 18.25" stroke="#FF0000" stroke-width="2"/>
 <path d="M18.25 5.75L5.75 18.25" stroke="#FF0000" stroke-width="2"/>
 >>>>>>> 0de7ed7 (💄 style: x-box.svg 아이콘 추가)
+=======
+>>>>>>> 4ab0885 (💄 style: x-box.svg 디자인 수정)
 </svg>
