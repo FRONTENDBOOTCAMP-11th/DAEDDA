@@ -9,6 +9,7 @@ import { useCallback, useEffect, useState } from "react";
 import useUserStore from "@zustand/userStore";
 import { PulseLoader } from "react-spinners";
 import { toast } from "react-toastify";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 export default function PostDetail() {
   const [bookMark, setBookMark] = useState(false);
@@ -24,6 +25,20 @@ export default function PostDetail() {
     queryFn: () => axios.get(`/products/${_id}`),
     select: res => res.data,
   });
+
+  const [mapCenter, setMapCenter] = useState({
+    lat: 33.450701,
+    lng: 126.570667,
+  });
+
+  useEffect(() => {
+    if (data?.item?.extra?.location) {
+      setMapCenter({
+        lat: data.item.extra.location[0],
+        lng: data.item.extra.location[1],
+      });
+    }
+  }, [data]);
 
   const sanitizedContent = DOMPurify.sanitize(`${data?.item.content}`);
 
@@ -258,7 +273,22 @@ export default function PostDetail() {
               />
             </div>
             <h2 className="font-bold mb-2">위치</h2>
-            <div className="w-full rounded-lg overflow-hidden"></div>
+            <div className="w-full rounded-lg overflow-hidden">
+              {data?.item?.extra?.location ? (
+                <Map
+                  center={mapCenter}
+                  className="w-full h-[350px] rounded-lg shadow-md"
+                  level={4}
+                  draggable={true}
+                  zoomable={true}
+                >
+                  <MapMarker position={mapCenter} />
+                </Map>
+              ) : (
+                <p className="text-gray-500">위치 정보가 없습니다.</p>
+              )}
+            </div>
+
             <div className="sm:whitespace-normal md:whitespace-nowrap break-words">
               {data?.item?.extra?.address || "주소 정보가 없습니다."}
             </div>
