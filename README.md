@@ -53,10 +53,10 @@
 
 
 ### 🔗관련 링크 ###
-**배포주소:** [대따 link](https://daedda.netlify.app/)  
-**피그마(Figma):** [피그마 link](https://www.figma.com/design/Kdoi45uNf7fQrRKqgSHco2/%EB%8C%80%EB%94%B0?node-id=0-1&t=RRfniPSR1j1vPgUN-1)  
-**유저플로우:** [유저플로우 link](https://www.figma.com/board/9PiJjs9cenc90STvGKMWaQ/%EB%AA%BB%EB%90%9C%EA%B3%A0%EC%96%91%EC%9D%B4?node-id=1-2&t=GN3GIwJCPzVMbunG-0)  
-**요구사항 정의서:** [요구사항 정의서 link](https://docs.google.com/spreadsheets/d/1MJas5B3M0HXrkG59m5QjEXxHJ52FVO51crdhdkV1XZ0/edit?gid=0#gid=0)  
+**배포주소:** [대따 링크](https://daedda.netlify.app/)  
+**피그마(Figma):** [피그마 링크](https://www.figma.com/design/Kdoi45uNf7fQrRKqgSHco2/%EB%8C%80%EB%94%B0?node-id=0-1&t=RRfniPSR1j1vPgUN-1)  
+**유저플로우:** [유저플로우 링크](https://www.figma.com/board/9PiJjs9cenc90STvGKMWaQ/%EB%AA%BB%EB%90%9C%EA%B3%A0%EC%96%91%EC%9D%B4?node-id=1-2&t=GN3GIwJCPzVMbunG-0)  
+**요구사항 정의서:** [요구사항 정의서 링크](https://docs.google.com/spreadsheets/d/1MJas5B3M0HXrkG59m5QjEXxHJ52FVO51crdhdkV1XZ0/edit?gid=0#gid=0)  
 
    
 
