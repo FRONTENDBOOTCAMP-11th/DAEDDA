@@ -23,7 +23,7 @@ export const useGetProducts = (keyword, select) => {
 //     worktime: "all",
 //     payment: "all",
 //   }
-export const useProductsFilter = (keyword, condition) => {
+export const useProductsFilter = (keyword, condition, distanceInfo) => {
   return useGetProducts(keyword, data => {
     let result = [...data];
 
@@ -82,6 +82,16 @@ export const useProductsFilter = (keyword, condition) => {
         );
       });
     }
+
+    // distance
+    if (distanceInfo.position.x !== 0 && distanceInfo.position.y !== 0)
+      if (distanceInfo.selected === "3km") {
+        console.log("3km");
+        console.log(distanceInfo.position);
+      } else if (distanceInfo.selected === "10km") {
+        console.log("10km");
+      }
+
     return result;
   });
 };

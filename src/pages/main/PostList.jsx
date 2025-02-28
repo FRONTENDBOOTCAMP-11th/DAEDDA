@@ -16,7 +16,18 @@ export default function PostList() {
     worktime: "all",
     payment: "all",
   });
-  const { data, refetch, isLoading } = useProductsFilter(keyword, condition);
+
+  /* 근처 게시글 필터 버튼 */
+  const [distanceInfo, setDistanceInfo] = useState({
+    position: { x: 0, y: 0 },
+    selected: "all",
+  });
+
+  const { data, refetch, isLoading } = useProductsFilter(
+    keyword,
+    condition,
+    distanceInfo,
+  );
 
   const onWorktimeFilterChanged = e => {
     setCondition(prev => {
@@ -53,6 +64,8 @@ export default function PostList() {
         async position => {
           const x = position.coords.latitude + "";
           const y = position.coords.longitude + "";
+          setDistanceInfo(prev => ({ ...prev, position: { x, y } }));
+
           try {
             const res = await axios.get(
               "https://dapi.kakao.com/v2/local/geo/coord2address.json",
@@ -100,13 +113,40 @@ export default function PostList() {
             />
           </div>
           <div className="flex items-center gap-4">
-            <div className="w-20 ring-2 ring-gray-400 rounded-xl flex justify-center items-center h-9 text-[14px] cursor-pointer">
+            <div
+              className={`w-20 ring-2 rounded-xl flex justify-center items-center h-9 text-[14px] cursor-pointer ${
+                distanceInfo.selected === "3km"
+                  ? "ring-primary"
+                  : "ring-gray-400"
+              }`}
+              onClick={() =>
+                setDistanceInfo(prev => ({ ...prev, selected: "3km" }))
+              }
+            >
               3km 이내
             </div>
-            <div className="w-20 ring-2 ring-gray-400 rounded-xl flex justify-center items-center h-9 text-[14px] cursor-pointer">
+            <div
+              className={`w-20 ring-2 rounded-xl flex justify-center items-center h-9 text-[14px] cursor-pointer ${
+                distanceInfo.selected === "10km"
+                  ? "ring-primary"
+                  : "ring-gray-400"
+              }`}
+              onClick={() =>
+                setDistanceInfo(prev => ({ ...prev, selected: "10km" }))
+              }
+            >
               10km 이내
             </div>
-            <div className="w-20 ring-2 ring-gray-400 rounded-xl flex justify-center items-center h-9 text-[14px] cursor-pointer">
+            <div
+              className={`w-20 ring-2 rounded-xl flex justify-center items-center h-9 text-[14px] cursor-pointer ${
+                distanceInfo.selected === "all"
+                  ? "ring-primary"
+                  : "ring-gray-400"
+              }`}
+              onClick={() =>
+                setDistanceInfo(prev => ({ ...prev, selected: "all" }))
+              }
+            >
               전체 보기
             </div>
           </div>
