@@ -34,7 +34,7 @@ export default function LikeList({ item }) {
       console.error(err);
     },
   });
-  console.log(item);
+  // console.log(item);
 
   //마감 날짜 지나면
   useEffect(() => {
