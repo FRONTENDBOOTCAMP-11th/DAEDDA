@@ -34,6 +34,11 @@ export default function Sidebar() {
     navigate("/refund");
   };
 
+  const goToProfile = () => {
+    setSidebarOpen(false);
+    navigate(`/user/${user._id}`);
+  };
+
   useEffect(() => {
     if (isSidebarOpen) {
       setAnimate("animate-slide-in");
@@ -85,9 +90,15 @@ export default function Sidebar() {
                 <h1 className="text-[1.25rem] mb-4 text-gray-500 font-semibold">
                   환영합니다!
                 </h1>
-                <h1 className="text-[1.5rem]">
-                  <b>{user.name}</b> 님
-                </h1>
+                <div
+                  className="flex justify-between cursor-pointer"
+                  onClick={goToProfile}
+                >
+                  <h1 className="text-[1.5rem]">
+                    <b>{user.name}</b> 님
+                  </h1>
+                  <img src="/icons/arrow.svg" />
+                </div>
               </div>
               <h1
                 className="mt-4 text-[1rem] text-[#605D5D] cursor-pointer"

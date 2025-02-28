@@ -31,7 +31,7 @@ export default function Profile() {
               : "/images/smiling_daeddamon.png"
           }
           alt="프로필 이미지"
-          className="size-48 mb-4 mt-6 rounded-full object-cover"
+          className="w-[195px] h-[192px] mb-4 mt-6 rounded-full object-cover"
         />
         <p className="font-bold text-4xl mb-6">{userData.item.name}</p>
       </div>
