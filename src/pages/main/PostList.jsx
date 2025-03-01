@@ -2,7 +2,7 @@ import { useProductsFilter } from "@hooks/useGetProducts";
 import ListItem from "@pages/main/ListItem";
 import useUserStore from "@zustand/userStore";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
@@ -102,6 +102,9 @@ export default function PostList() {
     );
   };
 
+  const lastItemRef = useRef(null);
+
+  console.log(lastItemRef);
   return (
     <div className="mb-[80px] flex flex-col">
       <div className="mb-4 flex justify-between screen-530:flex-wrap">
@@ -208,17 +211,28 @@ export default function PostList() {
         )}
         {data && (
           <>
-            {data.map(data => {
-              // 날짜가 지난 구인글인 경우
-              if (new Date(data.extra.condition.date) < new Date()) return null;
-              // 입금 완료되거나 리뷰가 작성된 구인글인 경우
-              else if (
-                data.extra.state === "EM030" ||
-                data.extra.state === "EM040"
-              )
-                return null;
-              else return <ListItem key={data._id} data={data} />;
-            })}
+            {data
+              .filter(data => {
+                // 날짜가 지난 구인글 제외
+                if (new Date(data.extra.condition.date) < new Date())
+                  return false;
+                // 입금 완료되거나 리뷰가 작성된 구인글 제외
+                if (
+                  data.extra.state === "EM030" ||
+                  data.extra.state === "EM040"
+                )
+                  return false;
+                return true;
+              })
+              .map((data, index, filteredData) => {
+                return (
+                  <ListItem
+                    key={data._id}
+                    data={data}
+                    ref={index === filteredData.length - 1 ? lastItemRef : null}
+                  />
+                );
+              })}
           </>
         )}
       </div>

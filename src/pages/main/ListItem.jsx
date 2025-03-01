@@ -1,16 +1,14 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { formatDate, getTimePassed, getWorkTime } from "@/utills/func.js";
+import { forwardRef } from "react";
 
-ListItem.propTypes = {
-  data: PropTypes.object.isRequired,
-};
-
-export default function ListItem({ data }) {
+const ListItem = forwardRef(({ data }, ref) => {
   return (
     <Link
       to={`/post/${data._id}`}
       className="flex justify-between shadow-custom-shadow rounded-3xl px-4 py-4 items-center"
+      ref={ref}
     >
       <div className="flex flex-col gap-1 screen-530:gap-[2px] ">
         <h3 className="font-bold text-[1.25rem] screen-530:text-[1rem] break-keep">
@@ -51,4 +49,12 @@ export default function ListItem({ data }) {
       </div>
     </Link>
   );
-}
+});
+
+ListItem.propTypes = {
+  data: PropTypes.object.isRequired,
+};
+
+ListItem.displayName = "ListItem"; // eslint 오류 해결
+
+export default ListItem;
