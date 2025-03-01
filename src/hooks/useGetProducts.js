@@ -99,12 +99,12 @@ export const useProductsFilter = (keyword, condition, distanceInfo) => {
         const maxLng = +distanceInfo.position.x + 0.03;
 
         result = result.filter(data => {
-          if (data.extra.position) {
+          if (data.extra.location) {
             return (
-              +data.extra.position[1] >= minLat &&
-              +data.extra.position[1] <= maxLat &&
-              +data.extra.position[0] >= minLng &&
-              +data.extra.position[0] <= maxLng
+              data.extra.location[1] >= minLat &&
+              data.extra.location[1] <= maxLat &&
+              data.extra.location[0] >= minLng &&
+              data.extra.location[0] <= maxLng
             );
           }
         });
@@ -115,12 +115,12 @@ export const useProductsFilter = (keyword, condition, distanceInfo) => {
         const maxLng = +distanceInfo.position.x + 0.1;
 
         result = result.filter(data => {
-          if (data.extra.position) {
+          if (data.extra.location) {
             return (
-              +data.extra.position[1] >= minLat &&
-              +data.extra.position[1] <= maxLat &&
-              +data.extra.position[0] >= minLng &&
-              +data.extra.position[0] <= maxLng
+              data.extra.location[1] >= minLat &&
+              data.extra.location[1] <= maxLat &&
+              data.extra.location[0] >= minLng &&
+              data.extra.location[0] <= maxLng
             );
           }
         });
