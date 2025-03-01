@@ -1,5 +1,8 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import { useQuery } from "@tanstack/react-query";
+import {
+  defaultShouldDehydrateMutation,
+  useQuery,
+} from "@tanstack/react-query";
 import { getWorkTime } from "@/utills/func";
 
 export const useGetProducts = (keyword, select) => {
@@ -84,14 +87,45 @@ export const useProductsFilter = (keyword, condition, distanceInfo) => {
     }
 
     // distance
-    if (distanceInfo.position.x !== 0 && distanceInfo.position.y !== 0)
+    if (
+      distanceInfo.position.x !== 0 &&
+      distanceInfo.position.y !== 0 &&
+      distanceInfo.selected !== "all"
+    ) {
       if (distanceInfo.selected === "3km") {
-        console.log("3km");
-        console.log(distanceInfo.position);
-      } else if (distanceInfo.selected === "10km") {
-        console.log("10km");
-      }
+        const minLat = +distanceInfo.position.y - 0.03;
+        const maxLat = +distanceInfo.position.y + 0.03;
+        const minLng = +distanceInfo.position.x - 0.03;
+        const maxLng = +distanceInfo.position.x + 0.03;
 
+        result = result.filter(data => {
+          if (data.extra.position) {
+            return (
+              +data.extra.position[1] >= minLat &&
+              +data.extra.position[1] <= maxLat &&
+              +data.extra.position[0] >= minLng &&
+              +data.extra.position[0] <= maxLng
+            );
+          }
+        });
+      } else if (distanceInfo.selected === "10km") {
+        const minLat = +distanceInfo.position.y - 0.1;
+        const maxLat = +distanceInfo.position.y + 0.1;
+        const minLng = +distanceInfo.position.x - 0.1;
+        const maxLng = +distanceInfo.position.x + 0.1;
+
+        result = result.filter(data => {
+          if (data.extra.position) {
+            return (
+              +data.extra.position[1] >= minLat &&
+              +data.extra.position[1] <= maxLat &&
+              +data.extra.position[0] >= minLng &&
+              +data.extra.position[0] <= maxLng
+            );
+          }
+        });
+      }
+    }
     return result;
   });
 };
