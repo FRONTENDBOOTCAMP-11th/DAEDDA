@@ -8,8 +8,9 @@ import PostPR from "@pages/main/post/PostPR";
 import { useCallback, useEffect, useState } from "react";
 import useUserStore from "@zustand/userStore";
 import { PulseLoader } from "react-spinners";
-// import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { toast } from "react-toastify";
+import BasicMap from "@pages/main/post/BasicMap";
 
 export default function PostDetail() {
   const [bookMark, setBookMark] = useState(false);
@@ -19,6 +20,10 @@ export default function PostDetail() {
   const { _id } = useParams();
   const { user } = useUserStore();
   const userId = user?._id;
+  const [mapCenter, setMapCenter] = useState({
+    lat: 33.450701,
+    lng: 126.570667,
+  });
 
   const { data, isLoading } = useQuery({
     queryKey: ["products", _id],
@@ -41,6 +46,15 @@ export default function PostDetail() {
   // }, [data]);
 
   const sanitizedContent = DOMPurify.sanitize(`${data?.item.content}`);
+
+  useEffect(() => {
+    if (data?.item?.extra?.location) {
+      setMapCenter({
+        lat: data.item.extra.location[0], // 배열에서 lat 가져오기
+        lng: data.item.extra.location[1], // 배열에서 lng 가져오기
+      });
+    }
+  }, [data]);
 
   const removePost = useMutation({
     mutationFn: _id => axios.delete(`/seller/products/${_id}`),
@@ -285,22 +299,17 @@ export default function PostDetail() {
             </div>
             <h2 className="font-bold mb-2">위치</h2>
             <div className="w-full rounded-lg overflow-hidden">
-              {/* {data?.item?.extra?.location ? (
-            <Map
-              center={{
-                lat: data?.item.extra.location[0],
-                lng: data?.item.extra.location[1],
-              }}
-              style={{ width: "100%", height: "350px" }}
-              level={4}
-              draggable={true}
-              zoomable={true}
-            >
-              <MapMarker position={mapCenter} />
-            </Map>
-          ) : (
-            ""
-          )} */}
+              {data?.item?.extra?.location ? (
+                <Map
+                  center={mapCenter}
+                  className="w-full h-[350px] rounded-lg shadow-md"
+                  level={4}
+                >
+                  <MapMarker position={mapCenter} />
+                </Map>
+              ) : (
+                <p className="text-gray-500">위치 정보가 없습니다.</p>
+              )}
             </div>
 
             <div className="sm:whitespace-normal md:whitespace-nowrap break-words">
