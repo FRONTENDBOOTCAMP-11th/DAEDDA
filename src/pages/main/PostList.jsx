@@ -8,9 +8,12 @@ import { Link } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 
 export default function PostList() {
-  const { register, handleSubmit } = useForm();
-  const [keyword, setKeyword] = useState("");
   const { user } = useUserStore();
+  const { register, handleSubmit } = useForm();
+
+  const [keyword, setKeyword] = useState("");
+  const [page, setPage] = useState(1);
+  const limit = 5;
 
   const [condition, setCondition] = useState({
     worktime: "all",
@@ -23,10 +26,12 @@ export default function PostList() {
     selected: "all",
   });
 
-  const { data, refetch, isLoading } = useProductsFilter(
+  const { data, refetch, isLoading, hasMore } = useProductsFilter(
     keyword,
     condition,
     distanceInfo,
+    page,
+    limit,
   );
 
   const onWorktimeFilterChanged = e => {
@@ -102,9 +107,25 @@ export default function PostList() {
     );
   };
 
+  /* 무한 스크롤 */
   const lastItemRef = useRef(null);
+  const observerRef = useRef(null);
 
-  console.log(lastItemRef);
+  useEffect(() => {
+    if (observerRef.current) observerRef.current.disconnect();
+    observerRef.current = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting && hasMore && !isLoading) {
+          console.log("last item show");
+          setPage(prevPage => prevPage + 1);
+        }
+      },
+      { threshold: 1.0 },
+    );
+
+    if (lastItemRef.current) observerRef.current.observe(lastItemRef.current);
+  }, [data, hasMore, isLoading]);
+
   return (
     <div className="mb-[80px] flex flex-col">
       <div className="mb-4 flex justify-between screen-530:flex-wrap">
@@ -211,28 +232,15 @@ export default function PostList() {
         )}
         {data && (
           <>
-            {data
-              .filter(data => {
-                // 날짜가 지난 구인글 제외
-                if (new Date(data.extra.condition.date) < new Date())
-                  return false;
-                // 입금 완료되거나 리뷰가 작성된 구인글 제외
-                if (
-                  data.extra.state === "EM030" ||
-                  data.extra.state === "EM040"
-                )
-                  return false;
-                return true;
-              })
-              .map((data, index, filteredData) => {
-                return (
-                  <ListItem
-                    key={data._id}
-                    data={data}
-                    ref={index === filteredData.length - 1 ? lastItemRef : null}
-                  />
-                );
-              })}
+            {data.map((post, index) => {
+              return (
+                <ListItem
+                  key={post._id}
+                  data={post}
+                  ref={index === data.length - 1 ? lastItemRef : null}
+                />
+              );
+            })}
           </>
         )}
       </div>
