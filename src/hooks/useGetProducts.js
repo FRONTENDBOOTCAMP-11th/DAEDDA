@@ -1,17 +1,17 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import {
-  defaultShouldDehydrateMutation,
-  useQuery,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getWorkTime } from "@/utills/func";
+import { useEffect, useState } from "react";
 
-export const useGetProducts = (keyword, select) => {
+export const useGetProducts = (keyword, page, limit, select) => {
   const axios = useAxiosInstance();
 
   return useQuery({
-    queryKey: ["products"],
+    queryKey: ["products", keyword, page],
     queryFn: () => {
-      return axios.get(`/products/?keyword=${keyword}`);
+      return axios.get(
+        `/products/?keyword=${keyword}&page=${page}&limit=${limit}`,
+      );
     },
     select: res => {
       return select ? select(res.data.item) : res.data.item;
@@ -21,13 +21,21 @@ export const useGetProducts = (keyword, select) => {
   });
 };
 
-// condition
-// {
-//     worktime: "all",
-//     payment: "all",
-//   }
-export const useProductsFilter = (keyword, condition, distanceInfo) => {
-  return useGetProducts(keyword, data => {
+export const useProductsFilter = (
+  keyword,
+  condition,
+  distanceInfo,
+  page,
+  limit,
+) => {
+  const [data, setData] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+
+  const {
+    data: fetchedData,
+    isLoading,
+    refetch,
+  } = useGetProducts(keyword, page, limit, data => {
     let result = [...data];
 
     // 필터 로직
@@ -128,4 +136,18 @@ export const useProductsFilter = (keyword, condition, distanceInfo) => {
     }
     return result;
   });
+
+  useEffect(() => {
+    if (fetchedData) {
+      if (fetchedData.length < limit) {
+        setHasMore(false);
+      }
+      if (page === 1) {
+        setData(fetchedData);
+      } else {
+        setData(prevData => [...prevData, ...fetchedData]);
+      }
+    }
+  }, [fetchedData, page]);
+  return { data, isLoading, hasMore, refetch };
 };
