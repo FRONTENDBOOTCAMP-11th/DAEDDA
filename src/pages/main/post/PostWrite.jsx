@@ -1,22 +1,31 @@
 import Button from "@components/Button";
 import InputField from "@components/InputField";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import MainMap from "@pages/main/post/MainMap";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
-import useUserStore from "@zustand/userStore";
 import * as PortOne from "@portone/browser-sdk/v2";
 import { PulseLoader } from "react-spinners";
+import useUserStore from "@zustand/userStore";
+import BasicMap from "@pages/main/post/BasicMap";
 
 export default function PostWrite() {
   const navigate = useNavigate();
+  const { user } = useUserStore();
+  const [preview, setPreview] = useState(null);
+  const [imageError, setImageError] = useState(true);
+  const axios = useAxiosInstance();
+  const queryClient = useQueryClient();
+  const [position, setPosition] = useState({ lat: 33.450701, lng: 126.570667 });
+  const [address, setAddress] = useState("");
+
   const {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -25,15 +34,15 @@ export default function PostWrite() {
       price: "88000",
       workTime: "13:00-21:00",
       content: `개인 사정으로 인해 저 대신 하루만 알바 해주실 분을 구합니다!!\n위치는 노량진 와우 신내떡이고 단순 서빙 및 청소만 하면 됩니다!\n❗보건증 있는 분 우대합니다.\n많은 지원 부탁드립니다 😭`,
-      address: "서울 동작구 만양로14가길 3 1층",
+      location: [33.450701, 126.570667],
+      address: "",
     },
   });
-  const [preview, setPreview] = useState(null);
-  const [imageError, setImageError] = useState(true);
-  const axios = useAxiosInstance();
-  const queryClient = useQueryClient();
-  const { user } = useUserStore();
-  const [selectLocation, setSelectLocation] = useState([33.450701, 126.570667]);
+
+  useEffect(() => {
+    setValue("location", [position.lat, position.lng]);
+    setValue("address", address);
+  }, [position, address, setValue]);
 
   const addPost = useMutation({
     mutationFn: async formData => {
@@ -143,7 +152,7 @@ export default function PostWrite() {
     }
 
     try {
-      // const postResult = await handlePayment(formData, user);
+      const postResult = await handlePayment(formData, user);
 
       const addPostResponse = await addPost.mutateAsync(formData);
       const productId = addPostResponse.data.item._id;
@@ -151,6 +160,9 @@ export default function PostWrite() {
       if (productId) {
         queryClient.invalidateQueries({ queryKey: ["orders"] });
         navigate(`/post/${productId}`);
+        reset();
+        setPosition({ lat: 33.450701, lng: 126.570667 });
+        setAddress("");
       } else {
         console.error("Product ID가 없어요.");
       }
@@ -235,24 +247,12 @@ export default function PostWrite() {
           </div>
         </fieldset>
 
-        <fieldset>
-          {/* <legend className="text-[1rem] font-bold mb-2">위치</legend> */}
-          {/* <MainMap
-          selectLocation={selectLocation}
-          setSelectLocation={setSelectLocation}
-          register={register}
-          setValue={setValue}
-        /> */}
-          <InputField
-            labelName="주소 입력"
-            type="text"
-            placeholder="주소 입력"
-            register={register("address", {
-              required: "주소 입력은 필수입니다.",
-            })}
-            errorMsg={errors.company?.message}
-          />
-        </fieldset>
+        <BasicMap
+          position={position}
+          setPosition={setPosition}
+          address={address}
+          setAddress={setAddress}
+        />
 
         <fieldset>
           <InputField

@@ -1,6 +1,5 @@
 import Button from "@components/Button";
 import { useProfileData } from "@hooks/useProfileData";
-import MyBossReviewListItem from "@pages/myPage/MyBossReviewListItem";
 import MyReviewListItem from "@pages/myPage/MyReviewListItem";
 import { useState } from "react";
 import { PulseLoader } from "react-spinners";
@@ -8,10 +7,7 @@ import { PulseLoader } from "react-spinners";
 export default function MyReviews() {
   const userId = location.pathname.split("/")[3];
 
-  const [btnTxt, setBtnTxt] = useState("사장");
-  const hireBtn = () => {
-    setBtnTxt(btnTxt === "사장" ? "알바" : "사장");
-  };
+  const [activeTab, setActiveTab] = useState("사장");
 
   const { reviews, partTime, isLoading } = useProfileData(userId);
 
@@ -36,32 +32,32 @@ export default function MyReviews() {
   }
 
   let reviewList = [];
+  if (activeTab === "알바") {
+    partTime?.byUser.map(byUser => {
+      const byUserContent = byUser.extra.contents.map(content => ({
+        ...byUser,
+        content,
+        _id: byUser.product_id,
+      }));
+      reviewList = [...reviewList, ...byUserContent];
+    });
+  } else {
+    reviews?.map(replies => {
+      const repliesContents = replies?.replies.map(content => ({
+        content: {
+          ...content,
+          memo: content.content,
+        },
+        user: content.user, //user데이터 바깥으로 뻄
+        _id: replies.product_id,
+      }));
+      reviewList = [...reviewList, ...repliesContents];
+    });
+  }
 
-  // if (btnTxt === "알바") {
-  //   partTime?.byUser.map(byUser => {
-  //     const byUserContent = byUser.extra.contents.map(content => ({
-  //       ...byUser,
-  //       content,
-  //     }));
-  //     reviewList = [...reviewList, ...byUserContent];
-  //   });
-  // } else {
-  //   reviewList = reviews.map(item => ({
-  //     // ...byUser,
-  //   }));
-  // }
   // console.log(reviews);
-  const list = reviews.map(item => (
-    <MyBossReviewListItem key={item._id} item={item} btnTxt={btnTxt} />
-  ));
+  // console.log(partTime);
 
-  partTime?.byUser.map(byUser => {
-    const byUserContent = byUser.extra.contents.map(content => ({
-      ...byUser,
-      content,
-    }));
-    reviewList = [...reviewList, ...byUserContent];
-  });
   // console.log(reviewList);
 
   const myReviewList = reviewList.map((review, i) => (
@@ -72,26 +68,43 @@ export default function MyReviews() {
     <div className="mb-[40px]">
       <div className="flex  px-5 pb-5">
         <p className="font-bold text-[1.125rem] flex-grow ">
-          {btnTxt === "사장"
+          {activeTab === "사장"
             ? `리뷰 ${totalReplies}개`
             : `리뷰 ${partTimeTotalRp}개`}
         </p>
-        <Button color="purple" className="w-14" onClick={hireBtn} height="sm">
-          {btnTxt}
+        <Button
+          color="purple"
+          className={`w-14 ${activeTab === "사장" ? "font-bold" : "opacity-50"}`}
+          onClick={() => {
+            setActiveTab("사장");
+          }}
+          height="sm"
+        >
+          사장
+        </Button>
+        <Button
+          color="purple"
+          className={`w-14 ${activeTab === "알바" ? "font-bold" : "opacity-50"}`}
+          onClick={() => {
+            setActiveTab("알바");
+          }}
+          height="sm"
+        >
+          알바
         </Button>
       </div>
 
-      {btnTxt === "사장" && totalReplies === 0 ? (
+      {activeTab === "사장" && totalReplies === 0 ? (
         <div className="py-10 -mb-[70px] -mt-[140px] max-w-screen-sm m-auto h-screen overflow-y-auto flex items-center justify-center text-center text-xl text-gray-300">
           리뷰가 없습니다. 글을 등록해주세요!
         </div>
-      ) : btnTxt === "알바" && partTimeTotalRp === 0 ? (
+      ) : activeTab === "알바" && partTimeTotalRp === 0 ? (
         <div className="py-10 -mb-[70px] -mt-[140px] max-w-screen-sm m-auto h-screen overflow-y-auto flex items-center justify-center text-center text-xl text-gray-300">
           리뷰가 없습니다. 글을 등록해주세요!
         </div>
       ) : (
         // 리뷰 리스트 렌더링
-        <div>{btnTxt === "사장" ? list : myReviewList}</div>
+        <div>{myReviewList}</div>
       )}
     </div>
   );

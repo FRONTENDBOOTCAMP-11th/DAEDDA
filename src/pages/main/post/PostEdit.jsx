@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
-import MainMap from "@pages/main/post/MainMap";
 import { useGetProductDetail } from "@hooks/useGetProductDetail";
 import { PulseLoader } from "react-spinners";
+import BasicMap from "@pages/main/post/BasicMap";
 
 export default function PostEdit() {
   const { _id } = useParams();
@@ -16,7 +16,8 @@ export default function PostEdit() {
   const navigate = useNavigate();
   const [preview, setPreview] = useState(null);
   const [imageError, setImageError] = useState(true);
-  // const [selectLocation, setSelectLocation] = useState([33.450701, 126.570667]);
+  const [position, setPosition] = useState({ lat: 33.450701, lng: 126.570667 });
+  const [address, setAddress] = useState("");
 
   const { data: productData } = useGetProductDetail(_id);
 
@@ -29,30 +30,39 @@ export default function PostEdit() {
 
   useEffect(() => {
     if (productData) {
+      const sanitizedHTML = DOMPurify.sanitize(productData.content);
       setValue("name", productData.name);
       setValue("price", productData.price);
       setValue("quantity", productData.quantity);
-
-      const sanitizedHTML = DOMPurify.sanitize(productData.content);
       setValue("content", sanitizedHTML);
-
-      if (productData.extra?.location) {
-        // setSelectLocation(productData.extra?.location);
-        setValue("location", productData.extra?.location);
-      }
-
-      if (productData.extra?.address) {
-        setValue("address", productData.extra?.address);
-      }
       setValue("date", productData.extra?.condition?.date);
       setValue("company", productData.extra?.condition?.company);
       setValue("workTime", productData.extra?.condition?.workTime.join("-"));
+
+      if (productData.extra?.location) {
+        setPosition({
+          lat: productData.extra.location[0],
+          lng: productData.extra.location[1],
+        });
+        setValue("location", productData.extra.location);
+      }
+
+      if (productData.extra?.address) {
+        setAddress(productData.extra.address);
+        setValue("address", productData.extra.address);
+      }
+
       if (productData.mainImages?.[0]?.path) {
         const imageUrl = `https://11.fesp.shop${productData.mainImages[0].path}`;
         setPreview(imageUrl);
       }
     }
   }, [productData, setValue]);
+
+  useEffect(() => {
+    setValue("location", [position.lat, position.lng]);
+    setValue("address", address);
+  }, [position, address, setValue]);
 
   const editPost = useMutation({
     mutationFn: async formData => {
@@ -192,24 +202,12 @@ export default function PostEdit() {
           </div>
         </fieldset>
 
-        <fieldset>
-          {/* <legend className="text-[1rem] font-bold mb-2">위치</legend> */}
-          {/* <MainMap
-          selectLocation={selectLocation}
-          setSelectLocation={setSelectLocation}
-          register={register}
-          setValue={setValue}
-        /> */}
-          <InputField
-            labelName="주소 입력"
-            type="text"
-            placeholder="주소 입력"
-            register={register("address", {
-              required: "주소 입력은 필수입니다.",
-            })}
-            errorMsg={errors.company?.message}
-          />
-        </fieldset>
+        <BasicMap
+          position={position}
+          setPosition={setPosition}
+          address={address}
+          setAddress={setAddress}
+        />
 
         <fieldset>
           <InputField
@@ -234,6 +232,7 @@ export default function PostEdit() {
               },
             })}
             errorMsg={errors.price?.message}
+            disabled
           />
 
           <InputField
@@ -248,6 +247,7 @@ export default function PostEdit() {
               },
             })}
             errorMsg={errors.workTime?.message}
+            disabled
           />
           <InputField
             labelName="근무 날짜"
