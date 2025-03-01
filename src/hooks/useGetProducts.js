@@ -1,5 +1,8 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import { useQuery } from "@tanstack/react-query";
+import {
+  defaultShouldDehydrateMutation,
+  useQuery,
+} from "@tanstack/react-query";
 import { getWorkTime } from "@/utills/func";
 
 export const useGetProducts = (keyword, select) => {
@@ -23,7 +26,7 @@ export const useGetProducts = (keyword, select) => {
 //     worktime: "all",
 //     payment: "all",
 //   }
-export const useProductsFilter = (keyword, condition) => {
+export const useProductsFilter = (keyword, condition, distanceInfo) => {
   return useGetProducts(keyword, data => {
     let result = [...data];
 
@@ -81,6 +84,47 @@ export const useProductsFilter = (keyword, condition) => {
           10000
         );
       });
+    }
+
+    // distance
+    if (
+      distanceInfo.position.x !== 0 &&
+      distanceInfo.position.y !== 0 &&
+      distanceInfo.selected !== "all"
+    ) {
+      if (distanceInfo.selected === "3km") {
+        const minLat = +distanceInfo.position.y - 0.03;
+        const maxLat = +distanceInfo.position.y + 0.03;
+        const minLng = +distanceInfo.position.x - 0.03;
+        const maxLng = +distanceInfo.position.x + 0.03;
+
+        result = result.filter(data => {
+          if (data.extra.location) {
+            return (
+              data.extra.location[1] >= minLat &&
+              data.extra.location[1] <= maxLat &&
+              data.extra.location[0] >= minLng &&
+              data.extra.location[0] <= maxLng
+            );
+          }
+        });
+      } else if (distanceInfo.selected === "10km") {
+        const minLat = +distanceInfo.position.y - 0.1;
+        const maxLat = +distanceInfo.position.y + 0.1;
+        const minLng = +distanceInfo.position.x - 0.1;
+        const maxLng = +distanceInfo.position.x + 0.1;
+
+        result = result.filter(data => {
+          if (data.extra.location) {
+            return (
+              data.extra.location[1] >= minLat &&
+              data.extra.location[1] <= maxLat &&
+              data.extra.location[0] >= minLng &&
+              data.extra.location[0] <= maxLng
+            );
+          }
+        });
+      }
     }
     return result;
   });

@@ -1,6 +1,7 @@
 import { useProductsFilter } from "@hooks/useGetProducts";
 import ListItem from "@pages/main/ListItem";
 import useUserStore from "@zustand/userStore";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -15,7 +16,18 @@ export default function PostList() {
     worktime: "all",
     payment: "all",
   });
-  const { data, refetch, isLoading } = useProductsFilter(keyword, condition);
+
+  /* 근처 게시글 필터 버튼 */
+  const [distanceInfo, setDistanceInfo] = useState({
+    position: { x: 0, y: 0 },
+    selected: "all",
+  });
+
+  const { data, refetch, isLoading } = useProductsFilter(
+    keyword,
+    condition,
+    distanceInfo,
+  );
 
   const onWorktimeFilterChanged = e => {
     setCondition(prev => {
@@ -35,13 +47,107 @@ export default function PostList() {
     setKeyword(formData.keyword);
   };
 
-  // console.log(data);
-
   useEffect(() => {
     refetch();
   }, [keyword]);
+
+  /* 현재 위치에대한 주소 표시 */
+
+  // 테스트 코드
+  // console.log(distanceInfo);
+
+  const [location, setLocation] = useState({
+    address: "현재 위치 검색을 눌러주세요.",
+  });
+
+  const handleLocationChange = () => {
+    navigator.geolocation.getCurrentPosition(
+      async position => {
+        const x = position.coords.latitude + "";
+        const y = position.coords.longitude + "";
+        setDistanceInfo(prev => ({ ...prev, position: { x, y } }));
+
+        try {
+          const res = await axios.get(
+            "https://dapi.kakao.com/v2/local/geo/coord2address.json",
+            {
+              params: {
+                x,
+                y,
+              },
+              headers: {
+                Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`,
+              },
+            },
+          );
+
+          if (res.data.documents.length > 0) {
+            setLocation({
+              x,
+              y,
+              address: res.data.documents[0].address.address_name,
+            });
+          } else {
+            setLocation({
+              address: "현재 위치의 주소를 표시할 수 없습니다.",
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching address:", error);
+        }
+      },
+      error => {
+        console.error("Geolocation error:", error);
+      },
+    );
+  };
+
   return (
     <div className="mb-[80px] flex flex-col">
+      <div className="mb-4 flex justify-between screen-530:flex-wrap">
+        <div className="flex gap-2 items-center screen-530:mb-4">
+          <p className="text-[18px] font-semibold">{location.address}</p>
+          <img
+            src="/icons/mapPin.svg"
+            className="size-[18px] cursor-pointer mr-4"
+            onClick={handleLocationChange}
+          />
+        </div>
+        <div className="flex items-center gap-4">
+          <div
+            className={`w-20 ring-2 rounded-xl flex justify-center items-center h-9 text-[14px] cursor-pointer ${
+              distanceInfo.selected === "3km" ? "ring-primary" : "ring-gray-400"
+            }`}
+            onClick={() =>
+              setDistanceInfo(prev => ({ ...prev, selected: "3km" }))
+            }
+          >
+            3km 이내
+          </div>
+          <div
+            className={`w-20 ring-2 rounded-xl flex justify-center items-center h-9 text-[14px] cursor-pointer ${
+              distanceInfo.selected === "10km"
+                ? "ring-primary"
+                : "ring-gray-400"
+            }`}
+            onClick={() =>
+              setDistanceInfo(prev => ({ ...prev, selected: "10km" }))
+            }
+          >
+            10km 이내
+          </div>
+          <div
+            className={`w-20 ring-2 rounded-xl flex justify-center items-center h-9 text-[14px] cursor-pointer ${
+              distanceInfo.selected === "all" ? "ring-primary" : "ring-gray-400"
+            }`}
+            onClick={() =>
+              setDistanceInfo(prev => ({ ...prev, selected: "all" }))
+            }
+          >
+            전체 보기
+          </div>
+        </div>
+      </div>
       <form className="mb-5" onSubmit={handleSubmit(onSearchSubmit)}>
         <div className="relative">
           <input
@@ -58,7 +164,6 @@ export default function PostList() {
           </button>
         </div>
       </form>
-
       <div className="flex gap-4 mb-5 flex-wrap screen-530:justify-center screen-530:gap-2">
         <div>
           <label
