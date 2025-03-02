@@ -113,8 +113,10 @@ export default function PostList() {
 
   useEffect(() => {
     if (observerRef.current) observerRef.current.disconnect();
+
     observerRef.current = new IntersectionObserver(
       entries => {
+        console.log(entries[0].isIntersecting, hasMore, isLoading);
         if (entries[0].isIntersecting && hasMore && !isLoading) {
           console.log("last item show");
           setPage(prevPage => prevPage + 1);
