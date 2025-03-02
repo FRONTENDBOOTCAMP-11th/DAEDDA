@@ -24,6 +24,7 @@ export default function PostDetail() {
     lat: 33.450701,
     lng: 126.570667,
   });
+  const [date, setDate] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ["products", _id],
@@ -53,6 +54,12 @@ export default function PostDetail() {
         lat: data.item.extra.location[0], // 배열에서 lat 가져오기
         lng: data.item.extra.location[1], // 배열에서 lng 가져오기
       });
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (new Date(data?.item.extra.condition.date) < new Date()) {
+      setDate(true);
     }
   }, [data]);
 
@@ -383,14 +390,26 @@ export default function PostDetail() {
                 data?.item?.seller_id !== userId &&
                 (data?.item?.extra.state === "EM010" ||
                   data?.item?.extra.state === "EM020") ? (
-                  <Button
-                    color="purple"
-                    height="lg"
-                    type="submit"
-                    onClick={handleApply}
-                  >
-                    지원하기
-                  </Button>
+                  date ? (
+                    <Button
+                      color="gray"
+                      height="lg"
+                      type="submit"
+                      onClick={handleApply}
+                      disabled
+                    >
+                      마감된 공고
+                    </Button>
+                  ) : (
+                    <Button
+                      color="purple"
+                      height="lg"
+                      type="submit"
+                      onClick={handleApply}
+                    >
+                      지원하기
+                    </Button>
+                  )
                 ) : (
                   ""
                 )
