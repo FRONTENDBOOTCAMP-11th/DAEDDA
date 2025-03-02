@@ -14,7 +14,9 @@ export const useGetProducts = (keyword, page, limit, select) => {
       );
     },
     select: res => {
-      return select ? select(res.data.item) : res.data.item;
+      const { item } = res.data;
+      const totalCount = res.data.pagination?.total || 0;
+      return select ? select({ item, totalCount }) : { item, totalCount };
     },
     staleTime: 1000 * 10,
     enabled: true,
@@ -35,8 +37,8 @@ export const useProductsFilter = (
     data: fetchedData,
     isLoading,
     refetch,
-  } = useGetProducts(keyword, page, limit, data => {
-    let result = [...data];
+  } = useGetProducts(keyword, page, limit, ({ item, totalCount }) => {
+    let result = [...item];
 
     // 필터 로직
     // wortime
@@ -134,18 +136,18 @@ export const useProductsFilter = (
         });
       }
     }
-    return result;
+    return { item: result, totalCount };
   });
 
   useEffect(() => {
     if (fetchedData) {
-      if (fetchedData.length < limit) {
-        setHasMore(false);
-      }
+      const { item, totalCount } = fetchedData;
+      setHasMore(page * limit < totalCount);
+
       if (page === 1) {
-        setData(fetchedData);
+        setData(item);
       } else {
-        setData(prevData => [...prevData, ...fetchedData]);
+        setData(prevData => [...prevData, ...item]);
       }
     }
   }, [fetchedData, page]);
