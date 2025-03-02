@@ -1,5 +1,6 @@
 import { useProductsFilter } from "@hooks/useGetProducts";
 import ListItem from "@pages/main/ListItem";
+import { useQueryClient } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
@@ -33,7 +34,6 @@ export default function PostList() {
     page,
     limit,
   );
-
   const onWorktimeFilterChanged = e => {
     setCondition(prev => {
       const temp = { ...prev, worktime: e.target.value };
@@ -116,9 +116,7 @@ export default function PostList() {
 
     observerRef.current = new IntersectionObserver(
       entries => {
-        console.log(entries[0].isIntersecting, hasMore, isLoading);
         if (entries[0].isIntersecting && hasMore && !isLoading) {
-          console.log("last item show");
           setPage(prevPage => prevPage + 1);
         }
       },
@@ -127,6 +125,16 @@ export default function PostList() {
 
     if (lastItemRef.current) observerRef.current.observe(lastItemRef.current);
   }, [data, hasMore, isLoading]);
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    setPage(1);
+    queryClient.invalidateQueries({
+      predicate: query => query.queryKey[0] === "products",
+    });
+    refetch();
+  }, [keyword, condition, distanceInfo]);
 
   return (
     <div className="mb-[80px] flex flex-col">
