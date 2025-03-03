@@ -1,34 +1,44 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import {
-  defaultShouldDehydrateMutation,
-  useQuery,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getWorkTime } from "@/utills/func";
+import { useEffect, useState } from "react";
 
-export const useGetProducts = (keyword, select) => {
+export const useGetProducts = (keyword, page, limit, select) => {
   const axios = useAxiosInstance();
 
   return useQuery({
-    queryKey: ["products"],
+    queryKey: ["products", keyword, page],
     queryFn: () => {
-      return axios.get(`/products/?keyword=${keyword}`);
+      return axios.get(
+        `/products/?keyword=${keyword}&page=${page}&limit=${limit}`,
+      );
     },
     select: res => {
-      return select ? select(res.data.item) : res.data.item;
+      const { item } = res.data;
+      const totalCount = res.data.pagination?.total || 0;
+      return select ? select({ item, totalCount }) : { item, totalCount };
     },
     staleTime: 1000 * 10,
     enabled: true,
   });
 };
 
-// condition
-// {
-//     worktime: "all",
-//     payment: "all",
-//   }
-export const useProductsFilter = (keyword, condition, distanceInfo) => {
-  return useGetProducts(keyword, data => {
-    let result = [...data];
+export const useProductsFilter = (
+  keyword,
+  condition,
+  distanceInfo,
+  page,
+  limit,
+) => {
+  const [data, setData] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+
+  const {
+    data: fetchedData,
+    isLoading,
+    refetch,
+  } = useGetProducts(keyword, page, limit, ({ item, totalCount }) => {
+    let result = [...item];
 
     // 필터 로직
     // wortime
@@ -126,6 +136,20 @@ export const useProductsFilter = (keyword, condition, distanceInfo) => {
         });
       }
     }
-    return result;
+    return { item: result, totalCount };
   });
+
+  useEffect(() => {
+    if (fetchedData) {
+      const { item, totalCount } = fetchedData;
+      setHasMore(page * limit < totalCount);
+
+      if (page === 1) {
+        setData(item);
+      } else {
+        setData(prevData => [...prevData, ...item]);
+      }
+    }
+  }, [fetchedData, page]);
+  return { data, isLoading, hasMore, refetch };
 };

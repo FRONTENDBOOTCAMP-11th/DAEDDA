@@ -1,16 +1,20 @@
 import { useProductsFilter } from "@hooks/useGetProducts";
 import ListItem from "@pages/main/ListItem";
+import { useQueryClient } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 
 export default function PostList() {
-  const { register, handleSubmit } = useForm();
-  const [keyword, setKeyword] = useState("");
   const { user } = useUserStore();
+  const { register, handleSubmit } = useForm();
+
+  const [keyword, setKeyword] = useState("");
+  const [page, setPage] = useState(1);
+  const limit = 5;
 
   const [condition, setCondition] = useState({
     worktime: "all",
@@ -23,12 +27,13 @@ export default function PostList() {
     selected: "all",
   });
 
-  const { data, refetch, isLoading } = useProductsFilter(
+  const { data, refetch, isLoading, hasMore } = useProductsFilter(
     keyword,
     condition,
     distanceInfo,
+    page,
+    limit,
   );
-
   const onWorktimeFilterChanged = e => {
     setCondition(prev => {
       const temp = { ...prev, worktime: e.target.value };
@@ -101,6 +106,35 @@ export default function PostList() {
       },
     );
   };
+
+  /* 무한 스크롤 */
+  const lastItemRef = useRef(null);
+  const observerRef = useRef(null);
+
+  useEffect(() => {
+    if (observerRef.current) observerRef.current.disconnect();
+
+    observerRef.current = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting && hasMore && !isLoading) {
+          setPage(prevPage => prevPage + 1);
+        }
+      },
+      { threshold: 1.0 },
+    );
+
+    if (lastItemRef.current) observerRef.current.observe(lastItemRef.current);
+  }, [data, hasMore, isLoading]);
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    setPage(1);
+    queryClient.invalidateQueries({
+      predicate: query => query.queryKey[0] === "products",
+    });
+    refetch();
+  }, [keyword, condition, distanceInfo]);
 
   return (
     <div className="mb-[80px] flex flex-col">
@@ -208,16 +242,14 @@ export default function PostList() {
         )}
         {data && (
           <>
-            {data.map(data => {
-              // 날짜가 지난 구인글인 경우
-              if (new Date(data.extra.condition.date) < new Date()) return null;
-              // 입금 완료되거나 리뷰가 작성된 구인글인 경우
-              else if (
-                data.extra.state === "EM030" ||
-                data.extra.state === "EM040"
-              )
-                return null;
-              else return <ListItem key={data._id} data={data} />;
+            {data.map((post, index) => {
+              return (
+                <ListItem
+                  key={post._id}
+                  data={post}
+                  ref={index === data.length - 1 ? lastItemRef : null}
+                />
+              );
             })}
           </>
         )}
