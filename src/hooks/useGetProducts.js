@@ -96,6 +96,13 @@ export const useProductsFilter = (
       });
     }
 
+    // show expired
+    if (!condition.showExpired) {
+      result = result.filter(data => {
+        return new Date(data.extra.condition.date) >= new Date();
+      });
+    }
+
     // distance
     if (
       distanceInfo.position.x !== 0 &&
