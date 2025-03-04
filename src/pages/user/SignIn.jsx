@@ -72,7 +72,7 @@ export default function SignIn() {
 
   // 카카오 로그인 처리
   const handleKakako = () => {
-    const REST_API_KEY = "7b635f7b3d4379252462f78787fc908b";
+    const REST_API_KEY = `${import.meta.env.VITE_KAKAO_LOGIN_REST_API_KEY}`;
     const REDIRECT_URI = `${window.location.origin}/users/login/kakao`;
     const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
