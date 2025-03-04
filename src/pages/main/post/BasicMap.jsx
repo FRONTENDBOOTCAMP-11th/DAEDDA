@@ -67,6 +67,19 @@ export default function BasicMap({
       );
     }
   };
+
+  useEffect(() => {
+    const mapElement = document.getElementById("map");
+    if (mapElement) {
+      mapElement.addEventListener("touchend", handleMapClick);
+    }
+    return () => {
+      if (mapElement) {
+        mapElement.removeEventListener("touchend", handleMapClick);
+      }
+    };
+  }, []);
+
   // `geocoder.addressSearch`를 Promise 기반으로 변환하여 더 빠르게 실행
   const searchAddressToCoords = address => {
     return new Promise((resolve, reject) => {
