@@ -2,7 +2,6 @@ import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import DaumPostcode from "react-daum-postcode";
-import InputField from "@components/InputField";
 import Button from "@components/Button";
 import PropTypes from "prop-types";
 
@@ -120,19 +119,6 @@ export default function BasicMap({
       >
         <MapMarker position={position} />
       </Map>
-
-      {/* <fieldset className="mt-11">
-        <InputField
-          labelName="주소 입력"
-          type="text"
-          placeholder="주소 입력"
-          register={register("address", {
-            required: "주소 입력은 필수입니다.",
-          })}
-          errorMsg={errors.address?.message}
-          onClick={() => setIsPostcodeOpen(true)}
-        />
-      </fieldset> */}
 
       {isPostcodeOpen && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
