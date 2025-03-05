@@ -14,23 +14,21 @@ BasicMap.propTypes = {
   setPosition: PropTypes.func.isRequired,
   address: PropTypes.string.isRequired,
   setAddress: PropTypes.func.isRequired,
+  isPostcodeOpen: PropTypes.bool.isRequired,
+  setIsPostcodeOpen: PropTypes.func.isRequired,
 };
 
 export default function BasicMap({
   position,
   setPosition,
-  address,
   setAddress,
+  isPostcodeOpen,
+  setIsPostcodeOpen,
 }) {
   useKakaoLoader();
-  const {
-    register,
-    setValue,
-    formState: { errors },
-  } = useForm();
+  const { setValue, trigger } = useForm();
 
   const [geocoder, setGeocoder] = useState(null);
-  const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
 
   useEffect(() => {
     if (window.kakao) {
@@ -99,8 +97,9 @@ export default function BasicMap({
     try {
       const selectedAddress = data.address;
       setAddress(selectedAddress);
-      setValue("address", selectedAddress);
       setIsPostcodeOpen(false);
+      setValue("address", selectedAddress, { shouldValidate: true });
+      trigger("address");
 
       // 비동기적으로 좌표 변환 및 즉시 반영
       const newLatLng = await searchAddressToCoords(selectedAddress);
@@ -122,7 +121,7 @@ export default function BasicMap({
         <MapMarker position={position} />
       </Map>
 
-      <fieldset className="mt-11">
+      {/* <fieldset className="mt-11">
         <InputField
           labelName="주소 입력"
           type="text"
@@ -133,7 +132,7 @@ export default function BasicMap({
           errorMsg={errors.address?.message}
           onClick={() => setIsPostcodeOpen(true)}
         />
-      </fieldset>
+      </fieldset> */}
 
       {isPostcodeOpen && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
