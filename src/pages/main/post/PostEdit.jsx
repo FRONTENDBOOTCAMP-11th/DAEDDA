@@ -18,12 +18,14 @@ export default function PostEdit() {
   const [imageError, setImageError] = useState(true);
   const [position, setPosition] = useState({ lat: 33.450701, lng: 126.570667 });
   const [address, setAddress] = useState("");
+  const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
 
   const { data: productData } = useGetProductDetail(_id);
 
   const {
     register,
     handleSubmit,
+    trigger,
     formState: { errors },
     setValue,
   } = useForm();
@@ -63,6 +65,13 @@ export default function PostEdit() {
     setValue("location", [position.lat, position.lng]);
     setValue("address", address);
   }, [position, address, setValue]);
+
+  useEffect(() => {
+    if (address) {
+      setValue("address", address, { shouldValidate: true });
+      trigger("address");
+    }
+  }, [address, setValue, trigger]);
 
   const editPost = useMutation({
     mutationFn: async formData => {
@@ -207,6 +216,23 @@ export default function PostEdit() {
           setPosition={setPosition}
           address={address}
           setAddress={setAddress}
+          isPostcodeOpen={isPostcodeOpen}
+          setIsPostcodeOpen={setIsPostcodeOpen}
+        />
+
+        <InputField
+          labelName="주소 입력"
+          type="text"
+          placeholder="주소 입력"
+          register={register("address", {
+            required: "주소 입력은 필수입니다.",
+          })}
+          value={address}
+          onChange={e => {
+            setAddress(e.target.value);
+          }}
+          errorMsg={errors.address?.message}
+          onClick={() => setIsPostcodeOpen(true)}
         />
 
         <fieldset>
