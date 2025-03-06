@@ -19,6 +19,7 @@ export default function PostList() {
   const [condition, setCondition] = useState({
     worktime: "all",
     payment: "all",
+    showExpired: false,
   });
 
   /* 근처 게시글 필터 버튼 */
@@ -44,6 +45,13 @@ export default function PostList() {
   const onPaymentFilterChanged = e => {
     setCondition(prev => {
       const temp = { ...prev, payment: e.target.value };
+      return temp;
+    });
+  };
+
+  const onShowExpiredChanged = e => {
+    setCondition(prev => {
+      const temp = { ...prev, showExpired: e.target.checked };
       return temp;
     });
   };
@@ -198,16 +206,13 @@ export default function PostList() {
           </button>
         </div>
       </form>
-      <div className="flex gap-4 mb-5 flex-wrap screen-530:justify-center screen-530:gap-2">
-        <div>
-          <label
-            htmlFor="time"
-            className="mr-[16px] font-[700] text-[1rem] screen-530:mr-[6px]"
-          >
+      <div className="flex gap-4 screen-530:gap-2 mb-5 flex-wrap text-[1rem] screen-530:text-xs">
+        <div className="flex gap-4 screen-530:gap-2 items-center">
+          <label htmlFor="time" className="font-[700]">
             근무 시간
           </label>
           <select
-            className="ring-2 ring-gray-400 focus:ring-primary py-2 px-1 rounded-xl *:text-[12px]"
+            className="ring-2 ring-gray-400 focus:ring-primary rounded-xl px-1 py-2"
             onChange={onWorktimeFilterChanged}
           >
             <option value="all">모든 시간</option>
@@ -216,21 +221,28 @@ export default function PostList() {
             <option value="long">8시간 초과</option>
           </select>
         </div>
-        <div>
-          <label
-            htmlFor="time"
-            className="mr-[16px] font-[700] text-[1rem] screen-530:mr-[6px]"
-          >
+        <div className="flex gap-4 screen-530:gap-2 items-center">
+          <label htmlFor="time" className="font-[700]">
             시급
           </label>
           <select
-            className="ring-2 ring-gray-400 focus:ring-primary py-2 px-1 rounded-xl *:text-[12px]"
+            className="ring-2 ring-gray-400 focus:ring-primary rounded-xl px-1 py-2"
             onChange={onPaymentFilterChanged}
           >
             <option value="all">모든 시급</option>
             <option value="low">10,000원 이하</option>
             <option value="high">10,000원 이상</option>
           </select>
+        </div>
+        <div className="flex gap-4 screen-530:gap-2 items-center ml-auto">
+          <label htmlFor="show-expired" className="font-[700]">
+            마감 포함
+          </label>
+          <input
+            id="show-expired"
+            type="checkbox"
+            onChange={onShowExpiredChanged}
+          />
         </div>
       </div>
 
@@ -245,7 +257,7 @@ export default function PostList() {
             {data.map((post, index) => {
               return (
                 <ListItem
-                  key={post._id}
+                  key={`${post._id} - ${index}`}
                   data={post}
                   ref={index === data.length - 1 ? lastItemRef : null}
                 />
