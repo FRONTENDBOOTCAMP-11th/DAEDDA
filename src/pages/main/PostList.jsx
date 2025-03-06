@@ -69,6 +69,7 @@ export default function PostList() {
   // 테스트 코드
   // console.log(distanceInfo);
 
+  console.log(data);
   const [location, setLocation] = useState({
     address: "현재 위치 검색을 눌러주세요.",
   });
@@ -257,7 +258,7 @@ export default function PostList() {
             {data.map((post, index) => {
               return (
                 <ListItem
-                  key={post._id}
+                  key={`${post._id} - ${index}`}
                   data={post}
                   ref={index === data.length - 1 ? lastItemRef : null}
                 />
