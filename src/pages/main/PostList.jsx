@@ -69,7 +69,6 @@ export default function PostList() {
   // 테스트 코드
   // console.log(distanceInfo);
 
-  console.log(data);
   const [location, setLocation] = useState({
     address: "현재 위치 검색을 눌러주세요.",
   });
