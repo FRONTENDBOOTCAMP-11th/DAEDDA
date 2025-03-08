@@ -196,7 +196,7 @@ export default function PostList() {
             {...register("keyword")}
             className="w-full ring-2 ring-primary rounded-2xl py-2 pl-3 pr-[36px]"
             type="text"
-            placeholder="관심있는 대타 장소를 검색해보세요."
+            placeholder="관심있는 공고를 검색해보세요."
           />
           <button type="submit">
             <img

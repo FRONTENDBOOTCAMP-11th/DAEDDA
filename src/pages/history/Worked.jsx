@@ -25,7 +25,7 @@ export default function Worked() {
   return (
     <div>
       <HistorySearch
-        placeholder="내가 일하는 장소를 검색해보세요."
+        placeholder="내가 지원한 공고를 검색해보세요."
         handleSubmit={handleSubmit}
         register={register}
         onSearchSubmit={onSearchSubmit}
