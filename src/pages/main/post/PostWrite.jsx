@@ -31,7 +31,7 @@ export default function PostWrite() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: "💥급구💥 저 대신 하루만 알바 해주실 분 구합니다",
+      name: "💥급구💥 와우 신내떡 노량진 알바 구합니다",
       company: "와우 신내떡 노량진",
       price: "88000",
       workTime: "13:00-21:00",
