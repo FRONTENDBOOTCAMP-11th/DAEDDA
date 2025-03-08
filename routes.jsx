@@ -1,27 +1,34 @@
-import MyPage from "@pages/myPage/MyPage";
-import Edit from "@pages/myPage/Edit";
-import Likes from "@pages/myPage/Likes";
-import PRWrite from "@pages/main/post/PRWrite";
-import SignIn from "@pages/user/SignIn";
-import SignUp from "@pages/user/SignUp";
-import Terms from "@pages/user/Terms";
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import MyReviews from "@pages/myPage/MyReviews";
-import Layout from "@components/layout";
-import PostDetail from "@pages/main/post/PostDetail";
-import PostList from "@pages/main/PostList";
-import PostWrite from "@pages/main/post/PostWrite";
-import PostEdit from "@pages/main/post/PostEdit";
-import ReviewList from "@pages/history/Layout";
-import Profile from "@pages/user/Profile";
-import Error from "@pages/Error";
-import Worked from "@pages/history/Worked";
-import Employed from "@pages/history/Employed";
-import ReviewWrite from "@pages/history/ReviewWrite";
-import KakaoSignIn from "@pages/user/KakaoSignIn";
-import Alarm from "@pages/alarm/Alarm";
-import Refund from "@pages/Refund";
-import ProtectedRoute from "@components/layout/ProtectedRoutes";
+import { lazy } from "react";
+
+const Layout = lazy(() => import("@components/layout"));
+const ProtectedRoute = lazy(() => import("@components/layout/ProtectedRoutes"));
+
+const SignIn = lazy(() => import("@pages/user/SignIn"));
+const SignUp = lazy(() => import("@pages/user/SignUp"));
+const KakaoSignIn = lazy(() => import("@pages/user/KakaoSignIn"));
+const Terms = lazy(() => import("@pages/user/Terms"));
+const Profile = lazy(() => import("@pages/user/Profile"));
+
+const PostList = lazy(() => import("@/pages/main/PostList"));
+const PostDetail = lazy(() => import("@pages/main/post/PostDetail"));
+const PostWrite = lazy(() => import("@pages/main/post/PostWrite"));
+const PostEdit = lazy(() => import("@pages/main/post/PostEdit"));
+const PRWrite = lazy(() => import("@pages/main/post/PRWrite"));
+
+const ReviewList = lazy(() => import("@pages/history/Layout"));
+const Worked = lazy(() => import("@pages/history/Worked"));
+const Employed = lazy(() => import("@pages/history/Employed"));
+const ReviewWrite = lazy(() => import("@pages/history/ReviewWrite"));
+
+const MyPage = lazy(() => import("@pages/myPage/MyPage"));
+const Edit = lazy(() => import("@pages/myPage/Edit"));
+const Likes = lazy(() => import("@pages/myPage/Likes"));
+const MyReviews = lazy(() => import("@pages/myPage/MyReviews"));
+
+const Error = lazy(() => import("@pages/Error"));
+const Alarm = lazy(() => import("@pages/alarm/Alarm"));
+const Refund = lazy(() => import("@pages/Refund"));
 
 // 접근 막을 페이지: nav 기준 마이페이지, 알바 내역 페이지
 
