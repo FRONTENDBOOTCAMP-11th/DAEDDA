@@ -34,7 +34,7 @@ export default function Employed() {
   return (
     <div>
       <HistorySearch
-        placeholder="나 대신 일하는 사람을 검색해보세요."
+        placeholder="내가 올린 공고를 검색해보세요."
         handleSubmit={handleSubmit}
         register={register}
         onSearchSubmit={onSearchSubmit}
